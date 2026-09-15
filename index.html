@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12h-4l-3 9L9 3l-3 9H2'/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>MEDX BD — Interactive Medical Simulation & Learning Platform</title>
+    <meta name="description" content="Next-generation interactive medical education, 3D anatomy, physiology simulation, OSPE/OSCE training, and virtual patient cases for Bangladesh MBBS students." />
+    
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-med-950 text-slate-100 font-sans antialiased selection:bg-med-accent-cyan/30 selection:text-white overflow-x-hidden">
+    <div id="root"></div>
+    <script>
+      window.addEventListener('error', function(e) {
+        var box = document.getElementById('runtime-error-overlay');
+        if (!box) {
+          box = document.createElement('div');
+          box.id = 'runtime-error-overlay';
+          box.style.cssText = 'position:fixed;bottom:16px;right:16px;max-width:480px;z-index:999999;background:#881337;color:#fecdd3;padding:16px;border-radius:12px;font-family:monospace;font-size:12px;border:1px solid #f43f5e;box-shadow:0 10px 25px rgba(0,0,0,0.5);';
+          document.body.appendChild(box);
+        }
+        box.innerHTML = '<strong>App Error:</strong><div style="margin-top:6px;word-break:break-all;">' + (e.error ? e.error.message : e.message) + '</div>';
+      });
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

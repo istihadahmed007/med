@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Batch Draco Test</title>
+</head>
+<body>
+  <div id="status">Testing all systems...</div>
+  <script type="module">
+    import * as THREE from '/node_modules/three/build/three.module.js';
+    import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from '/node_modules/three/examples/jsm/loaders/DRACOLoader.js';
+
+    window.TEST_RESULTS = {};
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('/draco/gltf/');
+    dracoLoader.setDecoderConfig({ type: 'wasm' });
+    dracoLoader.setWorkerLimit(4);
+
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.setDRACOLoader(dracoLoader);
+
+    const files = [
+      { id: 'skeletal', url: '/anatomy/skeletal_male.glb' },
+      { id: 'cardiovascular', url: '/anatomy/cardiovascular_male.glb' },
+      { id: 'nervous', url: '/anatomy/nervous_male.glb' },
+      { id: 'digestive', url: '/anatomy/digestive_male.glb' },
+      { id: 'respiratory', url: '/anatomy/respiratory_male.glb' },
+      { id: 'urinary', url: '/anatomy/renal_male.glb' },
+      { id: 'lymphatic', url: '/anatomy/lymphatic_male.glb' },
+      { id: 'skin', url: '/anatomy/regional_male.glb' },
+      { id: 'articular', url: '/anatomy/articular_male.glb' },
+      { id: 'muscular', url: '/anatomy/muscular_male.glb' }
+    ];
+
+    async function testAll() {
+      for (const item of files) {
+        console.log(`Starting ${item.id}...`);
+        const t0 = performance.now();
+        try {
+          await new Promise((resolve, reject) => {
+            gltfLoader.load(
+              item.url,
+              (gltf) => {
+                const t1 = performance.now();
+                let count = 0;
+                gltf.scene.traverse(c => { if (c.isMesh) count++; });
+                console.log(`[DONE] ${item.id}: ${count} meshes in ${Math.round(t1 - t0)}ms`);
+                window.TEST_RESULTS[item.id] = { success: true, count, ms: Math.round(t1 - t0) };
+                resolve();
+              },
+              null,
+              (err) => {
+                console.error(`[FAIL] ${item.id}:`, err);
+                window.TEST_RESULTS[item.id] = { success: false, error: String(err) };
+                resolve();
+              }
+            );
+          });
+        } catch (e) {
+          console.error(`[EXCEPTION] ${item.id}:`, e);
+          window.TEST_RESULTS[item.id] = { success: false, error: e.message };
+        }
+      }
+      window.ALL_TESTS_DONE = true;
+      console.log('ALL TESTS COMPLETED!');
+    }
+
+    testAll();
+  </script>
+</body>
+</html>
