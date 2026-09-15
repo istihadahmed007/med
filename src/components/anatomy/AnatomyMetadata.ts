@@ -1,11 +1,17 @@
 import { AnatomicalSystemId, AnatomicalRegion, AnatomicalStructure } from '../../types/anatomy';
 
-export interface ExtendedAnatomyMetadata extends AnatomicalStructure {
+export interface ExtendedAnatomyMetadata extends Partial<AnatomicalStructure> {
+  id: string;
+  name: string;
+  system: AnatomicalSystemId;
+  region: AnatomicalRegion;
   aliases: string[];
   ta2_latin: string;
   subsystem?: string;
   nerveSupply?: string;
   lymphaticDrainage?: string;
+  clinicalSignificance?: string;
+  examNotes?: string;
   ospeQuestion?: {
     question: string;
     answer: string;
@@ -20,6 +26,7 @@ export interface ExtendedAnatomyMetadata extends AnatomicalStructure {
 }
 
 export const ANATOMY_METADATA_REGISTRY: Record<string, ExtendedAnatomyMetadata> = {
+
   // 1. Cardiovascular System
   heart: {
     id: 'heart',
@@ -277,3 +284,6 @@ export function searchAnatomicalMetadata(query: string): ExtendedAnatomyMetadata
     return false;
   });
 }
+
+export const ANATOMY_METADATA = ANATOMY_METADATA_REGISTRY;
+

@@ -1,38 +1,24 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { 
-  Compass, 
-  Layers, 
-  Search, 
-  BookOpen, 
-  Award, 
-  Stethoscope, 
-  Sparkles, 
-  HelpCircle, 
-  Sliders, 
+import React, { useState, useEffect } from "react";
+import {
+  ANATOMY_MODELS,
+  AnatomyModel,
+  Hotspot,
+} from "../../lib/anatomy/anatomy-models";
+import { queueIdlePrefetch } from "../../lib/anatomy/model-prefetch";
+import { AnatomyViewer } from "./AnatomyViewer";
+import { AnatomyLibrary } from "./AnatomyLibrary";
+import { AttributionModal } from "../common/AttributionModal";
+import {
+  Layers,
+  Sparkles,
+  Stethoscope,
   Info,
-  Maximize2,
-  ChevronRight
-} from 'lucide-react';
-import { 
-  AnatomicalStructure, 
-  AnatomicalSystemId, 
-  AnatomicalRegion,
-  SystemLayerState, 
-  CameraViewPreset,
-  AnatomyMode,
-  OspeStation,
-  GuidedTourStep
-} from '../../types/anatomy';
-import { ANATOMICAL_STRUCTURES } from '../../data/anatomyData';
-import { AnatomyViewer } from './AnatomyViewer';
-import { AnatomyLayerPanel } from './AnatomyLayerPanel';
-import { AnatomyControls } from './AnatomyControls';
-import { AnatomySearch } from './AnatomySearch';
-import { AnatomyInfoPanel } from './AnatomyInfoPanel';
-import { AnatomySystems } from './AnatomySystems';
-import { AnatomyOSPE } from './AnatomyOSPE';
-import { ClinicalAnatomyPanel } from './ClinicalAnatomyPanel';
-import { LearnAnatomyTour } from './LearnAnatomyTour';
+  ChevronRight,
+  BookOpen,
+  ArrowRight,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
 
 interface AnatomyCanvasProps {
   initialOrgan?: string;
@@ -40,363 +26,340 @@ interface AnatomyCanvasProps {
   onStartViva?: (structureId: string) => void;
 }
 
+type AnatomyTab = "3d" | "histology" | "pathology" | "clinical";
+
 export const AnatomyCanvas: React.FC<AnatomyCanvasProps> = ({
   initialOrgan,
   onNavigateToCase,
-  onStartViva
+  onStartViva,
 }) => {
-  // Master Mode State
-  const [activeMode, setActiveMode] = useState<AnatomyMode>('explore');
-
-  // Classification & Filters
-  const [activeClassification, setActiveClassification] = useState<'systemic' | 'regional'>('systemic');
-  const [selectedSystemFilter, setSelectedSystemFilter] = useState<AnatomicalSystemId | 'all'>('all');
-  const [selectedRegionFilter, setSelectedRegionFilter] = useState<AnatomicalRegion | 'all'>('all');
-
-  // Selection & Hover
-  const [selectedStructure, setSelectedStructure] = useState<AnatomicalStructure | null>(null);
-  const [hoveredStructure, setHoveredStructure] = useState<AnatomicalStructure | null>(null);
-
-  // Search & UI Panels
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const [isLayersPanelOpen, setIsLayersPanelOpen] = useState<boolean>(true);
-  const [activeOspeStation, setActiveOspeStation] = useState<OspeStation | null>(null);
-  const [focusedCameraTarget, setFocusedCameraTarget] = useState<{ position: [number, number, number]; target: [number, number, number] } | null>(null);
-
-  // 3D Viewport Controls
-  const [cameraPreset, setCameraPreset] = useState<CameraViewPreset>('isometric');
-  const [explodedAmount, setExplodedAmount] = useState<number>(0);
-  const [crossSectionEnabled, setCrossSectionEnabled] = useState<boolean>(false);
-  const [crossSectionPlane, setCrossSectionPlane] = useState<'axial' | 'sagittal' | 'coronal'>('axial');
-  const [crossSectionDepth, setCrossSectionDepth] = useState<number>(0);
-  const [xrayMode, setXrayMode] = useState<boolean>(false);
-
-  // 10 Anatomical Systems Layer States
-  const [layers, setLayers] = useState<Record<AnatomicalSystemId, SystemLayerState>>(() => {
-    const initial: Record<AnatomicalSystemId, SystemLayerState> = {
-      skeletal: { id: 'skeletal', name: 'Skeletal Framework', visible: true, opacity: 1.0, isolated: false, structureCount: 335, color: '#f1f5f9' },
-      muscular: { id: 'muscular', name: 'Muscular System', visible: true, opacity: 0.35, isolated: false, structureCount: 1388, color: '#f43f5e' },
-      cardiovascular: { id: 'cardiovascular', name: 'Cardiovascular System', visible: true, opacity: 1.0, isolated: false, structureCount: 676, color: '#e11d48' },
-      nervous: { id: 'nervous', name: 'Nervous & Brain', visible: true, opacity: 1.0, isolated: false, structureCount: 860, color: '#eab308' },
-      digestive: { id: 'digestive', name: 'Digestive & Viscera', visible: true, opacity: 1.0, isolated: false, structureCount: 75, color: '#f59e0b' },
-      respiratory: { id: 'respiratory', name: 'Respiratory System', visible: true, opacity: 0.95, isolated: false, structureCount: 35, color: '#06b6d4' },
-      articular: { id: 'articular', name: 'Articular & Ligaments', visible: true, opacity: 0.85, isolated: false, structureCount: 413, color: '#94a3b8' },
-      lymphatic: { id: 'lymphatic', name: 'Lymphatic & Spleen', visible: true, opacity: 0.85, isolated: false, structureCount: 163, color: '#10b981' },
-      urinary: { id: 'urinary', name: 'Urinary & Kidneys', visible: true, opacity: 1.0, isolated: false, structureCount: 8, color: '#d97706' },
-      reproductive: { id: 'reproductive', name: 'Pelvic Viscera', visible: true, opacity: 1.0, isolated: false, structureCount: 24, color: '#ec4899' },
-      skin: { id: 'skin', name: 'Integumentary Surface', visible: true, opacity: 0.18, isolated: false, structureCount: 256, color: '#fed7aa' }
-    };
-    return initial;
+  const [selectedModel, setSelectedModel] = useState<AnatomyModel>(() => {
+    if (initialOrgan) {
+      const found = ANATOMY_MODELS.find(
+        (m) => m.id.toLowerCase() === initialOrgan.toLowerCase()
+      );
+      if (found) return found;
+    }
+    return ANATOMY_MODELS[0]; // Heart default
   });
 
-  // Filter structures based on active filters
-  const displayedStructures = useMemo(() => {
-    return ANATOMICAL_STRUCTURES.filter((s) => {
-      if (activeClassification === 'systemic') {
-        if (selectedSystemFilter !== 'all' && s.system !== selectedSystemFilter) return false;
-      } else {
-        if (selectedRegionFilter !== 'all' && s.region !== selectedRegionFilter) return false;
-      }
-      return true;
-    });
-  }, [activeClassification, selectedSystemFilter, selectedRegionFilter]);
+  const [activeTab, setActiveTab] = useState<AnatomyTab>("3d");
+  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
+  const [isAttributionOpen, setIsAttributionOpen] = useState(false);
 
-  // Global Keyboard listener for Search (`/` or `Ctrl + F`)
+  // Queue idle prefetching of adjacent models after initial render
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
-        e.preventDefault();
-        setIsSearchOpen(true);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+    const urlsToWarm = ANATOMY_MODELS.filter((m) => m.id !== selectedModel.id).map(
+      (m) => m.model
+    );
+    queueIdlePrefetch(urlsToWarm);
+  }, [selectedModel.id]);
 
-  // Layer Actions
-  const handleToggleVisibility = useCallback((id: AnatomicalSystemId) => {
-    setLayers((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], visible: !prev[id].visible }
-    }));
-  }, []);
-
-  const handleToggleIsolate = useCallback((id: AnatomicalSystemId) => {
-    setLayers((prev) => {
-      const isCurrentlyIsolated = prev[id].isolated;
-      const next = { ...prev };
-      Object.keys(next).forEach((key) => {
-        const sysKey = key as AnatomicalSystemId;
-        next[sysKey] = {
-          ...next[sysKey],
-          isolated: !isCurrentlyIsolated && sysKey === id
-        };
-      });
-      return next;
-    });
-  }, []);
-
-  const handleChangeOpacity = useCallback((id: AnatomicalSystemId, opacity: number) => {
-    setLayers((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], opacity }
-    }));
-  }, []);
-
-  const handleShowAll = useCallback(() => {
-    setLayers((prev) => {
-      const next = { ...prev };
-      Object.keys(next).forEach((key) => {
-        const sysKey = key as AnatomicalSystemId;
-        next[sysKey] = { ...next[sysKey], visible: true, isolated: false };
-      });
-      return next;
-    });
-  }, []);
-
-  const handleHideAll = useCallback(() => {
-    setLayers((prev) => {
-      const next = { ...prev };
-      Object.keys(next).forEach((key) => {
-        const sysKey = key as AnatomicalSystemId;
-        next[sysKey] = { ...next[sysKey], visible: false, isolated: false };
-      });
-      return next;
-    });
-  }, []);
-
-  const handleResetLayers = useCallback(() => {
-    setLayers((prev) => {
-      const next = { ...prev };
-      Object.keys(next).forEach((key) => {
-        const sysKey = key as AnatomicalSystemId;
-        next[sysKey] = {
-          ...next[sysKey],
-          visible: sysKey !== 'skin',
-          opacity: 1.0,
-          isolated: false
-        };
-      });
-      return next;
-    });
-    setExplodedAmount(0);
-    setCrossSectionEnabled(false);
-    setXrayMode(false);
-    setCameraPreset('isometric');
-  }, []);
-
-  // Structure Focus in 3D
-  const handleFocusStructureIn3D = useCallback((structure: AnatomicalStructure) => {
-    const pos = structure.defaultPosition || [0, 0, 0];
-    setFocusedCameraTarget({
-      position: [pos[0] * 1.5, pos[1] + 0.4, pos[2] + 2.2],
-      target: [pos[0], pos[1], pos[2]]
-    });
-  }, []);
-
-  // Isolate Structure in 3D
-  const handleIsolateStructureIn3D = useCallback((structure: AnatomicalStructure) => {
-    handleToggleIsolate(structure.system);
-    handleFocusStructureIn3D(structure);
-  }, [handleToggleIsolate, handleFocusStructureIn3D]);
-
-  // Guided Tour Step Change Handler
-  const handleTourStepChange = useCallback((step: GuidedTourStep) => {
-    const targetStructure = ANATOMICAL_STRUCTURES.find((s) => s.id === step.structureId);
-    if (targetStructure) {
-      setSelectedStructure(targetStructure);
-    }
-    setFocusedCameraTarget({
-      position: step.cameraPosition,
-      target: step.cameraTarget
-    });
-  }, []);
+  const handleSelectModel = (model: AnatomyModel) => {
+    setSelectedModel(model);
+    setSelectedHotspot(null);
+    setActiveTab("3d");
+  };
 
   return (
-    <div className="relative w-full h-[calc(100vh-5rem)] min-h-[640px] rounded-3xl overflow-hidden border border-slate-800 bg-med-950 flex flex-col shadow-2xl">
-      {/* 1. Top HUD Bar */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-        {/* Left: Mode Switcher */}
-        <div className="glass-panel p-1 rounded-2xl border border-sky-500/20 bg-slate-950/85 backdrop-blur-md flex items-center gap-1 pointer-events-auto shadow-xl">
+    <div className="w-full max-w-7xl mx-auto space-y-8 pb-16">
+      {/* 1. Header & Navigation Sub-Tabs */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              3D Anatomy Laboratory
+            </h1>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              BM&DC Curated
+            </span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            Real interactive Three.js anatomical reconstructions with Terminologia Anatomica (TA2) standard nomenclature.
+          </p>
+        </div>
+
+        {/* View Mode Switcher */}
+        <div className="flex items-center p-1 rounded-2xl bg-med-900/90 border border-slate-700/60 shadow-glass self-start lg:self-auto overflow-x-auto">
           <button
-            onClick={() => setActiveMode('explore')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeMode === 'explore'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-glow-cyan'
-                : 'text-slate-400 hover:text-white'
+            onClick={() => setActiveTab("3d")}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === "3d"
+                ? "bg-med-accent-cyan text-slate-950 shadow-glow-cyan"
+                : "text-slate-400 hover:text-white"
             }`}
           >
-            <Compass className="w-3.5 h-3.5" />
-            3D Explorer
+            <Sparkles className="w-3.5 h-3.5" />
+            3D Specimen
           </button>
 
-          <button
-            onClick={() => setActiveMode('learn')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeMode === 'learn'
-                ? 'bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-glow-blue'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            Learn Tour
-          </button>
+          {selectedModel.illustrations?.microscopic && (
+            <button
+              onClick={() => setActiveTab("histology")}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                activeTab === "histology"
+                  ? "bg-med-accent-blue text-white shadow-glow-blue"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              Histology
+            </button>
+          )}
+
+          {selectedModel.illustrations?.compare && (
+            <button
+              onClick={() => setActiveTab("pathology")}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                activeTab === "pathology"
+                  ? "bg-rose-600 text-white shadow-glow-rose"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <AlertTriangle className="w-3.5 h-3.5" />
+              Pathology Compare
+            </button>
+          )}
 
           <button
-            onClick={() => setActiveMode('ospe')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeMode === 'ospe'
-                ? 'bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-glow-rose'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Award className="w-3.5 h-3.5" />
-            OSPE Exam
-          </button>
-
-          <button
-            onClick={() => setActiveMode('clinical')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeMode === 'clinical'
-                ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-glow-emerald'
-                : 'text-slate-400 hover:text-white'
+            onClick={() => setActiveTab("clinical")}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === "clinical"
+                ? "bg-emerald-600 text-white shadow-glow-emerald"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             <Stethoscope className="w-3.5 h-3.5" />
-            Clinical Mode
-          </button>
-        </div>
-
-        {/* Center: Systemic / Regional Anatomy Filter */}
-        <AnatomySystems
-          activeClassification={activeClassification}
-          onChangeClassification={setActiveClassification}
-          selectedSystem={selectedSystemFilter}
-          onSelectSystem={setSelectedSystemFilter}
-          selectedRegion={selectedRegionFilter}
-          onSelectRegion={setSelectedRegionFilter}
-        />
-
-        {/* Right: Search Trigger */}
-        <div className="pointer-events-auto">
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="glass-panel px-3.5 py-2 rounded-xl border border-sky-500/20 bg-slate-950/80 hover:bg-slate-900 text-xs font-semibold text-slate-300 hover:text-cyan-300 flex items-center gap-2 shadow-lg transition-all"
-            title="Search Anatomy (Press '/')"
-          >
-            <Search className="w-4 h-4 text-cyan-400" />
-            <span className="hidden sm:inline">Search Anatomy...</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">
-              /
-            </kbd>
+            Clinical Notes
           </button>
         </div>
       </div>
 
-      {/* 2. Main 3D Viewport */}
-      <div className="flex-1 w-full h-full relative">
-        <AnatomyViewer
-          structures={displayedStructures}
-          selectedStructure={selectedStructure}
-          hoveredStructure={hoveredStructure}
-          onSelectStructure={(struct) => setSelectedStructure(struct)}
-          onHoverStructure={(struct) => setHoveredStructure(struct)}
-          layers={layers}
-          cameraPreset={cameraPreset}
-          explodedAmount={explodedAmount}
-          crossSectionEnabled={crossSectionEnabled}
-          crossSectionPlane={crossSectionPlane}
-          crossSectionDepth={crossSectionDepth}
-          xrayMode={xrayMode}
-          activeOspeStation={activeMode === 'ospe' ? activeOspeStation : null}
-          focusedCameraTarget={focusedCameraTarget}
-        />
-
-        {/* 3. Left Overlay: AnatomyLayerPanel */}
-        <div className="absolute top-20 left-4 z-20 pointer-events-none">
-          <AnatomyLayerPanel
-            layers={layers}
-            onToggleVisibility={handleToggleVisibility}
-            onToggleIsolate={handleToggleIsolate}
-            onChangeOpacity={handleChangeOpacity}
-            onShowAll={handleShowAll}
-            onHideAll={handleHideAll}
-            onResetLayers={handleResetLayers}
-            isOpen={isLayersPanelOpen}
-            onToggleOpen={() => setIsLayersPanelOpen(!isLayersPanelOpen)}
+      {/* 2. Main Visual Canvas Section */}
+      <div className="w-full">
+        {activeTab === "3d" && (
+          <AnatomyViewer
+            model={selectedModel}
+            onSelectHotspot={setSelectedHotspot}
+            selectedHotspotId={selectedHotspot?.id}
+            onOpenHistology={() => setActiveTab("histology")}
+            onOpenPathology={() => setActiveTab("pathology")}
           />
-        </div>
+        )}
 
-        {/* 4. Right Overlays according to Active Mode */}
-        <div className="absolute top-20 right-4 z-20 pointer-events-none">
-          {activeMode === 'explore' && selectedStructure && (
-            <AnatomyInfoPanel
-              structure={selectedStructure}
-              onClose={() => setSelectedStructure(null)}
-              onFocus3D={handleFocusStructureIn3D}
-              onIsolate3D={handleIsolateStructureIn3D}
-              onStartViva={onStartViva}
-              onOpenClinicalCase={onNavigateToCase}
-            />
-          )}
+        {/* Histology Specimen Microscopy View */}
+        {activeTab === "histology" && selectedModel.illustrations?.microscopic && (
+          <div className="relative w-full rounded-2xl overflow-hidden bg-med-900/90 border border-slate-800 shadow-2xl p-6 lg:p-8 animate-in fade-in duration-200">
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
+              {/* Microscopic Slide Container */}
+              <div className="relative w-full lg:w-1/2 aspect-[4/3] rounded-2xl overflow-hidden bg-slate-950 border border-slate-700/80 shadow-glass flex items-center justify-center">
+                <img
+                  src={selectedModel.illustrations.microscopic}
+                  alt={`${selectedModel.name} Histology`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-med-950/80 backdrop-blur-md border border-slate-700 text-[11px] font-mono text-med-accent-cyan">
+                  High-Power Microscopy Specimen
+                </div>
+              </div>
 
-          {activeMode === 'learn' && (
-            <LearnAnatomyTour
-              onStepChange={handleTourStepChange}
-              onCloseTour={() => setActiveMode('explore')}
-            />
-          )}
+              {/* Histological Details */}
+              <div className="flex-1 space-y-4">
+                <div>
+                  <span className="text-xs uppercase font-mono text-med-accent-cyan font-bold tracking-wider">
+                    Histological Structure & Tissue
+                  </span>
+                  <h3 className="text-xl font-black text-white mt-1">
+                    {selectedModel.tissue || `${selectedModel.name} Microscopic Architecture`}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-serif italic mt-0.5">
+                    Specimen: {selectedModel.scientificName}
+                  </p>
+                </div>
 
-          {activeMode === 'ospe' && (
-            <AnatomyOSPE
-              onSelectStation={(station) => setActiveOspeStation(station)}
-              onCloseOSPE={() => {
-                setActiveOspeStation(null);
-                setActiveMode('explore');
-              }}
-            />
-          )}
+                <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2 text-xs text-slate-300 leading-relaxed">
+                  <p>
+                    <strong className="text-white">Tissue Classification:</strong>{" "}
+                    {selectedModel.tissue}
+                  </p>
+                  <p>
+                    <strong className="text-white">Physiological Significance:</strong>{" "}
+                    {selectedModel.function}
+                  </p>
+                  <p>
+                    <strong className="text-white">Microscopic Hallmarks:</strong>{" "}
+                    {selectedModel.medical}
+                  </p>
+                </div>
 
-          {activeMode === 'clinical' && (
-            <ClinicalAnatomyPanel
-              structure={selectedStructure || displayedStructures[0]}
-              onClose={() => setActiveMode('explore')}
-              onNavigateToCase={onNavigateToCase}
-            />
-          )}
-        </div>
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    onClick={() => setActiveTab("3d")}
+                    className="px-4 py-2 rounded-xl bg-med-accent-cyan hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-glow-cyan flex items-center gap-1.5"
+                  >
+                    Return to 3D Model
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  {onStartViva && (
+                    <button
+                      onClick={() => onStartViva(selectedModel.id)}
+                      className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition-colors flex items-center gap-1.5 border border-slate-700"
+                    >
+                      <Stethoscope className="w-3.5 h-3.5 text-rose-400" />
+                      Test on AI Viva
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
-        {/* 5. Bottom HUD Controls Bar */}
-        <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-center pointer-events-none">
-          <AnatomyControls
-            onSetCameraView={(preset) => {
-              setFocusedCameraTarget(null);
-              setCameraPreset(preset);
-            }}
-            explodedAmount={explodedAmount}
-            onExplodedChange={setExplodedAmount}
-            crossSectionEnabled={crossSectionEnabled}
-            onToggleCrossSection={() => setCrossSectionEnabled(!crossSectionEnabled)}
-            crossSectionPlane={crossSectionPlane}
-            onChangeCrossSectionPlane={setCrossSectionPlane}
-            crossSectionDepth={crossSectionDepth}
-            onChangeCrossSectionDepth={setCrossSectionDepth}
-            xrayMode={xrayMode}
-            onToggleXray={() => setXrayMode(!xrayMode)}
-            onResetCamera={handleResetLayers}
-          />
-        </div>
+        {/* Pathology Comparison View */}
+        {activeTab === "pathology" && selectedModel.illustrations?.compare && (
+          <div className="relative w-full rounded-2xl overflow-hidden bg-med-900/90 border border-slate-800 shadow-2xl p-6 lg:p-8 animate-in fade-in duration-200">
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
+              {/* Comparison Specimen Image */}
+              <div className="relative w-full lg:w-1/2 aspect-[4/3] rounded-2xl overflow-hidden bg-slate-950 border border-slate-700/80 shadow-glass flex items-center justify-center">
+                <img
+                  src={selectedModel.illustrations.compare}
+                  alt={`${selectedModel.name} Comparison`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-med-950/80 backdrop-blur-md border border-slate-700 text-[11px] font-mono text-rose-400">
+                  Normal vs. Pathological Contrast
+                </div>
+              </div>
+
+              {/* Clinical Pathology Conditions */}
+              <div className="flex-1 space-y-4">
+                <div>
+                  <span className="text-xs uppercase font-mono text-rose-400 font-bold tracking-wider">
+                    Clinical Pathology & Disease States
+                  </span>
+                  <h3 className="text-xl font-black text-white mt-1">
+                    Pathological Correlates of the {selectedModel.name}
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Differential diagnoses and organ failure states examined in BM&DC clinical viva:
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {selectedModel.conditions?.map((cond) => (
+                    <div
+                      key={cond}
+                      className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60 text-xs text-slate-200 flex items-center gap-2"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+                      <span>{cond}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    onClick={() => setActiveTab("3d")}
+                    className="px-4 py-2 rounded-xl bg-med-accent-cyan hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-glow-cyan flex items-center gap-1.5"
+                  >
+                    Inspect 3D Morphology
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  {onNavigateToCase && (
+                    <button
+                      onClick={() => onNavigateToCase(selectedModel.id)}
+                      className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition-colors flex items-center gap-1.5 border border-slate-700"
+                    >
+                      <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                      Solve Clinical Case
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Clinical Notes & Key Facts Tab */}
+        {activeTab === "clinical" && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
+            {/* Morphological Metrics */}
+            <div className="p-6 rounded-2xl bg-med-900/80 border border-slate-800 shadow-glass space-y-4">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <Info className="w-4 h-4 text-med-accent-cyan" />
+                Morphological Dimensions
+              </h4>
+              <div className="space-y-2.5 text-xs">
+                <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-400">
+                  <span>Physical Size:</span>
+                  <span className="text-white font-medium">{selectedModel.size || "Standard"}</span>
+                </div>
+                <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-400">
+                  <span>Normal Weight:</span>
+                  <span className="text-white font-medium">{selectedModel.weight || "N/A"}</span>
+                </div>
+                <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-400">
+                  <span>Anatomical Location:</span>
+                  <span className="text-white font-medium text-right max-w-[180px]">{selectedModel.location}</span>
+                </div>
+                <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-400">
+                  <span>Arterial Supply:</span>
+                  <span className="text-white font-medium text-right max-w-[180px]">{selectedModel.bloodSupply}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Physiological Functions */}
+            <div className="p-6 rounded-2xl bg-med-900/80 border border-slate-800 shadow-glass space-y-4">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                Physiological Core
+              </h4>
+              <div className="space-y-3 text-xs text-slate-300">
+                <p className="leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-700/50">
+                  <strong className="text-white block mb-1">Primary Role:</strong>
+                  {selectedModel.function}
+                </p>
+                <p className="leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-700/50">
+                  <strong className="text-white block mb-1">Daily Physiological Workload:</strong>
+                  {selectedModel.dailyFact}
+                </p>
+              </div>
+            </div>
+
+            {/* High-Yield Medical Highpoints */}
+            <div className="p-6 rounded-2xl bg-med-900/80 border border-slate-800 shadow-glass space-y-4">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                BM&DC Viva High-Yield Note
+              </h4>
+              <div className="space-y-3 text-xs text-slate-300">
+                <p className="leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-700/50">
+                  <strong className="text-white block mb-1">Clinical Significance:</strong>
+                  {selectedModel.medical}
+                </p>
+                <p className="leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-700/50 text-slate-400 italic">
+                  "{selectedModel.funFact}"
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* 6. Global Search Modal */}
-      <AnatomySearch
-        structures={ANATOMICAL_STRUCTURES}
-        onSelectStructure={(struct) => {
-          setSelectedStructure(struct);
-          handleFocusStructureIn3D(struct);
-        }}
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
+      {/* 3. Centralized Anatomical Specimen Library */}
+      <div className="pt-6 border-t border-slate-800">
+        <AnatomyLibrary
+          activeModelId={selectedModel.id}
+          onSelectModel={handleSelectModel}
+          onOpenAttribution={() => setIsAttributionOpen(true)}
+        />
+      </div>
+
+      {/* 4. Attribution and Open Source Licensing Modal */}
+      <AttributionModal
+        isOpen={isAttributionOpen}
+        onClose={() => setIsAttributionOpen(false)}
       />
     </div>
   );

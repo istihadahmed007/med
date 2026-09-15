@@ -1,594 +1,620 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import * as THREE from 'three';
-import { 
-  AnatomicalStructure, 
-  AnatomicalSystemId, 
-  SystemLayerState, 
-  CameraViewPreset,
-  OspeStation
-} from '../../types/anatomy';
-import { ANATOMICAL_STRUCTURES } from '../../data/anatomyData';
-import { SYSTEM_COLORS } from '../../services/anatomyAssetService';
-import { AnatomySceneManager } from './AnatomyScene';
-import { AnatomyCameraController } from './AnatomyCamera';
-import { AnatomyModelManager } from './AnatomyModel';
-import { AnatomySelectionManager, SelectionHit } from './AnatomySelection';
-import { AnatomyLoader } from './AnatomyLoader';
-import { AnatomyLabels, ANATOMY_HOTSPOTS, AnatomyHotspot } from './AnatomyLabels';
-import { AnatomyControls } from './AnatomyControls';
-import { AnatomyLayers } from './AnatomyLayers';
-import { AnatomySearch } from './AnatomySearch';
-import { AnatomyInfoPanel } from './AnatomyInfoPanel';
-import { AnatomyPerformanceManager, PerformanceTier } from './AnatomyPerformance';
-import { ANATOMY_METADATA } from './AnatomyMetadata';
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { AnatomyModel, Hotspot } from "../../lib/anatomy/anatomy-models";
+import { anatomyModelLoader } from "../../lib/anatomy/model-loader";
+import { LoadedOrgan } from "../../lib/anatomy/model-cache";
+import { getDevicePerformanceProfile, disposeObject3D } from "../../lib/anatomy/model-performance";
+import { AnatomyLoading } from "./AnatomyLoading";
+import { AnatomyControls } from "./AnatomyControls";
+import {
+  Info,
+  Layers,
+  Sparkles,
+  AlertCircle,
+  Eye,
+  EyeOff,
+  Crosshair,
+  BookOpen,
+} from "lucide-react";
 
-export interface AnatomyViewerProps {
-  initialSystem?: AnatomicalSystemId;
-  targetSystems?: AnatomicalSystemId[];
-  structures?: AnatomicalStructure[];
-  selectedStructure?: AnatomicalStructure | null;
-  hoveredStructure?: AnatomicalStructure | null;
-  onSelectStructure?: (structure: AnatomicalStructure | null) => void;
-  onHoverStructure?: (structure: AnatomicalStructure | null) => void;
-  layers?: Record<AnatomicalSystemId, SystemLayerState>;
-  onLayersChange?: (layers: Record<AnatomicalSystemId, SystemLayerState>) => void;
-  cameraPreset?: CameraViewPreset;
-  explodedAmount?: number;
-  crossSectionEnabled?: boolean;
-  crossSectionPlane?: 'axial' | 'sagittal' | 'coronal';
-  crossSectionDepth?: number;
-  xrayMode?: boolean;
-  activeOspeStation?: OspeStation | null;
-  focusedCameraTarget?: { position: [number, number, number]; target: [number, number, number] } | null;
-  onStartViva?: (structureId: string) => void;
-  onNavigateToCase?: (caseId: string) => void;
+interface AnatomyViewerProps {
+  model: AnatomyModel;
+  onSelectHotspot?: (hotspot: Hotspot | null) => void;
+  selectedHotspotId?: string | null;
+  className?: string;
+  onOpenHistology?: () => void;
+  onOpenPathology?: () => void;
 }
 
-interface HoveredTooltipInfo {
-  name: string;
-  latinName?: string;
-  system: string;
-  systemColor: string;
-  screenX: number;
-  screenY: number;
-}
+const CAMERA_FOV = 35;
+const HOME_CAMERA = { x: 0, y: 1.05, z: 8.2 };
+const HOME_TARGET = { x: 0, y: 0.02, z: 0 };
 
 export const AnatomyViewer: React.FC<AnatomyViewerProps> = ({
-  initialSystem,
-  targetSystems,
-  structures = ANATOMICAL_STRUCTURES,
-  selectedStructure: externalSelectedStructure,
-  onSelectStructure: externalOnSelectStructure,
-  onHoverStructure: externalOnHoverStructure,
-  layers: externalLayers,
-  onLayersChange,
-  cameraPreset: externalCameraPreset = 'isometric',
-  explodedAmount: externalExplodedAmount = 0,
-  crossSectionEnabled: externalCrossSectionEnabled = false,
-  crossSectionPlane: externalCrossSectionPlane = 'axial',
-  crossSectionDepth: externalCrossSectionDepth = 0,
-  xrayMode: externalXrayMode = false,
-  activeOspeStation,
-  focusedCameraTarget,
-  onStartViva,
-  onNavigateToCase
+  model,
+  onSelectHotspot,
+  selectedHotspotId,
+  className = "",
+  onOpenHistology,
+  onOpenPathology,
 }) => {
-  const mountRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Internal layer state if not provided externally
-  const [internalLayers, setInternalLayers] = useState<Record<AnatomicalSystemId, SystemLayerState>>(() => ({
-    skeletal: { id: 'skeletal', name: 'Skeletal Framework', visible: true, opacity: 1.0, isolated: false, structureCount: 335, color: '#f1f5f9' },
-    muscular: { id: 'muscular', name: 'Muscular System', visible: true, opacity: 0.35, isolated: false, structureCount: 1388, color: '#f43f5e' },
-    cardiovascular: { id: 'cardiovascular', name: 'Cardiovascular System', visible: true, opacity: 1.0, isolated: false, structureCount: 676, color: '#e11d48' },
-    nervous: { id: 'nervous', name: 'Nervous & Brain', visible: true, opacity: 1.0, isolated: false, structureCount: 860, color: '#eab308' },
-    digestive: { id: 'digestive', name: 'Digestive & Viscera', visible: true, opacity: 1.0, isolated: false, structureCount: 75, color: '#f59e0b' },
-    respiratory: { id: 'respiratory', name: 'Respiratory System', visible: true, opacity: 0.95, isolated: false, structureCount: 35, color: '#06b6d4' },
-    articular: { id: 'articular', name: 'Articular & Ligaments', visible: true, opacity: 0.85, isolated: false, structureCount: 413, color: '#94a3b8' },
-    lymphatic: { id: 'lymphatic', name: 'Lymphatic & Spleen', visible: true, opacity: 0.85, isolated: false, structureCount: 163, color: '#10b981' },
-    urinary: { id: 'urinary', name: 'Urinary & Kidneys', visible: true, opacity: 1.0, isolated: false, structureCount: 8, color: '#d97706' },
-    reproductive: { id: 'reproductive', name: 'Pelvic Viscera', visible: true, opacity: 1.0, isolated: false, structureCount: 24, color: '#ec4899' },
-    skin: { id: 'skin', name: 'Integumentary Surface', visible: true, opacity: 0.18, isolated: false, structureCount: 256, color: '#fed7aa' }
-  }));
+  // Three.js instances
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  const currentOrganRef = useRef<LoadedOrgan | null>(null);
+  const animFrameRef = useRef<number>(0);
+  const clockRef = useRef(new THREE.Clock());
 
-  const activeLayers = externalLayers || internalLayers;
+  // Hotspot meshes group
+  const hotspotsGroupRef = useRef<THREE.Group | null>(null);
 
-  // Local interaction controls state
-  const [cameraPreset, setCameraPreset] = useState<CameraViewPreset>(externalCameraPreset);
-  const [explodedAmount, setExplodedAmount] = useState<number>(externalExplodedAmount);
-  const [crossSectionEnabled, setCrossSectionEnabled] = useState<boolean>(externalCrossSectionEnabled);
-  const [crossSectionPlane, setCrossSectionPlane] = useState<'axial' | 'sagittal' | 'coronal'>(externalCrossSectionPlane);
-  const [crossSectionDepth, setCrossSectionDepth] = useState<number>(externalCrossSectionDepth);
-  const [xrayMode, setXrayMode] = useState<boolean>(externalXrayMode);
-  const [showLabels, setShowLabels] = useState<boolean>(true);
-  const [performanceTier, setPerformanceTier] = useState<PerformanceTier>('AUTO');
+  // Clipping plane
+  const clipPlaneRef = useRef<THREE.Plane>(new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0));
 
-  // Selection & UI Panels
-  const [internalSelectedStructure, setInternalSelectedStructure] = useState<AnatomicalStructure | null>(null);
-  const selectedStructure = externalSelectedStructure !== undefined ? externalSelectedStructure : internalSelectedStructure;
-  const [hoveredTooltip, setHoveredTooltip] = useState<HoveredTooltipInfo | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  // UI state
+  const [loading, setLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [autoRotate, setAutoRotate] = useState(true);
+  const [crossSection, setCrossSection] = useState(false);
+  const [crossSectionValue, setCrossSectionValue] = useState(0);
+  const [wireframe, setWireframe] = useState(false);
+  const [showHotspots, setShowHotspots] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
+  const [isolatedStructure, setIsolatedStructure] = useState(false);
 
-  // Asset Loading
-  const [loadProgress, setLoadProgress] = useState<number>(10);
-  const [loadedSystemsCount, setLoadedSystemsCount] = useState<number>(0);
-  const [currentLoadingName, setCurrentLoadingName] = useState<string>('Skeletal Framework');
-  const [isStreaming, setIsStreaming] = useState<boolean>(true);
-
-  // Engine Manager Instances
-  const sceneManagerRef = useRef<AnatomySceneManager | null>(null);
-  const cameraControllerRef = useRef<AnatomyCameraController | null>(null);
-  const modelManagerRef = useRef<AnatomyModelManager | null>(null);
-  const selectionManagerRef = useRef<AnatomySelectionManager>(new AnatomySelectionManager());
-  const rootGroupRef = useRef<THREE.Group>(new THREE.Group());
-  const animationFrameId = useRef<number | null>(null);
-
-  // Viewport Dimensions for Projected Labels
-  const [viewportDimensions, setViewportDimensions] = useState({ width: 0, height: 0 });
-
-  // 1. Initialize Engine on Mount
+  // Synchronize external hotspot selection
   useEffect(() => {
-    if (!mountRef.current) return;
-    const container = mountRef.current;
+    if (!selectedHotspotId) {
+      setSelectedHotspot(null);
+      return;
+    }
+    const found = model.hotspots?.find((h) => h.id === selectedHotspotId) || null;
+    setSelectedHotspot(found);
+  }, [selectedHotspotId, model.hotspots]);
 
-    // A. Setup Scene, Lights, ACES Tone Mapping
-    const sceneMgr = new AnatomySceneManager({ container });
-    sceneManagerRef.current = sceneMgr;
-    sceneMgr.scene.add(rootGroupRef.current);
+  // Handle Fullscreen
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen?.().catch(() => {});
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen?.().catch(() => {});
+      setIsFullscreen(false);
+    }
+  };
 
-    // B. Setup Camera Controller
-    const controls = new OrbitControls(sceneMgr.camera, sceneMgr.renderer.domElement);
-    const camController = new AnatomyCameraController(sceneMgr.camera, controls);
-    cameraControllerRef.current = camController;
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener("fullscreenchange", handleFsChange);
+    return () => document.removeEventListener("fullscreenchange", handleFsChange);
+  }, []);
 
-    // Apply default camera angle
-    camController.setPreset(externalCameraPreset);
+  // Initialize Three.js scene
+  useEffect(() => {
+    if (!canvasRef.current || !containerRef.current) return;
 
-    // C. Setup Model Manager
-    const modelMgr = new AnatomyModelManager({
-      rootGroup: rootGroupRef.current,
-      clipPlane: sceneMgr.clipPlane,
-      onProgress: (percent, loadedCount, systemName) => {
-        setLoadProgress(percent);
-        setLoadedSystemsCount(loadedCount);
-        setCurrentLoadingName(systemName);
-        if (percent >= 100) {
-          setIsStreaming(false);
-        }
-      }
+    const profile = getDevicePerformanceProfile();
+
+    // 1. Scene
+    const scene = new THREE.Scene();
+    sceneRef.current = scene;
+
+    // 2. Camera
+    const camera = new THREE.PerspectiveCamera(
+      CAMERA_FOV,
+      containerRef.current.clientWidth / containerRef.current.clientHeight,
+      0.1,
+      100
+    );
+    camera.position.set(HOME_CAMERA.x, HOME_CAMERA.y, HOME_CAMERA.z);
+    cameraRef.current = camera;
+
+    // 3. Renderer
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      antialias: profile.enableAntialias,
+      alpha: true,
+      powerPreference: "high-performance",
+      depth: true,
     });
-    modelManagerRef.current = modelMgr;
+    renderer.setPixelRatio(profile.maxPixelRatio);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.localClippingEnabled = true;
+    renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    rendererRef.current = renderer;
 
-    // Determine target systems to load
-    const systemsToLoad = targetSystems || (initialSystem ? [initialSystem] : undefined);
-    modelMgr.loadSystems(systemsToLoad);
+    anatomyModelLoader.setMaxAnisotropy(profile.recommendedAnisotropy);
 
-    // D. Viewport Resize Handler
-    const updateDimensions = () => {
-      if (!container) return;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      setViewportDimensions({ width: w, height: h });
-      sceneMgr.resize(w, h);
+    // 4. Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.055;
+    controls.enablePan = true;
+    controls.minDistance = 3.5;
+    controls.maxDistance = 14;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.65;
+    controls.target.set(HOME_TARGET.x, HOME_TARGET.y, HOME_TARGET.z);
+    controlsRef.current = controls;
+
+    // 5. Lighting & Studio Environment
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    keyLight.position.set(5, 7, 6);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0x93c5fd, 0.6);
+    fillLight.position.set(-6, -2, -4);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.85);
+    rimLight.position.set(0, 8, -6);
+    scene.add(rimLight);
+
+    // Subtle anatomical contact shadow plinth
+    const shadowGeo = new THREE.PlaneGeometry(5.2, 5.2);
+    const shadowCanvas = document.createElement("canvas");
+    shadowCanvas.width = 128;
+    shadowCanvas.height = 128;
+    const ctx = shadowCanvas.getContext("2d");
+    if (ctx) {
+      const grad = ctx.createRadialGradient(64, 64, 10, 64, 64, 64);
+      grad.addColorStop(0, "rgba(0,0,0,0.45)");
+      grad.addColorStop(0.5, "rgba(0,0,0,0.15)");
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 128, 128);
+    }
+    const shadowTex = new THREE.CanvasTexture(shadowCanvas);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      map: shadowTex,
+      transparent: true,
+      depthWrite: false,
+    });
+    const contactShadow = new THREE.Mesh(shadowGeo, shadowMat);
+    contactShadow.rotation.x = -Math.PI / 2;
+    contactShadow.position.y = -2.1;
+    scene.add(contactShadow);
+
+    // Hotspot Group
+    const hotspotsGroup = new THREE.Group();
+    hotspotsGroup.name = "hotspots-group";
+    scene.add(hotspotsGroup);
+    hotspotsGroupRef.current = hotspotsGroup;
+
+    // Resize Handler
+    const handleResize = () => {
+      if (!containerRef.current || !rendererRef.current || !cameraRef.current) return;
+      const width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(width, height);
     };
-    updateDimensions();
 
-    const resizeObserver = new ResizeObserver(updateDimensions);
-    resizeObserver.observe(container);
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(containerRef.current);
 
-    // E. Three.js Render Loop (Decoupled from React)
+    // Render loop
     const animate = () => {
-      camController.update();
-      sceneMgr.renderer.render(sceneMgr.scene, sceneMgr.camera);
-      animationFrameId.current = requestAnimationFrame(animate);
+      animFrameRef.current = requestAnimationFrame(animate);
+
+      const delta = clockRef.current.getDelta();
+      controls.update();
+
+      if (currentOrganRef.current?.mixer) {
+        currentOrganRef.current.mixer.update(delta);
+      }
+
+      // Billboard hotspots to always face the camera
+      if (hotspotsGroupRef.current && cameraRef.current) {
+        hotspotsGroupRef.current.children.forEach((child) => {
+          child.quaternion.copy(cameraRef.current!.quaternion);
+        });
+      }
+
+      renderer.render(scene, camera);
     };
+
     animate();
 
-    // Cleanup on unmount
     return () => {
-      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+      cancelAnimationFrame(animFrameRef.current);
       resizeObserver.disconnect();
-      camController.dispose();
-      modelMgr.dispose();
-      selectionManagerRef.current.dispose();
-      sceneMgr.dispose();
+      controls.dispose();
+      disposeObject3D(scene);
+      renderer.dispose();
+      sceneRef.current = null;
+      cameraRef.current = null;
+      rendererRef.current = null;
+      controlsRef.current = null;
+      currentOrganRef.current = null;
     };
   }, []);
 
-  // 2. Sync Layer Visibility & Opacity
+  // Load / Swap 3D Model with Cache Integration
   useEffect(() => {
-    if (modelManagerRef.current) {
-      modelManagerRef.current.updateLayers(activeLayers, xrayMode);
+    if (!sceneRef.current) return;
+
+    let isSubscribed = true;
+    setLoading(true);
+    setLoadProgress(0.05);
+    setError(null);
+    setSelectedHotspot(null);
+
+    // Detach previous organ pivot
+    if (currentOrganRef.current && sceneRef.current) {
+      sceneRef.current.remove(currentOrganRef.current.pivot);
     }
-  }, [activeLayers, xrayMode]);
 
-  // 3. Sync Exploded View
-  useEffect(() => {
-    if (modelManagerRef.current) {
-      modelManagerRef.current.updateExplodedAmount(explodedAmount);
+    // Clear previous hotspots
+    if (hotspotsGroupRef.current) {
+      while (hotspotsGroupRef.current.children.length > 0) {
+        const c = hotspotsGroupRef.current.children[0];
+        hotspotsGroupRef.current.remove(c);
+      }
     }
-  }, [explodedAmount]);
 
-  // 4. Sync Cross-Section Plane
-  useEffect(() => {
-    if (sceneManagerRef.current) {
-      sceneManagerRef.current.updateClippingPlane(crossSectionEnabled, crossSectionPlane, crossSectionDepth);
+    if (!model.available || !model.model) {
+      setLoading(false);
+      return;
     }
-  }, [crossSectionEnabled, crossSectionPlane, crossSectionDepth]);
 
-  // 5. Sync Camera Preset
-  useEffect(() => {
-    if (cameraControllerRef.current) {
-      cameraControllerRef.current.setPreset(cameraPreset);
-    }
-  }, [cameraPreset]);
+    anatomyModelLoader
+      .loadModel(model.id, model.model, (progress) => {
+        if (isSubscribed) {
+          setLoadProgress(progress);
+        }
+      })
+      .then((loadedOrgan) => {
+        if (!isSubscribed || !sceneRef.current) return;
 
-  // 6. Pointer Move -> Raycast Hover
-  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    const container = mountRef.current;
-    const sceneMgr = sceneManagerRef.current;
-    const modelMgr = modelManagerRef.current;
-    if (!container || !sceneMgr || !modelMgr) return;
+        currentOrganRef.current = loadedOrgan;
+        sceneRef.current.add(loadedOrgan.pivot);
 
-    const rect = container.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        // Apply active tool states (wireframe & cross-section)
+        loadedOrgan.meshes.forEach((mesh) => {
+          const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          mats.forEach((mat) => {
+            if (mat instanceof THREE.MeshStandardMaterial) {
+              mat.wireframe = wireframe;
+            }
+            if (crossSection) {
+              mat.clippingPlanes = [clipPlaneRef.current];
+            } else {
+              mat.clippingPlanes = null;
+            }
+            mat.needsUpdate = true;
+          });
+        });
 
-    const hit = selectionManagerRef.current.raycast({ x, y }, sceneMgr.camera, modelMgr.getMeshList());
+        // Build 3D hotspot pins
+        buildHotspots(model.hotspots || [], loadedOrgan.pivot);
 
-    if (hit) {
-      selectionManagerRef.current.highlightHover(hit.mesh);
-      container.style.cursor = 'pointer';
-
-      // Look up organ metadata
-      const sysId = (hit.systemId || 'skeletal') as AnatomicalSystemId;
-      const meta = ANATOMY_METADATA[hit.structureId];
-      const color = SYSTEM_COLORS[sysId]?.hex || '#38bdf8';
-
-      setHoveredTooltip({
-        name: hit.name,
-        latinName: meta?.latinName,
-        system: sysId.toUpperCase(),
-        systemColor: color,
-        screenX: e.clientX - rect.left,
-        screenY: e.clientY - rect.top
+        setLoading(false);
+        setLoadProgress(1);
+      })
+      .catch((err) => {
+        if (isSubscribed) {
+          console.error("Failed to load anatomy model:", err);
+          setError("3D Model could not be loaded. Please verify connection.");
+          setLoading(false);
+        }
       });
 
-      if (externalOnHoverStructure) {
-        const struct = structures.find((s) => s.id === hit.structureId) || null;
-        externalOnHoverStructure(struct);
-      }
-    } else {
-      selectionManagerRef.current.highlightHover(null);
-      container.style.cursor = 'default';
-      setHoveredTooltip(null);
-      if (externalOnHoverStructure) externalOnHoverStructure(null);
+    return () => {
+      isSubscribed = false;
+    };
+  }, [model.id, model.model, model.available]);
+
+  // Build 3D Hotspot Pins in scene
+  const buildHotspots = useCallback((hotspots: Hotspot[], organPivot: THREE.Group) => {
+    if (!hotspotsGroupRef.current) return;
+
+    while (hotspotsGroupRef.current.children.length > 0) {
+      hotspotsGroupRef.current.remove(hotspotsGroupRef.current.children[0]);
     }
-  }, [structures, externalOnHoverStructure]);
 
-  // 7. Pointer Click -> Select & Frame Structure
-  const handlePointerClick = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    const container = mountRef.current;
-    const sceneMgr = sceneManagerRef.current;
-    const modelMgr = modelManagerRef.current;
-    const camController = cameraControllerRef.current;
-    if (!container || !sceneMgr || !modelMgr || !camController) return;
+    hotspots.forEach((spot) => {
+      const pinGroup = new THREE.Group();
+      pinGroup.name = `pin-${spot.id}`;
 
-    const rect = container.getBoundingClientRect();
+      // Outer glow disc
+      const outerGeo = new THREE.RingGeometry(0.08, 0.14, 24);
+      const outerMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(spot.color || "#06b6d4"),
+        transparent: true,
+        opacity: 0.85,
+        side: THREE.DoubleSide,
+        depthTest: false,
+      });
+      const outerRing = new THREE.Mesh(outerGeo, outerMat);
+
+      // Inner core sphere
+      const innerGeo = new THREE.SphereGeometry(0.065, 16, 16);
+      const innerMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        depthTest: false,
+      });
+      const innerSphere = new THREE.Mesh(innerGeo, innerMat);
+
+      pinGroup.add(outerRing);
+      pinGroup.add(innerSphere);
+
+      pinGroup.position.set(spot.position[0], spot.position[1], spot.position[2]);
+      pinGroup.userData = { hotspot: spot };
+
+      hotspotsGroupRef.current?.add(pinGroup);
+    });
+  }, []);
+
+  // Wireframe toggle effect
+  useEffect(() => {
+    if (!currentOrganRef.current) return;
+    currentOrganRef.current.meshes.forEach((mesh) => {
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      mats.forEach((mat) => {
+        if (mat instanceof THREE.MeshStandardMaterial) {
+          mat.wireframe = wireframe;
+          mat.needsUpdate = true;
+        }
+      });
+    });
+  }, [wireframe]);
+
+  // Cross-section clipping effect
+  useEffect(() => {
+    if (!currentOrganRef.current) return;
+    clipPlaneRef.current.constant = crossSectionValue;
+    currentOrganRef.current.meshes.forEach((mesh) => {
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      mats.forEach((mat) => {
+        if (crossSection) {
+          mat.clippingPlanes = [clipPlaneRef.current];
+        } else {
+          mat.clippingPlanes = null;
+        }
+        mat.needsUpdate = true;
+      });
+    });
+  }, [crossSection, crossSectionValue]);
+
+  // Auto-rotate toggle effect
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current.autoRotate = autoRotate;
+    }
+  }, [autoRotate]);
+
+  // Reset Camera View
+  const handleResetCamera = () => {
+    if (!cameraRef.current || !controlsRef.current) return;
+    cameraRef.current.position.set(HOME_CAMERA.x, HOME_CAMERA.y, HOME_CAMERA.z);
+    controlsRef.current.target.set(HOME_TARGET.x, HOME_TARGET.y, HOME_TARGET.z);
+    controlsRef.current.update();
+  };
+
+  // Focus Camera onto selected hotspot
+  const focusHotspot = (spot: Hotspot) => {
+    setSelectedHotspot(spot);
+    onSelectHotspot?.(spot);
+
+    if (!cameraRef.current || !controlsRef.current) return;
+
+    // Smoothly pan target to hotspot position
+    const target = new THREE.Vector3(spot.position[0], spot.position[1], spot.position[2]);
+    controlsRef.current.target.lerp(target, 0.85);
+
+    // Keep camera at comfortable inspection distance
+    const dir = cameraRef.current.position.clone().sub(target).normalize();
+    cameraRef.current.position.copy(target.clone().add(dir.multiplyScalar(4.8)));
+    controlsRef.current.update();
+  };
+
+  // Canvas Click / Tap Raycaster for 3D Hotspot selection
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!canvasRef.current || !cameraRef.current || !hotspotsGroupRef.current || !showHotspots) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-    const hit = selectionManagerRef.current.raycast({ x, y }, sceneMgr.camera, modelMgr.getMeshList());
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(new THREE.Vector2(x, y), cameraRef.current);
 
-    if (hit) {
-      selectionManagerRef.current.select(hit.mesh);
-      camController.focusOnBounds(hit.boundingBox, hit.boundingSphere);
-
-      // Find matching structure data or generate rich fallback from metadata
-      const matched = structures.find((s) => s.id === hit.structureId) || {
-        id: hit.structureId,
-        name: hit.name,
-        latinName: ANATOMY_METADATA[hit.structureId]?.latinName,
-        system: (hit.systemId || 'skeletal') as AnatomicalSystemId,
-        category: 'major-organ',
-        region: 'thorax',
-        location: ANATOMY_METADATA[hit.structureId]?.location || 'Human anatomical cavity',
-        structureDescription: ANATOMY_METADATA[hit.structureId]?.function || 'Essential anatomical structure.',
-        function: ANATOMY_METADATA[hit.structureId]?.function || 'Maintains human physiology.',
-        clinicalSignificance: ANATOMY_METADATA[hit.structureId]?.clinicalRelevance?.join(' ') || 'High clinical relevance in MBBS curricula.',
-        bmdcTopics: ['Gross Anatomy', 'Clinical Correlates'],
-        modelNodeName: hit.mesh.name
-      } as AnatomicalStructure;
-
-      if (externalOnSelectStructure) {
-        externalOnSelectStructure(matched);
-      } else {
-        setInternalSelectedStructure(matched);
+    const intersects = raycaster.intersectObjects(hotspotsGroupRef.current.children, true);
+    if (intersects.length > 0) {
+      let topObj: THREE.Object3D | null = intersects[0].object;
+      while (topObj && !topObj.userData?.hotspot && topObj.parent) {
+        topObj = topObj.parent;
       }
-    } else {
-      selectionManagerRef.current.clearSelection();
-      if (externalOnSelectStructure) {
-        externalOnSelectStructure(null);
-      } else {
-        setInternalSelectedStructure(null);
+      if (topObj?.userData?.hotspot) {
+        focusHotspot(topObj.userData.hotspot);
+        setAutoRotate(false);
       }
     }
-  }, [structures, externalOnSelectStructure]);
-
-  // 8. Select from Labels or Hotspots
-  const handleSelectHotspot = useCallback((hotspot: AnatomyHotspot) => {
-    const camController = cameraControllerRef.current;
-    const modelMgr = modelManagerRef.current;
-    if (!camController) return;
-
-    const pos = new THREE.Vector3(hotspot.position[0], hotspot.position[1], hotspot.position[2]);
-    const box = new THREE.Box3().setFromCenterAndSize(pos, new THREE.Vector3(0.25, 0.25, 0.25));
-    const sphere = new THREE.Sphere(pos, 0.18);
-
-    camController.focusOnBounds(box, sphere);
-
-    const matched = structures.find((s) => s.id === hotspot.id) || {
-      id: hotspot.id,
-      name: hotspot.name,
-      latinName: hotspot.latinName || ANATOMY_METADATA[hotspot.id]?.latinName,
-      system: hotspot.system,
-      category: 'major-organ',
-      region: 'thorax',
-      location: ANATOMY_METADATA[hotspot.id]?.location || 'Thoracoabdominal anatomy',
-      structureDescription: ANATOMY_METADATA[hotspot.id]?.function || 'Vital organ.',
-      function: ANATOMY_METADATA[hotspot.id]?.function || 'Key physiological organ.',
-      clinicalSignificance: ANATOMY_METADATA[hotspot.id]?.clinicalRelevance?.join(' ') || 'High yield MBBS exam structure.',
-      bmdcTopics: ['Anatomy', 'Clinical Medicine']
-    } as AnatomicalStructure;
-
-    if (externalOnSelectStructure) {
-      externalOnSelectStructure(matched);
-    } else {
-      setInternalSelectedStructure(matched);
-    }
-  }, [structures, externalOnSelectStructure]);
-
-  // Layer manipulation helpers
-  const handleToggleLayerVisibility = (id: AnatomicalSystemId) => {
-    const next = {
-      ...activeLayers,
-      [id]: { ...activeLayers[id], visible: !activeLayers[id].visible }
-    };
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
-  };
-
-  const handleToggleLayerIsolate = (id: AnatomicalSystemId) => {
-    const currentlyIsolated = activeLayers[id].isolated;
-    const next = { ...activeLayers };
-    Object.keys(next).forEach((key) => {
-      const k = key as AnatomicalSystemId;
-      next[k] = { ...next[k], isolated: !currentlyIsolated && k === id };
-    });
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
-  };
-
-  const handleChangeLayerOpacity = (id: AnatomicalSystemId, opacity: number) => {
-    const next = {
-      ...activeLayers,
-      [id]: { ...activeLayers[id], opacity }
-    };
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
-  };
-
-  const handleShowAllLayers = () => {
-    const next = { ...activeLayers };
-    Object.keys(next).forEach((key) => {
-      const k = key as AnatomicalSystemId;
-      next[k] = { ...next[k], visible: true, isolated: false };
-    });
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
-  };
-
-  const handleHideAllLayers = () => {
-    const next = { ...activeLayers };
-    Object.keys(next).forEach((key) => {
-      const k = key as AnatomicalSystemId;
-      next[k] = { ...next[k], visible: false, isolated: false };
-    });
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
-  };
-
-  const handleResetLayers = () => {
-    const next = { ...activeLayers };
-    Object.keys(next).forEach((key) => {
-      const k = key as AnatomicalSystemId;
-      next[k] = {
-        ...next[k],
-        visible: true,
-        isolated: false,
-        opacity: k === 'skin' ? 0.18 : k === 'muscular' ? 0.35 : 1.0
-      };
-    });
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
-  };
-
-  const handleApplyLayerPreset = (preset: 'all' | 'visceral' | 'musculoskeletal' | 'neurovascular') => {
-    const next = { ...activeLayers };
-    Object.keys(next).forEach((key) => {
-      const k = key as AnatomicalSystemId;
-      let visible = false;
-      let opacity = 1.0;
-
-      if (preset === 'all') {
-        visible = true;
-        opacity = k === 'skin' ? 0.18 : k === 'muscular' ? 0.35 : 1.0;
-      } else if (preset === 'visceral') {
-        visible = ['digestive', 'respiratory', 'urinary', 'cardiovascular', 'skeletal'].includes(k);
-        opacity = k === 'skeletal' ? 0.25 : 1.0;
-      } else if (preset === 'musculoskeletal') {
-        visible = ['skeletal', 'articular', 'muscular'].includes(k);
-        opacity = 1.0;
-      } else if (preset === 'neurovascular') {
-        visible = ['cardiovascular', 'nervous', 'skeletal'].includes(k);
-        opacity = k === 'skeletal' ? 0.15 : 1.0;
-      }
-
-      next[k] = { ...next[k], visible, opacity, isolated: false };
-    });
-
-    if (onLayersChange) onLayersChange(next);
-    else setInternalLayers(next);
   };
 
   return (
-    <div className="relative w-full h-full min-h-[600px] flex overflow-hidden bg-[#040914] select-none">
-      {/* 1. Loading Feedback */}
-      <AnatomyLoader
-        progress={loadProgress}
-        loadedSystemsCount={loadedSystemsCount}
-        totalSystemsCount={10}
-        currentSystemName={currentLoadingName}
-        isStreaming={isStreaming}
+    <div
+      ref={containerRef}
+      className={`relative w-full h-[580px] lg:h-[650px] rounded-2xl overflow-hidden bg-gradient-to-b from-med-900 via-med-950 to-[#03060f] border border-slate-800/80 shadow-2xl select-none ${className}`}
+    >
+      {/* Three.js Canvas */}
+      <canvas
+        ref={canvasRef}
+        onClick={handleCanvasClick}
+        className="w-full h-full cursor-grab active:cursor-grabbing block"
       />
 
-      {/* 2. Interactive 3D Canvas Viewport */}
-      <div 
-        ref={mountRef}
-        onPointerMove={handlePointerMove}
-        onClick={handlePointerClick}
-        className="w-full h-full relative cursor-grab active:cursor-grabbing outline-none"
-      />
-
-      {/* 3. Projected 3D-to-2D Interactive Labels */}
-      {sceneManagerRef.current && (
-        <AnatomyLabels
-          camera={sceneManagerRef.current.camera}
-          containerWidth={viewportDimensions.width}
-          containerHeight={viewportDimensions.height}
-          layers={activeLayers}
-          selectedStructureId={selectedStructure?.id}
-          onSelectHotspot={handleSelectHotspot}
-          visible={showLabels}
+      {/* Loading Overlay */}
+      {loading && (
+        <AnatomyLoading
+          modelName={model.name}
+          systemName={model.system}
+          progress={loadProgress}
         />
       )}
 
-      {/* 4. Hover Tooltip */}
-      {hoveredTooltip && (
-        <div
-          style={{
-            left: `${hoveredTooltip.screenX + 16}px`,
-            top: `${hoveredTooltip.screenY - 12}px`
-          }}
-          className="absolute z-30 pointer-events-none transition-all duration-75"
-        >
-          <div className="glass-panel-elevated px-3 py-1.5 rounded-xl border border-sky-500/40 bg-slate-950/90 shadow-2xl backdrop-blur-md flex flex-col">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: hoveredTooltip.systemColor }}
-              />
-              <span className="text-[9px] font-bold tracking-wider text-slate-300">
-                {hoveredTooltip.system}
-              </span>
+      {/* Professional "3D Model Unavailable" Fallback (Strictly NO fake SVG / emoji anatomy) */}
+      {!loading && (!model.available || error) && (
+        <div className="absolute inset-0 flex items-center justify-center p-6 bg-med-950/90 backdrop-blur-md">
+          <div className="max-w-md w-full p-6 rounded-2xl bg-med-900/90 border border-slate-700/60 shadow-glass text-center">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <AlertCircle className="w-6 h-6" />
             </div>
-            <span className="text-xs font-bold text-white leading-tight">
-              {hoveredTooltip.name}
-            </span>
-            {hoveredTooltip.latinName && (
-              <span className="text-[10px] text-cyan-300 italic font-serif">
-                {hoveredTooltip.latinName}
-              </span>
-            )}
+            <h3 className="text-lg font-semibold text-white">
+              3D Specimen Unavailable
+            </h3>
+            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              An authentic 3D digital reconstruction for{" "}
+              <span className="text-white font-medium">{model.name}</span> is currently
+              undergoing high-fidelity medical digitisation. Placeholder or synthetic meshes are omitted to uphold BM&DC clinical fidelity.
+            </p>
+            <div className="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700/50 text-left text-xs space-y-1">
+              <div className="flex justify-between text-slate-400">
+                <span>System:</span>
+                <span className="text-slate-200">{model.system}</span>
+              </div>
+              <div className="flex justify-between text-slate-400">
+                <span>Scientific Name:</span>
+                <span className="text-slate-200 italic">{model.scientificName || "N/A"}</span>
+              </div>
+              <div className="flex justify-between text-slate-400">
+                <span>Clinical Standard:</span>
+                <span className="text-emerald-400">Terminologia Anatomica (TA2)</span>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* 5. Bottom Navigation & Tools Bar */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 w-auto max-w-[95%]">
-        <AnatomyControls
-          onSetCameraView={(preset) => {
-            setCameraPreset(preset);
-            cameraControllerRef.current?.setPreset(preset);
-          }}
-          explodedAmount={explodedAmount}
-          onExplodedChange={setExplodedAmount}
-          crossSectionEnabled={crossSectionEnabled}
-          onToggleCrossSection={() => setCrossSectionEnabled(!crossSectionEnabled)}
-          crossSectionPlane={crossSectionPlane}
-          onChangeCrossSectionPlane={setCrossSectionPlane}
-          crossSectionDepth={crossSectionDepth}
-          onChangeCrossSectionDepth={setCrossSectionDepth}
-          xrayMode={xrayMode}
-          onToggleXray={() => setXrayMode(!xrayMode)}
-          onResetCamera={() => cameraControllerRef.current?.reset()}
-          showLabels={showLabels}
-          onToggleLabels={() => setShowLabels(!showLabels)}
-          performanceTier={performanceTier}
-          onChangePerformanceTier={(tier) => {
-            setPerformanceTier(tier);
-            const prof = AnatomyPerformanceManager.getInstance().setTier(tier);
-            if (sceneManagerRef.current) {
-              sceneManagerRef.current.renderer.setPixelRatio(prof.pixelRatio);
-            }
-          }}
-        />
+      {/* Specimen Header Badge */}
+      <div className="absolute top-4 left-4 z-10 pointer-events-none">
+        <div className="flex items-center gap-2 p-2 px-3 rounded-xl bg-med-900/85 backdrop-blur-md border border-slate-700/60 shadow-glass pointer-events-auto">
+          <div
+            className="w-2.5 h-2.5 rounded-full animate-pulse"
+            style={{ backgroundColor: model.accent || "#06b6d4" }}
+          />
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-bold text-white tracking-wide">{model.name}</h2>
+              {model.scientificName && (
+                <span className="text-xs italic text-slate-400 font-serif">
+                  ({model.scientificName})
+                </span>
+              )}
+            </div>
+            <p className="text-[11px] text-slate-400">{model.system}</p>
+          </div>
+        </div>
       </div>
 
-      {/* 6. Left Side: Layers Drawer (Desktop) - Only when used standalone without external controller */}
-      {!externalLayers && (
-        <div className="absolute top-4 left-4 z-20 w-64 max-h-[calc(100%-110px)] hidden md:block rounded-2xl glass-panel-elevated border border-sky-500/20 bg-slate-950/80 backdrop-blur-xl shadow-2xl overflow-hidden pointer-events-auto">
-          <AnatomyLayers
-            layers={activeLayers}
-            onToggleVisibility={handleToggleLayerVisibility}
-            onToggleIsolate={handleToggleLayerIsolate}
-            onChangeOpacity={handleChangeLayerOpacity}
-            onShowAll={handleShowAllLayers}
-            onHideAll={handleHideAllLayers}
-            onResetLayers={handleResetLayers}
-            onApplyPreset={handleApplyLayerPreset}
-          />
+      {/* Quick Specimen Actions (Histology & Pathology integration) */}
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2 pointer-events-auto">
+        {model.illustrations?.microscopic && onOpenHistology && (
+          <button
+            onClick={onOpenHistology}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-med-900/85 backdrop-blur-md border border-slate-700/60 text-xs font-medium text-slate-300 hover:text-white hover:border-med-accent-cyan/50 transition-all shadow-glass"
+            title="Open Microscopic Histology Specimen"
+          >
+            <Layers className="w-3.5 h-3.5 text-med-accent-cyan" />
+            <span className="hidden md:inline">Histology</span>
+          </button>
+        )}
+
+        {model.illustrations?.compare && onOpenPathology && (
+          <button
+            onClick={onOpenPathology}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-med-900/85 backdrop-blur-md border border-slate-700/60 text-xs font-medium text-slate-300 hover:text-white hover:border-med-accent-rose/50 transition-all shadow-glass"
+            title="Open Clinical Pathology Comparison"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+            <span className="hidden md:inline">Pathology</span>
+          </button>
+        )}
+      </div>
+
+      {/* Structure Information Card (When a 3D hotspot is clicked) */}
+      {selectedHotspot && (
+        <div className="absolute top-20 right-4 z-10 max-w-xs w-full p-4 rounded-2xl bg-med-900/95 backdrop-blur-xl border border-med-accent-cyan/40 shadow-glow-cyan animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <span className="text-[10px] uppercase font-mono tracking-wider text-med-accent-cyan font-semibold">
+                Anatomical Structure
+              </span>
+              <h4 className="text-sm font-bold text-white leading-tight mt-0.5">
+                {selectedHotspot.label}
+              </h4>
+              <p className="text-xs italic text-slate-400 font-serif mt-0.5">
+                {selectedHotspot.ta}
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setSelectedHotspot(null);
+                onSelectHotspot?.(null);
+              }}
+              className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              ✕
+            </button>
+          </div>
+
+          <p className="text-xs text-slate-300 mt-2 leading-relaxed bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40">
+            {selectedHotspot.detail}
+          </p>
+
+          <div className="flex items-center justify-between mt-3 pt-2 border-t border-slate-800 text-[11px]">
+            <button
+              onClick={() => focusHotspot(selectedHotspot)}
+              className="flex items-center gap-1 text-med-accent-cyan hover:underline font-medium"
+            >
+              <Crosshair className="w-3 h-3" />
+              Re-center View
+            </button>
+            <span className="text-slate-500 font-mono text-[10px]">
+              TA2 Standard
+            </span>
+          </div>
         </div>
       )}
 
-      {/* 7. Right Side: Structure Info Panel (Desktop & Mobile) - Only when used standalone */}
-      {selectedStructure && !externalOnSelectStructure && (
-        <div className="absolute top-4 right-4 z-30 max-h-[calc(100%-110px)] pointer-events-auto">
-          <AnatomyInfoPanel
-            structure={selectedStructure}
-            onClose={() => {
-              setInternalSelectedStructure(null);
-              selectionManagerRef.current.clearSelection();
-            }}
-            onFocus3D={(s) => {
-              const mesh = selectionManagerRef.current.getSelectedMesh();
-              if (mesh && cameraControllerRef.current) {
-                const bounds = selectionManagerRef.current.computeBounds(mesh);
-                cameraControllerRef.current.focusOnBounds(bounds.box, bounds.sphere);
-              }
-            }}
-            onIsolate3D={(s) => {
-              handleToggleLayerIsolate(s.system);
-            }}
-            onStartViva={onStartViva}
-            onOpenClinicalCase={onNavigateToCase}
-          />
-        </div>
-      )}
-
-      {/* 8. Global Anatomy Search Modal */}
-      <AnatomySearch
-        structures={structures}
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        onSelectStructure={(struct) => {
-          if (externalOnSelectStructure) externalOnSelectStructure(struct);
-          else setInternalSelectedStructure(struct);
-          // Find matching hotspot or mesh and focus
-          const spot = ANATOMY_HOTSPOTS.find((h) => h.id === struct.id);
-          if (spot) {
-            handleSelectHotspot(spot);
+      {/* Viewer Floating HUD Controls */}
+      <AnatomyControls
+        autoRotate={autoRotate}
+        onToggleAutoRotate={() => setAutoRotate(!autoRotate)}
+        onResetCamera={handleResetCamera}
+        crossSection={crossSection}
+        onToggleCrossSection={() => setCrossSection(!crossSection)}
+        crossSectionValue={crossSectionValue}
+        onChangeCrossSection={setCrossSectionValue}
+        wireframe={wireframe}
+        onToggleWireframe={() => setWireframe(!wireframe)}
+        showHotspots={showHotspots}
+        onToggleShowHotspots={() => {
+          setShowHotspots(!showHotspots);
+          if (hotspotsGroupRef.current) {
+            hotspotsGroupRef.current.visible = !showHotspots;
           }
         }}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={toggleFullscreen}
       />
     </div>
   );
