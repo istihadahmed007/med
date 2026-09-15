@@ -36,12 +36,14 @@ export class AnatomyModelManager {
 
   private onProgress?: (progress: number, loadedCount: number, systemName: string) => void;
   private onSystemLoaded?: (systemId: AnatomicalSystemId, group: THREE.Group) => void;
+  private onError?: (err: Error) => void;
 
   constructor(options: ModelOptions) {
     this.rootGroup = options.rootGroup;
     this.clipPlane = options.clipPlane;
     this.onProgress = options.onProgress;
     this.onSystemLoaded = options.onSystemLoaded;
+    this.onError = options.onError;
   }
 
   /**
@@ -50,7 +52,7 @@ export class AnatomyModelManager {
   public async loadSystems(targetSystems?: AnatomicalSystemId[]): Promise<void> {
     const assets = anatomyAssetService.getAllAssetInfos();
     const toLoad = targetSystems 
-      ? assets.filter((a) => targetSystems.includes(a.id) || a.id === 'skeletal')
+      ? assets.filter((asset) => targetSystems.includes(asset.systemId) || asset.systemId === 'skeletal')
       : assets;
 
     let loadedCount = 0;
@@ -58,12 +60,17 @@ export class AnatomyModelManager {
 
     for (const asset of toLoad) {
       try {
-        const group = await anatomyAssetService.loadSystem(asset.id);
+        const result = await anatomyAssetService.loadSystemModel(asset.systemId);
+        if (!result.group || result.status !== 'ready') {
+          throw new Error(result.error ?? `Failed to load the ${asset.systemId} anatomy model.`);
+        }
+
+        const group = result.group;
         
         // Tag all meshes with system identity and attach clipping plane
         group.traverse((child) => {
           if (child instanceof THREE.Mesh) {
-            child.userData.systemId = asset.id;
+            child.userData.systemId = asset.systemId;
             this.allMeshes.push(child);
 
             // Enable local clipping plane
@@ -79,15 +86,21 @@ export class AnatomyModelManager {
           }
         });
 
-        this.systemGroups.set(asset.id, group);
+        this.systemGroups.set(asset.systemId, group);
         this.rootGroup.add(group);
 
         loadedCount++;
         const percent = Math.round((loadedCount / totalCount) * 100);
-        this.onProgress?.(percent, loadedCount, asset.name);
-        this.onSystemLoaded?.(asset.id, group);
+        const systemName = asset.systemId
+          .split('-')
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(' ');
+        this.onProgress?.(percent, loadedCount, systemName);
+        this.onSystemLoaded?.(asset.systemId, group);
       } catch (err) {
-        console.warn(`[AnatomyModelManager] Failed to load system ${asset.id}:`, err);
+        const error = err instanceof Error ? err : new Error(String(err));
+        console.warn(`[AnatomyModelManager] Failed to load system ${asset.systemId}:`, error);
+        this.onError?.(error);
       }
     }
   }

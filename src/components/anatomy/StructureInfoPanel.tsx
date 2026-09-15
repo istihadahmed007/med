@@ -17,13 +17,19 @@ export const StructureInfoPanel: React.FC<StructureInfoPanelProps> = ({
 }) => {
   if (!structure) return null;
 
+  const relations = Object.entries(structure.relations).filter(
+    (entry): entry is [string, string] => Boolean(entry[1])
+  );
+  const diseases = structure.associatedDiseases ?? structure.commonConditions;
+  const vivaQuestions = structure.vivaQuestions ?? structure.mbbsExamPoints;
+
   return (
     <div className="absolute top-4 right-4 bottom-4 w-96 max-w-[calc(100vw-2rem)] glass-panel-elevated rounded-2xl p-6 overflow-y-auto z-20 flex flex-col border border-cyan-500/30 shadow-glow-cyan animate-in fade-in slide-in-from-right-4 duration-300">
       {/* Header */}
       <div className="flex items-start justify-between pb-4 border-b border-cyan-500/20">
         <div>
           <span className="text-xs uppercase tracking-wider font-semibold text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-500/30">
-            {structure.organ} • {structure.system}
+            {structure.organ ?? structure.category} • {structure.system}
           </span>
           <h2 className="text-2xl font-bold text-white mt-2 leading-tight">
             {structure.name}
@@ -67,21 +73,26 @@ export const StructureInfoPanel: React.FC<StructureInfoPanelProps> = ({
           </div>
           <div>
             <span className="text-xs font-medium text-amber-400">Innervation:</span>
-            <p className="text-xs text-slate-300 mt-0.5">{structure.nerveSupply}</p>
+            <p className="text-xs text-slate-300 mt-0.5">
+              {structure.nerveSupply ?? structure.innervation}
+            </p>
           </div>
         </div>
 
         {/* Anatomical Relations */}
-        {structure.relations.length > 0 && (
+        {relations.length > 0 && (
           <div>
             <h3 className="text-xs font-semibold text-cyan-300 uppercase tracking-wider mb-1.5">
               Anatomical Relations
             </h3>
             <ul className="space-y-1.5">
-              {structure.relations.map((relation, idx) => (
-                <li key={idx} className="text-xs text-slate-300 flex items-start gap-2">
+              {relations.map(([direction, relation]) => (
+                <li key={direction} className="text-xs text-slate-300 flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 shrink-0" />
-                  <span>{relation}</span>
+                  <span>
+                    <span className="font-semibold capitalize text-slate-200">{direction}:</span>{' '}
+                    {relation}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -95,10 +106,10 @@ export const StructureInfoPanel: React.FC<StructureInfoPanelProps> = ({
             BM&DC Clinical Pearl
           </h3>
           <p className="text-xs text-rose-100/90 leading-relaxed">
-            {structure.clinicalRelevance}
+            {structure.clinicalRelevance ?? structure.clinicalImportance}
           </p>
           <div className="flex flex-wrap gap-1.5 mt-2.5">
-            {structure.associatedDiseases.map((d, i) => (
+            {diseases.map((d, i) => (
               <span key={i} className="text-[11px] px-2 py-0.5 rounded bg-rose-900/50 text-rose-200 border border-rose-500/40">
                 {d}
               </span>
@@ -107,14 +118,14 @@ export const StructureInfoPanel: React.FC<StructureInfoPanelProps> = ({
         </div>
 
         {/* Viva Questions */}
-        {structure.vivaQuestions.length > 0 && (
+        {vivaQuestions.length > 0 && (
           <div>
             <h3 className="text-xs font-semibold text-amber-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
               <HelpCircle className="w-3.5 h-3.5 text-amber-400" />
               Frequently Asked Viva Questions
             </h3>
             <div className="space-y-2">
-              {structure.vivaQuestions.map((q, idx) => (
+              {vivaQuestions.map((q, idx) => (
                 <div key={idx} className="text-xs bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 text-slate-300">
                   <span className="font-semibold text-amber-400 mr-1.5">Q{idx + 1}:</span>
                   {q}
