@@ -82,9 +82,51 @@ export interface CardiacCyclePhase {
   aorticPressure: number; // mmHg
   atrialPressure: number; // mmHg
   ventricularVolume: number; // mL
-  heartSound: 'S1 (LUB)' | 'S2 (DUB)' | 'S3' | 'S4' | 'None';
+  heartSound: string;
   description: string;
   clinicalPearls: string;
+  coronaryFlowPercent: number; // % of total left coronary flow occurring during this phase
+  atrialWave?: 'a wave' | 'c wave' | 'v wave' | 'x descent' | 'y descent' | 'none';
+}
+
+export interface PvLoopParameters {
+  preloadEdv: number; // mL (normal ~120, range 70 - 170)
+  afterloadMap: number; // mmHg (normal ~100, range 60 - 180)
+  inotropyPercent: number; // % (normal 100%, range 50% - 150%)
+  heartRateBpm: number; // bpm (normal 75, range 40 - 180)
+}
+
+export interface CardiacPathologyPreset {
+  id: string;
+  name: string;
+  subtitle: string;
+  murmurType: string;
+  classicSign: string;
+  bmdcExamYield: string;
+  wiggersFeatures: string[];
+  pvLoopChanges: string[];
+  auscultationArea: 'aortic' | 'pulmonic' | 'mitral' | 'tricuspid' | 'erbs';
+  soundGenerator: 'as' | 'ar' | 'ms' | 'mr' | 's3' | 's4' | 'normal';
+}
+
+export interface AuscultationSite {
+  id: 'aortic' | 'pulmonic' | 'erbs' | 'tricuspid' | 'mitral';
+  name: string;
+  anatomicalLocation: string;
+  ribSpace: string;
+  primarySoundHeard: string;
+  bestManeuver: string;
+  radiationTo: string;
+  coordinates: { x: number; y: number }; // percentage on chest map
+}
+
+export interface CardiacVivaQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  guytonCitation: string;
 }
 
 export interface PathologyStage {
