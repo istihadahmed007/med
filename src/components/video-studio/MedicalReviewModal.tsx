@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { VideoGenerationJob, MedicalReviewForm } from '../../types/videoStudio';
 import { StorageService } from '../../services/storageService';
+import { VideoStudioService } from '../../services/videoStudioService';
 
 interface MedicalReviewModalProps {
   job: VideoGenerationJob;
@@ -91,16 +92,7 @@ export const MedicalReviewModal: React.FC<MedicalReviewModalProps> = ({
         exactVideoVersion: job.telemetry ? `${job.telemetry.model_identifier}@${job.telemetry.seed}` : 'v1.0-medgen'
       };
 
-      const res = await fetch('/api/video-studio/review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Review submission failed');
-      }
+      await VideoStudioService.submitReview(payload);
 
       onReviewSubmitted();
       onClose();

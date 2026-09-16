@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { LessonVideoAsset, VideoChapter, VideoQuestion, VideoStudentProgress } from '../../types/videoStudio';
 import { StorageService } from '../../services/storageService';
+import { VideoStudioService } from '../../services/videoStudioService';
 
 interface EducationalVideoPlayerProps {
   video: LessonVideoAsset;
@@ -87,8 +88,7 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
     const student = StorageService.getUser();
     const studentId = student?.id || 'student-guest';
 
-    fetch(`/api/video-studio/progress?studentId=${encodeURIComponent(studentId)}&videoId=${encodeURIComponent(video.id)}`)
-      .then(res => res.ok ? res.json() : null)
+    VideoStudioService.getProgress(studentId, video.id)
       .then((data: VideoStudentProgress | null) => {
         if (data && data.lastPositionSeconds > 2 && data.lastPositionSeconds < (video.durationSeconds - 2)) {
           setResumeNotice(data.lastPositionSeconds);
@@ -105,20 +105,16 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
     const student = StorageService.getUser();
     const studentId = student?.id || 'student-guest';
 
-    fetch('/api/video-studio/progress', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        studentId,
-        videoId: video.id,
-        lessonId: video.lessonId,
-        lastPositionSeconds: Math.round(pos),
-        highestPositionSeconds: Math.round(pos),
-        watchedSeconds: Math.round(pos),
-        completed,
-        demonstratedUnderstanding: answeredQuestionIds.size >= (video.questions?.length || 0),
-        answeredQuestionIds: Array.from(answeredQuestionIds)
-      })
+    VideoStudioService.saveProgress({
+      studentId,
+      videoId: video.id,
+      lessonId: video.lessonId,
+      lastPositionSeconds: Math.round(pos),
+      highestPositionSeconds: Math.round(pos),
+      watchedSeconds: Math.round(pos),
+      completed,
+      demonstratedUnderstanding: answeredQuestionIds.size >= (video.questions?.length || 0),
+      answeredQuestionIds: Array.from(answeredQuestionIds)
     }).catch(err => console.warn('Could not save progress:', err));
   };
 

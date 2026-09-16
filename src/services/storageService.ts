@@ -6,6 +6,12 @@ import {
   LessonBookmark,
   BmdcLesson
 } from '../types';
+import { 
+  VideoGenerationJob, 
+  LessonVideo, 
+  MedicalReviewForm, 
+  VideoStudentProgress 
+} from '../types/videoStudio';
 import { CARDIOVASCULAR_PILOT_LESSONS, CARDIOVASCULAR_PILOT_QUESTIONS } from '../data/cardiovascularPilotData';
 
 const PROGRESS_STORAGE_KEY = 'medx_bd_student_progress_v2';
@@ -440,5 +446,172 @@ export class StorageService {
       name: p.name || 'Dr. Istihad Ahmed',
       email: p.email || 'istihad.ahmed@student.dmc.edu.bd'
     };
+  }
+
+  // =========================================================================
+  // Video Studio Persistence (Offline & Fallback Support)
+  // =========================================================================
+  static getVideoJobs(): VideoGenerationJob[] {
+    try {
+      const stored = localStorage.getItem('medx_video_jobs_v1');
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch {}
+    const initialJobs: VideoGenerationJob[] = [
+      {
+        id: 'vj-pilot-1001',
+        lessonId: 'cvs-physio-cardiac-cycle-wiggers',
+        lessonTitle: 'The Cardiac Cycle, Pressure-Volume Loops & Heart Sounds',
+        phase: 'Phase 1: 1st & 2nd Year (Pre-clinical)',
+        subject: 'Physiology',
+        learningObjective: 'Visualize isovolumetric ventricular contraction, mitral valve closure, and aortic ejection.',
+        references: ['Guyton & Hall Textbook of Medical Physiology 14th ed, Ch. 9'],
+        prompt: 'High-definition medical illustration of a human heart in coronal cross-section during ventricular systole. The thick muscular left ventricular myocardium vigorously contracts inwards. The bicuspid mitral valve closes tightly preventing regurgitation, followed by the abrupt opening of the three semilunar aortic valve cusps with high-velocity blood ejection into the ascending aorta.',
+        visualFormat: '3d-macro',
+        targetAudience: 'undergraduate-mbbs',
+        requiredStructures: ['Left Ventricle', 'Mitral Valve', 'Aortic Valve', 'Ascending Aorta'],
+        status: 'succeeded',
+        publicationStatus: 'published',
+        authorId: 'auth-dmc-01',
+        authorName: 'Dr. Tariqul Islam (Assistant Prof, Physiology, DMC)',
+        createdAt: '2026-09-15T09:30:00.000Z',
+        completedAt: '2026-09-15T09:32:15.000Z',
+        videoUrl: '/media/cardiac_cycle_systole.mp4',
+        posterUrl: '/anatomy/heart_preview.png',
+        durationSeconds: 18,
+        resolution: '832x480',
+        retryCount: 0,
+        maxRetries: 2,
+        telemetry: {
+          model_identifier: 'FreedomIntelligence/MedGen-1.3B',
+          model_revision: 'main',
+          base_architecture: 'Wan-AI/Wan2.1-T2V-1.3B',
+          is_verified_medical_weights: true,
+          seed: 1042,
+          duration_seconds: 42.6,
+          peak_vram_mb: 15420.0,
+          resolution: '832x480',
+          frame_count: 49
+        }
+      }
+    ];
+    this.saveVideoJobs(initialJobs);
+    return initialJobs;
+  }
+
+  static saveVideoJobs(jobs: VideoGenerationJob[]): void {
+    try {
+      localStorage.setItem('medx_video_jobs_v1', JSON.stringify(jobs));
+    } catch {}
+  }
+
+  static addVideoJob(job: VideoGenerationJob): void {
+    const jobs = this.getVideoJobs();
+    jobs.unshift(job);
+    this.saveVideoJobs(jobs);
+  }
+
+  static updateVideoJob(jobId: string, updates: Partial<VideoGenerationJob>): VideoGenerationJob | null {
+    const jobs = this.getVideoJobs();
+    const idx = jobs.findIndex(j => j.id === jobId);
+    if (idx === -1) return null;
+    jobs[idx] = { ...jobs[idx], ...updates };
+    this.saveVideoJobs(jobs);
+    return jobs[idx];
+  }
+
+  static getPublishedVideos(lessonId?: string): LessonVideo[] {
+    try {
+      const stored = localStorage.getItem('medx_published_videos_v1');
+      if (stored) {
+        const list: LessonVideo[] = JSON.parse(stored);
+        if (lessonId) return list.filter(v => v.lessonId === lessonId);
+        return list;
+      }
+    } catch {}
+    const initialVideos: LessonVideo[] = [
+      {
+        id: 'vid-cv-004-systole',
+        jobId: 'vj-pilot-1001',
+        lessonId: 'cvs-physio-cardiac-cycle-wiggers',
+        title: 'Cardiac Ventricular Systole & Valvular Dynamics',
+        titleBn: 'কার্ডিয়াক ভেন্ট্রিকুলার সিস্টোল এবং ভালভুলার গতিশীলতা',
+        videoUrl: '/media/cardiac_cycle_systole.mp4',
+        posterUrl: '/anatomy/heart_preview.png',
+        durationSeconds: 18,
+        publicationStatus: 'published',
+        disclaimer: 'AI-generated educational illustration based on MedGen-1.3B. For academic simulation only; not real patient footage. Does not verify clinical surgical competency.',
+        chapters: [
+          { timestampSeconds: 0, title: 'Isovolumetric Contraction', titleBn: 'আইসোভলিউমেট্রিক সংকোচন', description: 'All 4 cardiac valves closed; intraventricular pressure spikes steeply.' },
+          { timestampSeconds: 6, title: 'Aortic Valve Opening & Rapid Ejection', titleBn: 'অ্যাওর্টিক ভালভ উন্মোচন ও দ্রুত রক্ত নির্গমন', description: 'LV pressure exceeds 80 mmHg; semilunar cusps open briskly.' },
+          { timestampSeconds: 12, title: 'Reduced Ejection & Protodiastole', titleBn: 'হ্রাসপ্রাপ্ত নির্গমন ও প্রোটোডায়াস্টোল', description: 'Myocardial relaxation initiates; aortic pressure begins declining.' }
+        ],
+        questions: [
+          {
+            id: 'vq-001',
+            timestampSeconds: 6,
+            prompt: 'During the cardiac cycle, what mechanical event occurs immediately when left ventricular pressure exceeds ascending aortic diastolic pressure (~80 mmHg)?',
+            promptBn: 'বাম ভেন্ট্রিকলের চাপ মহাধমনীর ডায়াস্টোলিক চাপ (~৮০ mmHg) অতিক্রম করার সাথে সাথে কোন যান্ত্রিক ঘটনাটি ঘটে?',
+            options: [
+              'Mitral valve opens widely',
+              'Aortic valve opens and rapid ejection begins',
+              'First heart sound (S1) is generated',
+              'Isovolumetric relaxation begins'
+            ],
+            correctOptionIndex: 1,
+            explanation: 'When left ventricular pressure exceeds the 80 mmHg systemic diastolic pressure in the aorta, the aortic valve cusps are forced open and rapid ventricular ejection commences.',
+            bmdcMark: 1
+          }
+        ],
+        transcriptEn: 'During ventricular systole, electrical depolarization spreads through the bundle of His and Purkinje network, triggering uniform myocardial contraction. The mitral and tricuspid valves close tightly to create the first heart sound. During isovolumetric contraction, pressure surges without volume change until the semilunar aortic valve opens, propelling blood into systemic circulation.',
+        transcriptBn: 'ভেন্ট্রিকুলার সিস্টোলের সময় বৈদ্যুতিক ডিপোলারাইজেশন পারকিঞ্জে ফাইবারের মাধ্যমে ছড়িয়ে পড়ে সমন্বিত সংকোচন ঘটায়। মাইট্রাল ও ট্রাইকাস্পিড ভালভ দৃঢ়ভাবে বন্ধ হয়ে প্রথম হৃদধ্বনি (S1) সৃষ্টি করে। আইসোভলিউমেট্রিক সংকোচনের পর মহাধমনীর ভালভ উন্মুক্ত হয়ে রক্ত সঞ্চালিত হয়।',
+        reviewedBy: 'Prof. M. A. Jalil (External Medical Reviewer, Dhaka Medical College)',
+        approvedDate: '2026-09-15T14:20:00.000Z',
+        videoVersion: 'v1.0-medgen-verified'
+      }
+    ];
+    try {
+      localStorage.setItem('medx_published_videos_v1', JSON.stringify(initialVideos));
+    } catch {}
+    if (lessonId) return initialVideos.filter(v => v.lessonId === lessonId);
+    return initialVideos;
+  }
+
+  static saveVideoReview(review: MedicalReviewForm): void {
+    try {
+      const stored = localStorage.getItem('medx_video_reviews_v1');
+      const list = stored ? JSON.parse(stored) : [];
+      list.push({ ...review, id: `rev-${Date.now()}`, reviewedAt: new Date().toISOString() });
+      localStorage.setItem('medx_video_reviews_v1', JSON.stringify(list));
+      
+      // Update job publication status
+      const pubStatus = review.decision === 'approved' ? 'approved' : 'rejected';
+      this.updateVideoJob(review.jobId, { publicationStatus: pubStatus });
+    } catch {}
+  }
+
+  static getVideoProgress(studentId: string, videoId: string): VideoStudentProgress | null {
+    try {
+      const stored = localStorage.getItem(`medx_video_prog_${studentId}_${videoId}`);
+      if (stored) return JSON.parse(stored);
+    } catch {}
+    return null;
+  }
+
+  static saveVideoProgress(progress: Partial<VideoStudentProgress> & { videoId: string; studentId: string }): void {
+    try {
+      const existing = this.getVideoProgress(progress.studentId, progress.videoId) || {
+        videoId: progress.videoId,
+        studentId: progress.studentId,
+        lastPositionSeconds: 0,
+        completed: false,
+        lastWatchedAt: new Date().toISOString(),
+        answeredQuestionIds: [],
+        bookmarked: false
+      };
+      const updated = { ...existing, ...progress, lastWatchedAt: new Date().toISOString() };
+      localStorage.setItem(`medx_video_prog_${progress.studentId}_${progress.videoId}`, JSON.stringify(updated));
+    } catch {}
   }
 }

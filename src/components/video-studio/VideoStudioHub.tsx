@@ -30,6 +30,7 @@ import {
 } from '../../types/videoStudio';
 import { UserRole } from '../../types';
 import { StorageService } from '../../services/storageService';
+import { VideoStudioService } from '../../services/videoStudioService';
 import { CARDIOVASCULAR_PILOT_LESSONS } from '../../data/cardiovascularPilotData';
 import { EducationalVideoPlayer } from './EducationalVideoPlayer';
 import { MedicalReviewModal } from './MedicalReviewModal';
@@ -82,13 +83,8 @@ export const VideoStudioHub: React.FC = () => {
     setIsLoadingJobs(true);
     try {
       const activeRole = currentRole === 'student' ? 'author' : currentRole;
-      const res = await fetch('/api/video-studio/jobs', {
-        headers: { 'x-medx-role': activeRole }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setJobs(Array.isArray(data) ? data : data.jobs || []);
-      }
+      const jobList = await VideoStudioService.getJobs(activeRole);
+      setJobs(jobList);
     } catch (err) {
       console.warn('Failed to load video jobs:', err);
     } finally {
@@ -98,11 +94,8 @@ export const VideoStudioHub: React.FC = () => {
 
   const fetchPublishedVideos = async () => {
     try {
-      const res = await fetch('/api/video-studio/published');
-      if (res.ok) {
-        const data = await res.json();
-        setPublishedVideos(Array.isArray(data) ? data : data.videos || []);
-      }
+      const vids = await VideoStudioService.getPublishedVideos();
+      setPublishedVideos(vids);
     } catch (err) {
       console.warn('Failed to load published videos:', err);
     }
@@ -162,23 +155,11 @@ export const VideoStudioHub: React.FC = () => {
         seed: Number(seed) || Math.floor(Math.random() * 10000)
       };
 
-      const res = await fetch('/api/video-studio/jobs', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-medx-role': 'author'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to queue generation job');
-      }
+      const result = await VideoStudioService.queueJob(payload);
 
       setSubmissionFeedback({ 
         type: 'success', 
-        message: `Job ${data.job?.id || data.id} queued successfully! Dispatched to the MedGen worker queue.` 
+        message: `Job ${result.job?.id || 'vj-queued'} queued successfully! ${result.message || 'Dispatched to the MedGen worker queue.'}` 
       });
       fetchJobs();
       setActiveTab('queue');
@@ -191,13 +172,8 @@ export const VideoStudioHub: React.FC = () => {
 
   const handleRetryJob = async (jobId: string) => {
     try {
-      const res = await fetch(`/api/video-studio/jobs/${jobId}/retry`, { 
-        method: 'POST',
-        headers: { 'x-medx-role': currentRole === 'student' ? 'author' : currentRole }
-      });
-      if (res.ok) {
-        fetchJobs();
-      }
+      await VideoStudioService.retryJob(jobId, currentRole);
+      fetchJobs();
     } catch (err) {
       console.warn('Failed to retry job:', err);
     }
@@ -205,13 +181,8 @@ export const VideoStudioHub: React.FC = () => {
 
   const handleCancelJob = async (jobId: string) => {
     try {
-      const res = await fetch(`/api/video-studio/jobs/${jobId}/cancel`, { 
-        method: 'POST',
-        headers: { 'x-medx-role': currentRole === 'student' ? 'author' : currentRole }
-      });
-      if (res.ok) {
-        fetchJobs();
-      }
+      await VideoStudioService.cancelJob(jobId, currentRole);
+      fetchJobs();
     } catch (err) {
       console.warn('Failed to cancel job:', err);
     }

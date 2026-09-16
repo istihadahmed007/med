@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { BmdcLesson } from '../../types';
 import { StorageService } from '../../services/storageService';
+import { VideoStudioService } from '../../services/videoStudioService';
 import { CARDIOVASCULAR_PILOT_QUESTIONS } from '../../data/cardiovascularPilotData';
 import { EducationalVideoPlayer } from '../video-studio/EducationalVideoPlayer';
 import { LessonVideoAsset } from '../../types/videoStudio';
@@ -49,8 +50,7 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
 
   useEffect(() => {
     if (!lesson.id) return;
-    fetch(`/api/video-studio/published?lessonId=${encodeURIComponent(lesson.id)}`)
-      .then(res => res.ok ? res.json() : [])
+    VideoStudioService.getPublishedVideos(lesson.id)
       .then((videos: LessonVideoAsset[]) => {
         if (videos && videos.length > 0) {
           setLessonVideo(videos[0]);

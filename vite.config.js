@@ -3,9 +3,60 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
+// Dev API plugin ensures that Vite SPA server never serves index.html (<!DOCTYPE) for /api requests
+const devApiFallbackPlugin = () => ({
+  name: 'dev-api-fallback',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = req.url || '';
+      if (url.startsWith('/api/') || url === '/api') {
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-medx-role');
+
+        if (req.method === 'OPTIONS') {
+          res.statusCode = 204;
+          res.end();
+          return;
+        }
+
+        if (url.startsWith('/api/health')) {
+          res.statusCode = 200;
+          res.end(JSON.stringify({ status: 'healthy', environment: 'vite-dev' }));
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/published')) {
+          res.statusCode = 200;
+          res.end(JSON.stringify([]));
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/jobs')) {
+          res.statusCode = 200;
+          res.end(JSON.stringify([]));
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/progress')) {
+          res.statusCode = 200;
+          res.end(JSON.stringify(null));
+          return;
+        }
+
+        res.statusCode = 200;
+        res.end(JSON.stringify({ message: 'Dev API active', path: url }));
+        return;
+      }
+      next();
+    });
+  }
+});
+
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(), devApiFallbackPlugin()],
   css: {
     postcss: {
       plugins: [
