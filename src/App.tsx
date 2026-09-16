@@ -76,7 +76,18 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#06172E] bg-royal-mesh text-[#F5F9FF] flex flex-col font-sans selection:bg-[#08AFC1]/30 selection:text-white relative">
+    <div className="min-h-screen bg-[#040d21] bg-royal-mesh text-[#F5F9FF] flex flex-col font-sans selection:bg-[#08AFC1]/30 selection:text-white relative">
+      {/* Universal Fixed Silk Wave Backdrop across all pages */}
+      <div 
+        className="fixed inset-0 -z-50 pointer-events-none bg-[#040d21]"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(4, 13, 33, 0.30), rgba(4, 13, 33, 0.10) 45%, rgba(4, 13, 33, 0.40)), url('/anatomy/medx_silk_bg.jpg')`,
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+
       {/* Top Floating Glass Navigation Bar */}
       <Navbar
         currentView={currentView}

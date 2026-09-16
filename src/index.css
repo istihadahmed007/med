@@ -33,15 +33,16 @@ body {
   background: #06b6d4;
 }
 
-/* Deep Royal Blue Organic Mesh Backdrop matching concept */
+/* Deep Royal Blue Organic Silk Wave Backdrop matching concept */
 .bg-royal-mesh {
-  background-color: #06172E;
+  background-color: #040d21;
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(23, 72, 160, 0.45), transparent),
-    radial-gradient(ellipse 65% 45% at 90% 30%, rgba(10, 40, 84, 0.70), transparent),
-    radial-gradient(ellipse 55% 55% at 15% 65%, rgba(23, 72, 160, 0.35), transparent),
-    radial-gradient(ellipse 75% 50% at 50% 105%, rgba(10, 40, 84, 0.85), transparent);
+    linear-gradient(to bottom, rgba(4, 13, 33, 0.30), rgba(4, 13, 33, 0.10) 45%, rgba(4, 13, 33, 0.40)),
+    url('/anatomy/medx_silk_bg.jpg');
   background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* Concept Glassmorphism Surface Classes */

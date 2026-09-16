@@ -146,13 +146,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
   return (
     <div className="w-full max-w-[1360px] mx-auto space-y-7 sm:space-y-9 px-2 sm:px-6 relative select-none">
       
-      {/* Dynamic Background Luminous Silk Waves matching concept image */}
+      {/* Ambient Radial Lighting for Depth */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         {/* Radial ambient glow behind circular heart preview and torso */}
         <div 
           className="absolute top-0 right-[10%] w-[550px] h-[550px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(8, 175, 193, 0.28) 0%, rgba(23, 72, 160, 0.22) 45%, transparent 75%)',
+            background: 'radial-gradient(circle, rgba(8, 175, 193, 0.22) 0%, rgba(23, 72, 160, 0.16) 45%, transparent 75%)',
             filter: 'blur(60px)',
           }}
         />
@@ -161,41 +161,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
         <div 
           className="absolute top-[10%] left-[-5%] w-[500px] h-[500px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(23, 72, 160, 0.25) 0%, rgba(10, 40, 84, 0.20) 50%, transparent 80%)',
+            background: 'radial-gradient(circle, rgba(23, 72, 160, 0.20) 0%, rgba(10, 40, 84, 0.15) 50%, transparent 80%)',
             filter: 'blur(70px)',
           }}
         />
-
-        {/* Curved luminous silk wave ribbons */}
-        <svg className="w-full h-full opacity-70 mix-blend-screen" viewBox="0 0 1440 900" fill="none">
-          <path 
-            d="M -100 450 C 250 220, 550 580, 960 280 C 1180 120, 1380 340, 1600 210" 
-            stroke="url(#silkRibbonCyan)" 
-            strokeWidth="140" 
-            strokeLinecap="round" 
-            filter="blur(55px)"
-          />
-          <path 
-            d="M 100 620 C 420 360, 720 720, 1120 400 C 1320 230, 1500 520, 1650 370" 
-            stroke="url(#silkRibbonBlue)" 
-            strokeWidth="100" 
-            strokeLinecap="round" 
-            filter="blur(45px)"
-          />
-          <defs>
-            <linearGradient id="silkRibbonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#0A2854" stopOpacity="0.95"/>
-              <stop offset="40%" stopColor="#1748A0" stopOpacity="0.9"/>
-              <stop offset="85%" stopColor="#08AFC1" stopOpacity="0.7"/>
-              <stop offset="100%" stopColor="#06172E" stopOpacity="0.3"/>
-            </linearGradient>
-            <linearGradient id="silkRibbonBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#1748A0" stopOpacity="0.8"/>
-              <stop offset="55%" stopColor="#08AFC1" stopOpacity="0.65"/>
-              <stop offset="100%" stopColor="#0A2854" stopOpacity="0.4"/>
-            </linearGradient>
-          </defs>
-        </svg>
       </div>
 
       {/* ========================================================================= */}
