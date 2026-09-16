@@ -186,3 +186,189 @@ body {
     padding-right: 2rem;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   MEDX immersive glass atmosphere
+   Centralized so every route shares one coherent visual language.
+   -------------------------------------------------------------------------- */
+:root {
+  --medx-bg-deep: #03142b;
+  --medx-bg-mid: #073b72;
+  --medx-cyan: #20e6f2;
+  --medx-glass: rgba(8, 51, 96, 0.42);
+  --medx-glass-strong: rgba(5, 35, 72, 0.72);
+  --medx-glass-soft: rgba(22, 91, 148, 0.20);
+  --medx-line: rgba(132, 220, 255, 0.30);
+  --medx-highlight: rgba(255, 255, 255, 0.18);
+  --medx-shadow: 0 20px 55px rgba(0, 9, 30, 0.34);
+}
+
+html {
+  background: var(--medx-bg-deep);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background:
+    radial-gradient(70% 48% at 50% -4%, rgba(72, 174, 255, 0.52), transparent 72%),
+    radial-gradient(42% 48% at 92% 34%, rgba(0, 184, 224, 0.22), transparent 70%),
+    radial-gradient(55% 56% at 6% 72%, rgba(20, 93, 213, 0.30), transparent 72%),
+    linear-gradient(145deg, #04152f 0%, #062c59 45%, #03142b 100%);
+  background-attachment: fixed;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -2;
+  inset: -18%;
+  pointer-events: none;
+}
+
+body::before {
+  opacity: 0.72;
+  background:
+    radial-gradient(ellipse at 15% 35%, rgba(32, 230, 242, 0.16) 0 5%, transparent 31%),
+    radial-gradient(ellipse at 72% 19%, rgba(78, 155, 255, 0.24) 0 6%, transparent 34%),
+    radial-gradient(ellipse at 60% 78%, rgba(0, 87, 190, 0.30) 0 8%, transparent 38%);
+  filter: blur(52px) saturate(125%);
+  animation: medx-aurora-drift 22s ease-in-out infinite alternate;
+}
+
+body::after {
+  z-index: -1;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(118, 206, 255, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(118, 206, 255, 0.13) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 78%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 78%, transparent);
+}
+
+#root {
+  min-height: 100vh;
+  background: transparent;
+}
+
+.bg-royal-mesh {
+  background-color: transparent;
+  background-image:
+    radial-gradient(ellipse 72% 48% at 50% -8%, rgba(80, 182, 255, 0.30), transparent 72%),
+    radial-gradient(ellipse 46% 52% at 96% 38%, rgba(0, 207, 232, 0.16), transparent 70%),
+    radial-gradient(ellipse 58% 50% at 4% 78%, rgba(31, 98, 218, 0.25), transparent 72%);
+  background-attachment: fixed;
+}
+
+/* One material system for cards, toolbars, dialogs and study surfaces. */
+.glass-panel,
+.glass-panel-royal,
+.glass-panel-subtle,
+.glass-panel-elevated,
+.glass-panel-royal-elevated,
+.glass-panel-reading {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(25, 92, 148, 0.34), rgba(4, 31, 68, 0.56));
+  border: 1px solid var(--medx-line);
+  border-top-color: rgba(226, 247, 255, 0.48);
+  box-shadow: inset 0 1px 0 var(--medx-highlight), var(--medx-shadow);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+}
+
+.glass-panel-elevated,
+.glass-panel-royal-elevated,
+.glass-panel-reading {
+  background: linear-gradient(135deg, rgba(20, 80, 137, 0.48), rgba(3, 26, 60, 0.76));
+}
+
+/* Normalize legacy opaque Tailwind surfaces inside application pages. */
+:where(main, aside, header, nav) [class*="bg-slate-950"],
+:where(main, aside, header, nav) [class*="bg-slate-900"],
+:where(main, aside, header, nav) [class*="bg-med-950"],
+:where(main, aside, header, nav) [class*="bg-med-900"] {
+  background-color: var(--medx-glass-strong) !important;
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+:where(main, aside, header, nav) [class*="bg-slate-800"],
+:where(main, aside, header, nav) [class*="bg-med-850"],
+:where(main, aside, header, nav) [class*="bg-med-800"] {
+  background-color: var(--medx-glass) !important;
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+
+:where(main, aside, header, nav) [class*="border-slate-800"],
+:where(main, aside, header, nav) [class*="border-slate-700"] {
+  border-color: rgba(151, 222, 255, 0.22) !important;
+}
+
+/* Keep media, 3D canvases and diagnostic images optically accurate. */
+canvas,
+video,
+img {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--medx-cyan);
+  outline-offset: 3px;
+}
+
+@keyframes medx-aurora-drift {
+  0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+  50% { transform: translate3d(3%, 2%, 0) scale(1.05); }
+  100% { transform: translate3d(-1%, 4%, 0) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .glass-panel,
+  .glass-panel-royal,
+  .glass-panel-elevated,
+  .glass-panel-royal-elevated,
+  .glass-panel-reading {
+    backdrop-filter: blur(15px) saturate(130%);
+    -webkit-backdrop-filter: blur(15px) saturate(130%);
+    box-shadow: 0 12px 30px rgba(0, 9, 30, 0.28);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel,
+  .glass-panel-royal,
+  .glass-panel-subtle,
+  .glass-panel-elevated,
+  .glass-panel-royal-elevated,
+  .glass-panel-reading {
+    background: rgba(4, 32, 70, 0.94);
+  }
+}
