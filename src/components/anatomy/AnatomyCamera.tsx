@@ -86,11 +86,11 @@ export class AnatomyCameraController {
         // Back view
         targetPos.set(center.x, center.y, center.z - dist);
         break;
-      case 'lateral-left':
+      case 'left':
         // Patient's left / Viewer's right
         targetPos.set(center.x + dist, center.y, center.z);
         break;
-      case 'lateral-right':
+      case 'right':
         // Patient's right / Viewer's left
         targetPos.set(center.x - dist, center.y, center.z);
         break;
