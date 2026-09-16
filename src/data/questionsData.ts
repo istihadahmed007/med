@@ -1,11 +1,13 @@
 import { QuestionBankItem } from '../types';
+import { CARDIOVASCULAR_PILOT_QUESTIONS } from './cardiovascularPilotData';
 
-export const QUESTION_BANK: QuestionBankItem[] = [
+const BASE_QUESTIONS: QuestionBankItem[] = [
   {
     id: 'q-mcq-01',
     subject: 'Anatomy',
     phase: 'Phase 1: 1st & 2nd Year',
     topic: 'Cardiovascular Anatomy',
+    system: 'cardiovascular',
     type: 'MCQ',
     questionStem: 'A 60-year-old man suffers an acute myocardial infarction involving the posterior one-third of the interventricular septum. Which of the following coronary arteries is most likely occluded?',
     options: [
@@ -24,6 +26,7 @@ export const QUESTION_BANK: QuestionBankItem[] = [
     subject: 'Physiology',
     phase: 'Phase 1: 1st & 2nd Year',
     topic: 'Cardiovascular Physiology',
+    system: 'cardiovascular',
     type: 'MCQ',
     questionStem: 'During which phase of the cardiac cycle is coronary blood flow to the left ventricular subendocardium at its maximum?',
     options: [
@@ -40,8 +43,9 @@ export const QUESTION_BANK: QuestionBankItem[] = [
   {
     id: 'q-mcq-03',
     subject: 'Pharmacology',
-    phase: 'Phase 3: 4th Year',
+    phase: 'Phase 2: 3rd Year',
     topic: 'Renal Pharmacology',
+    system: 'urinary',
     type: 'MCQ',
     questionStem: 'A 55-year-old patient with congestive heart failure receiving aggressive IV diuretic therapy develops severe muscle weakness, hypokalemia, and metabolic alkalosis. Which transporter was primarily blocked by the offending agent?',
     options: [
@@ -59,38 +63,46 @@ export const QUESTION_BANK: QuestionBankItem[] = [
     id: 'q-mcq-04',
     subject: 'Medicine',
     phase: 'Phase 4: 5th Year',
-    topic: 'Cardiology',
+    topic: 'Respiratory Medicine',
+    system: 'respiratory',
     type: 'MCQ',
-    questionStem: 'On precordial examination of a 32-year-old female, you identify a tapping apex beat, an opening snap, and a low-pitched mid-diastolic murmur with presystolic accentuation. What is the most likely diagnosis?',
+    questionStem: 'A 24-year-old female presents to the emergency room with an acute severe exacerbation of bronchial asthma. Arterial Blood Gas (ABG) analysis shows: pH 7.38, PaCO2 42 mmHg, PaO2 62 mmHg on room air. How should the "normal" PaCO2 be interpreted in this clinical context?',
     options: [
-      'Aortic Regurgitation',
-      'Mitral Stenosis',
-      'Mitral Regurgitation',
-      'Aortic Stenosis',
-      'Ventricular Septal Defect'
+      'Reassuring sign indicating adequate gas exchange and mild disease',
+      'Ominous warning sign of impending respiratory muscle fatigue and life-threatening failure',
+      'Normal physiological finding during any acute asthma attack',
+      'Artifact of ABG collection requiring immediate repeat',
+      'Indication to administer sedatives to reduce work of breathing'
     ],
     correctOptionIndex: 1,
-    explanation: 'The classic clinical triad of Mitral Stenosis is a tapping apex beat (palpable S1), an opening snap closely following S2, and a localized low-pitched rumbling mid-diastolic murmur with presystolic accentuation best heard in the left lateral position.',
-    bmdcReference: 'Davidson Principles and Practice of Medicine 24th ed. Chapter 16; Hutchison Clinical Methods.'
+    explanation: 'In early acute asthma, tachypnea and hyperventilation drive PaCO2 down (respiratory alkalosis). A "normal" or rising PaCO2 (≥40 mmHg) with tachypnea indicates severe airflow obstruction, respiratory muscle fatigue, and impending fatal respiratory arrest (GINA guidelines life-threatening feature).',
+    bmdcReference: 'Davidson\'s Principles and Practice of Medicine 24th ed.; GINA 2024 Guidelines.'
   },
   {
     id: 'q-saq-01',
     subject: 'Pathology',
     phase: 'Phase 3: 4th Year',
-    topic: 'Vascular Pathology',
+    topic: 'Cellular Pathology',
+    system: 'general',
     type: 'SAQ',
-    questionStem: 'Describe the sequence of cellular and morphologic events in the pathogenesis of atherosclerosis from endothelial injury to plaque rupture (Response-to-Injury Hypothesis).',
-    explanation: 'Key points required by BM&DC examiner: 1) Endothelial dysfunction -> increased permeability and leukocyte adhesion; 2) Lipoprotein accumulation (oxidized LDL) in intima; 3) Monocyte adhesion and transmigration -> transformation into macrophages; 4) Foam cell formation via scavenger receptor uptake of oxLDL -> Fatty streak; 5) Platelet activation and growth factor (PDGF) release; 6) Smooth muscle recruitment from media to intima with extracellular matrix (collagen) synthesis -> Fibrofatty plaque; 7) Fibrous cap thinning via matrix metalloproteinases (MMPs) -> Plaque rupture and occlusive thrombosis.',
-    bmdcReference: 'Robbins & Cotran Pathologic Basis of Disease 10th ed. Chapter 11.'
+    questionStem: 'Define Granuloma. List four diagnostic causes of granulomatous inflammation according to BM&DC curriculum.',
+    explanation: 'A granuloma is a focus of chronic inflammation consisting of a microscopic aggregation of activated macrophages (epithelioid cells) collared by lymphocytes, plasma cells, and often multinucleated giant cells. Causes: 1) Tuberculosis (Mycobacterium tuberculosis), 2) Leprosy (Mycobacterium leprae), 3) Sarcoidosis, 4) Foreign body reaction (talc, suture), 5) Histoplasmosis.',
+    bmdcReference: 'Robbins & Cotran Pathologic Basis of Disease 10th ed. Chapter 3.'
   },
   {
     id: 'q-viva-01',
-    subject: 'Medicine & Surgery',
+    subject: 'Medicine',
     phase: 'Phase 4: 5th Year',
-    topic: 'Emergency Medicine',
+    topic: 'Valvular Heart Disease',
+    system: 'cardiovascular',
     type: 'VIVA',
-    questionStem: 'Examiner asks: "How do you clinically distinguish between Stanford Type A and Type B aortic dissection, and how does your emergency management differ?"',
-    explanation: 'Model Viva Answer: "Sir, Stanford Type A involves the ascending aorta (proximal to the origin of the left subclavian artery), whereas Type B involves only the descending aorta distal to the left subclavian. Type A requires urgent surgical repair (Bentall or hemiarch replacement) to prevent fatal hemopericardium, tamponade, or acute aortic regurgitation. Type B is primarily managed medically with aggressive intravenous blood pressure and heart rate control (IV Labetalol or Esmolol targeting SBP 100-120 mmHg and HR < 60 bpm), reserving endovascular repair (TEVAR) for complicated cases."',
-    bmdcReference: 'Oxford Handbook of Clinical Medicine 10th ed. Section on Cardiovascular Emergencies.'
+    questionStem: 'Examiner: "Candidate, describe the peripheral signs of severe chronic aortic regurgitation (water-hammer pulse, Corrigan sign, Traube sign, Duroziez sign, de Musset sign)."',
+    explanation: 'Peripheral signs in severe AR stem from wide pulse pressure: 1) Water-hammer (Watson) pulse, 2) Corrigan visible carotid pulsation, 3) Traube pistol-shot over femoral artery, 4) Duroziez systolic & diastolic murmur over compressed femoral artery, 5) de Musset head bobbing in synchrony with systole, 6) Quincke capillary pulsation under nailbed.',
+    bmdcReference: 'MacLeod\'s Clinical Examination 15th ed.; Oxford Handbook of Clinical Medicine 10th ed.'
   }
+];
+
+export const QUESTION_BANK: QuestionBankItem[] = [
+  ...CARDIOVASCULAR_PILOT_QUESTIONS,
+  ...BASE_QUESTIONS
 ];

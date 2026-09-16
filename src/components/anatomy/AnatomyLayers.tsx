@@ -57,7 +57,7 @@ export const AnatomyLayers: React.FC<AnatomyLayersProps> = ({
   onResetLayers,
   onApplyPreset
 }) => {
-  const layerList = Object.values(layers);
+  const layerList: SystemLayerState[] = Object.values(layers) as SystemLayerState[];
   const anyIsolated = layerList.some((l) => l.isolated);
 
   return (

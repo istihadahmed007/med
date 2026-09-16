@@ -41,6 +41,7 @@ const COMMAND_ITEMS: CommandItem[] = [
   { id: 'question-bank', title: 'BM&DC Single Best Answer (SBA) MCQs & SAQs', category: 'Question Bank', view: 'questions', shortcut: 'QBANK' },
   { id: 'progress', title: 'Personalized Learning Analytics & Weak Areas Radar', category: 'My Progress', view: 'progress' },
   { id: 'faculty-admin', title: 'Faculty Authoring & Content Peer Review Pipeline', category: 'Governance', view: 'faculty-admin' },
+  { id: 'video-studio', title: 'Video Studio: AI Video Authoring & Telemetry Hub', category: 'Intelligence', view: 'video-studio', shortcut: 'STUDIO' },
 ];
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({

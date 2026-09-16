@@ -88,6 +88,8 @@ export type CameraViewPreset =
   | 'posterior' 
   | 'left' 
   | 'right' 
+  | 'lateral-left'
+  | 'lateral-right'
   | 'superior' 
   | 'inferior' 
   | 'isometric'
@@ -147,6 +149,8 @@ export interface OspeStation {
 }
 
 export interface Anatomy3DAssetInfo {
+  id?: string;
+  name?: string;
   systemId: AnatomicalSystemId;
   modelUrl: string;
   assetSource: string;

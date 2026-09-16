@@ -6,13 +6,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "paths": {
-      "*": ["C:/Users/Tonmoy/.medx_app/node_modules/*"]
-    },
-    "typeRoots": [
-      "C:/Users/Tonmoy/.medx_app/node_modules/@types"
-    ],
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "resolveJsonModule": true,

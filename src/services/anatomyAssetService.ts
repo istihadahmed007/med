@@ -80,6 +80,8 @@ export class AnatomyAssetService {
 
     systems.forEach((sys) => {
       this.assetRegistry.set(sys.id, {
+        id: sys.id,
+        name: sys.name,
         systemId: sys.id,
         modelUrl: sys.file,
         assetSource: 'BodyParts3D (DBCLS) / Z-Anatomy Open Medical Standard (CC-BY-SA)',
@@ -90,6 +92,11 @@ export class AnatomyAssetService {
         status: 'unloaded'
       });
     });
+  }
+
+  public async loadSystem(systemId: AnatomicalSystemId): Promise<Group> {
+    const res = await this.loadSystemModel(systemId);
+    return res.group || new THREE.Group();
   }
 
   private async loadManifest() {

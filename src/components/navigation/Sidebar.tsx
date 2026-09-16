@@ -1,22 +1,20 @@
 import React from 'react';
 import { 
-  Home, 
+  LayoutDashboard, 
   BookOpen, 
-  Heart, 
-  Activity, 
-  Layers, 
-  Pill, 
-  Stethoscope, 
-  Award, 
-  Search, 
-  Sliders, 
-  HelpCircle, 
   Sparkles, 
+  Activity, 
+  HelpCircle, 
+  RotateCcw, 
   TrendingUp, 
   ShieldCheck,
+  Bot,
+  Heart,
+  Layers,
+  Search,
+  Stethoscope,
   ChevronRight,
-  ClipboardList,
-  Network
+  Video
 } from 'lucide-react';
 import { NavigationView } from '../../types';
 
@@ -31,42 +29,65 @@ interface NavItem {
   id: NavigationView;
   label: string;
   icon: any;
-  category?: string;
   badge?: string;
+  description: string;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'home', label: 'Command Center', icon: Home },
-  { id: 'visual-engine', label: 'Visual Medicine Engine', icon: Sparkles, badge: 'Journey' },
-  { id: 'learn', label: 'MBBS Curriculum', icon: BookOpen, badge: '20 Subs' },
-  
-  // Simulation Labs
-  { id: '3d-anatomy', label: '3D Anatomy Studio', icon: Heart, category: 'Simulation Labs', badge: '3D' },
-  { id: 'histology', label: 'Virtual Histology Lab', icon: Layers, category: 'Simulation Labs', badge: 'Micro' },
-  { id: 'physiology', label: 'Living Physiology', icon: Activity, category: 'Simulation Labs' },
-  { id: 'pathology', label: 'Pathology Transform', icon: Layers, category: 'Simulation Labs' },
-  { id: 'comparison', label: 'Normal vs Abnormal', icon: Sliders, category: 'Simulation Labs', badge: 'Split' },
-  { id: 'diagrams', label: 'Interactive Diagrams', icon: Network, category: 'Simulation Labs' },
-  { id: 'pharmacology', label: 'Drug Journey Lab', icon: Pill, category: 'Simulation Labs' },
-  
-  // Practical & Clinical Skills
-  { id: 'clinical-exam', label: 'Bedside Examination', icon: Stethoscope, category: 'Clinical Practice' },
-  { id: 'surgery', label: 'Surgery & Procedures', icon: Award, category: 'Clinical Practice', badge: 'Steps' },
-  { id: 'ospe', label: 'OSPE Station Engine', icon: ClipboardList, category: 'Clinical Practice', badge: 'Timed' },
-  { id: 'osce', label: 'OSCE Clinical Stations', icon: Award, category: 'Clinical Practice' },
-  { id: 'cases', label: 'Virtual Patient Cases', icon: Activity, category: 'Clinical Practice', badge: 'Live' },
-  
-  // Diagnostics & Textbooks
-  { id: 'investigations', label: 'Radiology & ECG Lab', icon: Search, category: 'Diagnostics', badge: 'CXR/CT' },
-  { id: 'treatment', label: 'Treatment Algorithms', icon: Sliders, category: 'Diagnostics' },
-  { id: 'textbook', label: 'MBBS Digital Textbook', icon: BookOpen, category: 'Diagnostics', badge: 'Reader' },
-  
-  // Testing & AI
-  { id: 'questions', label: 'Question Bank', icon: HelpCircle, category: 'Evaluation & AI', badge: 'BM&DC' },
-  { id: 'ai-viva', label: 'AI Viva Examiner', icon: Award, category: 'Evaluation & AI', badge: 'Voice' },
-  { id: 'ai-tutor', label: 'Verified AI Tutor', icon: Sparkles, category: 'Evaluation & AI' },
-  { id: 'progress', label: 'My Progress Radar', icon: TrendingUp, category: 'Evaluation & AI' },
-  { id: 'faculty-admin', label: 'Faculty Governance', icon: ShieldCheck, category: 'Governance' },
+const PRIMARY_HUBS: NavItem[] = [
+  { 
+    id: 'dashboard', 
+    label: 'Dashboard', 
+    icon: LayoutDashboard, 
+    badge: 'Hub',
+    description: 'Command center & milestones'
+  },
+  { 
+    id: 'learn', 
+    label: 'Learn (Curriculum)', 
+    icon: BookOpen, 
+    badge: 'BM&DC',
+    description: 'Phase I-IV 5-stage lessons'
+  },
+  { 
+    id: 'visual-lab', 
+    label: 'Visual Lab', 
+    icon: Sparkles, 
+    badge: '3D/DICOM',
+    description: '3D Anatomy, Wiggers & X-Ray'
+  },
+  { 
+    id: 'cases', 
+    label: 'Clinical Cases', 
+    icon: Activity, 
+    badge: 'Live',
+    description: 'Virtual patient simulations'
+  },
+  { 
+    id: 'practice', 
+    label: 'Practice & Exams', 
+    icon: HelpCircle, 
+    badge: 'OSPE/MCQ',
+    description: 'Question Bank & OSPE/OSCE'
+  },
+  { 
+    id: 'revision', 
+    label: 'Revision', 
+    icon: RotateCcw, 
+    badge: 'SM-2',
+    description: 'Spaced flashcards & mistakes'
+  },
+  { 
+    id: 'progress', 
+    label: 'My Progress', 
+    icon: TrendingUp, 
+    description: 'Readiness radar & analytics'
+  },
+];
+
+const SECONDARY_TOOLS = [
+  { id: 'video-studio', label: 'Video Studio', icon: Video, badge: 'MedGen' },
+  { id: 'ai-tutor', label: 'AI Medical Tutor', icon: Bot, badge: 'RAG' },
+  { id: 'faculty-admin', label: 'Faculty Governance', icon: ShieldCheck, badge: 'Review' }
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -75,76 +96,131 @@ export const Sidebar: React.FC<SidebarProps> = ({
   mobileOpen,
   onCloseMobile,
 }) => {
+  // Map any legacy or sub-view to its primary parent hub for active highlight
+  const getIsActive = (hubId: NavigationView) => {
+    if (currentView === hubId) return true;
+    if (hubId === 'dashboard' && currentView === 'home') return true;
+    if (hubId === 'visual-lab' && [
+      '3d-anatomy', 'physiology', 'pathology', 'pharmacology', 
+      'histology', 'comparison', 'diagrams', 'surgery', 'investigations', 'treatment'
+    ].includes(currentView)) return true;
+    if (hubId === 'practice' && ['questions', 'ospe', 'osce', 'ai-viva', 'clinical-exam'].includes(currentView)) return true;
+    return false;
+  };
+
   return (
     <>
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden"
         />
       )}
 
-      {/* Sidebar Navigation Panel */}
+      {/* Clean 7-Hub Navigation Sidebar with royal blue translucent glass */}
       <aside
-        className={`fixed top-16 bottom-0 left-0 z-40 w-64 glass-panel border-r border-cyan-500/20 flex flex-col transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-20 bottom-3 left-3 z-40 w-64 bg-[rgba(6,23,46,0.80)] border border-[rgba(190,225,255,0.20)] border-t-[rgba(255,255,255,0.28)] rounded-3xl backdrop-blur-2xl flex flex-col justify-between transition-transform duration-300 lg:translate-x-0 shadow-[0_12px_36px_rgba(0,0,0,0.5)] ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex-1 overflow-y-auto p-3 space-y-1">
-          {NAV_ITEMS.map((item, index) => {
-            const Icon = item.icon;
-            const isActive = currentView === item.id;
-            const isFirstOfCategory =
-              item.category && (index === 0 || NAV_ITEMS[index - 1].category !== item.category);
+        <div className="flex-1 overflow-y-auto p-3 space-y-1.5 scrollbar-thin">
+          <div className="px-3 pt-2 pb-1 text-[10px] font-mono uppercase tracking-widest text-[#C4D4EA]/60 font-bold">
+            Core MBBS Companion
+          </div>
+
+          {PRIMARY_HUBS.map((hub) => {
+            const Icon = hub.icon;
+            const isActive = getIsActive(hub.id);
 
             return (
-              <React.Fragment key={item.id}>
-                {isFirstOfCategory && (
-                  <div className="pt-3 pb-1 px-3 text-[10px] font-mono uppercase tracking-widest text-slate-500 font-bold">
-                    {item.category}
+              <button
+                key={hub.id}
+                onClick={() => {
+                  onNavigate(hub.id);
+                  onCloseMobile();
+                }}
+                className={`w-full flex items-center justify-between p-2.5 rounded-2xl text-xs transition-all group border ${
+                  isActive
+                    ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] text-[#06172E] border-[#08AFC1] font-bold shadow-[0_0_20px_rgba(8,175,193,0.35)]'
+                    : 'bg-transparent text-[#C4D4EA] border-transparent hover:bg-white/5 hover:text-white hover:border-[rgba(190,225,255,0.15)]'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-xl transition-colors ${
+                    isActive ? 'bg-[#06172E]/20 text-[#06172E]' : 'bg-white/5 text-[#08AFC1] group-hover:bg-white/10'
+                  }`}>
+                    <Icon className="w-4 h-4" />
                   </div>
-                )}
-                <button
-                  onClick={() => {
-                    onNavigate(item.id);
-                    onCloseMobile();
-                  }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all group ${
-                    isActive
-                      ? 'bg-gradient-to-r from-blue-600/90 to-cyan-600/90 text-white shadow-glow-cyan font-bold'
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Icon
-                      className={`w-4 h-4 transition-colors ${
-                        isActive ? 'text-white' : 'text-slate-400 group-hover:text-cyan-400'
-                      }`}
-                    />
-                    <span>{item.label}</span>
+                  <div className="text-left">
+                    <div className={`font-bold text-xs ${isActive ? 'text-[#06172E]' : 'text-[#F5F9FF]'}`}>
+                      {hub.label}
+                    </div>
+                    <div className={`text-[10px] truncate max-w-[120px] ${isActive ? 'text-[#06172E]/80' : 'text-[#C4D4EA]/60'}`}>
+                      {hub.description}
+                    </div>
                   </div>
+                </div>
 
-                  {item.badge && (
-                    <span
-                      className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase ${
-                        isActive
-                          ? 'bg-white/20 text-white'
-                          : 'bg-slate-900 text-cyan-400 border border-cyan-500/30'
-                      }`}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
-                </button>
-              </React.Fragment>
+                {hub.badge && (
+                  <span
+                    className={`text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
+                      isActive
+                        ? 'bg-[#06172E]/25 text-[#06172E]'
+                        : 'bg-white/5 text-[#08AFC1] border border-[#08AFC1]/30'
+                    }`}
+                  >
+                    {hub.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+
+          <div className="pt-4 px-3 pb-1 text-[10px] font-mono uppercase tracking-widest text-slate-500 font-bold border-t border-slate-800/80 mt-2">
+            Intelligence & Faculty
+          </div>
+
+          {SECONDARY_TOOLS.map((tool) => {
+            const Icon = tool.icon;
+            const isActive = currentView === tool.id;
+
+            return (
+              <button
+                key={tool.id}
+                onClick={() => {
+                  onNavigate(tool.id as NavigationView);
+                  onCloseMobile();
+                }}
+                className={`w-full flex items-center justify-between p-2.5 rounded-2xl text-xs transition-all group border ${
+                  isActive
+                    ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400 font-bold shadow-glow-cyan'
+                    : 'bg-transparent text-slate-400 border-transparent hover:bg-slate-900/90 hover:text-slate-100 hover:border-slate-800'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-xl transition-colors ${
+                    isActive ? 'bg-white/20 text-white' : 'bg-slate-900 text-slate-400 group-hover:text-purple-400 group-hover:bg-slate-850'
+                  }`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <span className="font-bold text-xs text-slate-200">{tool.label}</span>
+                </div>
+
+                {tool.badge && (
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30 font-bold">
+                    {tool.badge}
+                  </span>
+                )}
+              </button>
             );
           })}
         </div>
 
         {/* Footer info */}
-        <div className="p-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono text-center">
-          MEDX BD v1.0 • BM&DC 2026 Compliant
+        <div className="p-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono text-center space-y-0.5 bg-slate-950">
+          <div className="text-slate-400 font-bold">MedX MBBS Companion</div>
+          <div>BM&DC 2026 Curriculum Standard</div>
         </div>
       </aside>
     </>

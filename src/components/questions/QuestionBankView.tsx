@@ -22,10 +22,23 @@ export const QuestionBankView: React.FC = () => {
 
     if (optionIndex === correctIndex) {
       audioService.playSuccessTone();
-      StorageService.recordQuizCompletion(questionId, 100);
+      StorageService.recordQuizCompletion(questionId, 100, 1, 1);
     } else {
       audioService.playAlertBeep();
-      StorageService.recordQuizCompletion(questionId, 0);
+      StorageService.recordQuizCompletion(questionId, 0, 0, 1);
+      const qItem = QUESTION_BANK.find((q) => q.id === questionId);
+      if (qItem && qItem.options && typeof correctIndex === 'number') {
+        StorageService.recordMistake({
+          questionId,
+          subject: qItem.subject,
+          phase: qItem.phase,
+          topic: qItem.topic,
+          questionStem: qItem.questionStem,
+          selectedAnswer: qItem.options[optionIndex],
+          correctAnswer: qItem.options[correctIndex],
+          explanation: qItem.explanation
+        });
+      }
     }
   };
 

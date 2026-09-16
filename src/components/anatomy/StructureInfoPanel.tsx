@@ -72,19 +72,22 @@ export const StructureInfoPanel: React.FC<StructureInfoPanelProps> = ({
         </div>
 
         {/* Anatomical Relations */}
-        {structure.relations.length > 0 && (
+        {structure.relations && Object.keys(structure.relations).length > 0 && (
           <div>
             <h3 className="text-xs font-semibold text-cyan-300 uppercase tracking-wider mb-1.5">
               Anatomical Relations
             </h3>
-            <ul className="space-y-1.5">
-              {structure.relations.map((relation, idx) => (
-                <li key={idx} className="text-xs text-slate-300 flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 shrink-0" />
-                  <span>{relation}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="grid grid-cols-1 gap-1.5">
+              {Object.entries(structure.relations).map(([relKey, relValue]) => {
+                if (!relValue) return null;
+                return (
+                  <div key={relKey} className="text-xs bg-slate-900/40 p-2 rounded-lg border border-slate-800/80 text-slate-300">
+                    <span className="font-semibold text-cyan-400 capitalize mr-1.5">{relKey}:</span>
+                    <span>{relValue}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
@@ -95,26 +98,28 @@ export const StructureInfoPanel: React.FC<StructureInfoPanelProps> = ({
             BM&DC Clinical Pearl
           </h3>
           <p className="text-xs text-rose-100/90 leading-relaxed">
-            {structure.clinicalRelevance}
+            {structure.clinicalRelevance || structure.clinicalImportance}
           </p>
-          <div className="flex flex-wrap gap-1.5 mt-2.5">
-            {structure.associatedDiseases.map((d, i) => (
-              <span key={i} className="text-[11px] px-2 py-0.5 rounded bg-rose-900/50 text-rose-200 border border-rose-500/40">
-                {d}
-              </span>
-            ))}
-          </div>
+          {(structure.associatedDiseases || structure.commonConditions || []).length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2.5">
+              {(structure.associatedDiseases || structure.commonConditions || []).map((d, i) => (
+                <span key={i} className="text-[11px] px-2 py-0.5 rounded bg-rose-900/50 text-rose-200 border border-rose-500/40">
+                  {d}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Viva Questions */}
-        {structure.vivaQuestions.length > 0 && (
+        {(structure.vivaQuestions || structure.mbbsExamPoints || []).length > 0 && (
           <div>
             <h3 className="text-xs font-semibold text-amber-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
               <HelpCircle className="w-3.5 h-3.5 text-amber-400" />
               Frequently Asked Viva Questions
             </h3>
             <div className="space-y-2">
-              {structure.vivaQuestions.map((q, idx) => (
+              {(structure.vivaQuestions || structure.mbbsExamPoints || []).map((q, idx) => (
                 <div key={idx} className="text-xs bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 text-slate-300">
                   <span className="font-semibold text-amber-400 mr-1.5">Q{idx + 1}:</span>
                   {q}

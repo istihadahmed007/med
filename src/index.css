@@ -33,37 +33,94 @@ body {
   background: #06b6d4;
 }
 
-/* Glassmorphism Surface Classes */
-.glass-panel {
-  background: rgba(10, 16, 32, 0.75);
+/* Deep Royal Blue Organic Mesh Backdrop matching concept */
+.bg-royal-mesh {
+  background-color: #06172E;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(23, 72, 160, 0.45), transparent),
+    radial-gradient(ellipse 65% 45% at 90% 30%, rgba(10, 40, 84, 0.70), transparent),
+    radial-gradient(ellipse 55% 55% at 15% 65%, rgba(23, 72, 160, 0.35), transparent),
+    radial-gradient(ellipse 75% 50% at 50% 105%, rgba(10, 40, 84, 0.85), transparent);
+  background-attachment: fixed;
+}
+
+/* Concept Glassmorphism Surface Classes */
+.glass-panel-royal {
+  background: rgba(18, 55, 99, 0.30);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(190, 225, 255, 0.20);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.35);
+}
+
+.glass-panel-royal-elevated {
+  background: rgba(18, 55, 99, 0.40);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(190, 225, 255, 0.28);
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.45);
+}
+
+.glass-panel-reading {
+  background: rgba(6, 23, 46, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(190, 225, 255, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.40);
+}
+
+.glass-pill-royal {
+  background: rgba(18, 55, 99, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(190, 225, 255, 0.22);
+  border-radius: 9999px;
+}
+
+.glass-pill-active {
+  background: linear-gradient(135deg, #08AFC1 0%, #0694a2 100%);
+  color: #06172E;
+  font-weight: 700;
+  border-radius: 9999px;
+  box-shadow: 0 0 20px rgba(8, 175, 193, 0.45);
+}
+
+.glass-panel {
+  background: rgba(18, 55, 99, 0.30);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(190, 225, 255, 0.20);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 .glass-panel-elevated {
-  background: rgba(14, 23, 46, 0.85);
+  background: rgba(18, 55, 99, 0.40);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(190, 225, 255, 0.25);
   box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5);
 }
 
 .glass-panel-subtle {
-  background: rgba(10, 16, 32, 0.45);
+  background: rgba(18, 55, 99, 0.20);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(190, 225, 255, 0.12);
 }
 
 .glass-border-interactive {
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(190, 225, 255, 0.20);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-border-interactive:hover {
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.2);
+  border-color: rgba(8, 175, 193, 0.55);
+  box-shadow: 0 0 22px -2px rgba(8, 175, 193, 0.25);
 }
 
 /* Medical Scientific Grid Background */

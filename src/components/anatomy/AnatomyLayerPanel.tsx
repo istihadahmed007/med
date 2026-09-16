@@ -58,7 +58,7 @@ export const AnatomyLayerPanel: React.FC<AnatomyLayerPanelProps> = ({
   isOpen,
   onToggleOpen
 }) => {
-  const layerList = Object.values(layers);
+  const layerList: SystemLayerState[] = Object.values(layers) as SystemLayerState[];
 
   return (
     <div className={`transition-all duration-300 pointer-events-auto ${isOpen ? 'w-80' : 'w-14'}`}>

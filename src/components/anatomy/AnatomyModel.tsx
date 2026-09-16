@@ -50,7 +50,7 @@ export class AnatomyModelManager {
   public async loadSystems(targetSystems?: AnatomicalSystemId[]): Promise<void> {
     const assets = anatomyAssetService.getAllAssetInfos();
     const toLoad = targetSystems 
-      ? assets.filter((a) => targetSystems.includes(a.id) || a.id === 'skeletal')
+      ? assets.filter((a) => targetSystems.includes(a.systemId) || a.systemId === 'skeletal')
       : assets;
 
     let loadedCount = 0;
@@ -58,12 +58,13 @@ export class AnatomyModelManager {
 
     for (const asset of toLoad) {
       try {
-        const group = await anatomyAssetService.loadSystem(asset.id);
+        const sysId = asset.systemId as AnatomicalSystemId;
+        const group = await anatomyAssetService.loadSystem(sysId);
         
         // Tag all meshes with system identity and attach clipping plane
         group.traverse((child) => {
           if (child instanceof THREE.Mesh) {
-            child.userData.systemId = asset.id;
+            child.userData.systemId = sysId;
             this.allMeshes.push(child);
 
             // Enable local clipping plane
@@ -79,15 +80,15 @@ export class AnatomyModelManager {
           }
         });
 
-        this.systemGroups.set(asset.id, group);
+        this.systemGroups.set(sysId, group);
         this.rootGroup.add(group);
 
         loadedCount++;
         const percent = Math.round((loadedCount / totalCount) * 100);
-        this.onProgress?.(percent, loadedCount, asset.name);
-        this.onSystemLoaded?.(asset.id, group);
+        this.onProgress?.(percent, loadedCount, asset.name || sysId);
+        this.onSystemLoaded?.(sysId, group);
       } catch (err) {
-        console.warn(`[AnatomyModelManager] Failed to load system ${asset.id}:`, err);
+        console.warn(`[AnatomyModelManager] Failed to load system ${asset.systemId}:`, err);
       }
     }
   }

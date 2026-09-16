@@ -1,6 +1,15 @@
 export type NavigationView =
-  | 'home'
+  | 'dashboard'
   | 'learn'
+  | 'visual-lab'
+  | 'cases'
+  | 'practice'
+  | 'revision'
+  | 'progress'
+  | 'faculty-admin'
+  | 'video-studio'
+  // Direct sub-routes for deep linking & backwards compatibility
+  | 'home'
   | '3d-anatomy'
   | 'physiology'
   | 'pathology'
@@ -9,14 +18,11 @@ export type NavigationView =
   | 'ospe'
   | 'osce'
   | 'procedures'
-  | 'cases'
   | 'investigations'
   | 'treatment'
   | 'questions'
   | 'ai-viva'
   | 'ai-tutor'
-  | 'progress'
-  | 'faculty-admin'
   | 'histology'
   | 'surgery'
   | 'diagrams'
@@ -24,7 +30,11 @@ export type NavigationView =
   | 'comparison'
   | 'visual-engine';
 
-export type UserRole = 'student' | 'faculty' | 'reviewer' | 'admin';
+export * from './videoStudio';
+
+export type UserRole = 'student' | 'faculty' | 'author' | 'reviewer' | 'admin';
+
+export type LessonStatus = 'draft' | 'in_review' | 'published' | 'archived';
 
 export type LearningMode = 
   | 'read' 
@@ -39,6 +49,19 @@ export type BmdcPhase =
   | 'Phase 2: 3rd Year (Para-clinical)'
   | 'Phase 3: 4th Year (Para-clinical)'
   | 'Phase 4: 5th Year (Clinical)';
+
+export type BodySystem = 
+  | 'cardiovascular'
+  | 'respiratory'
+  | 'nervous'
+  | 'digestive'
+  | 'urinary'
+  | 'endocrine'
+  | 'musculoskeletal'
+  | 'reproductive'
+  | 'hematology'
+  | 'immune'
+  | 'general';
 
 export interface BmdcSubject {
   id: string;
@@ -60,14 +83,290 @@ export interface BmdcChapter {
 export interface BmdcTopicSummary {
   id: string;
   title: string;
-  system: string;
+  titleBn?: string;
+  system: BodySystem;
   isHighYield: boolean;
   has3DModel: boolean;
   hasSimulation: boolean;
+  isPublished?: boolean;
+  lessonId?: string;
 }
 
-export * from './anatomy';
+// 5-Stage Lesson Model: Learn -> Explore -> Apply -> Practice -> Revise
+export interface BmdcLesson {
+  id: string;
+  title: string;
+  titleBn?: string;
+  phase: 'Phase 1' | 'Phase 2' | 'Phase 3' | 'Phase 4';
+  subjectId: string;
+  subjectName: string;
+  chapterId: string;
+  system: BodySystem;
+  learningObjectives: string[];
+  prerequisites?: string[];
+  estimatedMinutes: number;
+  status: LessonStatus;
+  version: string;
+  author: {
+    name: string;
+    designation: string;
+    institution: string;
+  };
+  reviewer?: {
+    name: string;
+    designation: string;
+    institution: string;
+    reviewDate?: string;
+  };
+  stages: {
+    learn: {
+      overviewEn: string;
+      overviewBn: string;
+      detailedContentEn: string;
+      detailedContentBn: string;
+      keyTakeaways: string[];
+    };
+    explore: {
+      visualType: '3d-model' | 'interactive-diagram' | 'histology-slide' | 'ecg-trace' | 'xray-dicom' | 'comparison-slider' | 'video-animation';
+      visualTargetId?: string;
+      description: string;
+      interactiveCheckpoints?: {
+        name: string;
+        nameBn?: string;
+        note: string;
+        coords?: { x: number; y: number };
+      }[];
+    };
+    apply: {
+      clinicalCorrelations: string[];
+      linkedInvestigations?: {
+        type: string;
+        finding: string;
+        significance: string;
+      }[];
+      emergencyRedFlags?: string[];
+      pharmacologyLinks?: {
+        drug: string;
+        mechanism: string;
+        indication: string;
+      }[];
+    };
+    practice: {
+      mcqIds: string[];
+      vivaPrompts?: {
+        prompt: string;
+        keyPointsToMention: string[];
+        reference: string;
+      }[];
+    };
+    revise: {
+      highYieldPearls: string[];
+      flashcards: {
+        front: string;
+        back: string;
+      }[];
+    };
+  };
+  references: string[];
+  lastUpdated: string;
+}
 
+// Mistake Notebook & Spaced Repetition Models
+export interface MistakeEntry {
+  id: string;
+  questionId: string;
+  subject: string;
+  phase: string;
+  topic: string;
+  questionStem: string;
+  selectedAnswer: string;
+  correctAnswer: string;
+  explanation: string;
+  timestamp: number;
+  reviewed: boolean;
+  reviewCount: number;
+}
+
+export interface SpacedRepetitionCard {
+  id: string;
+  lessonId: string;
+  title: string;
+  subject: string;
+  phase: string;
+  front: string;
+  back: string;
+  intervalDays: number;
+  easeFactor: number;
+  repetitions: number;
+  dueDate: number;
+  lastReviewedDate?: number;
+}
+
+export interface LessonBookmark {
+  lessonId: string;
+  title: string;
+  subject: string;
+  phase: string;
+  lastStep: 'learn' | 'explore' | 'apply' | 'practice' | 'revise';
+  scrollPercentage: number;
+  savedAt: number;
+}
+
+// Question Bank Item
+export interface QuestionBankItem {
+  id: string;
+  subject: string;
+  phase: string;
+  topic: string;
+  system?: BodySystem;
+  type: 'MCQ' | 'SAQ' | 'VIVA' | 'IMAGE_BASED';
+  questionStem: string;
+  questionStemBn?: string;
+  options?: string[];
+  correctOptionIndex?: number;
+  explanation: string;
+  explanationBn?: string;
+  bmdcReference: string;
+  highYieldPearl?: string;
+  imageUrl?: string;
+  imageStructureTarget?: string;
+}
+
+// OSPE & OSCE Station Interfaces
+export interface OspeStation {
+  id: string;
+  phase: string;
+  subject: string;
+  stationNumber: number;
+  title: string;
+  instructions: string;
+  timeSeconds: number;
+  specimenType: '3d-heart' | '3d-brain' | '3d-lungs' | 'histology-slide' | 'radiograph' | 'instrument';
+  markedStructureId: string;
+  questions: {
+    id: string;
+    prompt: string;
+    marks: number;
+    acceptableAnswers: string[];
+    explanation: string;
+  }[];
+}
+
+export interface OsceStation {
+  id: string;
+  stationNumber: number;
+  title: string;
+  domain: 'History Taking' | 'Clinical Examination' | 'Communication & Counseling' | 'Procedure Demonstration';
+  patientScenario: string;
+  patientScript: string;
+  candidateInstructions: string;
+  timeSeconds: number;
+  markingRubric: {
+    item: string;
+    points: number;
+    criteria: string;
+  }[];
+  modelPerformanceSummary: string;
+}
+
+// Clinical Case Engine Interface
+export interface ClinicalCase {
+  id: string;
+  title: string;
+  difficulty: 'Year 3' | 'Year 4' | 'Final Year MBBS';
+  phase?: string;
+  system?: BodySystem;
+  patientDemographics: {
+    name: string;
+    age: number;
+    gender: 'Male' | 'Female';
+    occupation: string;
+    ward: string;
+  };
+  chiefComplaint: string;
+  historyOptions: {
+    id: string;
+    question: string;
+    patientAnswer: string;
+    clinicalSignificance: string;
+  }[];
+  initialVitals: {
+    bp: string;
+    hr: number;
+    rr: number;
+    spo2: number;
+    temp: number;
+    gcs: string;
+  };
+  physicalExamFindings: {
+    system: string;
+    inspection: string;
+    palpation: string;
+    percussion: string;
+    auscultation: string;
+  }[];
+  availableInvestigations: {
+    id: string;
+    type: 'ECG' | 'Chest X-Ray' | 'Blood Gas' | 'CBC' | 'Cardiac Enzymes' | 'Electrolytes' | 'Echocardiogram';
+    resultTitle: string;
+    reportSummary: string;
+    revealedValue: string;
+    isKeyInvestigation: boolean;
+  }[];
+  differentialDiagnoses: string[];
+  finalDiagnosis: string;
+  managementOptions: {
+    id: string;
+    treatmentName: string;
+    isCorrectFirstLine: boolean;
+    consequence: string;
+    vitalsDelta?: Partial<{ bp: string; hr: number; rr: number; spo2: number }>;
+  }[];
+  debriefAndLearningPoints: string[];
+}
+
+// Student Progress Interface
+export interface StudentProgress {
+  userId: string;
+  name: string;
+  email: string;
+  currentPhase: string;
+  university: string;
+  streakDays: number;
+  overallReadinessScore: number;
+  topicsStudied: number;
+  casesCompleted: number;
+  ospeStationsAttempted: number;
+  accuracyRate: number;
+  completedLessonIds?: string[];
+  quizAttemptsCount?: number;
+  weakAreas: {
+    subject: string;
+    topic: string;
+    accuracyPercent: number;
+    recommendedAction: string;
+  }[];
+  spacedRepetitionDue: {
+    topicId: string;
+    topicTitle: string;
+    phase: string;
+    dueInHours: number;
+    intervalDays: number;
+  }[];
+}
+
+// User & Auth State
+export interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  currentPhase: string;
+  institution: string;
+  token?: string;
+}
+
+// Physiology Interfaces
 export interface CardiacCyclePhase {
   id: number;
   name: string;
@@ -78,22 +377,22 @@ export interface CardiacCyclePhase {
   aorticValve: 'open' | 'closed';
   tricuspidValve: 'open' | 'closed';
   pulmonaryValve: 'open' | 'closed';
-  ventricularPressure: number; // mmHg
-  aorticPressure: number; // mmHg
-  atrialPressure: number; // mmHg
-  ventricularVolume: number; // mL
+  ventricularPressure: number;
+  aorticPressure: number;
+  atrialPressure: number;
+  ventricularVolume: number;
   heartSound: string;
   description: string;
   clinicalPearls: string;
-  coronaryFlowPercent: number; // % of total left coronary flow occurring during this phase
+  coronaryFlowPercent: number;
   atrialWave?: 'a wave' | 'c wave' | 'v wave' | 'x descent' | 'y descent' | 'none';
 }
 
 export interface PvLoopParameters {
-  preloadEdv: number; // mL (normal ~120, range 70 - 170)
-  afterloadMap: number; // mmHg (normal ~100, range 60 - 180)
-  inotropyPercent: number; // % (normal 100%, range 50% - 150%)
-  heartRateBpm: number; // bpm (normal 75, range 40 - 180)
+  preloadEdv: number;
+  afterloadMap: number;
+  inotropyPercent: number;
+  heartRateBpm: number;
 }
 
 export interface CardiacPathologyPreset {
@@ -117,7 +416,7 @@ export interface AuscultationSite {
   primarySoundHeard: string;
   bestManeuver: string;
   radiationTo: string;
-  coordinates: { x: number; y: number }; // percentage on chest map
+  coordinates: { x: number; y: number };
 }
 
 export interface CardiacVivaQuestion {
@@ -173,95 +472,6 @@ export interface ClinicalExamStep {
   examinerCritique: string;
 }
 
-export interface OspeStation {
-  id: string;
-  phase: string;
-  subject: string;
-  stationNumber: number;
-  title: string;
-  instructions: string;
-  timeSeconds: number;
-  specimenType: '3d-heart' | '3d-brain' | '3d-lungs' | 'histology-slide' | 'radiograph' | 'instrument';
-  markedStructureId: string;
-  questions: {
-    id: string;
-    prompt: string;
-    marks: number;
-    acceptableAnswers: string[];
-    explanation: string;
-  }[];
-}
-
-export interface OsceStation {
-  id: string;
-  stationNumber: number;
-  title: string;
-  domain: 'History Taking' | 'Clinical Examination' | 'Communication & Counseling' | 'Procedure Demonstration';
-  patientScenario: string;
-  patientScript: string;
-  candidateInstructions: string;
-  timeSeconds: number;
-  markingRubric: {
-    item: string;
-    points: number;
-    criteria: string;
-  }[];
-  modelPerformanceSummary: string;
-}
-
-export interface ClinicalCase {
-  id: string;
-  title: string;
-  difficulty: 'Year 3' | 'Year 4' | 'Final Year MBBS';
-  patientDemographics: {
-    name: string;
-    age: number;
-    gender: 'Male' | 'Female';
-    occupation: string;
-    ward: string;
-  };
-  chiefComplaint: string;
-  historyOptions: {
-    id: string;
-    question: string;
-    patientAnswer: string;
-    clinicalSignificance: string;
-  }[];
-  initialVitals: {
-    bp: string;
-    hr: number;
-    rr: number;
-    spo2: number;
-    temp: number;
-    gcs: string;
-  };
-  physicalExamFindings: {
-    system: string;
-    inspection: string;
-    palpation: string;
-    percussion: string;
-    auscultation: string;
-  }[];
-  availableInvestigations: {
-    id: string;
-    type: 'ECG' | 'Chest X-Ray' | 'Blood Gas' | 'CBC' | 'Cardiac Enzymes' | 'Electrolytes';
-    resultTitle: string;
-    reportSummary: string;
-    revealedValue: string;
-    isKeyInvestigation: boolean;
-  }[];
-  differentialDiagnoses: string[];
-  finalDiagnosis: string;
-  managementOptions: {
-    id: string;
-    treatmentName: string;
-    isCorrectFirstLine: boolean;
-    consequence: string;
-    vitalsDelta?: Partial<{ bp: string; hr: number; rr: number; spo2: number }>;
-  }[];
-  debriefAndLearningPoints: string[];
-}
-
 export interface TreatmentAlgorithm {
   id: string;
   conditionName: string;
@@ -293,48 +503,6 @@ export interface EcgTestCase {
   diagnosis: string;
   highYieldPearl: string;
 }
-
-export interface QuestionBankItem {
-  id: string;
-  subject: string;
-  phase: string;
-  topic: string;
-  type: 'MCQ' | 'SAQ' | 'VIVA';
-  questionStem: string;
-  options?: string[];
-  correctOptionIndex?: number;
-  explanation: string;
-  bmdcReference: string;
-}
-
-export interface StudentProgress {
-  userId: string;
-  name: string;
-  email: string;
-  currentPhase: string;
-  university: string;
-  streakDays: number;
-  overallReadinessScore: number;
-  topicsStudied: number;
-  casesCompleted: number;
-  ospeStationsAttempted: number;
-  accuracyRate: number;
-  weakAreas: {
-    subject: string;
-    topic: string;
-    accuracyPercent: number;
-    recommendedAction: string;
-  }[];
-  spacedRepetitionDue: {
-    topicId: string;
-    topicTitle: string;
-    phase: string;
-    dueInHours: number;
-    intervalDays: number;
-  }[];
-}
-
-// NEW INTERFACES FOR EXTENDED VISUAL MEDICINE PLATFORM
 
 export interface HistologySlide {
   id: string;
@@ -385,8 +553,8 @@ export interface SurgicalProcedure {
 export interface DiagramLabel {
   id: string;
   name: string;
-  x: number; // percentage
-  y: number; // percentage
+  x: number;
+  y: number;
   description: string;
   clinicalPearl: string;
 }
@@ -419,3 +587,5 @@ export interface TextbookChapter {
   }[];
   references: string[];
 }
+
+export * from './anatomy';

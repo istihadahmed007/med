@@ -1,39 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationView, UserRole } from './types';
 import { StorageService } from './services/storageService';
+import { ApiService } from './services/apiService';
 import { Navbar } from './components/navigation/Navbar';
 import { Sidebar } from './components/navigation/Sidebar';
 import { CommandPalette } from './components/navigation/CommandPalette';
 import { VoiceAssistantModal } from './components/ai/VoiceAssistantModal';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 
-// Views
-import { HeroCinematic } from './components/home/HeroCinematic';
+// 7 Primary Navigation Hubs
+import { DashboardView } from './components/home/DashboardView';
 import { LearnSubjectLibrary } from './components/learn/LearnSubjectLibrary';
-import { TopicUniverseView } from './components/knowledge/TopicUniverseView';
-import { VisualMedicineEngine } from './components/knowledge/VisualMedicineEngine';
-import { AnatomyCanvas } from './components/anatomy/AnatomyCanvas';
-import { CardiacCycleLab } from './components/physiology/CardiacCycleLab';
-import { AtherosclerosisSlider } from './components/pathology/AtherosclerosisSlider';
-import { HistologyLab } from './components/histology/HistologyLab';
-import { NormalVsAbnormalSlider } from './components/comparison/NormalVsAbnormalSlider';
-import { MedicalDiagramEngine } from './components/diagrams/MedicalDiagramEngine';
-import { SurgeryProcedureViewer } from './components/surgery/SurgeryProcedureViewer';
-import { DrugJourneyVisualizer } from './components/pharmacology/DrugJourneyVisualizer';
-import { ClinicalExamSimulator } from './components/clinical-exam/ClinicalExamSimulator';
-import { OspeEngine } from './components/practical/OspeEngine';
-import { OsceEngine } from './components/practical/OsceEngine';
+import { VisualLabHub, VisualLabTab } from './components/visual-lab/VisualLabHub';
 import { ClinicalCaseEngine } from './components/cases/ClinicalCaseEngine';
-import { EcgViewer } from './components/investigation/EcgViewer';
-import { XrayViewer } from './components/investigation/XrayViewer';
-import { RadiologyWorkstation } from './components/radiology/RadiologyWorkstation';
-import { TreatmentAlgorithmViewer } from './components/treatment/TreatmentAlgorithmViewer';
-import { TextbookReader } from './components/textbook/TextbookReader';
-import { QuestionBankView } from './components/questions/QuestionBankView';
-import { AiVivaExaminer } from './components/ai/AiVivaExaminer';
-import { AiTutorChat } from './components/ai/AiTutorChat';
+import { PracticeExamsHub, PracticeTab } from './components/practice/PracticeExamsHub';
+import { RevisionHub } from './components/revision/RevisionHub';
 import { PersonalizedProgress } from './components/progress/PersonalizedProgress';
+
+// Intelligence & Governance
+import { AiTutorChat } from './components/ai/AiTutorChat';
 import { FacultyAdminPortal } from './components/faculty/FacultyAdminPortal';
+import { VideoStudioHub } from './components/video-studio/VideoStudioHub';
+
+import { MobileBottomNav } from './components/navigation/MobileBottomNav';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavigationView>(() => {
@@ -44,14 +33,16 @@ export const App: React.FC = () => {
       const view = params.get('view');
       if (view) return view as NavigationView;
     }
-    return '3d-anatomy';
+    return 'dashboard';
   });
+
   const [role, setRole] = useState<UserRole>(StorageService.getRole());
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isVoiceOpen, setIsVoiceOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [investigationSubTab, setInvestigationSubTab] = useState<'workstation' | 'ecg' | 'xray'>('workstation');
-  const [isTopicUniverseOpen, setIsTopicUniverseOpen] = useState<boolean>(false);
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+
+  const isHomepage = currentView === 'dashboard' || currentView === 'home';
 
   // Global Ctrl + K listener
   useEffect(() => {
@@ -67,18 +58,26 @@ export const App: React.FC = () => {
 
   const handleNavigate = (view: NavigationView) => {
     setCurrentView(view);
-    setIsTopicUniverseOpen(false);
+    if (typeof window !== 'undefined') {
+      window.location.hash = view;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleRoleChange = (newRole: UserRole) => {
+  const handleOpenLesson = (lessonId: string) => {
+    setSelectedLessonId(lessonId);
+    setCurrentView('learn');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleRoleChange = async (newRole: UserRole) => {
     setRole(newRole);
-    StorageService.setRole(newRole);
+    await ApiService.setRole(newRole);
   };
 
   return (
-    <div className="min-h-screen bg-med-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-white">
-      {/* Top Navigation Bar */}
+    <div className="min-h-screen bg-[#06172E] bg-royal-mesh text-[#F5F9FF] flex flex-col font-sans selection:bg-[#08AFC1]/30 selection:text-white relative">
+      {/* Top Floating Glass Navigation Bar */}
       <Navbar
         currentView={currentView}
         onNavigate={handleNavigate}
@@ -92,172 +91,129 @@ export const App: React.FC = () => {
 
       {/* Main Layout Container */}
       <div className="flex-1 flex w-full relative">
-        {/* Left Sidebar */}
-        <Sidebar
-          currentView={currentView}
-          onNavigate={handleNavigate}
-          mobileOpen={mobileMenuOpen}
-          onCloseMobile={() => setMobileMenuOpen(false)}
-        />
+        {/* Left Sidebar (Only shown on inner study pages or via mobile drawer) */}
+        {!isHomepage && (
+          <Sidebar
+            currentView={currentView}
+            onNavigate={handleNavigate}
+            mobileOpen={mobileMenuOpen}
+            onCloseMobile={() => setMobileMenuOpen(false)}
+          />
+        )}
 
-        {/* Dynamic Main View Area */}
-        <main className="flex-1 lg:pl-64 w-full min-w-0 min-h-[calc(100vh-4rem)] overflow-x-hidden p-4 sm:p-6 lg:p-8">
+        {/* Mobile drawer when on homepage */}
+        {isHomepage && mobileMenuOpen && (
+          <Sidebar
+            currentView={currentView}
+            onNavigate={handleNavigate}
+            mobileOpen={mobileMenuOpen}
+            onCloseMobile={() => setMobileMenuOpen(false)}
+          />
+        )}
+
+        {/* Dynamic Main View Area - Full width on homepage, offset on study hubs */}
+        <main className={`flex-1 w-full min-w-0 min-h-[calc(100vh-5rem)] overflow-x-hidden ${isHomepage ? 'px-2 sm:px-4' : 'p-3 sm:p-6 lg:p-8 lg:pl-64'}`}>
           <ErrorBoundary key={currentView}>
-          {currentView === 'home' && (
-            <HeroCinematic onNavigate={handleNavigate} />
-          )}
+            {/* 1. Dashboard / Command Center */}
+            {isHomepage && (
+              <DashboardView 
+                onNavigate={handleNavigate} 
+                onOpenLesson={handleOpenLesson} 
+              />
+            )}
 
-          {currentView === 'visual-engine' && (
-            <VisualMedicineEngine onNavigate={handleNavigate} />
-          )}
-
-          {currentView === 'learn' && (
-            isTopicUniverseOpen ? (
-              <div className="space-y-4">
-                <div className="max-w-6xl mx-auto px-4 pt-4">
-                  <button
-                    onClick={() => setIsTopicUniverseOpen(false)}
-                    className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white transition-colors"
-                  >
-                    ← Back to Subject Library
-                  </button>
-                </div>
-                <TopicUniverseView onNavigateToView={handleNavigate} />
-              </div>
-            ) : (
+            {/* 2. Learn (Curriculum & 5-Stage Lesson System) */}
+            {currentView === 'learn' && (
               <LearnSubjectLibrary
-                onSelectTopic={() => setIsTopicUniverseOpen(true)}
+                onSelectTopic={() => {}}
+                onNavigateView={handleNavigate}
+                selectedLessonId={selectedLessonId}
+              />
+            )}
+
+            {/* 3. Visual Lab (Simulation Hub) */}
+            {(currentView === 'visual-lab' || 
+              currentView === 'visual-engine' ||
+              currentView === '3d-anatomy' ||
+              currentView === 'physiology' ||
+              currentView === 'pathology' ||
+              currentView === 'histology' ||
+              currentView === 'comparison' ||
+              currentView === 'diagrams' ||
+              currentView === 'surgery' ||
+              currentView === 'pharmacology' ||
+              currentView === 'investigations' ||
+              currentView === 'treatment' ||
+              currentView === 'textbook'
+            ) && (
+              <VisualLabHub
+                initialSubTab={
+                  currentView === 'physiology' ? 'cardiac-cycle' :
+                  currentView === 'pathology' ? 'pathology-slider' :
+                  currentView === 'histology' ? 'histology' :
+                  currentView === 'comparison' ? 'normal-vs-abnormal' :
+                  currentView === 'diagrams' ? 'diagrams' :
+                  currentView === 'surgery' ? 'surgery' :
+                  currentView === 'pharmacology' ? 'pharmacology' :
+                  currentView === 'investigations' ? 'radiology-dicom' :
+                  '3d-anatomy'
+                }
+                onNavigateToCase={() => handleNavigate('cases')}
+                onStartViva={() => handleNavigate('ai-viva')}
+              />
+            )}
+
+            {/* 4. Clinical Cases */}
+            {currentView === 'cases' && (
+              <ClinicalCaseEngine />
+            )}
+
+            {/* 5. Practice & Exams */}
+            {(currentView === 'practice' ||
+              currentView === 'questions' ||
+              currentView === 'ospe' ||
+              currentView === 'osce' ||
+              currentView === 'ai-viva' ||
+              currentView === 'clinical-exam'
+            ) && (
+              <PracticeExamsHub
+                initialSubTab={
+                  currentView === 'ospe' ? 'ospe' :
+                  currentView === 'osce' ? 'osce' :
+                  currentView === 'ai-viva' ? 'ai-viva' :
+                  'questions'
+                }
+              />
+            )}
+
+            {/* 6. Revision Hub (Spaced Flashcards & Mistakes) */}
+            {currentView === 'revision' && (
+              <RevisionHub
+                onNavigateToLesson={handleOpenLesson}
                 onNavigateView={handleNavigate}
               />
-            )
-          )}
+            )}
 
-          {currentView === '3d-anatomy' && (
-            <AnatomyCanvas
-              onNavigateToCase={() => handleNavigate('cases')}
-              onStartViva={() => handleNavigate('ai-viva')}
-            />
-          )}
+            {/* 7. Progress Radar */}
+            {currentView === 'progress' && (
+              <PersonalizedProgress
+                onNavigateToView={handleNavigate}
+                onNavigateToTopic={() => handleNavigate('learn')}
+              />
+            )}
 
-          {currentView === 'histology' && (
-            <HistologyLab />
-          )}
+            {/* Intelligence & Faculty */}
+            {currentView === 'ai-tutor' && (
+              <AiTutorChat />
+            )}
 
-          {currentView === 'physiology' && (
-            <CardiacCycleLab />
-          )}
+            {currentView === 'faculty-admin' && (
+              <FacultyAdminPortal />
+            )}
 
-          {currentView === 'pathology' && (
-            <AtherosclerosisSlider />
-          )}
-
-          {currentView === 'comparison' && (
-            <NormalVsAbnormalSlider />
-          )}
-
-          {currentView === 'diagrams' && (
-            <MedicalDiagramEngine />
-          )}
-
-          {currentView === 'surgery' && (
-            <SurgeryProcedureViewer />
-          )}
-
-          {currentView === 'pharmacology' && (
-            <DrugJourneyVisualizer />
-          )}
-
-          {currentView === 'clinical-exam' && (
-            <ClinicalExamSimulator />
-          )}
-
-          {currentView === 'ospe' && (
-            <OspeEngine />
-          )}
-
-          {currentView === 'osce' && (
-            <OsceEngine />
-          )}
-
-          {currentView === 'cases' && (
-            <ClinicalCaseEngine />
-          )}
-
-          {currentView === 'investigations' && (
-            <div className="space-y-6">
-              {/* Investigation sub-tab switcher */}
-              <div className="max-w-6xl mx-auto flex flex-wrap items-center gap-2">
-                <button
-                  onClick={() => setInvestigationSubTab('workstation')}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
-                    investigationSubTab === 'workstation'
-                      ? 'bg-sky-600 text-white border-sky-400 shadow-glow-cyan'
-                      : 'bg-slate-900/80 text-slate-300 border-slate-800'
-                  }`}
-                >
-                  Radiology Workstation & Abnormality Challenge
-                </button>
-                <button
-                  onClick={() => setInvestigationSubTab('ecg')}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
-                    investigationSubTab === 'ecg'
-                      ? 'bg-rose-600 text-white border-rose-400 shadow-glow-rose'
-                      : 'bg-slate-900/80 text-slate-300 border-slate-800'
-                  }`}
-                >
-                  12-Lead ECG Calibrated Viewer
-                </button>
-                <button
-                  onClick={() => setInvestigationSubTab('xray')}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
-                    investigationSubTab === 'xray'
-                      ? 'bg-cyan-500 text-black border-cyan-400 font-bold shadow-glow-cyan'
-                      : 'bg-slate-900/80 text-slate-300 border-slate-800'
-                  }`}
-                >
-                  Digital Chest Radiograph (CXR)
-                </button>
-              </div>
-
-              {investigationSubTab === 'workstation' && <RadiologyWorkstation />}
-              {investigationSubTab === 'ecg' && <EcgViewer />}
-              {investigationSubTab === 'xray' && <XrayViewer />}
-            </div>
-          )}
-
-          {currentView === 'treatment' && (
-            <TreatmentAlgorithmViewer />
-          )}
-
-          {currentView === 'textbook' && (
-            <TextbookReader />
-          )}
-
-          {currentView === 'questions' && (
-            <QuestionBankView />
-          )}
-
-          {currentView === 'ai-viva' && (
-            <AiVivaExaminer />
-          )}
-
-          {currentView === 'ai-tutor' && (
-            <AiTutorChat />
-          )}
-
-          {currentView === 'progress' && (
-            <PersonalizedProgress
-              onNavigateToView={handleNavigate}
-              onNavigateToTopic={() => {
-                setIsTopicUniverseOpen(true);
-                handleNavigate('learn');
-              }}
-            />
-          )}
-
-          {currentView === 'faculty-admin' && (
-            <FacultyAdminPortal />
-          )}
+            {currentView === 'video-studio' && (
+              <VideoStudioHub />
+            )}
           </ErrorBoundary>
         </main>
       </div>
@@ -274,6 +230,13 @@ export const App: React.FC = () => {
         onClose={() => setIsVoiceOpen(false)}
         onNavigate={handleNavigate}
       />
+
+      {/* Mobile Floating Glass Bottom Navigation */}
+      <MobileBottomNav
+        currentView={currentView}
+        onNavigate={handleNavigate}
+      />
     </div>
   );
 };
+export default App;
