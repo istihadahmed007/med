@@ -104,7 +104,8 @@ export class AnatomyAssetService {
     try {
       const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
       const res = await fetch(`${base}anatomy/manifest.json`);
-      if (res.ok) {
+      const contentType = res.headers.get('content-type') || '';
+      if (res.ok && contentType.toLowerCase().includes('application/json')) {
         const data = await res.json();
         if (data && Array.isArray(data.organs)) {
           data.organs.forEach((org: ManifestOrgan) => {

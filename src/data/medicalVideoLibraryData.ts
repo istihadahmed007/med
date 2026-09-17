@@ -64,7 +64,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 270,
     has3DAnimation: true,
     animationType: 'cardiac-cycle',
-    thumbnailUrl: '/anatomy/heart_preview.jpg',
+    thumbnailUrl: '/anatomy/heart/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Dynamic visualization of four-chamber synchrony, atrioventricular (mitral/tricuspid) and semilunar (aortic/pulmonary) valve mechanics, and Wiggers ventricular pressure-volume curves during systole and diastole.',
     relatedAnatomy: [
@@ -112,7 +112,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 255,
     has3DAnimation: true,
     animationType: 'lungs-alveoli',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/lungs/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'High-definition 3D animation illustrating diaphragm and intercostal mechanics, negative intrapleural pressure generation, and microscopic alveolar-capillary oxygen and carbon dioxide diffusion.',
     relatedAnatomy: [
@@ -158,7 +158,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 310,
     has3DAnimation: true,
     animationType: 'action-potential',
-    thumbnailUrl: '/anatomy/torso_concept.jpg',
+    thumbnailUrl: '/anatomy/brain/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Detailed microscopic visualization of action potential propagation along myelinated axons, saltatory conduction at nodes of Ranvier, and neurotransmitter exocytosis at the synaptic cleft.',
     relatedAnatomy: [
@@ -205,7 +205,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 285,
     has3DAnimation: true,
     animationType: 'kidney-nephron',
-    thumbnailUrl: '/anatomy/biochem_molecule.jpg',
+    thumbnailUrl: '/anatomy/kidneys/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Exploration of renal blood flow, glomerular capillary ultrafiltration across podocyte slit diaphragms, tubular reabsorption along the loop of Henle, and hormone-mediated water balance.',
     relatedAnatomy: [
@@ -252,7 +252,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 260,
     has3DAnimation: true,
     animationType: 'digestion-peristalsis',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/liver/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Anatomical and biochemical overview of the hepatic lobule, dual blood supply via the portal vein and hepatic artery, cytochrome P450 drug clearance, and bile synthesis.',
     relatedAnatomy: [
@@ -299,7 +299,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 230,
     has3DAnimation: true,
     animationType: 'digestion-peristalsis',
-    thumbnailUrl: '/anatomy/torso_concept.jpg',
+    thumbnailUrl: '/anatomy/intestine/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Cinematic medical animation showing gastric rugae, parietal cell proton pumps secreting hydrochloric acid, chief cells activating pepsinogen, and antral retropulsion grinding.',
     relatedAnatomy: [
@@ -344,7 +344,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 240,
     has3DAnimation: true,
     animationType: 'digestion-peristalsis',
-    thumbnailUrl: '/anatomy/biochem_molecule.jpg',
+    thumbnailUrl: '/anatomy/intestine/microscopic.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Microscopic 3D journey through circular plicae, villi, and microvillar brush border, highlighting carbohydrate SGLT1 transport, peptide symport, and lacteal lipid absorption.',
     relatedAnatomy: [
@@ -481,7 +481,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 300,
     has3DAnimation: true,
     animationType: 'action-potential',
-    thumbnailUrl: '/anatomy/biochem_molecule.jpg',
+    thumbnailUrl: '/anatomy/torso_hero.jpg',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Dynamic immunological animation illustrating macrophage phagocytosis, dendritic cell antigen presentation on MHC-II, CD4+ helper T cell activation, and B cell clonal selection.',
     relatedAnatomy: [
@@ -575,7 +575,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 315,
     has3DAnimation: true,
     animationType: 'laparoscopy-triangulation',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/intestine/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Step-by-step surgical animation of laparoscopic appendectomy: port placement triangulation, identification of taenia coli convergence, mesoappendix skeletonization, and appendiceal base ligating loops.',
     relatedAnatomy: [
@@ -619,7 +619,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 345,
     has3DAnimation: true,
     animationType: 'cholecystectomy-cvs',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/liver/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Gold-standard surgical animation demonstrating Strasberg’s Critical View of Safety (CVS): clearing Calot’s triangle, unroofing the cystic plate, and isolating the cystic duct and artery before clipping.',
     relatedAnatomy: [
@@ -708,7 +708,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 330,
     has3DAnimation: true,
     animationType: 'cabg-surgery',
-    thumbnailUrl: '/anatomy/heart_preview.jpg',
+    thumbnailUrl: '/anatomy/heart/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'High-precision surgical animation of on-pump CABG: median sternotomy, cardiopulmonary bypass initiation, pedicled in-situ Left Internal Mammary Artery (LIMA) to LAD anastomosis, and reversed saphenous vein grafting.',
     relatedAnatomy: [
@@ -752,7 +752,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 295,
     has3DAnimation: true,
     animationType: 'cardiac-cycle',
-    thumbnailUrl: '/anatomy/heart_preview.jpg',
+    thumbnailUrl: '/anatomy/heart/location.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Surgical aortic and mitral valve replacement showing calcified leaflet excision, annular decalcification, pledgeted mattress suture placement, and transcatheter aortic valve replacement (TAVR) balloon expansion.',
     relatedAnatomy: [
@@ -796,7 +796,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 280,
     has3DAnimation: true,
     animationType: 'laparoscopy-triangulation',
-    thumbnailUrl: '/anatomy/torso_concept.jpg',
+    thumbnailUrl: '/anatomy/torso_hero.jpg',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Obstetric surgical animation demonstrating Pfannenstiel transverse laparotomy, rectus fascial mobilization, bladder flap creation, lower uterine segment hysterotomy (Kerr incision), fetal delivery, and two-layer uterine closure.',
     relatedAnatomy: [
@@ -840,7 +840,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 320,
     has3DAnimation: true,
     animationType: 'laparoscopy-triangulation',
-    thumbnailUrl: '/anatomy/torso_concept.jpg',
+    thumbnailUrl: '/anatomy/torso_hero.jpg',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Comprehensive surgical animation of total laparoscopic hysterectomy: desiccation of round and infundibulopelvic ligaments, bladder dissection, uterine artery skeletonization, colpotomy, and vaginal cuff closure.',
     relatedAnatomy: [
@@ -885,7 +885,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 310,
     has3DAnimation: true,
     animationType: 'kidney-nephron',
-    thumbnailUrl: '/anatomy/biochem_molecule.jpg',
+    thumbnailUrl: '/anatomy/kidneys/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Detailed urological surgical animation demonstrating colon medialization, exposure of Gerota’s fascia, early vascular control of the renal artery and vein with vascular endostaplers, and intact specimen retrieval.',
     relatedAnatomy: [
@@ -929,7 +929,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 350,
     has3DAnimation: true,
     animationType: 'cholecystectomy-cvs',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/liver/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Advanced hepato-pancreato-biliary surgical animation illustrating Couinaud segmental anatomy, Glissonian pedicle isolation, Pringle maneuver inflow control, and Cavitron Ultrasonic Surgical Aspirator (CUSA) parenchymal transection.',
     relatedAnatomy: [
@@ -973,7 +973,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 305,
     has3DAnimation: true,
     animationType: 'lungs-alveoli',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/lungs/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Minimally invasive thoracic surgical animation showing anatomical right upper lobectomy via uniportal VATS: individual dissection and stapling of pulmonary vein branches, pulmonary arterial truncus, and lobar bronchus.',
     relatedAnatomy: [
@@ -1017,7 +1017,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 340,
     has3DAnimation: true,
     animationType: 'action-potential',
-    thumbnailUrl: '/anatomy/torso_concept.jpg',
+    thumbnailUrl: '/anatomy/brain/organ.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'High-definition neurosurgical animation detailing Mayfield headpin fixation, neuronavigation coregistration, high-speed pneumatic craniotome bone flap creation, dural opening, and ultrasonic aspirator tumor debulking.',
     relatedAnatomy: [
@@ -1106,7 +1106,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 300,
     has3DAnimation: true,
     animationType: 'laparoscopy-triangulation',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/torso_concept.jpg',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Cutting-edge animation illustrating the multi-arm surgical robot, master console 3D stereoscopic vision, tremor cancellation algorithms, and articulating Endowrist technology offering 7 degrees of freedom.',
     relatedAnatomy: [
@@ -1154,7 +1154,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 290,
     has3DAnimation: true,
     animationType: 'atherosclerosis',
-    thumbnailUrl: '/anatomy/heart_preview.jpg',
+    thumbnailUrl: '/anatomy/heart/compare.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Pathophysiological animation illustrating atheromatous plaque rupture, occlusive platelet-fibrin thrombus formation in the coronary artery, subendocardial to transmural myocardial necrosis wavefront, and ECG changes.',
     relatedAnatomy: [
@@ -1199,7 +1199,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 285,
     has3DAnimation: true,
     animationType: 'action-potential',
-    thumbnailUrl: '/anatomy/torso_concept.jpg',
+    thumbnailUrl: '/anatomy/brain/compare.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Pathological comparison of thromboembolic cerebral infarction (85%) and hemorrhagic stroke (15%), detailing the ischemic core, salvageable ischemic penumbra, and cytotoxic edema.',
     relatedAnatomy: [
@@ -1243,7 +1243,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 315,
     has3DAnimation: true,
     animationType: 'action-potential',
-    thumbnailUrl: '/anatomy/biochem_molecule.jpg',
+    thumbnailUrl: '/anatomy/torso_concept.jpg',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Cellular pathology animation illustrating multistep carcinogenesis: oncogene activation, loss of TP53 tumor suppression, sustained angiogenesis via VEGF, epithelial-mesenchymal transition, and metastatic extravasation.',
     relatedAnatomy: [
@@ -1288,7 +1288,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 255,
     has3DAnimation: true,
     animationType: 'kidney-nephron',
-    thumbnailUrl: '/anatomy/biochem_molecule.jpg',
+    thumbnailUrl: '/anatomy/kidneys/compare.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Pathological animation showing urinary solute supersaturation, Randall’s plaque crystal nucleation in renal papillae, calculus dislodgement into the ureter, and acute hydronephrosis.',
     relatedAnatomy: [
@@ -1333,7 +1333,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 280,
     has3DAnimation: true,
     animationType: 'cholecystectomy-cvs',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/liver/compare.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Cellular pathology animation of hepatic cirrhosis: chronic injury activating hepatic stellate cells into myofibroblasts, diffuse collagen I/III deposition, regenerative nodule formation, and sinusoidal capillarization.',
     relatedAnatomy: [
@@ -1421,7 +1421,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 260,
     has3DAnimation: true,
     animationType: 'lungs-alveoli',
-    thumbnailUrl: '/anatomy/torso_hero.jpg',
+    thumbnailUrl: '/anatomy/lungs/compare.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Pathological visualization of lobar pneumonia through the four classical stages: congestion, red hepatization, gray hepatization, and resolution, detailing intrapulmonary shunting and hypoxemia.',
     relatedAnatomy: [
@@ -1465,7 +1465,7 @@ export const MEDICAL_VIDEO_LIBRARY: MedicalVideoItem[] = [
     durationSeconds: 285,
     has3DAnimation: true,
     animationType: 'atherosclerosis',
-    thumbnailUrl: '/anatomy/heart_preview.jpg',
+    thumbnailUrl: '/anatomy/heart/microscopic.webp',
     videoUrl: '/media/cardiac_cycle_systole.mp4',
     description: 'Dynamic vascular cross-section animation showing turbulent shear stress, oxidized LDL subendothelial entry, macrophage scavenger uptake forming foam cells, smooth muscle fibrous cap proliferation, and plaque rupture.',
     relatedAnatomy: [

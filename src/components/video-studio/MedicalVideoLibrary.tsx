@@ -425,7 +425,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
 
   // Clock interpolation for 3D simulation mode
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    let interval: ReturnType<typeof setInterval> | null = null;
     if (isPlaying && viewMode === '3d-sim') {
       interval = setInterval(() => {
         setCurrentTime(prev => {
@@ -693,7 +693,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
             <div className="flex items-center gap-3">
               {/* Playback Speed Selector */}
               <div className="flex items-center gap-1">
-                {[0.75, 1.0, 1.25, 1.5].map(speed => (
+                {[0.5, 0.75, 1.0, 1.25, 1.5, 2.0].map(speed => (
                   <button
                     key={speed}
                     onClick={() => setPlaybackSpeed(speed)}
