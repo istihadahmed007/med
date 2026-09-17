@@ -66,6 +66,24 @@ export const MedicalAnimationCanvas: React.FC<MedicalAnimationCanvasProps> = ({
       case 'cabg-surgery':
         renderCabgSurgery(ctx, width, height, progress, timeMs);
         break;
+      case 'lungs-alveoli':
+        renderLungsAlveoli(ctx, width, height, progress, timeMs);
+        break;
+      case 'kidney-nephron':
+        renderKidneyNephron(ctx, width, height, progress, timeMs);
+        break;
+      case 'digestion-peristalsis':
+        renderDigestionPeristalsis(ctx, width, height, progress, timeMs);
+        break;
+      case 'laparoscopy-triangulation':
+        renderLaparoscopyTriangulation(ctx, width, height, progress, timeMs);
+        break;
+      case 'cholecystectomy-cvs':
+        renderCholecystectomyCVS(ctx, width, height, progress, timeMs);
+        break;
+      case 'thrombosis':
+        renderThrombosis(ctx, width, height, progress, timeMs);
+        break;
       case 'cardiac-cycle':
       default:
         renderCardiacCycle(ctx, width, height, progress, timeMs);
@@ -1047,3 +1065,635 @@ function renderCardiacCycle(ctx: CanvasRenderingContext2D, w: number, h: number,
   ctx.font = '11px monospace';
   ctx.fillText(`Phase: ${p < 0.30 ? 'Isovolumetric Contraction (S1 Closure)' : p < 0.70 ? 'Rapid Systolic Ejection (Aortic Valve Open)' : 'Isovolumetric Relaxation & Protodiastole (S2 Closure)'}`, 38, 50);
 }
+
+// ==========================================
+// 8. LUNGS & ALVEOLAR GAS EXCHANGE
+// ==========================================
+function renderLungsAlveoli(ctx: CanvasRenderingContext2D, w: number, h: number, p: number, t: number) {
+  // Breathing expansion wave
+  const breath = Math.sin(t * 0.002);
+  const scale = 1 + breath * 0.06;
+
+  // Background gradient
+  const bgGrad = ctx.createRadialGradient(w * 0.5, h * 0.5, 50, w * 0.5, h * 0.5, w * 0.6);
+  bgGrad.addColorStop(0, '#041d33');
+  bgGrad.addColorStop(1, '#020b18');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Alveolar Sac
+  const cx = w * 0.38;
+  const cy = h * 0.52;
+  const r = Math.min(w, h) * 0.28 * scale;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(14, 116, 144, 0.18)';
+  ctx.fill();
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Type II Pneumocyte and Surfactant layer
+  ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+  ctx.lineWidth = 6;
+  ctx.setLineDash([8, 6]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Pulmonary Capillary Arch curving around the alveolus
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 24, -Math.PI * 0.6, Math.PI * 0.6);
+  ctx.strokeStyle = '#f43f5e';
+  ctx.lineWidth = 26;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Capillary wall
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 38, -Math.PI * 0.6, Math.PI * 0.6);
+  ctx.strokeStyle = 'rgba(244, 63, 94, 0.4)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Erythrocytes flowing in capillary
+  const cellCount = 12;
+  for (let i = 0; i < cellCount; i++) {
+    const angle = -Math.PI * 0.55 + ((i + (t * 0.001) % 1) / cellCount) * Math.PI * 1.1;
+    const ex = cx + Math.cos(angle) * (r + 24);
+    const ey = cy + Math.sin(angle) * (r + 24);
+    const oxygenation = Math.min(1, Math.max(0, (angle + Math.PI * 0.55) / (Math.PI * 1.1)));
+
+    ctx.beginPath();
+    ctx.arc(ex, ey, 7, 0, Math.PI * 2);
+    // Transition from deox (dark purple) to oxygenated (bright red)
+    ctx.fillStyle = `rgb(${Math.round(110 + oxygenation * 135)}, ${Math.round(20 + oxygenation * 20)}, ${Math.round(140 - oxygenation * 90)})`;
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // O2 Diffusion Particles (Cyan dots moving from alveolus into capillary)
+  for (let i = 0; i < 18; i++) {
+    const frac = ((t * 0.0015 + i * 0.12) % 1);
+    const angle = -Math.PI * 0.45 + (i / 18) * Math.PI * 0.9;
+    const px = cx + Math.cos(angle) * (r * 0.7 + frac * (r * 0.45));
+    const py = cy + Math.sin(angle) * (r * 0.7 + frac * (r * 0.45));
+
+    ctx.fillStyle = '#06b6d4';
+    ctx.beginPath();
+    ctx.arc(px, py, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // CO2 Diffusion Particles (Amber dots moving out of capillary into alveolus)
+  for (let i = 0; i < 14; i++) {
+    const frac = 1 - ((t * 0.0012 + i * 0.15) % 1);
+    const angle = -Math.PI * 0.40 + (i / 14) * Math.PI * 0.8;
+    const px = cx + Math.cos(angle) * (r * 0.75 + frac * (r * 0.45));
+    const py = cy + Math.sin(angle) * (r * 0.75 + frac * (r * 0.45));
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.beginPath();
+    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+
+  // Right Side Telemetry HUD
+  const tx = w * 0.70;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  ctx.strokeStyle = '#0284c7';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(tx, 75, w * 0.27, h - 95, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('ALVEOLAR GAS DYNAMICS', tx + 14, 100);
+
+  ctx.font = '11px monospace';
+  ctx.fillStyle = '#e2e8f0';
+  ctx.fillText(`• Tidal Volume: 500 mL`, tx + 14, 130);
+  ctx.fillText(`• Alveolar pO2: 104 mmHg`, tx + 14, 155);
+  ctx.fillText(`• Capillary pO2: 40 → 100 mmHg`, tx + 14, 180);
+  ctx.fillText(`• Alveolar pCO2: 40 mmHg`, tx + 14, 205);
+  ctx.fillText(`• Venous pCO2: 46 → 40 mmHg`, tx + 14, 230);
+  ctx.fillText(`• Membrane: 0.5 μm (Fick's law)`, tx + 14, 255);
+  ctx.fillText(`• V/Q Ratio: 0.85 (Normal)`, tx + 14, 280);
+
+  // Header HUD
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.strokeStyle = '#06b6d4';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(24, 16, w - 48, 44, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('Pulmonary Alveolar-Capillary Gas Exchange & Surfactant Dynamics', 38, 34);
+
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = '11px monospace';
+  ctx.fillText(`Breath: ${breath > 0 ? 'Active Inspiration (Diaphragm Descent)' : 'Passive Elastic Recoil (Expiration)'} | O2 Saturation: 99%`, 38, 48);
+}
+
+// ==========================================
+// 9. KIDNEY & NEPHRON FILTRATION
+// ==========================================
+function renderKidneyNephron(ctx: CanvasRenderingContext2D, w: number, h: number, p: number, t: number) {
+  // Background
+  const bgGrad = ctx.createRadialGradient(w * 0.5, h * 0.5, 40, w * 0.5, h * 0.5, w * 0.6);
+  bgGrad.addColorStop(0, '#1a1005');
+  bgGrad.addColorStop(1, '#0b0803');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Bowman Capsule & Glomerulus (Left side)
+  const gx = w * 0.28;
+  const gy = h * 0.42;
+
+  // Bowman Capsule cup
+  ctx.beginPath();
+  ctx.arc(gx, gy, 70, -Math.PI * 0.75, Math.PI * 0.75);
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+  ctx.stroke();
+
+  // Glomerular Capillary Tuft
+  ctx.beginPath();
+  for (let a = 0; a < Math.PI * 4; a += 0.2) {
+    const rad = 25 + Math.sin(a * 3 + t * 0.003) * 12;
+    const px = gx + Math.cos(a) * rad;
+    const py = gy + Math.sin(a) * rad;
+    if (a === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.lineWidth = 7;
+  ctx.strokeStyle = '#ef4444';
+  ctx.stroke();
+
+  // Afferent Arteriolar Blood Inflow
+  ctx.beginPath();
+  ctx.moveTo(gx - 85, gy - 75);
+  ctx.lineTo(gx - 20, gy - 25);
+  ctx.strokeStyle = '#dc2626';
+  ctx.lineWidth = 12;
+  ctx.stroke();
+
+  // Efferent Arteriolar Blood Outflow
+  ctx.beginPath();
+  ctx.moveTo(gx + 20, gy - 25);
+  ctx.lineTo(gx + 85, gy - 75);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 8;
+  ctx.stroke();
+
+  // Ultrafiltrate flow down PCT & Loop of Henle
+  ctx.beginPath();
+  ctx.moveTo(gx, gy + 70);
+  ctx.bezierCurveTo(gx, gy + 140, gx + 80, gy + 140, gx + 80, gy + 200);
+  ctx.bezierCurveTo(gx + 80, h - 50, gx + 140, h - 50, gx + 140, gy + 180);
+  ctx.strokeStyle = 'rgba(251, 191, 36, 0.7)';
+  ctx.lineWidth = 10;
+  ctx.stroke();
+
+  // Filtrate droplets moving along nephron
+  for (let i = 0; i < 8; i++) {
+    const frac = (t * 0.001 + i * 0.125) % 1;
+    const fx = gx + frac * 140;
+    const fy = gy + 80 + Math.sin(frac * Math.PI) * 100;
+    ctx.beginPath();
+    ctx.arc(fx, fy, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#fef08a';
+    ctx.fill();
+  }
+
+  // Right Side Telemetry
+  const tx = w * 0.65;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  ctx.strokeStyle = '#d97706';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(tx, 75, w * 0.31, h - 95, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('RENAL HEMODYNAMICS & GFR', tx + 14, 100);
+
+  ctx.font = '11px monospace';
+  ctx.fillStyle = '#f3f4f6';
+  ctx.fillText(`• Renal Blood Flow: 1200 mL/min`, tx + 14, 130);
+  ctx.fillText(`• GFR: 125 mL/min (180 L/day)`, tx + 14, 155);
+  ctx.fillText(`• Glomerular HP: 55 mmHg`, tx + 14, 180);
+  ctx.fillText(`• Colloid Oncotic: 30 mmHg`, tx + 14, 205);
+  ctx.fillText(`• Bowman Capsule: 15 mmHg`, tx + 14, 230);
+  ctx.fillText(`• Net Filtration Pressure: +10 mmHg`, tx + 14, 255);
+  ctx.fillText(`• Glucose Reabsorption: 100% (PCT)`, tx + 14, 280);
+
+  // Header HUD
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(24, 16, w - 48, 44, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('Nephron Ultrafiltration & Countercurrent Multiplication System', 38, 34);
+
+  ctx.fillStyle = '#fde047';
+  ctx.font = '11px monospace';
+  ctx.fillText('Afferent Arteriolar High Hydrostatic Pressure → Podocyte Slit Filtration → PCT', 38, 48);
+}
+
+// ==========================================
+// 10. DIGESTION & PERISTALSIS
+// ==========================================
+function renderDigestionPeristalsis(ctx: CanvasRenderingContext2D, w: number, h: number, p: number, t: number) {
+  // Background
+  ctx.fillStyle = '#0f172a';
+  ctx.fillRect(0, 0, w, h);
+
+  // Intestinal lumen cross-section
+  const topY = h * 0.28;
+  const botY = h * 0.72;
+
+  // Upper mucosal wall with peristaltic wave
+  ctx.beginPath();
+  ctx.moveTo(30, topY);
+  for (let x = 30; x < w - 30; x += 10) {
+    const wave = Math.sin((x * 0.015) - (t * 0.003)) * 18;
+    ctx.lineTo(x, topY + wave);
+  }
+  ctx.strokeStyle = '#f43f5e';
+  ctx.lineWidth = 14;
+  ctx.stroke();
+
+  // Lower mucosal wall
+  ctx.beginPath();
+  ctx.moveTo(30, botY);
+  for (let x = 30; x < w - 30; x += 10) {
+    const wave = Math.sin((x * 0.015) - (t * 0.003)) * 18;
+    ctx.lineTo(x, botY - wave);
+  }
+  ctx.strokeStyle = '#f43f5e';
+  ctx.lineWidth = 14;
+  ctx.stroke();
+
+  // Villi Micro-Fingers along walls
+  for (let x = 40; x < w - 40; x += 16) {
+    const wave = Math.sin((x * 0.015) - (t * 0.003)) * 18;
+    ctx.beginPath();
+    ctx.moveTo(x, topY + wave);
+    ctx.lineTo(x, topY + wave + 16);
+    ctx.strokeStyle = 'rgba(251, 113, 133, 0.6)';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x, botY - wave);
+    ctx.lineTo(x, botY - wave - 16);
+    ctx.stroke();
+  }
+
+  // Chyme Bolus moving forward
+  const bolusX = 60 + ((t * 0.08) % (w - 140));
+  const bolusY = (topY + botY) / 2;
+  ctx.beginPath();
+  ctx.ellipse(bolusX, bolusY, 45, 26, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(217, 119, 6, 0.75)';
+  ctx.fill();
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Nutrient Absorption Particles entering villi
+  for (let i = 0; i < 15; i++) {
+    const px = bolusX - 30 + (i * 5);
+    const py = bolusY + (Math.sin(i * 2) * 20);
+    ctx.beginPath();
+    ctx.arc(px, py, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#22c55e';
+    ctx.fill();
+  }
+
+  // Header HUD
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.strokeStyle = '#f43f5e';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(24, 16, w - 48, 44, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('Gastrointestinal Peristaltic Propulsion & Mucosal Nutrient Absorption', 38, 34);
+
+  ctx.fillStyle = '#fda4af';
+  ctx.font = '11px monospace';
+  ctx.fillText('Circular Muscle Constriction → Longitudinal Muscle Shortening → SGLT1/Enterocyte Uptake', 38, 48);
+}
+
+// ==========================================
+// 11. LAPAROSCOPY & TRIANGULATION
+// ==========================================
+function renderLaparoscopyTriangulation(ctx: CanvasRenderingContext2D, w: number, h: number, p: number, t: number) {
+  ctx.fillStyle = '#090d16';
+  ctx.fillRect(0, 0, w, h);
+
+  // Abdominal Wall Curved Dome
+  ctx.beginPath();
+  ctx.moveTo(40, h * 0.28);
+  ctx.quadraticCurveTo(w * 0.5, h * 0.18, w - 40, h * 0.28);
+  ctx.lineWidth = 12;
+  ctx.strokeStyle = '#475569';
+  ctx.stroke();
+
+  // Pneumoperitoneum space label
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+  ctx.fillRect(40, h * 0.30, w - 80, h * 0.55);
+
+  // Target Organ (Appendix or Gallbladder) at bottom center
+  const targetX = w * 0.5;
+  const targetY = h * 0.72;
+  ctx.beginPath();
+  ctx.arc(targetX, targetY, 20, 0, Math.PI * 2);
+  ctx.fillStyle = '#10b981';
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 10px sans-serif';
+  ctx.fillText('OPERATIVE TARGET', targetX - 48, targetY + 36);
+
+  // Center Port (10mm Laparoscope Optical Axis)
+  const camPortX = w * 0.5;
+  const camPortY = h * 0.23;
+
+  ctx.beginPath();
+  ctx.moveTo(camPortX, camPortY - 40);
+  ctx.lineTo(targetX, targetY - 22);
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  // Optical Cone (Camera light cone)
+  ctx.beginPath();
+  ctx.moveTo(camPortX, camPortY + 30);
+  ctx.lineTo(targetX - 70, targetY + 10);
+  ctx.lineTo(targetX + 70, targetY + 10);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+  ctx.fill();
+
+  // Left Working Port & Instrument
+  const leftPortX = w * 0.32;
+  const leftPortY = h * 0.25;
+  const leftTipX = targetX - 18 + Math.sin(t * 0.002) * 8;
+  const leftTipY = targetY - 10 + Math.cos(t * 0.002) * 6;
+
+  ctx.beginPath();
+  ctx.moveTo(leftPortX - 35, leftPortY - 35);
+  ctx.lineTo(leftTipX, leftTipY);
+  ctx.strokeStyle = '#a855f7';
+  ctx.lineWidth = 3.5;
+  ctx.stroke();
+
+  // Right Working Port & Instrument (Scissors / Grasper)
+  const rightPortX = w * 0.68;
+  const rightPortY = h * 0.25;
+  const rightTipX = targetX + 18 - Math.sin(t * 0.002) * 8;
+  const rightTipY = targetY - 10 + Math.cos(t * 0.002) * 6;
+
+  ctx.beginPath();
+  ctx.moveTo(rightPortX + 35, rightPortY - 35);
+  ctx.lineTo(rightTipX, rightTipY);
+  ctx.strokeStyle = '#eab308';
+  ctx.lineWidth = 3.5;
+  ctx.stroke();
+
+  // Triangulation Angle Arc between working instruments
+  ctx.beginPath();
+  ctx.arc(targetX, targetY - 10, 50, -Math.PI * 0.65, -Math.PI * 0.35);
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#22c55e';
+  ctx.font = 'bold 12px monospace';
+  ctx.fillText('60° Triangulation', targetX - 45, targetY - 65);
+
+  // Header HUD
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.strokeStyle = '#a855f7';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(24, 16, w - 48, 44, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('Laparoscopic Port Triangulation, Fulcrum Mechanics & Ergonomic Vectoring', 38, 34);
+
+  ctx.fillStyle = '#c084fc';
+  ctx.font = '11px monospace';
+  ctx.fillText('Camera Centered on Optical Axis | 60-Degree Instrument Angle Prevents "Sword-Fighting"', 38, 48);
+}
+
+// ==========================================
+// 12. CHOLECYSTECTOMY & CRITICAL VIEW OF SAFETY
+// ==========================================
+function renderCholecystectomyCVS(ctx: CanvasRenderingContext2D, w: number, h: number, p: number, t: number) {
+  ctx.fillStyle = '#060f1e';
+  ctx.fillRect(0, 0, w, h);
+
+  // Liver Under-Surface
+  ctx.beginPath();
+  ctx.moveTo(40, 100);
+  ctx.bezierCurveTo(w * 0.4, 70, w * 0.7, 90, w - 40, 110);
+  ctx.lineTo(w - 40, 60);
+  ctx.lineTo(40, 60);
+  ctx.closePath();
+  ctx.fillStyle = '#831843';
+  ctx.fill();
+
+  // Gallbladder retracted upward
+  const gbX = w * 0.46;
+  const gbY = h * 0.42;
+
+  ctx.beginPath();
+  ctx.ellipse(gbX, gbY, 55, 95, 0.25, 0, Math.PI * 2);
+  ctx.fillStyle = '#15803d';
+  ctx.fill();
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Common Bile Duct (CBD) - Running vertically
+  const cbdX = w * 0.62;
+  ctx.beginPath();
+  ctx.moveTo(cbdX, 100);
+  ctx.lineTo(cbdX, h - 50);
+  ctx.strokeStyle = '#10b981';
+  ctx.lineWidth = 14;
+  ctx.stroke();
+
+  // Cystic Duct connecting Gallbladder to CBD
+  ctx.beginPath();
+  ctx.moveTo(gbX + 25, gbY + 65);
+  ctx.bezierCurveTo(gbX + 50, gbY + 85, cbdX - 30, gbY + 85, cbdX, gbY + 95);
+  ctx.strokeStyle = '#34d399';
+  ctx.lineWidth = 8;
+  ctx.stroke();
+
+  // Cystic Artery running superiorly to Cystic Duct
+  ctx.beginPath();
+  ctx.moveTo(gbX + 15, gbY + 30);
+  ctx.bezierCurveTo(gbX + 45, gbY + 40, cbdX - 25, gbY + 35, cbdX - 10, 150);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  // Titanium Surgical Clips placed on Cystic Duct & Artery
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillRect(gbX + 45, gbY + 70, 8, 14);
+  ctx.fillRect(gbX + 60, gbY + 76, 8, 14);
+  ctx.fillRect(gbX + 40, gbY + 30, 6, 10);
+
+  // Cleared Cystic Plate (Lower 1/3 of gallbladder unroofed)
+  ctx.strokeStyle = 'rgba(251, 191, 36, 0.8)';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4, 4]);
+  ctx.strokeRect(gbX - 45, gbY + 10, 70, 65);
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 11px monospace';
+  ctx.fillText('Cleared Cystic Plate (CVS Criterion 2)', gbX - 120, gbY + 120);
+
+  // Header HUD
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.strokeStyle = '#10b981';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(24, 16, w - 48, 44, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('Laparoscopic Cholecystectomy — Strasberg’s Critical View of Safety (CVS)', 38, 34);
+
+  ctx.fillStyle = '#6ee7b7';
+  ctx.font = '11px monospace';
+  ctx.fillText('1. Clear Calot Triangle | 2. Unroof Cystic Plate | 3. See Only Two Structures Entering Gallbladder', 38, 48);
+}
+
+// ==========================================
+// 13. THROMBOSIS & VIRCHOW'S TRIAD
+// ==========================================
+function renderThrombosis(ctx: CanvasRenderingContext2D, w: number, h: number, p: number, t: number) {
+  ctx.fillStyle = '#080c14';
+  ctx.fillRect(0, 0, w, h);
+
+  // Vessel Wall
+  const vTop = h * 0.28;
+  const vBot = h * 0.72;
+
+  // Intact upper wall
+  ctx.fillStyle = '#9f1239';
+  ctx.fillRect(20, vTop - 16, w - 40, 16);
+
+  // Lower wall with endothelial denudation / injury site
+  ctx.fillRect(20, vBot, w - 40, 16);
+
+  // Injury Gap revealing subendothelial collagen
+  const injL = w * 0.38;
+  const injR = w * 0.65;
+  ctx.fillStyle = '#f59e0b';
+  ctx.fillRect(injL, vBot, injR - injL, 6); // Exposed collagen
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '10px monospace';
+  ctx.fillText('Exposed Collagen & vWF', injL + 10, vBot + 28);
+
+  // Flowing Blood Cells in upper lumen
+  for (let i = 0; i < 20; i++) {
+    const rx = ((t * 0.12 + i * 45) % (w - 60)) + 30;
+    const ry = vTop + 20 + Math.sin(i * 3) * 35;
+    ctx.beginPath();
+    ctx.arc(rx, ry, 7, 0, Math.PI * 2);
+    ctx.fillStyle = '#e11d48';
+    ctx.fill();
+  }
+
+  // Thrombus Plaque growing over injury site
+  ctx.beginPath();
+  ctx.moveTo(injL - 10, vBot);
+  ctx.bezierCurveTo(injL + 20, vBot - 70, injR - 20, vBot - 65, injR + 10, vBot);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(190, 18, 60, 0.85)';
+  ctx.fill();
+  ctx.strokeStyle = '#fda4af';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Fibrin Strands (Gold mesh) across the thrombus
+  ctx.strokeStyle = '#fbbf24';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < 10; i++) {
+    const fx1 = injL + i * 12;
+    const fy1 = vBot - Math.sin(i * 0.35) * 55;
+    const fx2 = injL + i * 14 + 15;
+    const fy2 = vBot - 10;
+    ctx.beginPath();
+    ctx.moveTo(fx1, fy1);
+    ctx.lineTo(fx2, fy2);
+    ctx.stroke();
+  }
+
+  // Activated Platelets (Glowing Green Disks adhering to thrombus)
+  for (let i = 0; i < 12; i++) {
+    const px = injL + 15 + i * 9;
+    const py = vBot - 15 - Math.sin(i * 0.3) * 35;
+    ctx.beginPath();
+    ctx.arc(px, py, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#22c55e';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Header HUD
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  ctx.strokeStyle = '#e11d48';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.roundRect(24, 16, w - 48, 44, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('Hemostasis & Thrombogenesis — Platelet Plug & Fibrin Meshwork', 38, 34);
+
+  ctx.fillStyle = '#fda4af';
+  ctx.font = '11px monospace';
+  ctx.fillText('Subendothelial Collagen/vWF → Platelet Activation (GpIIb/IIIa) → Thrombin Cleaves Fibrinogen', 38, 48);
+}
+

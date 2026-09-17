@@ -36,9 +36,11 @@ import { getLessonVideoTemplate } from '../../data/videoStudioTemplates';
 import { EducationalVideoPlayer } from './EducationalVideoPlayer';
 import { MedicalReviewModal } from './MedicalReviewModal';
 
+import { MedicalVideoLibrary } from './MedicalVideoLibrary';
+
 export const VideoStudioHub: React.FC = () => {
   const [currentRole, setCurrentRole] = useState<UserRole>(StorageService.getRole());
-  const [activeTab, setActiveTab] = useState<'author' | 'queue' | 'review' | 'preview'>('author');
+  const [activeTab, setActiveTab] = useState<'library' | 'author' | 'queue' | 'review' | 'preview'>('library');
 
   // Job Queue & Videos State
   const [jobs, setJobs] = useState<VideoGenerationJob[]>([]);
@@ -113,9 +115,6 @@ export const VideoStudioHub: React.FC = () => {
   useEffect(() => {
     fetchJobs();
     fetchPublishedVideos();
-    // Fast polling every 4 seconds to observe real-time queue transitions
-    const interval = setInterval(fetchJobs, 4000);
-    return () => clearInterval(interval);
   }, [currentRole]);
 
   const handleRoleChange = (role: UserRole) => {
@@ -247,6 +246,18 @@ export const VideoStudioHub: React.FC = () => {
       {/* Primary Studio Navigation Tabs */}
       <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto scrollbar-none">
         <button
+          onClick={() => setActiveTab('library')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+            activeTab === 'library'
+              ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-glow-cyan font-black'
+              : 'bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800'
+          }`}
+        >
+          <BookOpen className="w-4 h-4 text-cyan-300" />
+          <span>Medical Video Library (33 Topics)</span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('author')}
           className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
             activeTab === 'author'
@@ -255,7 +266,7 @@ export const VideoStudioHub: React.FC = () => {
           }`}
         >
           <Plus className="w-4 h-4" />
-          <span>1. Create Generation Brief</span>
+          <span>Faculty Authoring Studio</span>
         </button>
 
         <button
@@ -300,6 +311,11 @@ export const VideoStudioHub: React.FC = () => {
           <span>4. Curriculum Video Showcase</span>
         </button>
       </div>
+
+      {/* TAB 0: MEDICAL VIDEO LIBRARY (33 TOPICS ACROSS 3 MAIN CATEGORIES) */}
+      {activeTab === 'library' && (
+        <MedicalVideoLibrary />
+      )}
 
       {/* TAB 1: AUTHORING STUDIO (CREATE GENERATION BRIEF) */}
       {activeTab === 'author' && (

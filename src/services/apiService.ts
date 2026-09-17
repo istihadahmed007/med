@@ -17,38 +17,52 @@ import {
 
 const API_BASE = '/api';
 
+/**
+ * Safely fetches and parses JSON only if Content-Type includes application/json and response is OK.
+ * Prevents "Unexpected token '<', '<!DOCTYPE '... is not valid JSON" crashes on static SPA hosts.
+ */
+async function safeJsonFetch<T>(url: string, options: RequestInit = {}): Promise<T | null> {
+  try {
+    const headers = new Headers(options.headers || {});
+    if (!headers.has('Accept')) {
+      headers.set('Accept', 'application/json');
+    }
+    const res = await fetch(url, { ...options, headers });
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.toLowerCase().includes('application/json')) {
+      return (await res.json()) as T;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export class ApiService {
   private static isOnline = typeof navigator !== 'undefined' ? navigator.onLine : true;
 
   // Server health check
   static async checkHealth(): Promise<{ status: string; version: string; database: string }> {
-    try {
-      const res = await fetch(`${API_BASE}/health`, { method: 'GET', headers: { 'Accept': 'application/json' } });
-      if (res.ok) return await res.json();
-      throw new Error('Server returned non-200');
-    } catch {
-      return { status: 'offline_mode', version: '2.0.0-local', database: 'browser_storage' };
-    }
+    const data = await safeJsonFetch<{ status: string; version: string; database: string }>(`${API_BASE}/health`);
+    if (data) return data;
+    return { status: 'offline_mode', version: '2.0.0-local', database: 'browser_storage' };
   }
 
   // Authentication & Role
   static async getCurrentUser(): Promise<UserAccount> {
-    try {
-      const res = await fetch(`${API_BASE}/auth/me`);
-      if (res.ok) return await res.json();
-      throw new Error('Auth fallback');
-    } catch {
-      const role = StorageService.getRole();
-      const progress = StorageService.getProgress();
-      return {
-        id: progress.userId,
-        name: progress.name,
-        email: progress.email,
-        role: role,
-        currentPhase: progress.currentPhase,
-        institution: progress.university
-      };
-    }
+    const data = await safeJsonFetch<UserAccount>(`${API_BASE}/auth/me`);
+    if (data) return data;
+
+    const role = StorageService.getRole();
+    const progress = StorageService.getProgress();
+    return {
+      id: progress.userId,
+      name: progress.name,
+      email: progress.email,
+      role: role,
+      currentPhase: progress.currentPhase,
+      institution: progress.university
+    };
   }
 
   static async setRole(role: UserRole): Promise<UserRole> {
@@ -67,76 +81,48 @@ export class ApiService {
 
   // Lessons & Curriculum
   static async getLessons(filter?: { phase?: string; system?: string }): Promise<BmdcLesson[]> {
-    try {
-      const params = new URLSearchParams();
-      if (filter?.phase) params.append('phase', filter.phase);
-      if (filter?.system) params.append('system', filter.system);
-      
-      const res = await fetch(`${API_BASE}/lessons?${params.toString()}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
-      }
-      throw new Error('Fallback to local lessons');
-    } catch {
-      let results = [...CARDIOVASCULAR_PILOT_LESSONS];
-      if (filter?.phase) {
-        results = results.filter((l) => l.phase.toLowerCase().includes(filter.phase!.toLowerCase()));
-      }
-      if (filter?.system) {
-        results = results.filter((l) => l.system === filter.system);
-      }
-      return results;
+    const params = new URLSearchParams();
+    if (filter?.phase) params.append('phase', filter.phase);
+    if (filter?.system) params.append('system', filter.system);
+    
+    const data = await safeJsonFetch<BmdcLesson[]>(`${API_BASE}/lessons?${params.toString()}`);
+    if (Array.isArray(data) && data.length > 0) return data;
+
+    let results = [...CARDIOVASCULAR_PILOT_LESSONS];
+    if (filter?.phase) {
+      results = results.filter((l) => l.phase.toLowerCase().includes(filter.phase!.toLowerCase()));
     }
+    if (filter?.system) {
+      results = results.filter((l) => l.system === filter.system);
+    }
+    return results;
   }
 
   static async getLessonById(id: string): Promise<BmdcLesson | undefined> {
-    try {
-      const res = await fetch(`${API_BASE}/lessons/${id}`);
-      if (res.ok) return await res.json();
-      throw new Error('Lesson fallback');
-    } catch {
-      return CARDIOVASCULAR_PILOT_LESSONS.find((l) => l.id === id);
-    }
+    const data = await safeJsonFetch<BmdcLesson>(`${API_BASE}/lessons/${id}`);
+    if (data) return data;
+    return CARDIOVASCULAR_PILOT_LESSONS.find((l) => l.id === id);
   }
 
   // Questions & Assessment
   static async getQuestions(topic?: string, phase?: string): Promise<QuestionBankItem[]> {
-    try {
-      const res = await fetch(`${API_BASE}/questions`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
-      }
-      throw new Error('Questions fallback');
-    } catch {
-      return CARDIOVASCULAR_PILOT_QUESTIONS;
-    }
+    const data = await safeJsonFetch<QuestionBankItem[]>(`${API_BASE}/questions`);
+    if (Array.isArray(data) && data.length > 0) return data;
+    return CARDIOVASCULAR_PILOT_QUESTIONS;
   }
 
   // Clinical Cases
   static async getCases(): Promise<ClinicalCase[]> {
-    try {
-      const res = await fetch(`${API_BASE}/cases`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
-      }
-      throw new Error('Cases fallback');
-    } catch {
-      return CARDIOVASCULAR_PILOT_CASES;
-    }
+    const data = await safeJsonFetch<ClinicalCase[]>(`${API_BASE}/cases`);
+    if (Array.isArray(data) && data.length > 0) return data;
+    return CARDIOVASCULAR_PILOT_CASES;
   }
 
   // Progress & Analytics
   static async getProgress(): Promise<StudentProgress> {
-    try {
-      const res = await fetch(`${API_BASE}/progress`);
-      if (res.ok) return await res.json();
-      throw new Error('Progress fallback');
-    } catch {
-      return StorageService.getProgress();
-    }
+    const data = await safeJsonFetch<StudentProgress>(`${API_BASE}/progress`);
+    if (data) return data;
+    return StorageService.getProgress();
   }
 
   static async updateProgress(progress: StudentProgress): Promise<void> {
@@ -160,12 +146,17 @@ export class ApiService {
     isConfigured: boolean;
   }> {
     try {
-      const res = await fetch(`${API_BASE}/ai-tutor`, {
+      const data = await safeJsonFetch<{
+        answer: string;
+        citations: string[];
+        visualCascade?: string[];
+        isConfigured: boolean;
+      }>(`${API_BASE}/ai-tutor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, language })
       });
-      if (res.ok) return await res.json();
+      if (data) return data;
       throw new Error('AI API unavailable');
     } catch (e) {
       // Deterministic evidence-grounded search over published lessons
