@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { NavigationView, UserRole } from './types';
 import { StorageService } from './services/storageService';
 import { ApiService } from './services/apiService';
@@ -23,11 +23,12 @@ import { FacultyAdminPortal } from './components/faculty/FacultyAdminPortal';
 import { VideoStudioHub } from './components/video-studio/VideoStudioHub';
 
 import { MobileBottomNav } from './components/navigation/MobileBottomNav';
+const AcrossBooksWorkspace = lazy(() => import('./components/across-books/AcrossBooksWorkspace').then(module => ({ default: module.AcrossBooksWorkspace })));
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavigationView>(() => {
     if (typeof window !== 'undefined') {
-      const hash = window.location.hash.replace('#', '');
+      const hash = window.location.hash.replace('#', '').split('/')[0];
       if (hash) return hash as NavigationView;
       const params = new URLSearchParams(window.location.search);
       const view = params.get('view');
@@ -43,6 +44,17 @@ export const App: React.FC = () => {
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
 
   const isHomepage = currentView === 'dashboard' || currentView === 'home';
+
+  // Hash links support shareable topic URLs and browser back/forward navigation.
+  useEffect(() => {
+    const syncView = () => {
+      const hash = window.location.hash.slice(1).split('/')[0];
+      setCurrentView((hash || 'dashboard') as NavigationView);
+      setMobileMenuOpen(false);
+    };
+    window.addEventListener('hashchange', syncView);
+    return () => window.removeEventListener('hashchange', syncView);
+  }, []);
 
   // Global Ctrl + K listener
   useEffect(() => {
@@ -140,6 +152,12 @@ export const App: React.FC = () => {
                 onNavigateView={handleNavigate}
                 selectedLessonId={selectedLessonId}
               />
+            )}
+
+            {currentView === 'across-books' && (
+              <Suspense fallback={<p role="status" className="p-6 text-slate-300">Opening your study workspace…</p>}>
+                <AcrossBooksWorkspace onNavigate={handleNavigate} />
+              </Suspense>
             )}
 
             {/* 3. Visual Lab (Simulation Hub) */}

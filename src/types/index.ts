@@ -1,6 +1,7 @@
 export type NavigationView =
   | 'dashboard'
   | 'learn'
+  | 'across-books'
   | 'visual-lab'
   | 'cases'
   | 'practice'

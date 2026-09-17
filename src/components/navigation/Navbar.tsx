@@ -62,7 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Center-Left Navigation Links matching concept */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
-              const isActive = currentView === link.id;
+              const isActive = currentView === link.id || (link.id === 'learn' && currentView === 'across-books');
               return (
                 <button
                   key={link.id}

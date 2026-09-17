@@ -104,6 +104,17 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
         </div>
       </div>
 
+      <a href="#across-books" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border border-cyan-300/25 bg-cyan-950/30 hover:border-cyan-300/60 transition-colors group">
+        <div className="flex gap-4 items-start">
+          <BookOpen className="w-6 h-6 text-cyan-200 shrink-0 mt-1" />
+          <div>
+            <h2 className="text-lg font-bold text-white">Study a topic across books</h2>
+            <p className="text-sm text-slate-300 mt-1">Connect your textbook reading, compare perspectives and practise recall in one place.</p>
+          </div>
+        </div>
+        <span className="text-sm text-cyan-200 font-semibold flex items-center gap-2 shrink-0">Explore topics <ArrowRight className="w-4 h-4" /></span>
+      </a>
+
       {/* Phase Selector Tabs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {PHASES.map((p) => {

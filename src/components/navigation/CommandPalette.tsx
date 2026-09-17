@@ -17,6 +17,7 @@ interface CommandItem {
 }
 
 const COMMAND_ITEMS: CommandItem[] = [
+  { id: 'across-books', title: 'Study a topic across books: connected reading, comparison and notes', category: 'Learn', view: 'across-books', shortcut: 'BOOKS' },
   { id: 'visual-engine', title: 'The Visual Medicine Engine (12-Step Continuous Journey)', category: 'Visual Engine', view: 'visual-engine', shortcut: 'VISUAL' },
   { id: '3d-heart', title: '3D Anatomy: Heart & Great Vessels', category: '3D Anatomy', view: '3d-anatomy', shortcut: '3D' },
   { id: '3d-brain', title: '3D Anatomy: Brain & Brainstem', category: '3D Anatomy', view: '3d-anatomy' },

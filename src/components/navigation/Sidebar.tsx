@@ -48,8 +48,14 @@ const PRIMARY_HUBS: NavItem[] = [
     badge: 'BM&DC',
     description: 'Phase I-IV 5-stage lessons'
   },
+  {
+    id: 'across-books',
+    label: 'Across books',
+    icon: Layers,
+    description: 'Connect a topic across textbooks'
+  },
   { 
-    id: 'visual-lab', 
+    id: 'visual-lab',
     label: 'Visual Lab', 
     icon: Sparkles, 
     badge: '3D/DICOM',
