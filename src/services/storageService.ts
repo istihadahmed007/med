@@ -13,6 +13,7 @@ import {
   VideoStudentProgress 
 } from '../types/videoStudio';
 import { CARDIOVASCULAR_PILOT_LESSONS, CARDIOVASCULAR_PILOT_QUESTIONS } from '../data/cardiovascularPilotData';
+import { LESSON_VIDEO_TEMPLATES } from '../data/videoStudioTemplates';
 
 const PROGRESS_STORAGE_KEY = 'medx_bd_student_progress_v2';
 const ROLE_STORAGE_KEY = 'medx_bd_current_role_v2';
@@ -526,51 +527,39 @@ export class StorageService {
       const stored = localStorage.getItem('medx_published_videos_v1');
       if (stored) {
         const list: LessonVideo[] = JSON.parse(stored);
-        if (lessonId) return list.filter(v => v.lessonId === lessonId);
-        return list;
+        if (Array.isArray(list) && list.length >= 4) {
+          if (lessonId) return list.filter(v => v.lessonId === lessonId);
+          return list;
+        }
       }
     } catch {}
-    const initialVideos: LessonVideo[] = [
-      {
-        id: 'vid-cv-004-systole',
-        jobId: 'vj-pilot-1001',
-        lessonId: 'cvs-physio-cardiac-cycle-wiggers',
-        title: 'Cardiac Ventricular Systole & Valvular Dynamics',
-        titleBn: 'কার্ডিয়াক ভেন্ট্রিকুলার সিস্টোল এবং ভালভুলার গতিশীলতা',
-        videoUrl: '/media/cardiac_cycle_systole.mp4',
-        posterUrl: '/anatomy/heart_preview.png',
-        durationSeconds: 18,
+
+    const templateKeys = Object.keys(LESSON_VIDEO_TEMPLATES);
+    const initialVideos: LessonVideo[] = templateKeys.map((key, idx) => {
+      const t = LESSON_VIDEO_TEMPLATES[key];
+      return {
+        id: `vid-${t.lessonId}`,
+        jobId: `vj-init-${1000 + idx}`,
+        lessonId: t.lessonId,
+        title: t.videoTitleEn,
+        titleBn: t.videoTitleBn,
+        animationType: t.animationType,
+        videoUrl: t.videoUrl,
+        posterUrl: t.posterUrl,
+        durationSeconds: t.durationSeconds,
         publicationStatus: 'published',
-        disclaimer: 'AI-generated educational illustration based on MedGen-1.3B. For academic simulation only; not real patient footage. Does not verify clinical surgical competency.',
-        chapters: [
-          { timestampSeconds: 0, title: 'Isovolumetric Contraction', titleBn: 'আইসোভলিউমেট্রিক সংকোচন', description: 'All 4 cardiac valves closed; intraventricular pressure spikes steeply.' },
-          { timestampSeconds: 6, title: 'Aortic Valve Opening & Rapid Ejection', titleBn: 'অ্যাওর্টিক ভালভ উন্মোচন ও দ্রুত রক্ত নির্গমন', description: 'LV pressure exceeds 80 mmHg; semilunar cusps open briskly.' },
-          { timestampSeconds: 12, title: 'Reduced Ejection & Protodiastole', titleBn: 'হ্রাসপ্রাপ্ত নির্গমন ও প্রোটোডায়াস্টোল', description: 'Myocardial relaxation initiates; aortic pressure begins declining.' }
-        ],
-        questions: [
-          {
-            id: 'vq-001',
-            timestampSeconds: 6,
-            prompt: 'During the cardiac cycle, what mechanical event occurs immediately when left ventricular pressure exceeds ascending aortic diastolic pressure (~80 mmHg)?',
-            promptBn: 'বাম ভেন্ট্রিকলের চাপ মহাধমনীর ডায়াস্টোলিক চাপ (~৮০ mmHg) অতিক্রম করার সাথে সাথে কোন যান্ত্রিক ঘটনাটি ঘটে?',
-            options: [
-              'Mitral valve opens widely',
-              'Aortic valve opens and rapid ejection begins',
-              'First heart sound (S1) is generated',
-              'Isovolumetric relaxation begins'
-            ],
-            correctOptionIndex: 1,
-            explanation: 'When left ventricular pressure exceeds the 80 mmHg systemic diastolic pressure in the aorta, the aortic valve cusps are forced open and rapid ventricular ejection commences.',
-            bmdcMark: 1
-          }
-        ],
-        transcriptEn: 'During ventricular systole, electrical depolarization spreads through the bundle of His and Purkinje network, triggering uniform myocardial contraction. The mitral and tricuspid valves close tightly to create the first heart sound. During isovolumetric contraction, pressure surges without volume change until the semilunar aortic valve opens, propelling blood into systemic circulation.',
-        transcriptBn: 'ভেন্ট্রিকুলার সিস্টোলের সময় বৈদ্যুতিক ডিপোলারাইজেশন পারকিঞ্জে ফাইবারের মাধ্যমে ছড়িয়ে পড়ে সমন্বিত সংকোচন ঘটায়। মাইট্রাল ও ট্রাইকাস্পিড ভালভ দৃঢ়ভাবে বন্ধ হয়ে প্রথম হৃদধ্বনি (S1) সৃষ্টি করে। আইসোভলিউমেট্রিক সংকোচনের পর মহাধমনীর ভালভ উন্মুক্ত হয়ে রক্ত সঞ্চালিত হয়।',
+        disclaimer: 'AI-generated educational illustration based on MedGen-1.3B. For academic simulation only; not real patient footage.',
+        chapters: t.chapters,
+        questions: t.questions,
+        subtitles: t.subtitles,
+        transcriptEn: t.transcriptEn,
+        transcriptBn: t.transcriptBn,
         reviewedBy: 'Prof. M. A. Jalil (External Medical Reviewer, Dhaka Medical College)',
         approvedDate: '2026-09-15T14:20:00.000Z',
         videoVersion: 'v1.0-medgen-verified'
-      }
-    ];
+      };
+    });
+
     try {
       localStorage.setItem('medx_published_videos_v1', JSON.stringify(initialVideos));
     } catch {}

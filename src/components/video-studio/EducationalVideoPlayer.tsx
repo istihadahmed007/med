@@ -23,6 +23,8 @@ import {
 import { LessonVideoAsset, VideoChapter, VideoQuestion, VideoStudentProgress } from '../../types/videoStudio';
 import { StorageService } from '../../services/storageService';
 import { VideoStudioService } from '../../services/videoStudioService';
+import { getLessonVideoTemplate } from '../../data/videoStudioTemplates';
+import { MedicalAnimationCanvas } from './MedicalAnimationCanvas';
 
 interface EducationalVideoPlayerProps {
   video: LessonVideoAsset;
@@ -38,13 +40,25 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // Lesson template fallback for lesson-specific structures, chapters & subtitles
+  const template = getLessonVideoTemplate(video.lessonId);
+  const effectiveAnimationType = video.animationType || template.animationType || 'cardiac-cycle';
+  const effectiveChapters = (video.chapters && video.chapters.length > 0) ? video.chapters : template.chapters;
+  const effectiveQuestions = (video.questions && video.questions.length > 0) ? video.questions : template.questions;
+  const effectiveDuration = video.durationSeconds || template.durationSeconds || 18;
+
+  // Visual View Mode: 'simulation' (HTML5 Canvas 60fps) or 'video' (Native MP4)
+  const [visualMode, setVisualMode] = useState<'simulation' | 'video'>(
+    effectiveAnimationType === 'cardiac-cycle' ? 'video' : 'simulation'
+  );
+
   // Playback state
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(video.durationSeconds || 18);
+  const [duration, setDuration] = useState<number>(effectiveDuration);
   const [playbackRate, setPlaybackRate] = useState<number>(1);
   const [volume, setVolume] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(true); // Default to muted per requirements (no autoplay with sound)
+  const [isMuted, setIsMuted] = useState<boolean>(true); // Default to muted per requirements
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [isLowDataMode, setIsLowDataMode] = useState<boolean>(false);
   const [videoError, setVideoError] = useState<boolean>(false);
@@ -61,26 +75,41 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
   // Resume Playback
   const [resumeNotice, setResumeNotice] = useState<number | null>(null);
 
-  // Current active chapter
-  const currentChapter = video.chapters?.slice().reverse().find(c => currentTime >= c.timestampSeconds) || video.chapters?.[0];
+  // Synchronize when video changes
+  useEffect(() => {
+    const t = getLessonVideoTemplate(video.lessonId);
+    const aType = video.animationType || t.animationType || 'cardiac-cycle';
+    setVisualMode(aType === 'cardiac-cycle' ? 'video' : 'simulation');
+    setCurrentTime(0);
+    setIsPlaying(false);
+    setActiveQuestion(null);
+    setDuration(video.durationSeconds || t.durationSeconds || 18);
+  }, [video.id, video.lessonId, video.animationType]);
 
-  // Dynamic synchronized subtitle narration based on playback time
+  // Current active chapter
+  const currentChapter = effectiveChapters?.slice().reverse().find(c => currentTime >= c.timestampSeconds) || effectiveChapters?.[0];
+
+  // Dynamic synchronized bilingual subtitle narration based on active topic template
   const getCurrentSubtitle = () => {
     if (subtitleLanguage === 'off') return null;
 
-    if (currentTime < 6) {
-      return subtitleLanguage === 'bn'
-        ? 'ভেন্ট্রিকুলার সিস্টোলের শুরুতে বৈদ্যুতিক ডিপোলারাইজেশন পারকিঞ্জে ফাইবারের মাধ্যমে ছড়িয়ে পড়ে সমন্বিত সংকোচন ঘটায়। মাইট্রাল ও ট্রাইকাস্পিড ভালভ বন্ধ হয়ে S1 হৃদধ্বনি তৈরি হয়।'
-        : 'During ventricular systole, electrical depolarization spreads through the bundle of His and Purkinje network. Mitral and tricuspid valves snap shut to create the S1 heart sound.';
-    } else if (currentTime < 12) {
-      return subtitleLanguage === 'bn'
-        ? 'বাম ভেন্ট্রিকলের চাপ মহাধমনীর ডায়াস্টোলিক চাপ (~৮০ mmHg) অতিক্রম করলে অ্যাওর্টিক ভালভ উন্মুক্ত হয়ে দ্রুত গতিতে রক্ত সঞ্চালিত হয়।'
-        : 'Left ventricular pressure surges above 80 mmHg; semilunar aortic valve cusps open briskly with rapid systolic blood ejection into the aorta.';
-    } else {
-      return subtitleLanguage === 'bn'
-        ? 'সিস্টোলিক নির্গমন হ্রাস পায় এবং ভেন্ট্রিকুলার রিপোলারাইজেশন শুরু হয়; মহাধমনীর ভালভ বন্ধ হয়ে দ্বিতীয় হৃদধ্বনি (S2) গঠন করে।'
-        : 'Systolic ejection slows as intraventricular pressure falls. Semilunar aortic valve prepares for crisp closure, generating the S2 heart sound.';
+    const subs = video.subtitles || template.subtitles;
+    if (subs && subs.length > 0) {
+      const activeSub = subs.find(s => currentTime >= s.startSeconds && currentTime < s.endSeconds);
+      if (activeSub) {
+        return subtitleLanguage === 'bn' ? activeSub.textBn : activeSub.textEn;
+      }
     }
+
+    if (currentChapter) {
+      return subtitleLanguage === 'bn' && currentChapter.titleBn
+        ? currentChapter.titleBn
+        : currentChapter.title;
+    }
+
+    return subtitleLanguage === 'bn' 
+      ? (video.transcriptBn || template.transcriptBn) 
+      : (video.transcriptEn || template.transcriptEn);
   };
 
   // Fetch student saved progress on mount
@@ -90,7 +119,7 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
 
     VideoStudioService.getProgress(studentId, video.id)
       .then((data: VideoStudentProgress | null) => {
-        if (data && data.lastPositionSeconds > 2 && data.lastPositionSeconds < (video.durationSeconds - 2)) {
+        if (data && data.lastPositionSeconds > 2 && data.lastPositionSeconds < (effectiveDuration - 2)) {
           setResumeNotice(data.lastPositionSeconds);
         }
         if (data?.answeredQuestionIds) {
@@ -98,7 +127,7 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
         }
       })
       .catch(err => console.warn('Could not load saved video progress:', err));
-  }, [video.id, video.durationSeconds]);
+  }, [video.id, effectiveDuration]);
 
   // Synchronize playback progress to server
   const saveProgress = (pos: number, completed = false) => {
@@ -108,24 +137,71 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
     VideoStudioService.saveProgress({
       studentId,
       videoId: video.id,
-      lessonId: video.lessonId,
       lastPositionSeconds: Math.round(pos),
       highestPositionSeconds: Math.round(pos),
       watchedSeconds: Math.round(pos),
       completed,
-      demonstratedUnderstanding: answeredQuestionIds.size >= (video.questions?.length || 0),
+      demonstratedUnderstanding: answeredQuestionIds.size >= (effectiveQuestions?.length || 0),
       answeredQuestionIds: Array.from(answeredQuestionIds)
     }).catch(err => console.warn('Could not save progress:', err));
   };
 
+  // 60fps simulation clock when in simulation mode
+  useEffect(() => {
+    if (visualMode !== 'simulation' || !isPlaying || activeQuestion) return;
+
+    let lastTime = performance.now();
+    let animFrameId: number;
+
+    const tick = (now: number) => {
+      const deltaSec = (now - lastTime) / 1000;
+      lastTime = now;
+
+      setCurrentTime(prevTime => {
+        const nextTime = prevTime + deltaSec * playbackRate;
+
+        // Check for interactive question stop
+        if (effectiveQuestions && effectiveQuestions.length > 0) {
+          for (const q of effectiveQuestions) {
+            if (!answeredQuestionIds.has(q.id) && prevTime < q.timestampSeconds && nextTime >= q.timestampSeconds) {
+              setIsPlaying(false);
+              setActiveQuestion(q);
+              setSelectedOption(null);
+              setIsAnswerSubmitted(false);
+              return q.timestampSeconds;
+            }
+          }
+        }
+
+        if (nextTime >= effectiveDuration) {
+          setIsPlaying(false);
+          saveProgress(effectiveDuration, true);
+          return effectiveDuration;
+        }
+
+        // Periodic sync every 6 seconds
+        if (Math.floor(nextTime) % 6 === 0 && Math.floor(prevTime) !== Math.floor(nextTime)) {
+          saveProgress(nextTime);
+        }
+
+        return nextTime;
+      });
+
+      animFrameId = requestAnimationFrame(tick);
+    };
+
+    animFrameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrameId);
+  }, [visualMode, isPlaying, playbackRate, effectiveDuration, activeQuestion, answeredQuestionIds, effectiveQuestions]);
+
   const handleTimeUpdate = () => {
-    if (!videoRef.current) return;
+    if (!videoRef.current || visualMode !== 'video') return;
     const curr = videoRef.current.currentTime;
     setCurrentTime(curr);
 
     // Check for interactive question stop
-    if (video.questions && video.questions.length > 0) {
-      for (const q of video.questions) {
+    if (effectiveQuestions && effectiveQuestions.length > 0) {
+      for (const q of effectiveQuestions) {
         if (!answeredQuestionIds.has(q.id) && Math.abs(curr - q.timestampSeconds) < 0.6 && !activeQuestion) {
           videoRef.current.pause();
           setIsPlaying(false);
@@ -150,35 +226,40 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
   };
 
   const togglePlay = () => {
-    if (!videoRef.current) return;
     if (isPlaying) {
-      videoRef.current.pause();
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
       setIsPlaying(false);
       saveProgress(currentTime);
     } else {
-      if (videoError) {
-        setVideoError(false);
+      if (currentTime >= effectiveDuration) {
+        handleSeek(0);
       }
-      videoRef.current.play().then(() => {
-        setIsPlaying(true);
-        setVideoError(false);
-      }).catch(err => {
-        console.warn('Playback prevented:', err);
-      });
+      setIsPlaying(true);
+      if (visualMode === 'video' && videoRef.current) {
+        videoRef.current.play().catch(err => {
+          console.warn('MP4 playback unavailable; falling back to 3D Simulation view:', err);
+          setVisualMode('simulation');
+        });
+      }
     }
   };
 
   const handleSeek = (newTime: number) => {
-    if (!videoRef.current) return;
-    videoRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
+    const clamped = Math.max(0, Math.min(newTime, effectiveDuration));
+    setCurrentTime(clamped);
+    if (videoRef.current) {
+      videoRef.current.currentTime = clamped;
+    }
   };
 
   const handleResume = (time: number) => {
     handleSeek(time);
     setResumeNotice(null);
-    if (videoRef.current) {
-      videoRef.current.play().then(() => setIsPlaying(true));
+    setIsPlaying(true);
+    if (visualMode === 'video' && videoRef.current) {
+      videoRef.current.play().catch(() => setVisualMode('simulation'));
     }
   };
 
@@ -244,8 +325,9 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
     setActiveQuestion(null);
     setSelectedOption(null);
     setIsAnswerSubmitted(false);
-    if (videoRef.current) {
-      videoRef.current.play().then(() => setIsPlaying(true));
+    setIsPlaying(true);
+    if (visualMode === 'video' && videoRef.current) {
+      videoRef.current.play().catch(() => setVisualMode('simulation'));
     }
   };
 
@@ -272,6 +354,30 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
           </span>
         </div>
         <div className="flex items-center gap-2">
+          {/* Visual Track / 3D Simulation Mode Switcher */}
+          <button
+            onClick={() => {
+              const nextMode = visualMode === 'simulation' ? 'video' : 'simulation';
+              setVisualMode(nextMode);
+              if (nextMode === 'video' && isPlaying && videoRef.current) {
+                videoRef.current.play().catch(() => setVisualMode('simulation'));
+              }
+            }}
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-200 transition-colors cursor-pointer"
+            title="Toggle between MedGen 3D Medical Simulation Canvas and MP4 Video Track"
+          >
+            {visualMode === 'simulation' ? (
+              <>
+                <Sparkles className="w-3 h-3 text-cyan-400 animate-pulse" />
+                <span>3D Simulation Mode</span>
+              </>
+            ) : (
+              <>
+                <Layers className="w-3 h-3 text-blue-400" />
+                <span>MP4 Track</span>
+              </>
+            )}
+          </button>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-900/40 border border-amber-500/40 text-amber-200">
             {video.videoVersion || 'v1.0-verified'}
           </span>
@@ -304,45 +410,41 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
 
       {/* 3. Main Video Canvas / Screen */}
       <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden group">
-        <video
-          ref={videoRef}
-          src={isLowDataMode ? (video.lowBandwidthUrl || video.videoUrl) : video.videoUrl}
-          poster={video.posterUrl || '/anatomy/heart/organ.webp'}
-          playsInline
-          preload="auto"
-          muted={isMuted}
-          onTimeUpdate={handleTimeUpdate}
-          onLoadedMetadata={handleLoadedMetadata}
-          onCanPlay={() => setVideoError(false)}
-          onPlaying={() => {
-            setIsPlaying(true);
-            setVideoError(false);
-          }}
-          onEnded={() => {
-            setIsPlaying(false);
-            saveProgress(duration, true);
-          }}
-          onError={() => {
-            // Check if fallback webm can be loaded before setting error
-            if (videoRef.current && !videoRef.current.currentSrc?.endsWith('.webm')) {
-              videoRef.current.src = (video.lowBandwidthUrl || video.videoUrl).replace(/\.mp4$/, '.webm');
-              videoRef.current.load();
-            } else {
-              setVideoError(true);
-            }
-          }}
-          className="w-full h-full object-contain"
-        >
-          <source src={isLowDataMode ? (video.lowBandwidthUrl || video.videoUrl) : video.videoUrl} type="video/mp4" />
-          <source src={(isLowDataMode ? (video.lowBandwidthUrl || video.videoUrl) : video.videoUrl).replace(/\.mp4$/, '.webm')} type="video/webm" />
-        </video>
-
-        {/* Discreet Badge if video fallback is running */}
-        {videoError && (
-          <div className="absolute top-3 right-3 z-20 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl border border-amber-500/40 text-[11px] font-medium text-amber-300 shadow-md flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Interactive Poster Preview</span>
-          </div>
+        {visualMode === 'simulation' ? (
+          <MedicalAnimationCanvas
+            animationType={effectiveAnimationType}
+            currentTime={currentTime}
+            duration={effectiveDuration}
+            isPlaying={isPlaying}
+            className="w-full h-full"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={isLowDataMode ? (video.lowBandwidthUrl || video.videoUrl) : video.videoUrl}
+            poster={video.posterUrl || template.posterUrl || '/anatomy/heart/organ.webp'}
+            playsInline
+            preload="auto"
+            muted={isMuted}
+            onTimeUpdate={handleTimeUpdate}
+            onLoadedMetadata={handleLoadedMetadata}
+            onCanPlay={() => setVideoError(false)}
+            onPlaying={() => {
+              setIsPlaying(true);
+              setVideoError(false);
+            }}
+            onEnded={() => {
+              setIsPlaying(false);
+              saveProgress(effectiveDuration, true);
+            }}
+            onError={() => {
+              // Seamless fallback to 3D Simulation canvas if MP4 fails
+              setVisualMode('simulation');
+            }}
+            className="w-full h-full object-contain"
+          >
+            <source src={isLowDataMode ? (video.lowBandwidthUrl || video.videoUrl) : video.videoUrl} type="video/mp4" />
+          </video>
         )}
 
         {/* Big Center Play Overlay Button - clean and unobstructed */}
@@ -466,32 +568,32 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
         <div className="relative flex items-center group cursor-pointer py-1.5" onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
           const pos = (e.clientX - rect.left) / rect.width;
-          handleSeek(pos * duration);
+          handleSeek(pos * effectiveDuration);
         }}>
           {/* Track background */}
           <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden relative">
             <div 
               className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full relative transition-all"
-              style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
+              style={{ width: `${(currentTime / (effectiveDuration || 1)) * 100}%` }}
             />
           </div>
 
           {/* Chapter markers on timeline */}
-          {video.chapters?.map((ch, idx) => (
+          {effectiveChapters?.map((ch, idx) => (
             <div 
               key={idx}
               className="absolute top-0 w-1 h-3 -mt-0.5 bg-amber-400/80 rounded-full pointer-events-none transform -translate-x-1/2"
-              style={{ left: `${(ch.timestampSeconds / (duration || 1)) * 100}%` }}
+              style={{ left: `${(ch.timestampSeconds / (effectiveDuration || 1)) * 100}%` }}
               title={ch.title}
             />
           ))}
 
           {/* Interactive Quiz stop marks */}
-          {video.questions?.map((q, idx) => (
+          {effectiveQuestions?.map((q, idx) => (
             <div 
               key={idx}
               className="absolute top-0 w-2 h-3 -mt-0.5 bg-rose-400 rounded-full pointer-events-none transform -translate-x-1/2 flex items-center justify-center text-[8px] text-black font-bold"
-              style={{ left: `${(q.timestampSeconds / (duration || 1)) * 100}%` }}
+              style={{ left: `${(q.timestampSeconds / (effectiveDuration || 1)) * 100}%` }}
               title={`Question Stop at ${q.timestampSeconds}s`}
             />
           ))}
@@ -519,13 +621,13 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
           </button>
 
           <span className="font-mono text-xs text-slate-400">
-            <strong className="text-white">{formatTime(currentTime)}</strong> / {formatTime(duration)}
+            <strong className="text-white">{formatTime(currentTime)}</strong> / {formatTime(effectiveDuration)}
           </span>
         </div>
 
         {/* Chapter Pills */}
         <div className="hidden md:flex items-center gap-1.5 overflow-x-auto max-w-md py-1">
-          {video.chapters?.map((ch, idx) => {
+          {effectiveChapters?.map((ch, idx) => {
             const isActive = currentChapter?.timestampSeconds === ch.timestampSeconds;
             return (
               <button
@@ -657,7 +759,9 @@ export const EducationalVideoPlayer: React.FC<EducationalVideoPlayerProps> = ({
             <span>Verified Educational Narration Transcript</span>
           </div>
           <p className="text-slate-300 leading-relaxed font-sans">
-            {subtitleLanguage === 'bn' && video.transcriptBn ? video.transcriptBn : video.transcriptEn}
+            {subtitleLanguage === 'bn' 
+              ? (video.transcriptBn || template.transcriptBn) 
+              : (video.transcriptEn || template.transcriptEn)}
           </p>
         </div>
       </div>

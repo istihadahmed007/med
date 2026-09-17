@@ -155,6 +155,7 @@ export interface LessonVideo {
   lessonId: string;
   title: string;
   titleBn?: string;
+  animationType?: string;
   videoUrl: string;
   lowBandwidthUrl?: string;
   posterUrl: string;
@@ -163,6 +164,12 @@ export interface LessonVideo {
   disclaimer: string;
   chapters: VideoChapter[];
   questions: TimestampedQuestion[];
+  subtitles?: {
+    startSeconds: number;
+    endSeconds: number;
+    textEn: string;
+    textBn: string;
+  }[];
   englishCaptionsVtt?: string;
   banglaCaptionsVtt?: string;
   transcriptEn: string;

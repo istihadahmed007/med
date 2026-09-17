@@ -32,6 +32,7 @@ import { UserRole } from '../../types';
 import { StorageService } from '../../services/storageService';
 import { VideoStudioService } from '../../services/videoStudioService';
 import { CARDIOVASCULAR_PILOT_LESSONS } from '../../data/cardiovascularPilotData';
+import { getLessonVideoTemplate } from '../../data/videoStudioTemplates';
 import { EducationalVideoPlayer } from './EducationalVideoPlayer';
 import { MedicalReviewModal } from './MedicalReviewModal';
 
@@ -44,6 +45,7 @@ export const VideoStudioHub: React.FC = () => {
   const [publishedVideos, setPublishedVideos] = useState<LessonVideoAsset[]>([]);
   const [isLoadingJobs, setIsLoadingJobs] = useState<boolean>(false);
   const [selectedJobForReview, setSelectedJobForReview] = useState<VideoGenerationJob | null>(null);
+  const [selectedPreviewVideoId, setSelectedPreviewVideoId] = useState<string>('');
 
   // Form State for Authoring Studio
   const [selectedLessonId, setSelectedLessonId] = useState<string>(CARDIOVASCULAR_PILOT_LESSONS[1]?.id || 'cvs-physio-cardiac-cycle-wiggers');
@@ -67,15 +69,22 @@ export const VideoStudioHub: React.FC = () => {
   }, []);
 
   // Synchronize form when lesson selection changes
-  useEffect(() => {
-    const lesson = CARDIOVASCULAR_PILOT_LESSONS.find(l => l.id === selectedLessonId);
-    if (lesson) {
-      setLearningObjective(lesson.learningObjectives?.[1] || lesson.learningObjectives?.[0] || '');
-      setReferences(lesson.references?.join('; ') || 'BM&DC Curriculum, Guyton & Hall 14th ed.');
-      if (!promptDescription) {
-        setPromptDescription(`High-definition medical illustration of human cardiac ventricles during systole. Coronal cross-section. Thick left ventricular myocardium contracts vigorously. Mitral valve snaps shut; semilunar aortic valve opens with high-velocity blood ejection. Educational textbook animation.`);
-      }
+  const loadLessonTemplate = (lessonId: string) => {
+    const template = getLessonVideoTemplate(lessonId);
+    const lesson = CARDIOVASCULAR_PILOT_LESSONS.find(l => l.id === lessonId);
+    if (template) {
+      setPromptDescription(template.defaultPrompt);
+      setRequiredStructures(template.requiredStructures.join(', '));
+      setVisualFormat(template.visualFormat);
+      setTargetAudience(template.targetAudience);
+      setSeed(template.seed);
+      setLearningObjective(template.learningObjective || lesson?.learningObjectives?.[1] || lesson?.learningObjectives?.[0] || '');
+      setReferences(template.references?.join('; ') || lesson?.references?.join('; ') || 'BM&DC Curriculum, Guyton & Hall 14th ed.');
     }
+  };
+
+  useEffect(() => {
+    loadLessonTemplate(selectedLessonId);
   }, [selectedLessonId]);
 
   // Load jobs and published videos
@@ -328,9 +337,20 @@ export const VideoStudioHub: React.FC = () => {
               <form onSubmit={handleQueueJob} className="space-y-4">
                 {/* Lesson Selector */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300">
-                    Target BM&DC Curriculum Lesson
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-300">
+                      Target BM&DC Curriculum Lesson
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => loadLessonTemplate(selectedLessonId)}
+                      className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+                      title="Reload tailored prompts, structures, and visual format for this lesson"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Reset to Template</span>
+                    </button>
+                  </div>
                   <select
                     value={selectedLessonId}
                     onChange={(e) => setSelectedLessonId(e.target.value)}
@@ -775,24 +795,55 @@ export const VideoStudioHub: React.FC = () => {
       {activeTab === 'preview' && (
         <div className="space-y-6">
           <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-1">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Eye className="w-5 h-5 text-emerald-400" />
-              <span>Student Learning Companion Video Embed</span>
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Eye className="w-5 h-5 text-emerald-400" />
+                <span>Student Learning Companion Video Embed</span>
+              </h3>
+              <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/80 border border-cyan-500/30 px-3 py-1 rounded-full self-start sm:self-auto">
+                {publishedVideos.length} Published Clinical Modules
+              </span>
+            </div>
             <p className="text-xs text-slate-400">
-              Live mobile-optimized video player rendering published, peer-reviewed medical assets. Includes interactive knowledge stops, chapters, and bilingual captions.
+              Live mobile-optimized video player rendering published, peer-reviewed medical assets. Select any curriculum topic below to watch its real-time 60fps simulation, synchronized bilingual subtitles, chapters, and clinical quiz stops.
             </p>
           </div>
 
+          {/* Module Selector Pill Bar */}
+          {publishedVideos.length > 0 && (
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+              {publishedVideos.map((vid: LessonVideoAsset) => {
+                const isSelected = selectedPreviewVideoId ? selectedPreviewVideoId === vid.id : publishedVideos[0]?.id === vid.id;
+                return (
+                  <button
+                    key={vid.id}
+                    onClick={() => setSelectedPreviewVideoId(vid.id)}
+                    className={`px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all border flex items-center gap-2 ${
+                      isSelected
+                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-black shadow-glow-cyan'
+                        : 'bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{vid.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {publishedVideos.length > 0 ? (
-            <div className="space-y-4">
-              {publishedVideos.map((video) => (
-                <EducationalVideoPlayer
-                  key={video.id}
-                  video={video}
-                  className="max-w-4xl mx-auto"
-                />
-              ))}
+            <div className="max-w-4xl mx-auto">
+              {(() => {
+                const activeVideo = publishedVideos.find((v: LessonVideoAsset) => v.id === selectedPreviewVideoId) || publishedVideos[0];
+                return (
+                  <EducationalVideoPlayer
+                    key={activeVideo.id}
+                    video={activeVideo}
+                    className="w-full"
+                  />
+                );
+              })()}
             </div>
           ) : (
             <div className="p-8 text-center rounded-3xl bg-slate-950 border border-slate-800 text-slate-400 text-xs">

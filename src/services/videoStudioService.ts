@@ -3,10 +3,11 @@ import {
   LessonVideo, 
   MedicalReviewForm, 
   VideoStudentProgress, 
-  CreateVideoJobRequest,
-  UserRole
+  CreateVideoJobRequest
 } from '../types/videoStudio';
+import { UserRole } from '../types';
 import { StorageService } from './storageService';
+import { getLessonVideoTemplate } from '../data/videoStudioTemplates';
 
 const API_BASE = '/api/video-studio';
 
@@ -179,23 +180,25 @@ export class VideoStudioService {
 
         // Add to published / in_review list
         if (completed) {
+          const template = getLessonVideoTemplate(completed.lessonId);
           const draftVideo: LessonVideo = {
             id: `vid-${completed.id}`,
             jobId: completed.id,
             lessonId: completed.lessonId,
-            title: completed.lessonTitle,
-            titleBn: '',
-            videoUrl: completed.videoUrl || '/media/cardiac_cycle_systole.mp4',
-            posterUrl: completed.posterUrl || '/anatomy/heart_preview.png',
-            durationSeconds: 18,
+            title: template.videoTitleEn || completed.lessonTitle,
+            titleBn: template.videoTitleBn || '',
+            animationType: template.animationType || 'cardiac-cycle',
+            videoUrl: template.videoUrl || completed.videoUrl || '/media/cardiac_cycle_systole.mp4',
+            posterUrl: template.posterUrl || completed.posterUrl || '/anatomy/heart_preview.png',
+            durationSeconds: template.durationSeconds || 18,
             publicationStatus: 'in_review',
             disclaimer: 'AI-generated educational illustration based on MedGen-1.3B. For academic simulation only.',
-            chapters: [
+            chapters: template.chapters && template.chapters.length > 0 ? template.chapters : [
               { timestampSeconds: 0, title: 'Physiological Sequence & Contraction', description: 'Overview of identified structures.' },
               { timestampSeconds: 6, title: 'Valvular Action & High-Velocity Ejection', description: 'Semi-lunar and AV dynamic response.' },
               { timestampSeconds: 12, title: 'Reduced Ejection & Ventricular Relaxation', description: 'Myocardial relaxation initiates.' }
             ],
-            questions: [
+            questions: template.questions && template.questions.length > 0 ? template.questions : [
               {
                 id: `vq-${completed.id}`,
                 timestampSeconds: 6,
@@ -212,8 +215,9 @@ export class VideoStudioService {
                 bmdcMark: 1
               }
             ],
-            transcriptEn: completed.prompt,
-            transcriptBn: '',
+            subtitles: template.subtitles,
+            transcriptEn: template.transcriptEn || completed.prompt,
+            transcriptBn: template.transcriptBn || '',
             videoVersion: 'v1.0-draft'
           };
           const existingVideos = StorageService.getPublishedVideos();
