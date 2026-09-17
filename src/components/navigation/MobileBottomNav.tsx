@@ -22,7 +22,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
       id: 'learn' as NavigationView,
       label: 'Learn',
       icon: BookOpen,
-      isActive: currentView === 'learn'
+      isActive: currentView === 'learn' || currentView === 'across-books'
     },
     {
       id: 'practice' as NavigationView,
