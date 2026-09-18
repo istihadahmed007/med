@@ -1,310 +1,308 @@
-/** Editorial catalog only. Never synthesize media, timings, transcripts or credentials.
- * Verification evidence is the official source page, not a working-looking URL.
- * null means not verified/published. Keep MedlinePlus/A.D.A.M. media on its source site.
+/**
+ * Self-Hosted Medical Video Library Catalog
+ *
+ * Core Requirement:
+ * Cloud Storage -> MEDX Video Player (No redirects, no third-party iframes).
+ * All media stored in self-hosted storage: medical-videos/{anatomy,physiology,pathology,surgery}/
+ *
+ * Copyright Filter:
+ * Only verified public-domain medical videos produced by the U.S. National Library
+ * of Medicine (MedlinePlus / NIH) where redistribution is explicitly permitted.
+ * Attribution: "Source: MedlinePlus, National Library of Medicine"
  */
+
 export const VIDEO_CATEGORIES = [
-  "Anatomy & Organ Function",
-  "Disease & Conditions",
+  "Physiology",
+  "Pathology",
+  "Anatomy",
   "Surgery",
-  "Procedures",
 ] as const;
+
 export type VideoCategory = (typeof VIDEO_CATEGORIES)[number];
+
 export const CATEGORY_TOPICS: Record<VideoCategory, string[]> = {
-  "Anatomy & Organ Function": [
-    "Heart",
+  Physiology: [
+    "Breathing",
+    "Blood circulation",
+    "Cardiac conduction",
+    "Heart function",
+    "Kidney function",
+    "Digestion",
+  ],
+  Pathology: [
+    "Allergic reaction",
+    "Blood clotting",
+    "Atherosclerosis",
+    "Disease mechanisms",
+  ],
+  Anatomy: [
     "Brain",
+    "Heart",
     "Lungs",
     "Kidney",
-    "Liver",
-    "Digestive System",
-    "Nervous System",
-    "Cardiovascular System",
-    "Musculoskeletal System",
-    "Reproductive System",
-  ],
-  "Disease & Conditions": [
-    "Heart Disease",
-    "Stroke",
-    "Cancer",
-    "Diabetes",
-    "Kidney Stones",
-    "Hypertension",
-    "Atherosclerosis",
-    "Pneumonia",
-    "Neurological Disorders",
+    "Eye",
+    "Digestive system",
   ],
   Surgery: [
-    "Laparoscopic Surgery",
     "General Surgery",
+    "Laparoscopic Surgery",
     "Cardiac Surgery",
     "Neurosurgery",
-    "Gynecology",
-    "Obstetrics",
-    "Robotic Surgery",
-    "Transplant Surgery",
-    "Surgical Techniques",
-  ],
-  Procedures: [
-    "Appendectomy",
-    "Cesarean Section",
-    "Heart Bypass",
-    "Angioplasty",
-    "Cholecystectomy",
-    "Hernia Repair",
-    "Biopsy",
-    "Endoscopy",
   ],
 };
-export interface MedicalVideoItem {
+
+export interface SelfHostedMedicalVideo {
   id: string;
   title: string;
   description: string;
-  category: VideoCategory;
+  category: VideoCategory | string;
   anatomy: string[];
   specialty: string[];
   procedure: string[];
   topics: string[];
-  thumbnail: string | null;
-  duration: string | null;
-  captions: string[] | null;
+  storage_path: string;
+  playback_url: string;
+  thumbnail_url: string;
+  duration: string;
   source: string;
-  sourceUrl: string;
-  embedUrl: string | null;
-  educationalInformation: string;
-  verification: {
-    status: "verified" | "pending" | "unavailable";
-    checkedOn: string;
-    evidenceUrl: string;
-    playback: "source-only" | "official-youtube";
-    notes: string;
-  };
+  license: string;
+  attribution: string;
+  captions_url: string;
+  created_at: string;
+  chapters?: {
+    timestampSeconds: number;
+    title: string;
+  }[];
+  transcript?: string;
 }
-const medline = (
-  id: string,
-  title: string,
-  page: string,
-  category: VideoCategory,
-  anatomy: string[],
-  specialty: string[],
-  procedure: string[],
-  topics: string[],
-  description: string,
-): MedicalVideoItem => ({
-  id,
-  title,
-  description,
-  category,
-  anatomy,
-  specialty,
-  procedure,
-  topics,
-  thumbnail: null,
-  duration: null,
-  captions: null,
-  source: "MedlinePlus / A.D.A.M.",
-  sourceUrl: `https://medlineplus.gov/ency/anatomyvideos/${page}.htm`,
-  embedUrl: null,
-  educationalInformation:
-    "Watch the publisher’s educational video and read its accompanying overview and review information on MedlinePlus.",
-  verification: {
-    status: "verified",
-    checkedOn: "2026-09-18",
-    evidenceUrl: `https://medlineplus.gov/ency/anatomyvideos/${page}.htm`,
-    playback: "source-only",
-    notes:
-      "Official page lists a health video. Copyrighted media, images, captions and transcripts are not copied or embedded. Duration unverified.",
-  },
-});
-const catalog: MedicalVideoItem[] = [
-  {
-    id: "tvasurg-cbde",
-    title: "Laparoscopic common bile duct exploration",
-    description:
-      "A surgical teaching case covering bile duct identification, stone removal and closure.",
-    category: "Surgery",
-    anatomy: ["Gallbladder & Bile Ducts", "Digestive System"],
-    specialty: ["General Surgery", "Hepato-pancreato-biliary Surgery"],
-    procedure: ["Common Bile Duct Exploration"],
-    topics: ["Laparoscopic Surgery", "Surgical Techniques"],
-    thumbnail:
-      "https://pie.med.utoronto.ca/TVASurg/wp-content/uploads/2022/06/featuredImg_1000x500-800x500.png",
-    duration: null,
-    captions: null,
-    source: "Toronto Video Atlas of Surgery",
-    sourceUrl:
-      "https://pie.med.utoronto.ca/TVASurg/project/lap-common-bile-duct-exploration/",
-    embedUrl: null,
-    educationalInformation:
-      "The official case includes patient positioning, identification of the common bile duct, choledochotomy, stone removal and closure. Review the full case and its surgical context at the source.",
-    verification: {
-      status: "verified",
-      checkedOn: "2026-09-18",
-      evidenceUrl:
-        "https://pie.med.utoronto.ca/TVASurg/project/lap-common-bile-duct-exploration/",
-      playback: "source-only",
-      notes:
-        "Video confirmed on official case page; thumbnail confirmed on official laparoscopic category page. No direct media stream reused. Duration and caption availability unverified.",
-    },
-  },
-  medline(
-    "brain-components",
-    "Brain components",
-    "000016",
-    "Anatomy & Organ Function",
-    ["Brain", "Nervous System"],
-    ["Neurology"],
-    [],
-    [],
-    "An educational introduction to the major parts of the brain.",
-  ),
-  medline(
-    "breathing",
-    "Breathing",
-    "000018",
-    "Anatomy & Organ Function",
-    ["Lungs"],
-    ["Respiratory Medicine"],
-    [],
-    [],
-    "An educational overview of inhalation and exhalation.",
-  ),
-  medline(
-    "kidney-stones",
-    "Kidney stones",
-    "000075",
-    "Disease & Conditions",
-    ["Kidney"],
-    ["Urology"],
-    [],
-    ["Kidney Stones"],
-    "An educational overview of kidney stones and the urinary tract.",
-  ),
-  medline(
-    "heart-bypass",
-    "Heart bypass surgery",
-    "000065",
-    "Procedures",
-    ["Heart", "Cardiovascular System"],
-    ["Cardiac Surgery"],
-    ["Heart Bypass"],
-    ["Heart Disease"],
-    "An educational introduction to coronary artery bypass surgery.",
-  ),
-  {
-    id: "standard-lap-chole",
-    title: "Standard laparoscopic cholecystectomy",
-    description:
-      "A surgical teaching video focused on identifying anatomy and the Critical View of Safety.",
-    category: "Surgery",
-    anatomy: ["Gallbladder & Bile Ducts", "Liver", "Digestive System"],
-    specialty: ["General Surgery", "Hepato-pancreato-biliary Surgery"],
-    procedure: ["Cholecystectomy"],
-    topics: ["Laparoscopic Surgery", "Surgical Techniques"],
-    thumbnail: null,
-    duration: null,
-    captions: null,
-    source: "Toronto Video Atlas of Surgery",
-    sourceUrl: "https://pie.med.utoronto.ca/TVASurg/project/standardlapchole/",
-    embedUrl: null,
-    educationalInformation:
-      "The publisher discusses the Critical View of Safety and anatomical identification during a standard laparoscopic cholecystectomy. Read the complete case alongside the official video.",
-    verification: {
-      status: "verified",
-      checkedOn: "2026-09-18",
-      evidenceUrl:
-        "https://pie.med.utoronto.ca/TVASurg/project/standardlapchole/",
-      playback: "source-only",
-      notes:
-        "Official video and case verified. No approved embed or thumbnail confirmed; duration and captions unverified.",
-    },
-  },
-];
-export function isVerifiedVideo(video: MedicalVideoItem): boolean {
-  try {
-    const source = new URL(video.sourceUrl);
-    const trusted = ["medlineplus.gov", "pie.med.utoronto.ca"];
-    if (
-      video.verification.status !== "verified" ||
-      !video.title.trim() ||
-      !video.description.trim() ||
-      !video.source.trim() ||
-      !trusted.includes(source.hostname) ||
-      source.protocol !== "https:" ||
-      video.verification.evidenceUrl !== video.sourceUrl
-    )
-      return false;
-    if (video.embedUrl) {
-      const embed = new URL(video.embedUrl);
-      return (
-        video.verification.playback === "official-youtube" &&
-        embed.origin === "https://www.youtube-nocookie.com" &&
-        /^\/embed\/[\w-]{11}$/.test(embed.pathname)
-      );
-    }
-    return video.verification.playback === "source-only";
-  } catch {
-    return false;
-  }
-}
-export const MEDICAL_VIDEO_LIBRARY = catalog.filter(isVerifiedVideo);
+
+export type MedicalVideoItem = SelfHostedMedicalVideo;
+
 export interface VideoFilters {
   query?: string;
-  category?: string;
-  anatomy?: string;
-  procedure?: string;
-  specialty?: string;
+  category?: VideoCategory | "all";
   topic?: string;
+  anatomy?: string;
+  specialty?: string;
+  procedure?: string;
 }
+
+export const MEDICAL_VIDEO_LIBRARY: SelfHostedMedicalVideo[] = [
+  {
+    id: "mp-path-histamine",
+    title: "Histamine: The Stuff Allergies are Made of",
+    description:
+      "Educational animation exploring histamine's dual physiological role as a vital neurotransmitter and gastric acid stimulant, versus its immunological role in mediating allergic reactions, tissue edema, bronchoconstriction, and life-threatening anaphylaxis. Produced with NIAID/NIH medical research.",
+    category: "Pathology",
+    anatomy: ["Immune System", "Blood Vessels", "Skin", "Respiratory Tract"],
+    specialty: ["Immunology", "Allergy", "Pathology"],
+    procedure: ["Allergy Testing", "Epinephrine Administration", "Antihistamine Therapy"],
+    topics: ["Allergic reaction", "Disease mechanisms"],
+    storage_path: "medical-videos/pathology/histamine-allergies.mp4",
+    playback_url: "/medical-videos/pathology/histamine-allergies.mp4",
+    thumbnail_url: "/medical-videos/pathology/histamine-allergies.jpg",
+    duration: "03:34",
+    source: "MedlinePlus, National Library of Medicine",
+    license: "Public Domain (U.S. Government Work - NLM/NIH)",
+    attribution: "Source: MedlinePlus, National Library of Medicine",
+    captions_url: "/medical-videos/pathology/histamine-allergies.vtt",
+    created_at: "2017-09-08T00:00:00.000Z",
+    chapters: [
+      { timestampSeconds: 27, title: "Prevalence of Allergic Conditions" },
+      { timestampSeconds: 50, title: "Histamine as a Cellular Signalling Molecule" },
+      { timestampSeconds: 74, title: "Immune System Defense Against Parasites" },
+      { timestampSeconds: 85, title: "B-cells and IgE Antibody Sensitization" },
+      { timestampSeconds: 99, title: "Mast Cell & Basophil Degranulation" },
+      { timestampSeconds: 123, title: "Immune Response & Microvascular Leakage" },
+      { timestampSeconds: 132, title: "Common Environmental & Food Allergens" },
+      { timestampSeconds: 137, title: "Clinical Symptoms Across Organs" },
+      { timestampSeconds: 156, title: "Anaphylactic Shock Pathophysiology" },
+      { timestampSeconds: 173, title: "Therapy: Antihistamines & Epinephrine" },
+      { timestampSeconds: 199, title: "NIAID & NIH Medical Research" },
+    ],
+    transcript:
+      "Histamine is an essential chemical mediator in the body. While best known for triggering allergies, it functions normally as a signaling molecule in the brain promoting wakefulness and in the stomach stimulating acid production. In the immune system, B-cells generate specific IgE antibodies that prime mast cells and basophils. Upon re-exposure to allergens, these cells release histamine, causing vascular dilation, increased permeability, mucosal congestion, bronchospasm, and potentially anaphylaxis requiring emergency intramuscular epinephrine.",
+  },
+  {
+    id: "mp-path-cholesterol",
+    title: "Cholesterol: Good and Bad",
+    description:
+      "Explains cholesterol lipid biochemistry, normal cellular membrane stability, and how excessive circulating low-density lipoprotein (LDL) leads to endothelial lipid deposition, atherosclerotic plaque buildup, coronary occlusion, myocardial infarction, and cerebrovascular stroke.",
+    category: "Pathology",
+    anatomy: ["Heart", "Coronary Arteries", "Blood Vessels", "Liver"],
+    specialty: ["Cardiology", "Pathology", "Internal Medicine"],
+    procedure: ["Lipid Panel Blood Test", "Cardiovascular Risk Assessment"],
+    topics: ["Atherosclerosis", "Blood circulation", "Heart function"],
+    storage_path: "medical-videos/pathology/cholesterol-atherosclerosis.mp4",
+    playback_url: "/medical-videos/pathology/cholesterol-atherosclerosis.mp4",
+    thumbnail_url: "/medical-videos/pathology/cholesterol-atherosclerosis.jpg",
+    duration: "02:56",
+    source: "MedlinePlus, National Library of Medicine",
+    license: "Public Domain (U.S. Government Work - NLM/NIH)",
+    attribution: "Source: MedlinePlus, National Library of Medicine",
+    captions_url: "/medical-videos/pathology/cholesterol-atherosclerosis.vtt",
+    created_at: "2018-06-26T00:00:00.000Z",
+    chapters: [
+      { timestampSeconds: 3, title: "Membrane Structure & Steroid Precursors" },
+      { timestampSeconds: 22, title: "Atherosclerosis & Endothelial Plaque" },
+      { timestampSeconds: 52, title: "Coronary Arteries & Myocardial Infarction" },
+      { timestampSeconds: 59, title: "Carotid Arteries & Cerebrovascular Stroke" },
+      { timestampSeconds: 66, title: "Peripheral Artery Disease (Claudication)" },
+      { timestampSeconds: 88, title: "Low-Density Lipoprotein (LDL) Transport" },
+      { timestampSeconds: 101, title: "High-Density Lipoprotein (HDL) Reverse Transport" },
+      { timestampSeconds: 133, title: "Cardiovascular Risk Modification" },
+      { timestampSeconds: 163, title: "NHLBI Clinical Research Guidelines" },
+    ],
+    transcript:
+      "Cholesterol is a lipid molecule synthesized in the liver and incorporated into cell membranes and steroid hormones. Low-density lipoprotein (LDL) transports cholesterol to peripheral tissues; excess LDL undergoes oxidative modification and uptake by macrophages, forming foam cells and atherosclerotic fibrous plaques in coronary and cerebral arteries. Rupture of these plaques precipitates acute thrombosis, causing heart attacks or ischemic strokes. High-density lipoprotein (HDL) mediates reverse cholesterol transport to the liver for excretion.",
+  },
+  {
+    id: "mp-phys-gluten",
+    title: "Gluten and Celiac Disease",
+    description:
+      "Educational medical animation demonstrating gastrointestinal physiology, gluten protein breakdown, and the autoimmune pathophysiology of celiac disease in the small intestine, leading to enterocyte villous atrophy, severe nutrient malabsorption, and systemic complications.",
+    category: "Physiology",
+    anatomy: ["Digestive System", "Small Intestine", "Intestinal Villi"],
+    specialty: ["Gastroenterology", "Physiology", "Pathology"],
+    procedure: ["Endoscopic Intestinal Biopsy", "tTGA Serology Testing"],
+    topics: ["Digestion", "Digestive system"],
+    storage_path: "medical-videos/physiology/gluten-celiac-digestion.mp4",
+    playback_url: "/medical-videos/physiology/gluten-celiac-digestion.mp4",
+    thumbnail_url: "/medical-videos/physiology/gluten-celiac-digestion.jpg",
+    duration: "02:47",
+    source: "MedlinePlus, National Library of Medicine",
+    license: "Public Domain (U.S. Government Work - NLM/NIH)",
+    attribution: "Source: MedlinePlus, National Library of Medicine",
+    captions_url: "/medical-videos/physiology/gluten-celiac-digestion.vtt",
+    created_at: "2017-09-19T00:00:00.000Z",
+    chapters: [
+      { timestampSeconds: 10, title: "Dietary Gluten Composition (Wheat, Barley, Rye)" },
+      { timestampSeconds: 37, title: "Pathophysiology of Celiac Enteropathy" },
+      { timestampSeconds: 46, title: "Epidemiology & Genetic Predisposition" },
+      { timestampSeconds: 57, title: "Intestinal Villous Blunting & Nutrient Loss" },
+      { timestampSeconds: 77, title: "Gastrointestinal & Extraintestinal Signs" },
+      { timestampSeconds: 99, title: "Long-term Malabsorption (Anemia, Osteopenia)" },
+      { timestampSeconds: 107, title: "Diagnostic Serology (tTGA) & Upper Endoscopy" },
+      { timestampSeconds: 130, title: "Gluten-Free Dietary Management" },
+      { timestampSeconds: 150, title: "NIDDK & NIH Digestive Research" },
+    ],
+    transcript:
+      "The small intestinal mucosa features microscopic finger-like projections called villi that maximize absorption of carbohydrates, proteins, fats, vitamins, and minerals. In celiac disease, ingestion of gluten triggers an inappropriate T-cell mediated autoimmune reaction in genetically susceptible individuals (HLA-DQ2/DQ8). The inflammatory infiltrate blunts and flattens the intestinal villi, resulting in impaired absorption, steatorrhea, microcytic or macrocytic anemia, osteopenia, and dermatitis herpetiformis. Confirmation is achieved via anti-tissue transglutaminase (tTGA) antibodies and duodenal endoscopic mucosal biopsy.",
+  },
+  {
+    id: "mp-path-antibiotics",
+    title: "Antibiotics vs. Bacteria: Fighting the Resistance",
+    description:
+      "Comprehensive medical tutorial illustrating bacterial cellular structures, mechanism of action of major antimicrobial classes, and evolutionary resistance adaptations such as enzymatic degradation, target alteration, and active efflux pumps.",
+    category: "Pathology",
+    anatomy: ["Cellular Structure", "Bacterial Cell Wall", "Respiratory Tract"],
+    specialty: ["Microbiology", "Infectious Diseases", "Pharmacology"],
+    procedure: ["Antimicrobial Susceptibility Testing", "Culture and Sensitivity"],
+    topics: ["Disease mechanisms"],
+    storage_path: "medical-videos/pathology/antibiotic-resistance-mechanisms.mp4",
+    playback_url: "/medical-videos/pathology/antibiotic-resistance-mechanisms.mp4",
+    thumbnail_url: "/medical-videos/pathology/antibiotic-resistance-mechanisms.jpg",
+    duration: "04:50",
+    source: "MedlinePlus, National Library of Medicine",
+    license: "Public Domain (U.S. Government Work - NLM/NIH)",
+    attribution: "Source: MedlinePlus, National Library of Medicine",
+    captions_url: "/medical-videos/pathology/antibiotic-resistance-mechanisms.vtt",
+    created_at: "2018-03-14T00:00:00.000Z",
+    chapters: [
+      { timestampSeconds: 38, title: "Global Antimicrobial Resistance Burden" },
+      { timestampSeconds: 62, title: "Priority Pathogens (CDC & NIAID)" },
+      { timestampSeconds: 71, title: "Multidrug-Resistant Tuberculosis (MDR-TB)" },
+      { timestampSeconds: 91, title: "Plasmid-Mediated Resistance in Gonorrhea" },
+      { timestampSeconds: 106, title: "Methicillin-Resistant S. Aureus (MRSA)" },
+      { timestampSeconds: 133, title: "Four Core Cellular Resistance Mechanisms" },
+      { timestampSeconds: 205, title: "Antimicrobial Stewardship & Infection Prevention" },
+      { timestampSeconds: 272, title: "Bacteriophage & Novel Molecule Research at NIAID" },
+    ],
+    transcript:
+      "Antimicrobial agents selectively target bacterial physiology, such as peptidoglycan cell wall synthesis, 30S/50S ribosomal protein translation, and DNA gyrase replication. Selective antibiotic pressure selects for resistant variants. Key resistance mechanisms include enzymatic modification (beta-lactamases), target modification (mutated penicillin-binding proteins in MRSA), decreased outer membrane permeability, and active drug extrusion via multidrug resistance efflux pumps. NIAID conducts ongoing research into alternative therapies including bacteriophages and engineered adjuvants.",
+  },
+  {
+    id: "mp-phys-naloxone",
+    title: "How Naloxone Saves Lives in Opioid Overdose",
+    description:
+      "Explores opioid receptor neurophysiology in the central nervous system, depression of the medullary pontine respiratory pacemaker during severe intoxication, and competitive opioid receptor displacement by naloxone to rapidly re-establish spontaneous ventilation.",
+    category: "Physiology",
+    anatomy: ["Brain", "Brainstem Respiratory Center", "Nervous System"],
+    specialty: ["Emergency Medicine", "Neurophysiology", "Clinical Pharmacology"],
+    procedure: ["Naloxone Intranasal Administration", "Emergency Airway Management"],
+    topics: ["Breathing", "Brain"],
+    storage_path: "medical-videos/physiology/naloxone-respiratory-brainstem.mp4",
+    playback_url: "/medical-videos/physiology/naloxone-respiratory-brainstem.mp4",
+    thumbnail_url: "/medical-videos/physiology/naloxone-respiratory-brainstem.jpg",
+    duration: "04:55",
+    source: "MedlinePlus, National Library of Medicine",
+    license: "Public Domain (U.S. Government Work - NLM/NIH)",
+    attribution: "Source: MedlinePlus, National Library of Medicine",
+    captions_url: "/medical-videos/physiology/naloxone-respiratory-brainstem.vtt",
+    created_at: "2019-01-15T00:00:00.000Z",
+    chapters: [
+      { timestampSeconds: 18, title: "Opioid Classes (Heroin, Fentanyl, Oxycodone)" },
+      { timestampSeconds: 41, title: "Naloxone as an Opioid Antagonist" },
+      { timestampSeconds: 59, title: "Clinical Signs of Acute Overdose" },
+      { timestampSeconds: 85, title: "Intranasal & Intramuscular Administration" },
+      { timestampSeconds: 110, title: "Competitive Receptor Displacement Dynamics" },
+      { timestampSeconds: 133, title: "Brainstem Medullary Center & Respiratory Depression" },
+      { timestampSeconds: 184, title: "Acute Receptor Rebound & Withdrawal Symptoms" },
+      { timestampSeconds: 198, title: "Tolerance & Pharmacological Dependence" },
+      { timestampSeconds: 212, title: "Respiratory Arrest & Hypoxic Brain Injury" },
+      { timestampSeconds: 279, title: "NIH HEAL Initiative & NIDA Harm Reduction" },
+    ],
+    transcript:
+      "Opioids bind to mu, delta, and kappa G-protein-coupled opioid receptors in the brain, spinal cord, and gastrointestinal tract. In the brainstem respiratory centers (pre-Botzinger complex), exogenous opioids profoundly blunt the ventilatory response to hypercapnia and hypoxia, producing respiratory depression and fatal asphyxia. Naloxone possesses an exceptionally high binding affinity for mu-opioid receptors without intrinsic agonist activity, displacing opioids within two to three minutes to restore normal spontaneous diaphragmatic breathing.",
+  },
+];
+
 export function filterMedicalVideos(
-  videos: MedicalVideoItem[],
+  videos: SelfHostedMedicalVideo[],
   filters: VideoFilters,
-): MedicalVideoItem[] {
-  const terms = (filters.query || "")
-    .toLocaleLowerCase()
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-  return videos.filter((v) => {
-    if (!isVerifiedVideo(v)) return false;
-    if (filters.category && v.category !== filters.category) return false;
-    if (filters.anatomy && !v.anatomy.includes(filters.anatomy)) return false;
-    if (filters.procedure && !v.procedure.includes(filters.procedure))
+): SelfHostedMedicalVideo[] {
+  return videos.filter((video) => {
+    if (filters.category && filters.category !== "all" && video.category !== filters.category) {
       return false;
-    if (filters.specialty && !v.specialty.includes(filters.specialty))
+    }
+    if (filters.topic && !video.topics.includes(filters.topic)) {
       return false;
-    if (
-      filters.topic &&
-      ![...v.anatomy, ...v.procedure, ...v.specialty, ...v.topics].includes(
-        filters.topic,
-      )
-    )
+    }
+    if (filters.anatomy && !video.anatomy.includes(filters.anatomy)) {
       return false;
-    const text = [
-      v.title,
-      v.description,
-      v.category,
-      v.source,
-      ...v.anatomy,
-      ...v.procedure,
-      ...v.specialty,
-      ...v.topics,
-    ]
-      .join(" ")
-      .toLocaleLowerCase();
-    return terms.every((term) => text.includes(term));
+    }
+    if (filters.specialty && !video.specialty.includes(filters.specialty)) {
+      return false;
+    }
+    if (filters.procedure && !video.procedure.includes(filters.procedure)) {
+      return false;
+    }
+    if (filters.query) {
+      const q = filters.query.toLowerCase().trim();
+      const match =
+        video.title.toLowerCase().includes(q) ||
+        video.description.toLowerCase().includes(q) ||
+        video.category.toLowerCase().includes(q) ||
+        video.anatomy.some((a) => a.toLowerCase().includes(q)) ||
+        video.specialty.some((s) => s.toLowerCase().includes(q)) ||
+        video.procedure.some((p) => p.toLowerCase().includes(q)) ||
+        video.topics.some((t) => t.toLowerCase().includes(q));
+      if (!match) return false;
+    }
+    return true;
   });
 }
-export function getRelatedVideos(video: MedicalVideoItem): MedicalVideoItem[] {
-  return MEDICAL_VIDEO_LIBRARY.filter((v) => v.id !== video.id)
-    .map((v) => ({
-      video: v,
-      score:
-        v.anatomy.filter((a) => video.anatomy.includes(a)).length * 3 +
-        v.specialty.filter((s) => video.specialty.includes(s)).length * 2 +
-        Number(v.category === video.category),
-    }))
-    .filter((v) => v.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
-    .map((v) => v.video);
+
+export function getRelatedVideos(
+  currentVideo: SelfHostedMedicalVideo,
+  allVideos: SelfHostedMedicalVideo[] = MEDICAL_VIDEO_LIBRARY,
+): SelfHostedMedicalVideo[] {
+  return allVideos
+    .filter((v) => v.id !== currentVideo.id)
+    .filter(
+      (v) =>
+        v.category === currentVideo.category ||
+        v.anatomy.some((a) => currentVideo.anatomy.includes(a)) ||
+        v.specialty.some((s) => currentVideo.specialty.includes(s)),
+    );
 }

@@ -1,0 +1,198 @@
+﻿1
+00:00:00,000 --> 00:00:04,000
+Cholesterol: It can be good. It can be bad.
+
+2
+00:00:04,000 --> 00:00:06,500
+Here’s how cholesterol can be good:
+
+3
+00:00:06,500 --> 00:00:09,333
+Cholesterol is found in all of our cells.
+
+4
+00:00:09,333 --> 00:00:13,400
+Cells need it to keep their membranes just the right consistency.
+
+5
+00:00:13,400 --> 00:00:16,533
+Our body also makes things with cholesterol,
+
+6
+00:00:16,533 --> 00:00:21,700
+like steroid hormones, vitamin D, and bile.
+
+7
+00:00:21,700 --> 00:00:24,500
+Here’s now cholesterol can be bad:
+
+8
+00:00:24,500 --> 00:00:29,933
+Cholesterol in the blood can stick to artery walls, forming plaque.
+
+9
+00:00:29,933 --> 00:00:32,766
+This can block blood flow.
+
+10
+00:00:32,766 --> 00:00:39,100
+Atherosclerosis is the condition where plaque narrows the space inside the artery.
+
+11
+00:00:39,100 --> 00:00:43,300
+Multiple factors can cause plaques to rupture, like inflammation.
+
+12
+00:00:43,300 --> 00:00:47,400
+The body's natural healing response to damaged tissue can cause clots.
+
+13
+00:00:47,400 --> 00:00:52,233
+If the clots plug up arteries, blood cannot deliver vital oxygen.
+
+14
+00:00:52,233 --> 00:00:55,766
+If the coronary arteries that feed the heart are blocked,
+
+15
+00:00:55,766 --> 00:00:59,133
+this could lead to a heart attack.
+
+16
+00:00:59,133 --> 00:01:03,800
+If the blood vessels of the brain or the carotid arteries of the neck are blocked,
+
+17
+00:01:03,800 --> 00:01:06,666
+this could lead to a stroke.
+
+18
+00:01:06,666 --> 00:01:09,033
+If the arteries of the leg are blocked,
+
+19
+00:01:09,033 --> 00:01:11,600
+this could lead to peripheral artery disease.
+
+20
+00:01:11,600 --> 00:01:14,200
+This causes painful leg cramps when walking,
+
+21
+00:01:14,200 --> 00:01:15,566
+numbness and weakness,
+
+22
+00:01:15,566 --> 00:01:19,900
+or foot sores that do not heal.
+
+23
+00:01:19,900 --> 00:01:22,766
+So cholesterol can be good and bad.
+
+24
+00:01:22,766 --> 00:01:25,833
+There are also different types of cholesterol sometimes called 
+
+25
+00:01:25,833 --> 00:01:28,666
+“good cholesterol” and “bad cholesterol”.
+
+26
+00:01:28,666 --> 00:01:34,633
+LDL, or low-density lipoprotein, is sometimes called “bad cholesterol”.
+
+27
+00:01:34,633 --> 00:01:37,566
+It carries cholesterol that can stick to arteries, 
+
+28
+00:01:37,566 --> 00:01:39,766
+collect in the vessel lining forming plaque,
+
+29
+00:01:39,766 --> 00:01:42,233
+and sometimes block blood flow
+
+30
+00:01:42,233 --> 00:01:48,533
+HDL, or high-density lipoprotein, is sometimes called “good cholesterol”.
+
+31
+00:01:48,533 --> 00:01:52,733
+It takes cholesterol away from the blood and returns it to the liver.
+
+32
+00:01:52,733 --> 00:01:57,566
+When checked, you want your LDL to be low. "L" for low. 
+
+33
+00:01:57,566 --> 00:02:02,100
+You want your HDL to be high. "H" for High.
+
+34
+00:02:02,100 --> 00:02:06,766
+Blood tests can measure the LDL, HDL, and total cholesterol,
+
+35
+00:02:06,766 --> 00:02:10,600
+Usually, there are no visible symptoms of high cholesterol,
+
+36
+00:02:10,600 --> 00:02:13,700
+so it is important to be periodically checked.
+
+37
+00:02:13,700 --> 00:02:17,800
+Ways to decrease your LDL and increase your HDL include:
+
+38
+00:02:17,800 --> 00:02:22,066
+Eating a heart-healthy diet low in saturated and trans fats.
+
+39
+00:02:22,066 --> 00:02:25,233
+Regular exercise and being more physically active.
+
+40
+00:02:25,233 --> 00:02:27,233
+Maintaining healthy weight.
+
+41
+00:02:27,233 --> 00:02:28,833
+Quitting smoking.
+
+42
+00:02:28,833 --> 00:02:32,266
+Medications. Medications might be recommended depending on
+
+43
+00:02:32,266 --> 00:02:35,300
+known risk factors for cardiovascular disease
+
+44
+00:02:35,300 --> 00:02:39,200
+(such as age and family history among others).
+
+45
+00:02:39,200 --> 00:02:43,200
+You may already be familiar with these guidelines for heart-healthy living.
+
+46
+00:02:43,200 --> 00:02:49,433
+They are based on research supported by the National Heart, Lung, and Blood Institute (NHLBI)
+
+47
+00:02:49,433 --> 00:02:52,800
+at the National Institutes of Health, or NIH.
+
+48
+00:02:52,800 --> 00:02:55,333
+This video was produced by MedlinePlus,
+
+49
+00:02:55,333 --> 00:03:00,000
+a trusted source of health information from the U.S. National Library of Medicine.
+
+50
+00:03:00,000 --> 00:03:01,933

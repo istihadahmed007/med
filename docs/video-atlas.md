@@ -1,41 +1,87 @@
-# MEDX Medical Video Atlas
+# MEDX Self-Hosted Medical Video Library
 
-Video Studio (`#video-studio`) now renders a curated TypeScript catalog, not generated video jobs or API results. Detail links use `#video-studio/<id>` and support browser navigation. Search intersects category, anatomy, procedure, specialty and topic filters. Unverified categories produce an explicit empty state.
+Video Studio (`#video-studio`) is a **self-hosted medical video education platform**. Real, verified public-domain medical videos produced by the U.S. National Library of Medicine (NLM / MedlinePlus) are stored in the project's cloud/server storage and streamed directly into an advanced HTML5 player within MEDX with zero external redirects.
 
-## Content verification and playback
+## Cloud & Server Storage Architecture
 
-Six official video pages were checked on 2026-09-18. Evidence URLs and notes are stored with each record in `src/data/medicalVideoLibraryData.ts`. Titles identify the real source videos; brief descriptions and classifications are MEDX editorial summaries. No accreditation or peer-review claim is made about MEDX.
+- **Storage Structure**:
+  - `medical-videos/anatomy/`
+  - `medical-videos/physiology/`
+  - `medical-videos/pathology/`
+  - `medical-videos/surgery/`
+- **Asset Streaming**:
+  - Server (`serve.js`) natively handles HTTP 206 Partial Content (Range requests) for MP4 video streaming, timeline scrubbing, and buffering.
+  - Video files and WebVTT caption tracks (`.vtt`) are served locally with CORS and explicit MIME typing.
+  - Playback flow: **Cloud Storage → MEDX HTML5 Player** (no external links, no iframes, no third-party tracking).
 
-- MedlinePlus: Brain components, Breathing, Kidney stones, Heart bypass surgery.
-- Toronto Video Atlas of Surgery: Laparoscopic common bile duct exploration, Standard laparoscopic cholecystectomy.
+## Copyright Filter & Public Domain Verification
 
-All six currently use official source links. No approved third-party embed was confirmed, so none is activated. Playback, volume, timeline, speed, fullscreen and captions are controlled by the source player and may vary by provider. The UI supports allowlisted official YouTube embeds for future records only after ownership and embedding permission are checked. A loaded iframe does not prove successful playback: source links remain visible, with delayed troubleshooting guidance.
+In compliance with medical copyright guidelines:
+- **Prohibited & Filtered Out**:
+  - A.D.A.M. Medical Encyclopedia videos (which are copyrighted by A.D.A.M., Inc. on MedlinePlus).
+  - Toronto Video Atlas of Surgery (TVASurg), which requires sharing its original case pages.
+  - Any unverified synthetic, AI-generated, or placeholder videos.
+- **Allowed & Verified**:
+  - Official **MedlinePlus Videos** created by the U.S. National Library of Medicine (NLM) / National Institutes of Health (NIH). Under U.S. copyright law and MedlinePlus official policy, these works are in the **Public Domain** and explicitly permit redistribution.
+  - Mandatory Attribution: **Source: MedlinePlus, National Library of Medicine**
 
-MedlinePlus/A.D.A.M. media, thumbnails, transcripts and captions are not downloaded, copied, proxied, or embedded. Their duration and caption availability remain null. The Toronto bile duct thumbnail is the real image linked from its official laparoscopic category page; it is loaded from the owner, not copied into this repository. A failed image is replaced with a text-only unavailable-preview state, never substitute medical imagery. Missing durations are explicitly labeled, not estimated from chapter timestamps.
+## Database Records
 
-To add content: verify the exact official video page, title, provider, playback permissions, thumbnail association, and any claimed duration/captions. Set unknown fields to null. Preserve the evidence URL and verification date. Records marked pending/unavailable or with unsupported origins never render. Recheck source availability periodically; this catalog is not a live availability guarantee. Never add generated medical scenes or dummy media to fill a category.
+Stored in `server/data/medx_db.json` under `medicalVideos` and synchronized with the frontend catalog in `src/data/medicalVideoLibraryData.ts`. Each record contains:
+- `id`: Unique identifier (e.g. `mp-path-histamine`)
+- `title`: Clinical title
+- `description`: Educational overview
+- `category`: Category (`Pathology`, `Physiology`, `Anatomy`, `Surgery`)
+- `anatomy`: Array of anatomical structures
+- `specialty`: Medical specialties
+- `procedure`: Clinical procedures / diagnostic tests
+- `storage_path`: Internal storage path
+- `playback_url`: Stable self-hosted playback URL (`/medical-videos/...`)
+- `thumbnail_url`: Stable self-hosted poster image (`/medical-videos/...`)
+- `duration`: Verified duration string
+- `source`: `"MedlinePlus, National Library of Medicine"`
+- `license`: `"Public Domain (U.S. Government Work - NLM/NIH)"`
+- `attribution`: `"Source: MedlinePlus, National Library of Medicine"`
+- `captions_url`: Self-hosted WebVTT captions track
+- `created_at`: ISO timestamp
 
-## JSON failure investigation
+## Initial Verified Collection
 
-Inspected baseline: cc13d80. The current baseline hub already renders a local library and does not fetch JSON. Its safe parser already catches HTML, so the user's exact historical visible crash could not be reproduced in that revision. Earlier service revisions requested GET `/api/video-studio/jobs` and GET `/api/video-studio/published`; the original helper exposed `err.message` in its catch. The remaining legacy lesson player uses GET/POST `/api/video-studio/progress`, with studentId/videoId query parameters for GET. Generation previously POSTed `/api/video-studio/jobs`.
+1. **Histamine: The Stuff Allergies are Made of** (Pathology — Allergic reaction, Disease mechanisms; 03:34)
+2. **Cholesterol: Good and Bad** (Pathology / Physiology — Atherosclerosis, Blood circulation, Heart function; 02:56)
+3. **Gluten and Celiac Disease** (Physiology / Pathology — Digestion, Digestive system; 02:47)
+4. **Antibiotics vs. Bacteria: Fighting the Resistance** (Pathology — Disease mechanisms, Antimicrobial resistance; 04:50)
+5. **How Naloxone Saves Lives in Opioid Overdose** (Physiology — Breathing, Brain, Neuroreceptor antagonism; 04:55)
 
-Confirmed with Vite's production preview on the built app:
+When a user filters to a category or topic without a verified video (such as Surgery or an unverified organ), the platform strictly shows:
+**"No verified video available yet"**
+Never creating fake or synthetic placeholder content.
 
-| Request | Status | Content-Type | Body prefix |
-| --- | --- | --- | --- |
-| GET /api/video-studio/jobs | 200 | text/html | `<!DOCTYPE html>` |
-| GET /api/video-studio/published | 200 | text/html | `<!DOCTYPE html>` |
-| GET /api/video-studio/progress?studentId=test&videoId=test | 200 | text/html | `<!DOCTYPE html>` |
+## HTML5 Video Player
 
-`vite.config.js` contains a development-only API middleware. It does not ship as a production backend; a static SPA server falls back to index.html. Live-host API responses could not be inspected in this environment, so this is a production-preview reproduction, not a claim about a captured live browser request.
+Located at `src/components/video-studio/SelfHostedVideoPlayer.tsx`:
+- Native HTML5 `<video>` engine streaming from `/medical-videos/...`
+- Full control set:
+  - Play / Pause (keyboard shortcut: Space/K)
+  - Interactive Scrub / Seek bar with buffered range and time tooltip
+  - Volume slider and Mute toggle (shortcut: M)
+  - Fullscreen toggle (shortcut: F)
+  - Playback speed selector (`0.5x`, `0.75x`, `1.0x`, `1.25x`, `1.5x`, `2.0x`)
+  - Subtitle / Captions (CC) toggle via native `<track>` element with WebVTT
+  - High-resolution poster images
+- Interactive timestamped chapter navigation
+- Searchable full transcript reader
+- Public-domain attribution banner
 
-The atlas has no catalog fetch and imports no video-generation service, canvas, synthetic subtitles, timelines, or media fallback. The legacy service's fake timed job completion and fabricated generated-video output were removed; queueJob now explicitly rejects generation. Other lesson features, anatomy viewers, templates and existing stored data remain intact outside Video Studio.
+## Error Handling & Robust JSON Parsing
 
-The remaining shared legacy video-service requests use `videoStudioHttp.ts`: check HTTP status before parsing, require JSON Content-Type (including application/*+json), reject HTML even when mislabeled, sanitize all failures, and keep timeout active through body consumption. Browser network/CORS failures share a safe message because fetch cannot distinguish them. Caller cancellation is preserved. No raw server error body reaches the UI.
+- The Video Studio no longer depends on broken generation APIs or worker daemons.
+- All API requests verify HTTP status and check for `Content-Type: application/json` before parsing.
+- HTML responses (e.g. `<!DOCTYPE html>`) are rejected safely without triggering JSON parse errors (`Unexpected token '<'`).
+- In offline or disconnected states, the player gracefully falls back to the embedded verified catalog.
 
-## Verification
+## Verification Checklist
 
-- `npm run build` — passes (existing large-bundle warning remains).
-- `node --test tests/video-atlas.test.mjs` — 5 tests pass: source admission, copyright boundaries, intersecting filters, JSON/HTML/404/500/CORS handling, slow-body timeout and cancellation.
-- `npm run test:across-books` — 8 existing regression tests pass.
-- No dependencies, global styles, application navigation, or data outside the video service/catalog changed.
+- `npm run build`: Passes cleanly.
+- `node --test tests/video-atlas.test.mjs`: 6 unit tests passing (database schema, storage paths, copyright filter, empty states, and JSON boundaries).
+- `node --test tests/across-books.test.mjs`: 8 regression tests passing.

@@ -3,15 +3,33 @@ import {
   LessonVideo, 
   MedicalReviewForm, 
   VideoStudentProgress, 
-  CreateVideoJobRequest
+  CreateVideoJobRequest,
+  SelfHostedMedicalVideo
 } from '../types/videoStudio';
 import { UserRole } from '../types';
 import { StorageService } from './storageService';
 import { safeFetchJson } from './videoStudioHttp';
+import { MEDICAL_VIDEO_LIBRARY } from '../data/medicalVideoLibraryData';
 
 const API_BASE = '/api/video-studio';
 
 export class VideoStudioService {
+  /**
+   * Fetch verified self-hosted medical videos.
+   * Verifies HTTP status, requires JSON content-type, rejects HTML responses,
+   * and cleanly falls back to the embedded verified catalog.
+   */
+  static async getSelfHostedVideos(): Promise<SelfHostedMedicalVideo[]> {
+    try {
+      const res = await safeFetchJson<SelfHostedMedicalVideo[]>(`${API_BASE}/library`);
+      if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
+        return res.data;
+      }
+    } catch {
+      // safe fallback
+    }
+    return MEDICAL_VIDEO_LIBRARY;
+  }
   /**
    * Fetch all video generation jobs.
    * Uses local storage directly to prevent broken video endpoint errors.

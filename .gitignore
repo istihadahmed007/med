@@ -31,5 +31,7 @@ dist-ssr
 # Local utility scripts & server runtime data
 serve.js
 server/
+scratch/
+/medical-videos/
 
 

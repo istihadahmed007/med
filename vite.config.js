@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
@@ -24,6 +26,22 @@ const devApiFallbackPlugin = () => ({
         if (url.startsWith('/api/health')) {
           res.statusCode = 200;
           res.end(JSON.stringify({ status: 'healthy', environment: 'vite-dev' }));
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/library')) {
+          res.statusCode = 200;
+          try {
+            const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
+            if (fs.existsSync(dbPath)) {
+              const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+              res.end(JSON.stringify(data.medicalVideos || []));
+              return;
+            }
+          } catch (e) {
+            // fallback
+          }
+          res.end(JSON.stringify([]));
           return;
         }
 

@@ -194,3 +194,28 @@ export interface VideoStudentProgress {
   answeredQuestionIds: string[];
   bookmarked: boolean;
 }
+
+export interface SelfHostedMedicalVideo {
+  id: string;
+  title: string;
+  description: string;
+  category: 'Anatomy' | 'Physiology' | 'Pathology' | 'Surgery' | string;
+  anatomy: string[];
+  specialty: string[];
+  procedure: string[];
+  topics: string[];
+  storage_path: string;
+  playback_url: string;
+  thumbnail_url: string;
+  duration: string;
+  source: string;
+  license: string;
+  attribution: string;
+  captions_url: string;
+  created_at: string;
+  chapters?: {
+    timestampSeconds: number;
+    title: string;
+  }[];
+  transcript?: string;
+}
