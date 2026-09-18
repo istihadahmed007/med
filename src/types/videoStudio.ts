@@ -219,6 +219,8 @@ export interface SelfHostedMedicalVideo {
   embedUrl?: string;
   sourceUrl?: string;
   sourceName?: string;
+  sourceChannelId?: string;
+  sourceChannelHandle?: string;
   sourceType?: 'self_hosted' | 'hls' | 'permitted_embed' | 'youtube_nocookie' | string;
   specialty: string | string[];
   section: string;
@@ -273,6 +275,9 @@ export interface SelfHostedMedicalVideo {
   };
   attribution?: string;
   publicationStatus?: VideoPublicationStatus;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  approvedDate?: string;
   review?: {
     status: string;
     reviewerName: string;

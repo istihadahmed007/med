@@ -155,8 +155,8 @@ test("copyright filter and mandatory attribution compliance", () => {
 });
 
 test("search, category filtering, and empty state when unverified", () => {
+  const allergyResults = filterMedicalVideos(videos, { query: "histamine" });
   if (videos.length === 0) {
-    const allergyResults = filterMedicalVideos(videos, { query: "histamine" });
     assert.equal(allergyResults.length, 0);
     return;
   }
