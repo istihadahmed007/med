@@ -245,6 +245,7 @@ export const MedicalVideoLibrary: React.FC = () => {
   const [notesSaved, setNotesSaved] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [facultyModalOpen, setFacultyModalOpen] = useState(false);
+  const [facultyModalTab, setFacultyModalTab] = useState<'voka_sync' | 'manual'>('voka_sync');
 
   const titleRef = useRef<HTMLHeadingElement>(null);
   const currentUser = StorageService.getUser();
@@ -383,14 +384,32 @@ export const MedicalVideoLibrary: React.FC = () => {
 
           <div className="flex items-center gap-2">
             {isFacultyOrAdmin && (
-              <button
-                type="button"
-                onClick={() => setFacultyModalOpen(true)}
-                className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-glow-blue flex items-center gap-1.5 cursor-pointer"
-              >
-                <Plus size={14} />
-                <span>Faculty Add Video</span>
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFacultyModalTab('voka_sync');
+                    setFacultyModalOpen(true);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 hover:bg-cyan-900/80 text-xs font-bold transition-all shadow-glow-cyan flex items-center gap-1.5 cursor-pointer"
+                  title="Synchronize official 3D medical animation videos from @vokaio"
+                >
+                  <Sparkles size={13} className="text-cyan-400" />
+                  <span>Sync VOKA Channel</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFacultyModalTab('manual');
+                    setFacultyModalOpen(true);
+                  }}
+                  className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-glow-blue flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Plus size={14} />
+                  <span>Faculty Add Video</span>
+                </button>
+              </>
             )}
             <button
               type="button"
@@ -1018,6 +1037,7 @@ export const MedicalVideoLibrary: React.FC = () => {
       {facultyModalOpen && (
         <FacultyVideoManagerModal
           isOpen={facultyModalOpen}
+          initialTab={facultyModalTab}
           onClose={() => setFacultyModalOpen(false)}
           currentUserRole={currentRole}
           currentUserName={currentUser?.name || 'Prof. Dr. M. A. Jalil'}

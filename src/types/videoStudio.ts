@@ -363,3 +363,35 @@ export interface VideoFilterCriteria {
   sortBy?: 'recent' | 'popular' | 'rating' | 'shortest' | 'longest' | 'title' | 'curriculum';
 }
 
+export interface VokaSyncReport {
+  discovered: number;
+  videosDiscovered?: number;
+  newCandidates: number;
+  existingVideos: number;
+  rejectedShorts: number;
+  embeddingDisabled: number;
+  irrelevantVideos: number;
+  errors: string[];
+  apiErrors?: string[];
+  channelHandle?: string;
+  syncTimestamp?: string;
+}
+
+export interface VokaCandidateVideo extends SelfHostedMedicalVideo {
+  classificationConfidence?: number;
+  matchedRule?: string;
+}
+
+export interface VokaPublishPayload {
+  id?: string;
+  youtubeVideoId: string;
+  title?: string;
+  section: string;
+  specialty?: string[];
+  topic?: string;
+  graphicContent?: boolean;
+  reviewerName?: string;
+  reviewerRole?: string;
+  notes?: string;
+}
+

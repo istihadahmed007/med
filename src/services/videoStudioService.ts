@@ -4,7 +4,10 @@ import {
   MedicalReviewForm, 
   VideoStudentProgress, 
   CreateVideoJobRequest,
-  SelfHostedMedicalVideo
+  SelfHostedMedicalVideo,
+  VokaCandidateVideo,
+  VokaSyncReport,
+  VokaPublishPayload
 } from '../types/videoStudio';
 import { UserRole } from '../types';
 import { StorageService } from './storageService';
@@ -291,5 +294,109 @@ export class VideoStudioService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(progress)
     });
+  }
+
+  // =========================================================================
+  // VOKA 3D Anatomy & Pathology Official Channel Integration
+  // =========================================================================
+
+  /**
+   * Trigger server-side synchronization with official VOKA YouTube channel (@vokaio).
+   */
+  static async syncVokaChannel(role: UserRole = 'faculty'): Promise<{ success: boolean; report: VokaSyncReport; candidates: VokaCandidateVideo[] }> {
+    const res = await safeFetchJson<{ success: boolean; report: VokaSyncReport; candidates: VokaCandidateVideo[] }>(
+      `${API_BASE}/sources/voka/sync`,
+      {
+        method: 'GET',
+        headers: { 'x-medx-role': role }
+      }
+    );
+
+    if (res.ok && res.data) {
+      return res.data;
+    }
+    throw new Error('Failed to synchronize with VOKA YouTube channel. Please check connection.');
+  }
+
+  /**
+   * Fetch unreviewed VOKA candidates pending editorial review.
+   */
+  static async getVokaCandidates(role: UserRole = 'faculty'): Promise<VokaCandidateVideo[]> {
+    const res = await safeFetchJson<VokaCandidateVideo[]>(`${API_BASE}/sources/voka/candidates`, {
+      headers: {
+        'x-medx-role': role
+      }
+    });
+    if (res.ok && Array.isArray(res.data)) {
+      return res.data;
+    }
+    return [];
+  }
+
+  /**
+   * Approve and publish a VOKA candidate video into the official MEDX video library.
+   */
+  static async publishVokaCandidate(
+    payload: VokaPublishPayload, 
+    role: UserRole = 'faculty',
+    reviewerName = 'Prof. Dr. Tariqul Islam, MBBS, PhD'
+  ): Promise<SelfHostedMedicalVideo> {
+    const res = await safeFetchJson<{ success: boolean; video: SelfHostedMedicalVideo }>(
+      `${API_BASE}/sources/voka/publish`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-medx-role': role,
+          'x-reviewer-name': reviewerName
+        },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    if (res.ok && res.data?.video) {
+      return res.data.video;
+    }
+    throw new Error('Failed to publish VOKA video. Ensure all required review fields are provided.');
+  }
+
+  /**
+   * Reject a candidate video.
+   */
+  static async rejectVokaCandidate(payload: { id?: string; youtubeVideoId: string }, role: UserRole = 'faculty'): Promise<void> {
+    const res = await safeFetchJson(`${API_BASE}/sources/voka/reject`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-medx-role': role
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to reject candidate.');
+    }
+  }
+
+  /**
+   * Execute video health check audit.
+   */
+  static async runVokaHealthCheck(role: UserRole = 'faculty'): Promise<{ totalAudited: number; archivedCount: number; verifiedCount?: number }> {
+    const res = await safeFetchJson<{ totalAudited: number; archivedCount: number; verifiedCount?: number }>(
+      `${API_BASE}/sources/voka/health-check`,
+      {
+        headers: {
+          'x-medx-role': role
+        }
+      }
+    );
+    if (res.ok && res.data) {
+      const data = res.data;
+      if (data.verifiedCount === undefined) {
+        data.verifiedCount = Math.max(0, data.totalAudited - data.archivedCount);
+      }
+      return data;
+    }
+    return { totalAudited: 0, archivedCount: 0, verifiedCount: 0 };
   }
 }

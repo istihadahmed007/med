@@ -30,7 +30,7 @@ dist-ssr
 
 # Local utility scripts & server runtime data
 serve.js
-server/
+server/data/
 scratch/
 /medical-videos/
 

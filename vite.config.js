@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import { VokaSyncService } from './server/services/vokaSyncService.js';
 
 // Dev API plugin ensures that Vite SPA server never serves index.html (<!DOCTYPE) for /api requests
 const devApiFallbackPlugin = () => ({
@@ -94,6 +95,89 @@ const devApiFallbackPlugin = () => ({
         if (url.startsWith('/api/video-studio/progress')) {
           res.statusCode = 200;
           res.end(JSON.stringify(null));
+          return;
+        }
+
+        // VOKA YouTube Official Channel Endpoints
+        if (url.startsWith('/api/video-studio/sources/voka/sync')) {
+          const role = req.headers['x-medx-role'] || 'faculty';
+          if (role !== 'faculty' && role !== 'admin' && role !== 'reviewer') {
+            res.statusCode = 403;
+            res.end(JSON.stringify({ error: 'Unauthorized. Only faculty or admin can trigger synchronization.' }));
+            return;
+          }
+          VokaSyncService.syncChannel(process.env.YOUTUBE_API_KEY)
+            .then(result => {
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true, ...result }));
+            })
+            .catch(err => {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ error: err.message }));
+            });
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/sources/voka/candidates')) {
+          res.statusCode = 200;
+          res.end(JSON.stringify(VokaSyncService.getCandidates()));
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/sources/voka/publish') && req.method === 'POST') {
+          const role = req.headers['x-medx-role'] || 'faculty';
+          if (role !== 'faculty' && role !== 'admin' && role !== 'reviewer') {
+            res.statusCode = 403;
+            res.end(JSON.stringify({ error: 'Unauthorized. Only faculty or admin can publish videos.' }));
+            return;
+          }
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const reviewerName = req.headers['x-reviewer-name'] || 'Prof. Dr. Tariqul Islam, MBBS, PhD';
+              const record = VokaSyncService.publishCandidate(payload, { name: reviewerName, role: 'Senior Faculty Reviewer' });
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true, video: record }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/sources/voka/reject') && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const candidates = VokaSyncService.getCandidates();
+              const filtered = candidates.filter(c => c.id !== payload.id && c.youtubeVideoId !== payload.youtubeVideoId);
+              const candidatesPath = path.resolve(process.cwd(), 'server', 'data', 'voka_candidates.json');
+              fs.writeFileSync(candidatesPath, JSON.stringify(filtered, null, 2), 'utf8');
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true, remaining: filtered.length }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/sources/voka/health-check')) {
+          VokaSyncService.runHealthCheck()
+            .then(stats => {
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true, ...stats }));
+            })
+            .catch(err => {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ error: err.message }));
+            });
           return;
         }
 
