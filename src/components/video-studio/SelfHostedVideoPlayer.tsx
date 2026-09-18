@@ -85,22 +85,23 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
 
   // Determine media source type accurately
   const mediaUrl = video.playbackUrl || video.playback_url || '';
-  const isNativeFile = 
+  const hasYtEmbed = !!video.youtubeVideoId || video.sourceType === 'youtube_nocookie' || (!!video.embedUrl && video.embedUrl.includes('youtube'));
+
+  const isEmbed = hasYtEmbed || (
+    video.sourceType === 'permitted_embed' || 
+    !!video.embedUrl || 
+    mediaUrl.includes('youtube') || 
+    mediaUrl.includes('vimeo')
+  );
+
+  const isHls = !isEmbed && (video.sourceType === 'hls' || mediaUrl.endsWith('.m3u8'));
+
+  const isNativeFile = !isEmbed && !isHls && (
     video.sourceType === 'self_hosted' ||
     mediaUrl.endsWith('.webm') ||
     mediaUrl.endsWith('.mp4') ||
     mediaUrl.endsWith('.ogv') ||
-    mediaUrl.startsWith('/medical-videos/');
-
-  const isHls = !isNativeFile && (video.sourceType === 'hls' || mediaUrl.endsWith('.m3u8'));
-  
-  const isEmbed = !isNativeFile && !isHls && (
-    video.sourceType === 'permitted_embed' || 
-    video.sourceType === 'youtube_nocookie' || 
-    !!video.youtubeVideoId || 
-    !!video.embedUrl || 
-    mediaUrl.includes('youtube') || 
-    mediaUrl.includes('vimeo')
+    mediaUrl.startsWith('/medical-videos/')
   );
 
   const getEmbedUrl = () => {

@@ -114,8 +114,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/surgery/endoscopic-skull-base-osteoma.jpg",
     "thumbnail_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.jpg",
-    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.vtt",
     "source": "National Library of Medicine",
     "license": "CC BY 3.0 Open Access",
@@ -211,7 +209,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv"
   },
   {
     "id": "vid-surg-square-knot",
@@ -222,7 +222,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "সার্জারিতে স্কয়ার নট বাঁধার সঠিক পদ্ধতি।",
     "summary": "Clinical demonstration of tension-controlled one-handed square knot tying using Mayo-Hegar needle holder.",
     "sourceName": "Dr. Arif Alper Cevik",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "General Surgery",
@@ -385,7 +385,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "8n5n1w1k9yA",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/8n5n1w1k9yA"
   },
   {
     "id": "mp-phys-naloxone",
@@ -396,7 +398,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "মস্তিষ্কের মিডুলায় শ্বাসপ্রশ্বাস নিয়ন্ত্রণের নিউরোফিজিওলজি।",
     "summary": "Medullary respiratory center control and brainstem pacemaker neurons.",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Physiology"
@@ -414,8 +416,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/lungs-pulmonary-architecture.jpg",
     "thumbnail_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.jpg",
-    "storage_path": "medical-videos/anatomy/lungs-pulmonary-architecture.webm",
-    "playback_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.webm",
     "captions_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -511,7 +511,11 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "9g2_pP3p660",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/9g2_pP3p660",
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv"
   },
   {
     "id": "vid-anat-femoral-triangle",
@@ -522,7 +526,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "ফিমোরাল ক্যানাল এবং ইনগুইনাল লিগামেন্টের ৩ডি শারীরস্থান।",
     "summary": "Anatomical borders of the femoral triangle and femoral hernia canal orifice.",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Anatomy",
     "collection": "Gross Anatomy",
     "specialty": [
@@ -541,8 +545,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/femoral-canal-deep.jpg",
     "thumbnail_url": "/medical-videos/anatomy/femoral-canal-deep.jpg",
-    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
-    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv",
     "captions_url": "/medical-videos/anatomy/femoral-canal-deep.vtt",
     "source": "National Library of Medicine",
     "embeddingAllowed": true,
@@ -635,7 +637,11 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "9g2_pP3p660",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/9g2_pP3p660",
+    "storage_path": "medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
+    "playback_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv"
   },
   {
     "id": "anatomy-thorax-selfhosted",
@@ -646,7 +652,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "বুকের দেওয়াল এবং ইন্টারকস্টাল পেশীর ৩ডি শারীরস্থান।",
     "summary": "Musculoskeletal anatomy of the thoracic cage and intercostal muscles.",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Anatomy",
     "collection": "Thorax",
     "specialty": [
@@ -665,8 +671,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/thorax-intercostal-muscles.jpg",
     "thumbnail_url": "/medical-videos/anatomy/thorax-intercostal-muscles.jpg",
-    "storage_path": "medical-videos/anatomy/thorax-intercostal-muscles.webm",
-    "playback_url": "/medical-videos/anatomy/thorax-intercostal-muscles.webm",
     "captions_url": "/medical-videos/anatomy/thorax-intercostal-muscles.vtt",
     "source": "National Library of Medicine",
     "license": "CC BY 3.0",
@@ -762,7 +766,11 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "kxc22Fjd1NQ",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/kxc22Fjd1NQ",
+    "storage_path": "medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "playback_url": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv"
   },
   {
     "id": "mp-path-cholesterol",
@@ -773,7 +781,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "ধমনীতে চর্বি জমে অ্যাথেরোস্ক্লেরোটিক প্লাক গঠনের প্যাথলজি এবং টাইপ ১ হাইপারসেনসিটিভিটি অ্যালার্জি।",
     "summary": "LDL cholesterol oxidation, allergy immunological response, and foam cell formation.",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Pathology",
     "specialty": [
       "Pathology"
@@ -791,8 +799,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/pathology/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -888,7 +894,11 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "9g2_pP3p660",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/9g2_pP3p660",
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv"
   },
   {
     "id": "mp-path-histamine",
@@ -899,7 +909,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "মাস্ট সেল থেকে হিস্টামিন ক্ষরণ এবং অ্যানাফাইলাক্সিসের প্যাথলজি।",
     "summary": "Mast cell degranulation, IgE cross-linking, histamine H1 receptor binding, and allergy response.",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Pathology",
     "specialty": [
       "Pathology"
@@ -917,8 +927,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/lungs-pulmonary-architecture.jpg",
     "thumbnail_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.jpg",
-    "storage_path": "medical-videos/pathology/lungs-pulmonary-architecture.webm",
-    "playback_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.webm",
     "captions_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -1014,7 +1022,11 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "9g2_pP3p660",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/9g2_pP3p660",
+    "storage_path": "medical-videos/surgery/square-knot-suture-technique.webm",
+    "playback_url": "/medical-videos/surgery/square-knot-suture-technique.webm"
   },
   {
     "id": "vid-surg-trauma-laparotomy",
@@ -1025,7 +1037,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "descriptionBn": "পেটের মারাত্মক ট্রমার পর জরুরি অস্ত্রোপচার এবং চার-কোয়াড্র্যান্ট প্যাকিং।",
     "summary": "Emergency damage control laparotomy with midline incision and four-quadrant abdominal packing.",
     "sourceName": "World Journal of Emergency Surgery",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "General Surgery",
@@ -1044,8 +1056,8 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "Matsumoto et al. / WJES",
     "thumbnailUrl": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.jpg",
     "thumbnail_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.jpg",
-    "storage_path": "medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
-    "playback_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv",
     "captions_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.vtt",
     "source": "World Journal of Emergency Surgery",
     "license": "CC BY 2.0",
@@ -1142,7 +1154,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "youtubeVideoId": "8n5n1w1k9yA",
+    "embedUrl": "https://www.youtube-nocookie.com/embed/8n5n1w1k9yA"
   },
   {
     "id": "anatomy-abdomen-lesson",
@@ -1156,7 +1170,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/9g2_pP3p660",
     "sourceUrl": "https://www.youtube.com/watch?v=9g2_pP3p660",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Anatomy",
     "specialty": [
       "Anatomy"
@@ -1183,8 +1197,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -1291,7 +1303,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
+    "playback_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv"
   },
   {
     "id": "physio-renal-lesson",
@@ -1305,7 +1319,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/vB7Xv6gM5l0",
     "sourceUrl": "https://www.youtube.com/watch?v=vB7Xv6gM5l0",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Physiology"
@@ -1332,8 +1346,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -1440,7 +1452,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "playback_url": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv"
   },
   {
     "id": "gs-hernia-lesson",
@@ -1454,7 +1468,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/8n5n1w1k9yA",
     "sourceUrl": "https://www.youtube.com/watch?v=8n5n1w1k9yA",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "General Surgery"
@@ -1481,8 +1495,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/surgery/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -1589,7 +1601,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv"
   },
   {
     "id": "cts-thoracotomy-lesson",
@@ -1603,7 +1617,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/3mN5xW8q9z0",
     "sourceUrl": "https://www.youtube.com/watch?v=3mN5xW8q9z0",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "Cardiothoracic Surgery"
@@ -1630,8 +1644,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/surgery/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -1738,7 +1750,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/square-knot-suture-technique.webm",
+    "playback_url": "/medical-videos/surgery/square-knot-suture-technique.webm"
   },
   {
     "id": "neuro-craniotomy-lesson",
@@ -1752,7 +1766,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/z1X8x0m0m00",
     "sourceUrl": "https://www.youtube.com/watch?v=z1X8x0m0m00",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Neurosurgery"
@@ -1779,8 +1793,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -1887,7 +1899,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv"
   },
   {
     "id": "ortho-femur-nail-lesson",
@@ -1901,7 +1915,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/7k8l9m0n1o2",
     "sourceUrl": "https://www.youtube.com/watch?v=7k8l9m0n1o2",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "Orthopaedic Surgery"
@@ -1928,8 +1942,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/surgery/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2036,7 +2048,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
+    "playback_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv"
   },
   {
     "id": "gi-colectomy-lesson",
@@ -2050,7 +2064,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/6j5k4l3m2n1",
     "sourceUrl": "https://www.youtube.com/watch?v=6j5k4l3m2n1",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "Gastrointestinal Surgery"
@@ -2077,8 +2091,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/surgery/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2185,7 +2197,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "playback_url": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv"
   },
   {
     "id": "uro-turp-lesson",
@@ -2199,7 +2213,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/5i4h3g2f1e0",
     "sourceUrl": "https://www.youtube.com/watch?v=5i4h3g2f1e0",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Urology"
@@ -2226,8 +2240,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2334,7 +2346,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv"
   },
   {
     "id": "obgyn-csection-lesson",
@@ -2348,7 +2362,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/4d3c2b1a0z9",
     "sourceUrl": "https://www.youtube.com/watch?v=4d3c2b1a0z9",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Obstetrics and Gynaecology"
@@ -2375,8 +2389,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2483,7 +2495,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/square-knot-suture-technique.webm",
+    "playback_url": "/medical-videos/surgery/square-knot-suture-technique.webm"
   },
   {
     "id": "ent-tracheostomy-lesson",
@@ -2497,7 +2511,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/3b2a1z0y9x8",
     "sourceUrl": "https://www.youtube.com/watch?v=3b2a1z0y9x8",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "ENT Surgery"
@@ -2524,8 +2538,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/surgery/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2632,7 +2644,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv"
   },
   {
     "id": "ophth-phaco-lesson",
@@ -2646,7 +2660,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/2a1z0y9x8w7",
     "sourceUrl": "https://www.youtube.com/watch?v=2a1z0y9x8w7",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Ophthalmology"
@@ -2673,8 +2687,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2781,7 +2793,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
+    "playback_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv"
   },
   {
     "id": "plastic-skin-graft-lesson",
@@ -2795,7 +2809,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/1z0y9x8w7v6",
     "sourceUrl": "https://www.youtube.com/watch?v=1z0y9x8w7v6",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Surgery",
     "specialty": [
       "Plastic and Reconstructive Surgery"
@@ -2822,8 +2836,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/surgery/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -2930,7 +2942,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "playback_url": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv"
   },
   {
     "id": "anaes-intubation-lesson",
@@ -2944,7 +2958,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/0y9x8w7v6u5",
     "sourceUrl": "https://www.youtube.com/watch?v=0y9x8w7v6u5",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Anaesthesia and Critical Care"
@@ -2971,8 +2985,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3079,7 +3091,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv"
   },
   {
     "id": "clin-venepuncture-lesson",
@@ -3093,7 +3107,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/9x8w7v6u5t4",
     "sourceUrl": "https://www.youtube.com/watch?v=9x8w7v6u5t4",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Clinical Procedures"
@@ -3120,8 +3134,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3228,7 +3240,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/square-knot-suture-technique.webm",
+    "playback_url": "/medical-videos/surgery/square-knot-suture-technique.webm"
   },
   {
     "id": "rad-ct-head-lesson",
@@ -3242,7 +3256,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/8w7v6u5t4s3",
     "sourceUrl": "https://www.youtube.com/watch?v=8w7v6u5t4s3",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Radiology and Medical Imaging"
@@ -3269,8 +3283,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3377,7 +3389,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv"
   },
   {
     "id": "path-inflammation-lesson",
@@ -3391,7 +3405,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/7v6u5t4s3r2",
     "sourceUrl": "https://www.youtube.com/watch?v=7v6u5t4s3r2",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Pathology and Disease Mechanisms"
@@ -3418,8 +3432,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3526,7 +3538,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv",
+    "playback_url": "/medical-videos/surgery/trauma-laparotomy-hemorrhage.ogv"
   },
   {
     "id": "em-atls-primary-lesson",
@@ -3540,7 +3554,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/6u5t4s3r2q1",
     "sourceUrl": "https://www.youtube.com/watch?v=6u5t4s3r2q1",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Emergency Medicine"
@@ -3567,8 +3581,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3675,7 +3687,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "playback_url": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv"
   },
   {
     "id": "peds-nrp-lesson",
@@ -3689,7 +3703,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/5t4s3r2q1p0",
     "sourceUrl": "https://www.youtube.com/watch?v=5t4s3r2q1p0",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Paediatrics"
@@ -3716,8 +3730,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3824,7 +3836,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv"
   },
   {
     "id": "med-ecg-lesson",
@@ -3838,7 +3852,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/4s3r2q1p0o9",
     "sourceUrl": "https://www.youtube.com/watch?v=4s3r2q1p0o9",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Internal Medicine"
@@ -3865,8 +3879,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -3973,7 +3985,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/surgery/square-knot-suture-technique.webm",
+    "playback_url": "/medical-videos/surgery/square-knot-suture-technique.webm"
   },
   {
     "id": "comm-epi-lesson",
@@ -3987,7 +4001,7 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "embedUrl": "https://www.youtube-nocookie.com/embed/3r2q1p0o9n8",
     "sourceUrl": "https://www.youtube.com/watch?v=3r2q1p0o9n8",
     "sourceName": "National Library of Medicine",
-    "sourceType": "self_hosted",
+    "sourceType": "youtube_nocookie",
     "category": "Physiology",
     "specialty": [
       "Community Medicine and Prevention"
@@ -4014,8 +4028,6 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
     "instructorOrPublisher": "National Library of Medicine",
     "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
     "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
-    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
-    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
     "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
     "source": "National Library of Medicine",
     "license": "Public Domain",
@@ -4122,7 +4134,9 @@ export const MEDICAL_VIDEO_LIBRARY_DATA: SelfHostedMedicalVideo[] = [
         "explanation": "Aseptic hand scrubbing and sterile barrier technique prevent surgical site infection.",
         "bmdcMark": 1
       }
-    ]
+    ],
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv"
   }
 ];
 
