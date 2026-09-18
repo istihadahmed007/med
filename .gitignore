@@ -28,6 +28,8 @@ dist-ssr
 .env.production
 .env.local
 
-# Local utility scripts
+# Local utility scripts & server runtime data
 serve.js
+server/
+
 

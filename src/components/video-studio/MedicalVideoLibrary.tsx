@@ -313,6 +313,14 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onPlay }) => {
           <span>3D Animation</span>
         </div>
 
+        {/* 3D CGI Video Badge if YouTube source available */}
+        {video.youtubeId && (
+          <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-red-600/90 border border-red-500/40 text-white text-[10px] font-bold shadow-md backdrop-blur-md">
+            <Play className="w-2.5 h-2.5 fill-white" />
+            <span>3D CGI</span>
+          </div>
+        )}
+
         {/* Duration Badge */}
         <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-slate-950/90 text-slate-200 text-[11px] font-mono font-medium border border-slate-800">
           {video.duration}
@@ -358,6 +366,19 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onPlay }) => {
           <p className="text-xs text-slate-300/90 line-clamp-2 leading-relaxed">
             {video.description}
           </p>
+
+          {/* What You Will Learn preview on card */}
+          {video.whatYouWillLearn && video.whatYouWillLearn.length > 0 && (
+            <div className="pt-0.5">
+              <div className="text-[10px] font-semibold text-cyan-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-cyan-400 shrink-0" />
+                <span>What you will learn:</span>
+              </div>
+              <p className="text-[11px] text-slate-300 line-clamp-1 italic">
+                "{video.whatYouWillLearn[0]}"
+              </p>
+            </div>
+          )}
 
           {/* Related Anatomy Tags */}
           <div className="pt-1">
@@ -409,12 +430,15 @@ interface VideoPlayerModalProps {
 }
 
 const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) => {
+  const hasAnimationVideo = Boolean(video.youtubeId || video.embedUrl);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<'3d-sim' | 'video'>('3d-sim');
+  const [viewMode, setViewMode] = useState<'3d-animation' | '3d-sim' | 'video'>(
+    hasAnimationVideo ? '3d-animation' : '3d-sim'
+  );
   const [showBengaliSubtitles, setShowBengaliSubtitles] = useState<boolean>(false);
   const [videoStreamFailed, setVideoStreamFailed] = useState<boolean>(false);
 
@@ -502,27 +526,56 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
           <div className="flex items-center gap-2">
             {/* View Mode Switcher */}
             <div className="flex items-center p-0.5 rounded-lg bg-slate-800/90 border border-slate-700/60 text-xs">
+              {hasAnimationVideo && (
+                <button
+                  onClick={() => setViewMode('3d-animation')}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all flex items-center gap-1.5 ${
+                    viewMode === '3d-animation'
+                      ? 'bg-red-600 text-white shadow-sm font-semibold'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Play className="w-3 h-3 fill-current" />
+                  <span>3D Animation</span>
+                </button>
+              )}
               <button
                 onClick={() => setViewMode('3d-sim')}
                 className={`px-2.5 py-1 rounded-md font-medium transition-all ${
                   viewMode === '3d-sim'
-                    ? 'bg-cyan-600 text-white shadow-sm'
+                    ? 'bg-cyan-600 text-white shadow-sm font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 3D Simulation
               </button>
-              <button
-                onClick={() => setViewMode('video')}
-                className={`px-2.5 py-1 rounded-md font-medium transition-all ${
-                  viewMode === 'video'
-                    ? 'bg-cyan-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                Video Track
-              </button>
+              {Boolean(video.videoUrl) && (
+                <button
+                  onClick={() => setViewMode('video')}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    viewMode === 'video'
+                      ? 'bg-cyan-600 text-white shadow-sm font-semibold'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Video Track
+                </button>
+              )}
             </div>
+
+            {/* Direct YouTube Link if available */}
+            {video.youtubeId && (
+              <a
+                href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/40 transition-colors"
+                title="Watch on YouTube in Full HD"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>YouTube 4K</span>
+              </a>
+            )}
 
             {/* Subtitle Language Switcher */}
             <button
@@ -548,7 +601,18 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
 
         {/* Player View Area */}
         <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden select-none">
-          {viewMode === '3d-sim' ? (
+          {viewMode === '3d-animation' && hasAnimationVideo ? (
+            /* High-Definition 3D Medical Animation Video (YouTube/Responsive Embed) */
+            <div className="relative w-full h-full bg-black">
+              <iframe
+                src={video.embedUrl || `https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                title={video.title}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          ) : viewMode === '3d-sim' ? (
             /* 60fps Real-Time Procedural Medical Simulation Canvas */
             <MedicalAnimationCanvas
               animationType={video.animationType}
@@ -559,7 +623,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
             />
           ) : (
             /* Video Track */
-            videoStreamFailed ? (
+            videoStreamFailed || !video.videoUrl ? (
               <div className="p-8 text-center space-y-3">
                 <AlertCircle className="w-10 h-10 text-amber-400 mx-auto" />
                 <h4 className="text-white font-semibold text-sm">Video Stream Temporarily Unavailable</h4>
@@ -576,7 +640,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
             ) : (
               <video
                 ref={videoElementRef}
-                src={video.videoUrl || '/media/cardiac_cycle_systole.mp4'}
+                src={video.videoUrl}
                 poster={video.thumbnailUrl}
                 playsInline
                 muted={isMuted}
@@ -592,8 +656,8 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
             )
           )}
 
-          {/* Dynamic Bilingual Subtitles Box */}
-          {currentSubtitle && (
+          {/* Dynamic Bilingual Subtitles Box (when in 3D-sim or video track) */}
+          {viewMode !== '3d-animation' && currentSubtitle && (
             <div className="absolute bottom-16 inset-x-8 flex justify-center pointer-events-none">
               <div className="px-4 py-2 rounded-xl bg-slate-950/90 border border-slate-700/80 text-white text-xs sm:text-sm font-medium shadow-2xl text-center max-w-2xl backdrop-blur-md">
                 {currentSubtitle}
@@ -602,122 +666,163 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ video, onClose }) =
           )}
         </div>
 
-        {/* Scrubber & Interactive Controls Bar */}
-        <div className="px-5 py-3.5 bg-slate-900 border-t border-slate-800 space-y-2.5">
-          {/* Progress Bar / Scrubber */}
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] font-mono text-slate-400 w-10 text-right">
-              {formatTime(currentTime)}
-            </span>
-            <div className="relative flex-1 group">
-              <input
-                type="range"
-                min={0}
-                max={duration}
-                step={0.1}
-                value={currentTime}
-                onChange={(e) => {
-                  const val = parseFloat(e.target.value);
-                  setCurrentTime(val);
-                  if (videoElementRef.current && viewMode === 'video') {
-                    videoElementRef.current.currentTime = val;
-                  }
-                }}
-                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400 focus:outline-none"
-              />
-            </div>
-            <span className="text-[11px] font-mono text-slate-400 w-10">
-              {formatTime(duration)}
-            </span>
-          </div>
-
-          {/* Control Buttons */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              {/* Play/Pause */}
-              <button
-                onClick={() => {
-                  setIsPlaying(prev => !prev);
-                  if (videoElementRef.current && viewMode === 'video') {
-                    if (isPlaying) videoElementRef.current.pause();
-                    else videoElementRef.current.play().catch(() => {});
-                  }
-                }}
-                className="p-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white transition-colors"
-              >
-                {isPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white ml-0.5" />}
-              </button>
-
-              {/* Reset / Loop */}
-              <button
-                onClick={() => {
-                  setCurrentTime(0);
-                  if (videoElementRef.current) videoElementRef.current.currentTime = 0;
-                }}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                title="Restart"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-
-              {/* Mute Toggle */}
-              <button
-                onClick={() => setIsMuted(prev => !prev)}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-              >
-                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-              </button>
-            </div>
-
-            {/* Chapters quick select */}
-            <div className="hidden sm:flex items-center gap-1.5 overflow-x-auto max-w-sm scrollbar-none">
+        {/* Controls Bar */}
+        {viewMode === '3d-animation' ? (
+          /* Chapters & Quick Navigation for 3D Animation */
+          <div className="px-5 py-3 bg-slate-900 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 overflow-x-auto max-w-2xl scrollbar-none">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                Key Chapters:
+              </span>
               {video.chapters.map((chap, idx) => (
-                <button
+                <span
                   key={idx}
-                  onClick={() => {
-                    setCurrentTime(chap.timestampSeconds);
-                    if (videoElementRef.current) videoElementRef.current.currentTime = chap.timestampSeconds;
-                  }}
-                  className={`px-2 py-1 rounded text-[10px] font-medium truncate max-w-[120px] transition-all ${
-                    currentTime >= chap.timestampSeconds && (idx === video.chapters.length - 1 || currentTime < video.chapters[idx + 1].timestampSeconds)
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                      : 'bg-slate-800/80 text-slate-400 hover:text-slate-200 border border-slate-700/50'
-                  }`}
-                  title={chap.title}
+                  className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-800 text-slate-300 border border-slate-700/60 whitespace-nowrap"
                 >
                   {chap.title}
-                </button>
+                </span>
               ))}
             </div>
 
+            <div className="flex items-center gap-2 ml-auto">
+              <button
+                onClick={() => setViewMode('3d-sim')}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 transition-colors"
+              >
+                <Activity className="w-3.5 h-3.5" />
+                <span>3D Simulation Mode</span>
+              </button>
+              {video.youtubeId && (
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/40 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Watch on YouTube</span>
+                </a>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Scrubber & Interactive Controls Bar for Canvas/Local Video */
+          <div className="px-5 py-3.5 bg-slate-900 border-t border-slate-800 space-y-2.5">
+            {/* Progress Bar / Scrubber */}
             <div className="flex items-center gap-3">
-              {/* Playback Speed Selector */}
-              <div className="flex items-center gap-1">
-                {[0.5, 0.75, 1.0, 1.25, 1.5, 2.0].map(speed => (
+              <span className="text-[11px] font-mono text-slate-400 w-10 text-right">
+                {formatTime(currentTime)}
+              </span>
+              <div className="relative flex-1 group">
+                <input
+                  type="range"
+                  min={0}
+                  max={duration}
+                  step={0.1}
+                  value={currentTime}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setCurrentTime(val);
+                    if (videoElementRef.current && viewMode === 'video') {
+                      videoElementRef.current.currentTime = val;
+                    }
+                  }}
+                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400 focus:outline-none"
+                />
+              </div>
+              <span className="text-[11px] font-mono text-slate-400 w-10">
+                {formatTime(duration)}
+              </span>
+            </div>
+
+            {/* Control Buttons */}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                {/* Play/Pause */}
+                <button
+                  onClick={() => {
+                    setIsPlaying(prev => !prev);
+                    if (videoElementRef.current && viewMode === 'video') {
+                      if (isPlaying) videoElementRef.current.pause();
+                      else videoElementRef.current.play().catch(() => {});
+                    }
+                  }}
+                  className="p-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white transition-colors"
+                >
+                  {isPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white ml-0.5" />}
+                </button>
+
+                {/* Reset / Loop */}
+                <button
+                  onClick={() => {
+                    setCurrentTime(0);
+                    if (videoElementRef.current) videoElementRef.current.currentTime = 0;
+                  }}
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                  title="Restart"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+
+                {/* Mute Toggle */}
+                <button
+                  onClick={() => setIsMuted(prev => !prev)}
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {/* Chapters quick select */}
+              <div className="hidden sm:flex items-center gap-1.5 overflow-x-auto max-w-sm scrollbar-none">
+                {video.chapters.map((chap, idx) => (
                   <button
-                    key={speed}
-                    onClick={() => setPlaybackSpeed(speed)}
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-mono transition-all ${
-                      playbackSpeed === speed
-                        ? 'bg-cyan-600 text-white font-bold'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    key={idx}
+                    onClick={() => {
+                      setCurrentTime(chap.timestampSeconds);
+                      if (videoElementRef.current) videoElementRef.current.currentTime = chap.timestampSeconds;
+                    }}
+                    className={`px-2 py-1 rounded text-[10px] font-medium truncate max-w-[120px] transition-all ${
+                      currentTime >= chap.timestampSeconds && (idx === video.chapters.length - 1 || currentTime < video.chapters[idx + 1].timestampSeconds)
+                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                        : 'bg-slate-800/80 text-slate-400 hover:text-slate-200 border border-slate-700/50'
                     }`}
+                    title={chap.title}
                   >
-                    {speed}x
+                    {chap.title}
                   </button>
                 ))}
               </div>
 
-              {/* Fullscreen */}
-              <button
-                onClick={toggleFullscreen}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-              >
-                {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-              </button>
+              <div className="flex items-center gap-3">
+                {/* Playback Speed Selector */}
+                <div className="flex items-center gap-1">
+                  {[0.5, 0.75, 1.0, 1.25, 1.5, 2.0].map(speed => (
+                    <button
+                      key={speed}
+                      onClick={() => setPlaybackSpeed(speed)}
+                      className={`px-1.5 py-0.5 rounded text-[10px] font-mono transition-all ${
+                        playbackSpeed === speed
+                          ? 'bg-cyan-600 text-white font-bold'
+                          : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                      }`}
+                    >
+                      {speed}x
+                    </button>
+                  ))}
+                </div>
+
+                {/* Fullscreen */}
+                <button
+                  onClick={toggleFullscreen}
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Video Information & "What You Will Learn" Drawer */}
         <div className="p-5 bg-slate-950/90 border-t border-slate-800/80 space-y-4 max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700">

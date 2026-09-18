@@ -1,5 +1,6 @@
 import React from 'react';
 import { MedicalVideoLibrary } from './MedicalVideoLibrary';
+import { ErrorBoundary } from '../common/ErrorBoundary';
 
 /**
  * Video Studio Hub:
@@ -9,9 +10,12 @@ import { MedicalVideoLibrary } from './MedicalVideoLibrary';
 export const VideoStudioHub: React.FC = () => {
   return (
     <div className="w-full">
-      <MedicalVideoLibrary />
+      <ErrorBoundary fallbackTitle="Medical Animation & Surgery Video Library">
+        <MedicalVideoLibrary />
+      </ErrorBoundary>
     </div>
   );
 };
 
 export default VideoStudioHub;
+

@@ -30,7 +30,11 @@ async function safeJsonFetch<T>(url: string, options: RequestInit = {}): Promise
     const res = await fetch(url, { ...options, headers });
     const contentType = res.headers.get('content-type') || '';
     if (res.ok && contentType.toLowerCase().includes('application/json')) {
-      return (await res.json()) as T;
+      const text = await res.text();
+      if (!text || text.trim().startsWith('<') || text.trim().toLowerCase().startsWith('<!doctype')) {
+        return null;
+      }
+      return JSON.parse(text) as T;
     }
     return null;
   } catch {
