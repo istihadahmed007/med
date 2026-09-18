@@ -198,8 +198,88 @@ export interface VideoStudentProgress {
 export interface SelfHostedMedicalVideo {
   id: string;
   title: string;
+  titleBn?: string;
+  summary?: string;
   description: string;
-  category: 'Anatomy' | 'Physiology' | 'Pathology' | 'Surgery' | string;
+  category: 'Anatomy' | 'Physiology' | 'Pathology' | 'Surgery' | 'Clinical Skills' | 'Medical Imaging' | string;
+  collection?: string;
+  subtopic?: string;
+  procedureType?: string;
+  mbbsPhase?: string;
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  duration: string;
+  durationSeconds?: number;
+  language?: string;
+  hasCaptions?: boolean;
+  mediaType?: 'animation' | 'cadaveric' | 'clinical_demonstration' | 'imaging' | 'real_surgery';
+  instructor?: string;
+  institution?: string;
+  source: string;
+  sourceUrl?: string;
+  sourceType?: 'self_hosted' | 'hls' | 'permitted_embed';
+  playbackUrl?: string;
+  thumbnailUrl?: string;
+  captionsUrl?: string;
+  hlsUrl?: string;
+  graphicContent?: boolean;
+  graphicWarningText?: string;
+  license: string | {
+    type: string;
+    permission: string;
+    evidence: string;
+  };
+  attribution: string;
+  publicationStatus?: VideoPublicationStatus;
+  review?: {
+    status: string;
+    reviewerName: string;
+    reviewerRole: string;
+    reviewedAt: string;
+    notes?: string;
+  };
+  learningObjectives?: string[];
+  chapters?: {
+    timestampSeconds: number;
+    title: string;
+    titleBn?: string;
+    description?: string;
+  }[];
+  transcript?: string | {
+    timestampSeconds: number;
+    speaker: string;
+    text: string;
+  }[];
+  surgicalSteps?: {
+    stepNumber: number;
+    stepTitle: string;
+    description: string;
+    keyAnatomy: string[];
+    instruments: string[];
+    warnings?: string[];
+  }[];
+  indications?: string[];
+  contraindications?: string[];
+  patientPreparation?: string[];
+  relevantAnatomy?: string[];
+  instruments?: string[];
+  clinicalPearls?: string[];
+  commonMistakes?: string[];
+  complications?: string[];
+  postoperativeCare?: string[];
+  safetyDisclaimer?: string;
+  textbookLinks?: {
+    title: string;
+    chapter: string;
+    pages?: string;
+  }[];
+  curriculumLinks?: {
+    phase: string;
+    topic: string;
+    syllabusCode?: string;
+    acrossBooksTopicId?: string;
+  };
+  quiz?: VideoQuizQuestion[];
+  relatedVideoIds?: string[];
   anatomy: string[];
   specialty: string[];
   procedure: string[];
@@ -207,15 +287,44 @@ export interface SelfHostedMedicalVideo {
   storage_path: string;
   playback_url: string;
   thumbnail_url: string;
-  duration: string;
-  source: string;
-  license: string;
-  attribution: string;
   captions_url: string;
   created_at: string;
-  chapters?: {
-    timestampSeconds: number;
-    title: string;
-  }[];
-  transcript?: string;
 }
+
+export type ComprehensiveMedicalVideo = SelfHostedMedicalVideo;
+
+export interface VideoQuizQuestion {
+  id: string;
+  question: string;
+  questionBn?: string;
+  options: string[];
+  correctOptionIndex: number;
+  explanation: string;
+  bmdcMark?: number;
+}
+
+export interface VideoTaxonomy {
+  anatomy: Record<string, string[]>;
+  surgery: Record<string, string[]>;
+  physiology: Record<string, string[]>;
+  pathology: Record<string, string[]>;
+  clinicalSkills: Record<string, string[]>;
+  imaging: Record<string, string[]>;
+}
+
+export interface VideoFilterCriteria {
+  query?: string;
+  category?: string;
+  collection?: string;
+  subtopic?: string;
+  phase?: string;
+  difficulty?: string;
+  mediaType?: string;
+  durationRange?: 'short' | 'medium' | 'long' | string;
+  language?: string;
+  hasCaptions?: boolean;
+  facultyReviewedOnly?: boolean;
+  completedOnly?: boolean;
+  sortBy?: 'recent' | 'popular' | 'rating' | 'shortest' | 'longest' | 'title' | 'curriculum';
+}
+

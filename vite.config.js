@@ -29,13 +29,47 @@ const devApiFallbackPlugin = () => ({
           return;
         }
 
-        if (url.startsWith('/api/video-studio/library')) {
+        if (url.startsWith('/api/video-studio/taxonomy')) {
           res.statusCode = 200;
           try {
             const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
             if (fs.existsSync(dbPath)) {
               const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-              res.end(JSON.stringify(data.medicalVideos || []));
+              res.end(JSON.stringify({ taxonomy: data.videoTaxonomy || {}, totalVideos: (data.medicalVideos || []).length }));
+              return;
+            }
+          } catch (e) {}
+          res.end(JSON.stringify({ taxonomy: {}, totalVideos: 0 }));
+          return;
+        }
+
+        if (url.startsWith('/api/video-studio/library') || url.startsWith('/api/video-studio/videos')) {
+          res.statusCode = 200;
+          try {
+            const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
+            if (fs.existsSync(dbPath)) {
+              const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+              let videos = data.medicalVideos || [];
+              const parsed = new URL('http://localhost' + url);
+              const category = parsed.searchParams.get('category');
+              const collection = parsed.searchParams.get('collection');
+              const subtopic = parsed.searchParams.get('subtopic') || parsed.searchParams.get('topic');
+              const query = parsed.searchParams.get('query') || parsed.searchParams.get('search');
+              if (category && category !== 'all' && category !== 'All') {
+                videos = videos.filter(v => v.category && v.category.toLowerCase() === category.toLowerCase());
+              }
+              if (collection && collection !== 'all' && collection !== 'All') {
+                videos = videos.filter(v => v.collection && v.collection.toLowerCase() === collection.toLowerCase());
+              }
+              if (subtopic && subtopic !== 'all' && subtopic !== 'All') {
+                const s = subtopic.toLowerCase();
+                videos = videos.filter(v => (v.subtopic && v.subtopic.toLowerCase() === s) || (Array.isArray(v.topics) && v.topics.some(t => t.toLowerCase() === s)));
+              }
+              if (query && query.trim()) {
+                const q = query.toLowerCase().trim();
+                videos = videos.filter(v => (v.title && v.title.toLowerCase().includes(q)) || (v.description && v.description.toLowerCase().includes(q)));
+              }
+              res.end(JSON.stringify(videos));
               return;
             }
           } catch (e) {

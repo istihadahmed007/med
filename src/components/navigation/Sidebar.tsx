@@ -91,7 +91,7 @@ const PRIMARY_HUBS: NavItem[] = [
 ];
 
 const SECONDARY_TOOLS = [
-  { id: 'video-studio', label: 'Medical Video Library', icon: Video, badge: '3D Anim' },
+  { id: 'video-studio', label: 'Medical Video Library', icon: Video, badge: 'Medical Videos' },
   { id: 'ai-tutor', label: 'AI Medical Tutor', icon: Bot, badge: 'RAG' },
   { id: 'faculty-admin', label: 'Faculty Governance', icon: ShieldCheck, badge: 'Review' }
 ];
