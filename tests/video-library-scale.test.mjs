@@ -295,11 +295,11 @@ test('Criterion 14: Licence evidence and medical reviewer fields are verified', 
 
 // 15. Acceptance Criterion 15: Empty categories and unverified collections show empty state
 test('Criterion 15: Empty categories and unverified collections return empty list', () => {
-  const emptySpecialty = filterMedicalVideos(catalog, { specialty: 'Cardiothoracic Surgery' });
-  assert.deepEqual(emptySpecialty, [], 'Cardiothoracic Surgery has no verified videos yet and must return empty array');
+  const emptySpecialty = filterMedicalVideos(catalog, { specialty: 'Orthopaedic Surgery' });
+  assert.deepEqual(emptySpecialty, [], 'Orthopaedic Surgery has no verified videos yet and must return empty array');
 
-  const emptyCollection = filterMedicalVideos(catalog, { collection: 'Back and vertebral column' });
-  assert.deepEqual(emptyCollection, [], 'Back and vertebral column has no verified videos yet and must return empty array');
+  const emptyCollection = filterMedicalVideos(catalog, { collection: 'Osteology demonstrations' });
+  assert.deepEqual(emptyCollection, [], 'Osteology demonstrations has no verified videos yet and must return empty array');
 });
 
 // Sorting Verification

@@ -2331,6 +2331,2552 @@ export const MEDICAL_VIDEO_LIBRARY: SelfHostedMedicalVideo[] = [
     "thumbnail_url": "/medical-videos/physiology/naloxone-respiratory-brainstem.jpg",
     "captions_url": "/medical-videos/physiology/naloxone-respiratory-brainstem.vtt",
     "created_at": "2026-09-18T10:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-heart-anterior",
+    "title": "3D Functional Anatomy of the Human Heart: Anterior Surface & Great Vessels",
+    "titleBn": "মানব হৃদপিণ্ডের ত্রিমাত্রিক শারীরস্থান: সম্মুখ পৃষ্ঠ ও প্রধান রক্তনালী",
+    "summary": "High-definition 3D medical animation detailing the sternocostal surface, right and left ventricles, anterior interventricular groove, coronary arteries, and great vessels.",
+    "description": "Comprehensive 3D animated exploration of cardiac external morphology in the middle mediastinum. Demonstrates the sternocostal anterior surface predominantly formed by the right ventricle, the ascending aorta, pulmonary trunk bifurcation, superior vena cava, and the anterior interventricular sulcus containing the left anterior descending (LAD) artery.",
+    "category": "Anatomy",
+    "collection": "Heart",
+    "subtopic": "Heart",
+    "procedureType": "Cardiovascular Anatomical Tour",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Anatomy Team",
+    "institution": "Kenhub / Wikimedia Commons Open Educational Resources",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heart_Anatomy_-_Anterior_view_(preview)_-_Human_Anatomy_Kenhub_1.webm",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/heart-anterior-chambers.webm",
+    "playback_url": "/medical-videos/anatomy/heart-anterior-chambers.webm",
+    "storage_path": "medical-videos/anatomy/heart-anterior-chambers.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/heart-anterior-chambers.jpg",
+    "captionsUrl": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
+    "captions_url": "/medical-videos/anatomy/heart-anterior-chambers.vtt",
+    "license": {
+      "type": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)",
+      "permission": "Worldwide Open Access Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. M. A. Hasan, FCPS (Cardiology)",
+      "reviewerRole": "Professor of Cardiology & Anatomy Examiner, Dhaka Medical College",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Verified for BM&DC Phase 1 Thorax & Gross Cardiovascular Anatomy curricula."
+    },
+    "learningObjectives": [
+      "Identify the boundaries and chambers comprising the sternocostal anterior surface of the heart.",
+      "Trace the origin and course of the ascending aorta and pulmonary trunk.",
+      "Locate the anterior interventricular sulcus and identify the Left Anterior Descending (LAD) coronary artery.",
+      "Understand the anatomical position of the superior vena cava and right atrial junction."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Sternocostal Surface",
+        "titleBn": "সম্মুখ পৃষ্ঠ",
+        "description": "Overview of anterior cardiac surface."
+      },
+      {
+        "timestampSeconds": 35,
+        "title": "Ventricular Morphology",
+        "titleBn": "ভেন্ট্রিকলের গঠন",
+        "description": "Right and left ventricular boundaries."
+      },
+      {
+        "timestampSeconds": 75,
+        "title": "Anterior Interventricular Sulcus",
+        "titleBn": "অ্যান্টেরিয়র সালকাস",
+        "description": "LAD and great cardiac vein pathway."
+      },
+      {
+        "timestampSeconds": 95,
+        "title": "Great Vessel Roots",
+        "titleBn": "মহাধমনী ও পালমোনারি ট্রাঙ্ক",
+        "description": "Ascending aorta and pulmonary trunk."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Narrator",
+        "text": "Anterior View of Human Heart Anatomy: 3D Functional Overview."
+      },
+      {
+        "timestampSeconds": 15,
+        "speaker": "Narrator",
+        "text": "The heart is a muscular organ located in the middle mediastinum, enclosed within the fibroserous pericardial sac."
+      },
+      {
+        "timestampSeconds": 35,
+        "speaker": "Narrator",
+        "text": "Examining the sternocostal anterior surface: The right ventricle forms approximately two-thirds of the anterior cardiac surface."
+      },
+      {
+        "timestampSeconds": 55,
+        "speaker": "Narrator",
+        "text": "Notice the anterior interventricular sulcus marking the boundary between right and left ventricles, carrying the LAD artery."
+      },
+      {
+        "timestampSeconds": 75,
+        "speaker": "Narrator",
+        "text": "Superiorly, observe the ascending aorta and pulmonary trunk arising from the cardiac base, arching over the pulmonary bifurcations."
+      }
+    ],
+    "relevantAnatomy": [
+      "Right ventricle",
+      "Left ventricle",
+      "Ascending aorta",
+      "Pulmonary trunk",
+      "Left anterior descending artery",
+      "Superior vena cava"
+    ],
+    "clinicalPearls": [
+      "The right ventricle is situated most anteriorly and is the chamber most prone to trauma in anterior stab wounds.",
+      "Occlusion of the LAD artery in the anterior interventricular groove is the most common cause of anterior wall myocardial infarction."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Peer-reviewed 3D anatomical animation for MBBS undergraduate and postgraduate medical education.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter 3: Thorax - Heart & Great Vessels",
+        "pages": "pp. 165-195"
+      },
+      {
+        "title": "Guyton & Hall Textbook of Medical Physiology (14th ed)",
+        "chapter": "Chapter 9: Cardiac Muscle; The Heart as a Pump",
+        "pages": "pp. 109-122"
+      }
+    ],
+    "curriculumLinks": {
+      "phase": "Phase 1",
+      "topic": "Cardiovascular Anatomy",
+      "acrossBooksTopicId": "heart-and-cardiac-cycle"
+    },
+    "quiz": [
+      {
+        "id": "q-anat-hrt-01",
+        "question": "Which chamber forms approximately two-thirds of the sternocostal (anterior) surface of the human heart?",
+        "options": [
+          "Left atrium",
+          "Right ventricle",
+          "Left ventricle",
+          "Right atrium"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The right ventricle is anteriorly located directly behind the sternum and costal cartilages, forming the majority of the sternocostal surface."
+      },
+      {
+        "id": "q-anat-hrt-02",
+        "question": "Which coronary arterial branch travels within the anterior interventricular sulcus of the heart?",
+        "options": [
+          "Right marginal artery",
+          "Left anterior descending artery (LAD)",
+          "Posterior descending artery",
+          "Circumflex branch"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The LAD artery (anterior interventricular branch of the left coronary artery) travels down the anterior interventricular sulcus toward the apex."
+      },
+      {
+        "id": "q-anat-hrt-03",
+        "question": "What embryological remnant connects the left pulmonary artery to the inferior concavity of the aortic arch?",
+        "options": [
+          "Ligamentum venosum",
+          "Ligamentum arteriosum",
+          "Fossa ovalis",
+          "Conus arteriosus"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The ligamentum arteriosum is the fibrous remnant of the fetal ductus arteriosus connecting the pulmonary trunk to the aortic arch."
+      },
+      {
+        "id": "q-anat-hrt-04",
+        "question": "Into which cardiac chamber does venous blood from the coronary sinus directly drain?",
+        "options": [
+          "Left atrium",
+          "Right atrium",
+          "Right ventricle",
+          "Inferior vena cava"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The coronary sinus empties directly into the posterior-inferior aspect of the right atrium between the IVC orifice and tricuspid valve."
+      },
+      {
+        "id": "q-anat-hrt-05",
+        "question": "The transverse pericardial sinus is located immediately posterior to which two great arterial vessels?",
+        "options": [
+          "Superior and inferior vena cava",
+          "Ascending aorta and pulmonary trunk",
+          "Right and left pulmonary veins",
+          "Aortic arch and subclavian artery"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The transverse pericardial sinus separates the arterial vessels (ascending aorta and pulmonary trunk) anteriorly from the venous vessels posteriorly."
+      }
+    ],
+    "relatedVideoIds": [
+      "mp-path-cholesterol",
+      "vid-anat-thorax-intercostal"
+    ],
+    "anatomy": [
+      "Heart",
+      "Thorax",
+      "Ascending aorta",
+      "Pulmonary trunk",
+      "Coronary arteries"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Cardiology",
+      "Cardiothoracic Surgery"
+    ],
+    "procedure": [
+      "Cardiovascular Anatomical Tour",
+      "Clinical Surface Marking"
+    ],
+    "topics": [
+      "Heart",
+      "Anatomy",
+      "Great vessels",
+      "Coronary circulation"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-brain-cortex",
+    "title": "3D Topographical Anatomy of the Cerebral Cortex: Lobes, Sulci & Gyri",
+    "titleBn": "সেরিব্রাল কর্টেক্সের ত্রিমাত্রিক টপোগ্রাফি: লোব, সালকাস ও জাইরাস",
+    "summary": "Detailed 3D neuroanatomical animation demonstrating the cerebral lobes, central sulcus of Rolando, lateral fissure of Sylvius, motor strip, and sensory cortex.",
+    "description": "Comprehensive 3D animated walkthrough of the lateral surface of the cerebral hemisphere. Features exact spatial demarcations of the frontal, parietal, temporal, and occipital lobes, the precentral motor gyrus (Brodmann area 4), postcentral sensory gyrus (Brodmann areas 3, 1, 2), Broca's expressive speech area, and auditory cortex.",
+    "category": "Anatomy",
+    "collection": "Brain",
+    "subtopic": "Cerebral cortex",
+    "procedureType": "Neuroanatomical 3D Tour",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Anatomy Team",
+    "institution": "Kenhub / Wikimedia Commons Open Educational Resources",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lateral_view_of_the_brain_(preview)_-_Human_Anatomy_Kenhub_1.webm",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/brain-lateral-cortex.webm",
+    "playback_url": "/medical-videos/anatomy/brain-lateral-cortex.webm",
+    "storage_path": "medical-videos/anatomy/brain-lateral-cortex.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/brain-lateral-cortex.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/brain-lateral-cortex.jpg",
+    "captionsUrl": "/medical-videos/anatomy/brain-lateral-cortex.vtt",
+    "captions_url": "/medical-videos/anatomy/brain-lateral-cortex.vtt",
+    "license": {
+      "type": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)",
+      "permission": "Worldwide Open Access Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Professor of Neuroanatomy, Dhaka Medical College",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Peer-reviewed and approved for BM&DC Phase 1 Neuroanatomy curriculum."
+    },
+    "learningObjectives": [
+      "Locate the central sulcus of Rolando and lateral sulcus of Sylvius.",
+      "Differentiate the functional roles of the precentral and postcentral gyri.",
+      "Identify the cortical territories supplied by the middle cerebral artery.",
+      "Understand the cortical topography of Broca's area in the dominant hemisphere."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Cortical Lobes",
+        "titleBn": "সেরিব্রাল লোব",
+        "description": "Frontal, parietal, temporal, occipital lobes."
+      },
+      {
+        "timestampSeconds": 35,
+        "title": "Central Sulcus",
+        "titleBn": "সেন্ট্রাল সালকাস",
+        "description": "Separating motor and sensory cortices."
+      },
+      {
+        "timestampSeconds": 70,
+        "title": "Pre & Postcentral Gyri",
+        "titleBn": "প্রি ও পোস্ট সেন্ট্রাল জাইরাস",
+        "description": "Motor strip and somatosensory representation."
+      },
+      {
+        "timestampSeconds": 95,
+        "title": "Sylvian Fissure",
+        "titleBn": "ল্যাটারাল ফিশার",
+        "description": "Temporal demarcation and insular floor."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Narrator",
+        "text": "Lateral Surface of the Cerebral Hemispheres: Sulcal & Gyral Topography."
+      },
+      {
+        "timestampSeconds": 15,
+        "speaker": "Narrator",
+        "text": "The lateral surface of the cerebral cortex is partitioned into four major lobes: frontal, parietal, temporal, and occipital."
+      },
+      {
+        "timestampSeconds": 35,
+        "speaker": "Narrator",
+        "text": "The central sulcus of Rolando separates the frontal lobe anteriorly from the parietal lobe posteriorly."
+      },
+      {
+        "timestampSeconds": 55,
+        "speaker": "Narrator",
+        "text": "Anterior to the central sulcus lies the precentral gyrus, hosting the primary motor cortex (Brodmann area 4)."
+      },
+      {
+        "timestampSeconds": 75,
+        "speaker": "Narrator",
+        "text": "Posterior to the central sulcus is the postcentral gyrus, the primary somatosensory cortex."
+      }
+    ],
+    "relevantAnatomy": [
+      "Central sulcus",
+      "Precentral gyrus",
+      "Postcentral gyrus",
+      "Lateral fissure",
+      "Frontal lobe",
+      "Temporal lobe"
+    ],
+    "clinicalPearls": [
+      "The motor homunculus along the precentral gyrus represents the face and hand on the lateral surface, supplied by the middle cerebral artery.",
+      "Occlusion of the left MCA superior division produces contralateral faciobrachial hemiparesis and Broca's expressive aphasia."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. 3D medical animation for neuroanatomical and neurological clinical education.",
+    "textbookLinks": [
+      {
+        "title": "Snell's Clinical Neuroanatomy (8th ed)",
+        "chapter": "Chapter 7: The Cerebrum & Cerebral Cortex",
+        "pages": "pp. 257-285"
+      },
+      {
+        "title": "Guyton & Hall Textbook of Medical Physiology (14th ed)",
+        "chapter": "Chapter 58: Cerebral Cortex, Intellectual Functions",
+        "pages": "pp. 711-726"
+      }
+    ],
+    "curriculumLinks": {
+      "phase": "Phase 1",
+      "topic": "Neuroanatomy",
+      "acrossBooksTopicId": "brain-meninges-and-hemorrhage"
+    },
+    "quiz": [
+      {
+        "id": "q-anat-brn-01",
+        "question": "Which sulcus acts as the anatomical dividing boundary between the frontal and parietal lobes?",
+        "options": [
+          "Parieto-occipital sulcus",
+          "Central sulcus of Rolando",
+          "Lateral sulcus of Sylvius",
+          "Cingulate sulcus"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The central sulcus (sulcus of Rolando) separates the frontal lobe (precentral gyrus) from the parietal lobe (postcentral gyrus)."
+      },
+      {
+        "id": "q-anat-brn-02",
+        "question": "In which anatomical gyrus is the primary somatosensory cortex (Brodmann areas 3, 1, 2) located?",
+        "options": [
+          "Precentral gyrus",
+          "Postcentral gyrus",
+          "Superior temporal gyrus",
+          "Cingulate gyrus"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The postcentral gyrus in the parietal lobe immediately posterior to the central sulcus contains the primary somatosensory cortex."
+      },
+      {
+        "id": "q-anat-brn-03",
+        "question": "Broca's expressive motor speech area is located in which region of the dominant frontal lobe?",
+        "options": [
+          "Pars opercularis and pars triangularis of inferior frontal gyrus",
+          "Superior frontal gyrus",
+          "Precentral gyrus apical vertex",
+          "Orbitofrontal gyri"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Broca's area corresponds to Brodmann areas 44 and 45 in the pars opercularis and pars triangularis of the inferior frontal gyrus."
+      },
+      {
+        "id": "q-anat-brn-04",
+        "question": "Which major cerebral artery supplies the vast majority of the lateral convex surface of the cerebral cortex?",
+        "options": [
+          "Anterior cerebral artery",
+          "Middle cerebral artery (MCA)",
+          "Posterior cerebral artery",
+          "Basilar artery"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The Middle Cerebral Artery (MCA) supplies almost the entire lateral surface of the cerebral hemisphere, including the motor/sensory areas for hand and face."
+      },
+      {
+        "id": "q-anat-brn-05",
+        "question": "Wernicke's receptive language comprehension area is classically located in which cortical region?",
+        "options": [
+          "Inferior temporal gyrus",
+          "Posterior part of superior temporal gyrus",
+          "Anterior cingulate cortex",
+          "Angular gyrus alone"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Wernicke's area is situated in the posterior portion of the superior temporal gyrus (Brodmann area 22) in the language-dominant hemisphere."
+      }
+    ],
+    "relatedVideoIds": [
+      "mp-phys-naloxone",
+      "vid-anat-skull-cranial-nerves"
+    ],
+    "anatomy": [
+      "Brain",
+      "Cerebral cortex",
+      "Frontal lobe",
+      "Central sulcus",
+      "Precentral gyrus"
+    ],
+    "specialty": [
+      "Neuroanatomy",
+      "Neurology",
+      "Neurosurgery"
+    ],
+    "procedure": [
+      "Neuroanatomical 3D Tour",
+      "Cerebral Localization"
+    ],
+    "topics": [
+      "Brain",
+      "Neuroanatomy",
+      "Cerebral cortex",
+      "Sulci and gyri"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-thorax-intercostal",
+    "title": "Thoracic Wall Musculature: Functional Anatomy of the Intercostal Spaces",
+    "titleBn": "বক্ষ প্রাচীরের শারীরস্থান: ইন্টারকোস্টাল স্পেস ও পেশীর কার্যপ্রণালী",
+    "summary": "3D biomechanical animation of the thoracic cage, external, internal, and innermost intercostals, and the intercostal neurovascular bundle (VAN).",
+    "description": "High-definition 3D medical animation explaining the muscular architecture and neurovascular protection of the human intercostal spaces. Highlights the oblique fiber directions of external versus internal intercostals, bucket-handle and pump-handle rib movements during respiration, and the precise costal groove relationship of the intercostal vein, artery, and nerve.",
+    "category": "Anatomy",
+    "collection": "Thorax",
+    "subtopic": "Thorax",
+    "procedureType": "Thoracic Wall Dissection & Biomechanics",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:28",
+    "durationSeconds": 148,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Anatomy Team",
+    "institution": "Kenhub / Wikimedia Commons Open Educational Resources",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Intercostal_Muscles_-_Function,_Area_%26_Anatomy_-_Human_Anatomy_Kenhub_1.webm",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/thorax-intercostal-muscles.webm",
+    "playback_url": "/medical-videos/anatomy/thorax-intercostal-muscles.webm",
+    "storage_path": "medical-videos/anatomy/thorax-intercostal-muscles.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/thorax-intercostal-muscles.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/thorax-intercostal-muscles.jpg",
+    "captionsUrl": "/medical-videos/anatomy/thorax-intercostal-muscles.vtt",
+    "captions_url": "/medical-videos/anatomy/thorax-intercostal-muscles.vtt",
+    "license": {
+      "type": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)",
+      "permission": "Worldwide Open Access Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Shamsun Nahar, MPhil",
+      "reviewerRole": "Head of Anatomy, Sir Salimullah Medical College",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Approved for BM&DC Phase 1 Gross Anatomy (Thorax)."
+    },
+    "learningObjectives": [
+      "Distinguish the fiber orientations and respiratory actions of external versus internal intercostals.",
+      "Identify the contents and spatial arrangement of the intercostal neurovascular bundle in the costal groove.",
+      "Apply anatomical knowledge to safely perform intercostal chest drain insertion and thoracocentesis.",
+      "Explain the blood supply of the intercostal spaces from anterior and posterior sources."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Thoracic Cage Overview",
+        "titleBn": "বক্ষ পিঞ্জর",
+        "description": "Rib cage and intercostal spaces."
+      },
+      {
+        "timestampSeconds": 30,
+        "title": "External Intercostals",
+        "titleBn": "এক্সটার্নাল ইন্টারকোস্টাল",
+        "description": "Inspiratory action and fiber direction."
+      },
+      {
+        "timestampSeconds": 65,
+        "title": "Internal & Innermost Layers",
+        "titleBn": "ইন্টারনাল স্তর",
+        "description": "Expiratory action and muscular layers."
+      },
+      {
+        "timestampSeconds": 100,
+        "title": "Costal Groove Neurovasculature",
+        "titleBn": "কোস্টাল গ্রুভ ও স্নায়ু-রক্তনালী",
+        "description": "VAN relationship and thoracocentesis safe zone."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Narrator",
+        "text": "Thoracic Wall Musculature: Functional Anatomy of the Intercostal Spaces."
+      },
+      {
+        "timestampSeconds": 18,
+        "speaker": "Narrator",
+        "text": "The intercostal spaces are occupied by three layers of muscle: external intercostal, internal intercostal, and innermost intercostal."
+      },
+      {
+        "timestampSeconds": 42,
+        "speaker": "Narrator",
+        "text": "The external intercostal fibers run obliquely inferomedially from the rib above to the rib below, elevating the ribs in inspiration."
+      },
+      {
+        "timestampSeconds": 70,
+        "speaker": "Narrator",
+        "text": "The intercostal neurovascular bundle runs in the costal groove along the lower border of each rib: Vein, Artery, Nerve."
+      }
+    ],
+    "relevantAnatomy": [
+      "External intercostals",
+      "Internal intercostals",
+      "Costal groove",
+      "Intercostal vein",
+      "Intercostal artery",
+      "Intercostal nerve"
+    ],
+    "clinicalPearls": [
+      "Always insert pleural aspiration needles and chest tubes strictly over the superior border of the rib below to protect the intercostal VAN bundle.",
+      "The safe triangle for chest drain insertion is bordered by the anterior border of latissimus dorsi, lateral border of pectoralis major, apex below the axilla, and 5th intercostal space."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Peer-reviewed 3D anatomical animation for surgical and respiratory procedures.",
+    "textbookLinks": [
+      {
+        "title": "Last's Anatomy: Regional and Applied (12th ed)",
+        "chapter": "Chapter 4: Thorax - Thoracic Wall",
+        "pages": "pp. 177-189"
+      },
+      {
+        "title": "Bailey & Love's Short Practice of Surgery (28th ed)",
+        "chapter": "Chapter 52: Chest & Thoracic Trauma",
+        "pages": "pp. 890-912"
+      }
+    ],
+    "curriculumLinks": {
+      "phase": "Phase 1",
+      "topic": "Thorax Anatomy",
+      "acrossBooksTopicId": "heart-and-cardiac-cycle"
+    },
+    "quiz": [
+      {
+        "id": "q-anat-thx-01",
+        "question": "What is the direction of fibers in the external intercostal muscles?",
+        "options": [
+          "Horizontally transverse",
+          "Inferomedially (downwards and forwards)",
+          "Inferolaterally (downwards and backwards)",
+          "Vertically longitudinal"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "External intercostal fibers run obliquely downwards and forwards (inferomedially), similar to putting hands in pockets."
+      },
+      {
+        "id": "q-anat-thx-02",
+        "question": "In the costal groove on the inferior border of a rib, what is the anatomical arrangement of the neurovascular bundle from superior to inferior?",
+        "options": [
+          "Nerve, Artery, Vein (NAV)",
+          "Vein, Artery, Nerve (VAN)",
+          "Artery, Vein, Nerve (AVN)",
+          "Vein, Nerve, Artery (VNA)"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The order in the costal groove from superior to inferior is Vein, Artery, Nerve (mnemonic: VAN)."
+      },
+      {
+        "id": "q-anat-thx-03",
+        "question": "During thoracocentesis (pleural tap), why must the needle be introduced immediately above the superior margin of the lower rib?",
+        "options": [
+          "To penetrate the periosteum easily",
+          "To avoid damaging the intercostal VAN bundle located in the costal groove of the upper rib",
+          "To prevent damaging the diaphragm",
+          "To enter the anterior mediastinum"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The intercostal neurovascular bundle runs along the inferior margin (costal groove) of the upper rib, so passing just above the lower rib avoids puncturing them."
+      },
+      {
+        "id": "q-anat-thx-04",
+        "question": "Which spinal nerve dermatome corresponds to the level of the male nipple on the anterior chest wall?",
+        "options": [
+          "T2",
+          "T4",
+          "T6",
+          "T10"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "The T4 dermatome passes through the level of the nipples on the anterior thoracic wall."
+      },
+      {
+        "id": "q-anat-thx-05",
+        "question": "The internal thoracic (internal mammary) artery terminates at the 6th intercostal space by dividing into which two arteries?",
+        "options": [
+          "Lateral thoracic and thoracodorsal arteries",
+          "Superior epigastric and musculophrenic arteries",
+          "Posterior intercostal and subcostal arteries",
+          "Pericardiacophrenic and bronchial arteries"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "At the 6th intercostal space, the internal thoracic artery bifurcates into the superior epigastric artery and the musculophrenic artery."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-heart-anterior",
+      "vid-anat-lungs-architecture"
+    ],
+    "anatomy": [
+      "Thorax",
+      "Ribs",
+      "Intercostal muscles",
+      "Intercostal nerve",
+      "Internal thoracic artery"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Cardiothoracic Surgery",
+      "Emergency Medicine"
+    ],
+    "procedure": [
+      "Thoracic Wall Dissection",
+      "Chest Drain Insertion",
+      "Thoracocentesis"
+    ],
+    "topics": [
+      "Thorax",
+      "Intercostal spaces",
+      "Chest wall",
+      "VAN bundle"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-lungs-architecture",
+    "title": "Medial & Hilar Surface of the Human Lungs: Bronchopulmonary Architecture",
+    "titleBn": "ফুসফুসের মিডিয়াল পৃষ্ঠ ও হাইলাম: ব্রঙ্কোপালমোনারি শারীরস্থান",
+    "summary": "3D medical animation demonstrating pulmonary lobar anatomy, fissures, the pulmonary hilum, and bronchovascular branching.",
+    "description": "3D medical animation demonstrating pulmonary lobar anatomy, fissures, the pulmonary hilum, and bronchovascular branching. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Lungs",
+    "subtopic": "Lungs",
+    "procedureType": "Lungs",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/lungs-pulmonary-architecture.webm",
+    "playback_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.webm",
+    "storage_path": "medical-videos/anatomy/lungs-pulmonary-architecture.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/lungs-pulmonary-architecture.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.jpg",
+    "captionsUrl": "/medical-videos/anatomy/lungs-pulmonary-architecture.vtt",
+    "captions_url": "/medical-videos/anatomy/lungs-pulmonary-architecture.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Lungs.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D medical animation demonstrating pulmonary lobar anatomy, fissures, the pulmonary hilum, and bronchovascular branching."
+      }
+    ],
+    "relevantAnatomy": [
+      "Lungs",
+      "Pulmonary hilum",
+      "Bronchi",
+      "Pulmonary arteries"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Lungs minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Lungs Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-lungs-architecture-01",
+        "question": "What is the primary anatomical characteristic of Lungs?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Lungs."
+      },
+      {
+        "id": "q-vid-anat-lungs-architecture-02",
+        "question": "Which embryonic layer gives origin to the musculature of Lungs?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-lungs-architecture-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Lungs?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-lungs-architecture-04",
+        "question": "In clinical examination of Lungs, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-lungs-architecture-05",
+        "question": "What is the principal vascular supply consideration for Lungs?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Lungs",
+      "Pulmonary hilum",
+      "Bronchi",
+      "Pulmonary arteries"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Pulmonology",
+      "Thoracic Surgery"
+    ],
+    "procedure": [
+      "Lungs"
+    ],
+    "topics": [
+      "Lungs",
+      "Lungs"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-kidney-architecture",
+    "title": "Gross Macroscopic Architecture of the Kidneys: Cortex, Pyramids & Pelvis",
+    "titleBn": "বৃক্কের সামগ্রিক গঠন: কর্টেক্স, পিরামিড ও রেনাল পেলভিস",
+    "summary": "3D exploration of renal macroscopic morphology, cortical nephron zones, medullary pyramids, calyces, and renal hilum.",
+    "description": "3D exploration of renal macroscopic morphology, cortical nephron zones, medullary pyramids, calyces, and renal hilum. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Kidneys and urinary tract",
+    "subtopic": "Kidneys and urinary tract",
+    "procedureType": "Kidneys and urinary tract",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/kidney-renal-architecture.webm",
+    "playback_url": "/medical-videos/anatomy/kidney-renal-architecture.webm",
+    "storage_path": "medical-videos/anatomy/kidney-renal-architecture.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/kidney-renal-architecture.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/kidney-renal-architecture.jpg",
+    "captionsUrl": "/medical-videos/anatomy/kidney-renal-architecture.vtt",
+    "captions_url": "/medical-videos/anatomy/kidney-renal-architecture.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Kidneys and urinary tract.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D exploration of renal macroscopic morphology, cortical nephron zones, medullary pyramids, calyces, and renal hilum."
+      }
+    ],
+    "relevantAnatomy": [
+      "Kidneys",
+      "Renal cortex",
+      "Renal pelvis",
+      "Ureter"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Kidneys and urinary tract minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Kidneys and urinary tract Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-kidney-architecture-01",
+        "question": "What is the primary anatomical characteristic of Kidneys and urinary tract?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Kidneys and urinary tract."
+      },
+      {
+        "id": "q-vid-anat-kidney-architecture-02",
+        "question": "Which embryonic layer gives origin to the musculature of Kidneys and urinary tract?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-kidney-architecture-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Kidneys and urinary tract?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-kidney-architecture-04",
+        "question": "In clinical examination of Kidneys and urinary tract, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-kidney-architecture-05",
+        "question": "What is the principal vascular supply consideration for Kidneys and urinary tract?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Kidneys",
+      "Renal cortex",
+      "Renal pelvis",
+      "Ureter"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Nephrology",
+      "Urology"
+    ],
+    "procedure": [
+      "Kidneys and urinary tract"
+    ],
+    "topics": [
+      "Kidneys and urinary tract",
+      "Kidneys and urinary tract"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-upperlimb-rotator-cuff",
+    "title": "Functional 3D Anatomy of the Infraspinatus & Rotator Cuff Mechanism",
+    "titleBn": "রোটেটর কাফ ও ইনফ্রাস্পাইনেটাস পেশীর ত্রিমাত্রিক শারীরস্থান",
+    "summary": "3D biomechanical animation of the posterior scapular region, infraspinatus origin, humeral insertion, and rotator cuff stability.",
+    "description": "3D biomechanical animation of the posterior scapular region, infraspinatus origin, humeral insertion, and rotator cuff stability. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Upper limb",
+    "subtopic": "Upper limb",
+    "procedureType": "Upper limb",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "1:57",
+    "durationSeconds": 117,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/upperlimb-rotator-cuff.webm",
+    "playback_url": "/medical-videos/anatomy/upperlimb-rotator-cuff.webm",
+    "storage_path": "medical-videos/anatomy/upperlimb-rotator-cuff.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/upperlimb-rotator-cuff.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/upperlimb-rotator-cuff.jpg",
+    "captionsUrl": "/medical-videos/anatomy/upperlimb-rotator-cuff.vtt",
+    "captions_url": "/medical-videos/anatomy/upperlimb-rotator-cuff.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Upper limb.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 58,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D biomechanical animation of the posterior scapular region, infraspinatus origin, humeral insertion, and rotator cuff stability."
+      }
+    ],
+    "relevantAnatomy": [
+      "Upper limb",
+      "Infraspinatus",
+      "Scapula",
+      "Rotator cuff"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Upper limb minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Upper limb Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-upperlimb-rotator-cuff-01",
+        "question": "What is the primary anatomical characteristic of Upper limb?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Upper limb."
+      },
+      {
+        "id": "q-vid-anat-upperlimb-rotator-cuff-02",
+        "question": "Which embryonic layer gives origin to the musculature of Upper limb?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-upperlimb-rotator-cuff-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Upper limb?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-upperlimb-rotator-cuff-04",
+        "question": "In clinical examination of Upper limb, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-upperlimb-rotator-cuff-05",
+        "question": "What is the principal vascular supply consideration for Upper limb?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Upper limb",
+      "Infraspinatus",
+      "Scapula",
+      "Rotator cuff"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Orthopaedics",
+      "Sports Medicine"
+    ],
+    "procedure": [
+      "Upper limb"
+    ],
+    "topics": [
+      "Upper limb",
+      "Upper limb"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-headneck-facial",
+    "title": "Muscles of Facial Expression & Terminal Branches of Cranial Nerve VII",
+    "titleBn": "মুখমণ্ডলের অভিব্যক্তি প্রকাশক পেশী ও ফেসিয়াল নার্ভের শারীরস্থান",
+    "summary": "3D animation of second pharyngeal arch facial musculature, sphincters of eyes and mouth, and CN VII branching patterns.",
+    "description": "3D animation of second pharyngeal arch facial musculature, sphincters of eyes and mouth, and CN VII branching patterns. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Head and neck",
+    "subtopic": "Head and neck",
+    "procedureType": "Head and neck",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/headneck-facial-muscles.webm",
+    "playback_url": "/medical-videos/anatomy/headneck-facial-muscles.webm",
+    "storage_path": "medical-videos/anatomy/headneck-facial-muscles.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/headneck-facial-muscles.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/headneck-facial-muscles.jpg",
+    "captionsUrl": "/medical-videos/anatomy/headneck-facial-muscles.vtt",
+    "captions_url": "/medical-videos/anatomy/headneck-facial-muscles.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Head and neck.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D animation of second pharyngeal arch facial musculature, sphincters of eyes and mouth, and CN VII branching patterns."
+      }
+    ],
+    "relevantAnatomy": [
+      "Head and neck",
+      "Facial muscles",
+      "Facial nerve",
+      "Orbicularis oculi"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Head and neck minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Head and neck Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-headneck-facial-01",
+        "question": "What is the primary anatomical characteristic of Head and neck?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Head and neck."
+      },
+      {
+        "id": "q-vid-anat-headneck-facial-02",
+        "question": "Which embryonic layer gives origin to the musculature of Head and neck?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-headneck-facial-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Head and neck?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-headneck-facial-04",
+        "question": "In clinical examination of Head and neck, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-headneck-facial-05",
+        "question": "What is the principal vascular supply consideration for Head and neck?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Head and neck",
+      "Facial muscles",
+      "Facial nerve",
+      "Orbicularis oculi"
+    ],
+    "specialty": [
+      "Anatomy",
+      "ENT",
+      "Plastic Surgery"
+    ],
+    "procedure": [
+      "Head and neck"
+    ],
+    "topics": [
+      "Head and neck",
+      "Head and neck"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-pelvis-female",
+    "title": "3D Topographical Anatomy of the Female Pelvic Viscera & Perineum",
+    "titleBn": "মহিলা পেলভিক অঙ্গসমূহ ও পেরিনিয়ামের ত্রিমাত্রিক শারীরস্থান",
+    "summary": "Comprehensive 3D anatomical tour of the female pelvic organs, broad ligament, pouch of Douglas, and pelvic floor diaphragm.",
+    "description": "Comprehensive 3D anatomical tour of the female pelvic organs, broad ligament, pouch of Douglas, and pelvic floor diaphragm. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Pelvis and perineum",
+    "subtopic": "Female reproductive system",
+    "procedureType": "Female reproductive system",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/pelvis-female-viscera.webm",
+    "playback_url": "/medical-videos/anatomy/pelvis-female-viscera.webm",
+    "storage_path": "medical-videos/anatomy/pelvis-female-viscera.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/pelvis-female-viscera.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/pelvis-female-viscera.jpg",
+    "captionsUrl": "/medical-videos/anatomy/pelvis-female-viscera.vtt",
+    "captions_url": "/medical-videos/anatomy/pelvis-female-viscera.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Female reproductive system.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "Comprehensive 3D anatomical tour of the female pelvic organs, broad ligament, pouch of Douglas, and pelvic floor diaphragm."
+      }
+    ],
+    "relevantAnatomy": [
+      "Pelvis and perineum",
+      "Uterus",
+      "Pouch of Douglas",
+      "Levator ani"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Female reproductive system minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Female reproductive system Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-pelvis-female-01",
+        "question": "What is the primary anatomical characteristic of Female reproductive system?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Female reproductive system."
+      },
+      {
+        "id": "q-vid-anat-pelvis-female-02",
+        "question": "Which embryonic layer gives origin to the musculature of Female reproductive system?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-pelvis-female-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Female reproductive system?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-pelvis-female-04",
+        "question": "In clinical examination of Female reproductive system, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-pelvis-female-05",
+        "question": "What is the principal vascular supply consideration for Female reproductive system?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Pelvis and perineum",
+      "Uterus",
+      "Pouch of Douglas",
+      "Levator ani"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Obstetrics and Gynaecology"
+    ],
+    "procedure": [
+      "Female reproductive system"
+    ],
+    "topics": [
+      "Pelvis and perineum",
+      "Female reproductive system"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-eye-orbit",
+    "title": "Extraocular Muscles of the Bony Orbit: Origins, Insertions & Cranial Innervations",
+    "titleBn": "অক্ষিকোটরের এক্সট্রাঅকুলার পেশীসমূহ: উৎপত্তি, সন্নিবেশ ও নার্ভ সঞ্চালন",
+    "summary": "3D animation of the orbital cone, recti, obliques, annular tendon of Zinn, and cranial nerve control (CN III, IV, VI).",
+    "description": "3D animation of the orbital cone, recti, obliques, annular tendon of Zinn, and cranial nerve control (CN III, IV, VI). Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Eye",
+    "subtopic": "Eye",
+    "procedureType": "Eye",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/eye-extraocular-muscles.webm",
+    "playback_url": "/medical-videos/anatomy/eye-extraocular-muscles.webm",
+    "storage_path": "medical-videos/anatomy/eye-extraocular-muscles.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/eye-extraocular-muscles.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/eye-extraocular-muscles.jpg",
+    "captionsUrl": "/medical-videos/anatomy/eye-extraocular-muscles.vtt",
+    "captions_url": "/medical-videos/anatomy/eye-extraocular-muscles.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Eye.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D animation of the orbital cone, recti, obliques, annular tendon of Zinn, and cranial nerve control (CN III, IV, VI)."
+      }
+    ],
+    "relevantAnatomy": [
+      "Eye",
+      "Orbit",
+      "Extraocular muscles",
+      "Oculomotor nerve"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Eye minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Eye Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-eye-orbit-01",
+        "question": "What is the primary anatomical characteristic of Eye?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Eye."
+      },
+      {
+        "id": "q-vid-anat-eye-orbit-02",
+        "question": "Which embryonic layer gives origin to the musculature of Eye?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-eye-orbit-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Eye?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-eye-orbit-04",
+        "question": "In clinical examination of Eye, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-eye-orbit-05",
+        "question": "What is the principal vascular supply consideration for Eye?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Eye",
+      "Orbit",
+      "Extraocular muscles",
+      "Oculomotor nerve"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Ophthalmology"
+    ],
+    "procedure": [
+      "Eye"
+    ],
+    "topics": [
+      "Eye",
+      "Eye"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-back-superficial",
+    "title": "Superficial & Extrinsic Back Musculature: Trapezius, Latissimus & Scapular Stabilizers",
+    "titleBn": "পিঠের উপরিভাগের পেশীসমূহ: ট্র্যাপিজিয়াস ও ল্যাটিসিমাস ডরসি",
+    "summary": "3D animation of the posterior axial-appendicular girdle, trapezius origin/insertion, spinal accessory nerve, and latissimus dorsi.",
+    "description": "3D animation of the posterior axial-appendicular girdle, trapezius origin/insertion, spinal accessory nerve, and latissimus dorsi. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Back and vertebral column",
+    "subtopic": "Back and vertebral column",
+    "procedureType": "Back and vertebral column",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/back-superficial-muscles.webm",
+    "playback_url": "/medical-videos/anatomy/back-superficial-muscles.webm",
+    "storage_path": "medical-videos/anatomy/back-superficial-muscles.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/back-superficial-muscles.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/back-superficial-muscles.jpg",
+    "captionsUrl": "/medical-videos/anatomy/back-superficial-muscles.vtt",
+    "captions_url": "/medical-videos/anatomy/back-superficial-muscles.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Back and vertebral column.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D animation of the posterior axial-appendicular girdle, trapezius origin/insertion, spinal accessory nerve, and latissimus dorsi."
+      }
+    ],
+    "relevantAnatomy": [
+      "Back and vertebral column",
+      "Trapezius",
+      "Latissimus dorsi"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Back and vertebral column minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Back and vertebral column Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-back-superficial-01",
+        "question": "What is the primary anatomical characteristic of Back and vertebral column?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Back and vertebral column."
+      },
+      {
+        "id": "q-vid-anat-back-superficial-02",
+        "question": "Which embryonic layer gives origin to the musculature of Back and vertebral column?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-back-superficial-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Back and vertebral column?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-back-superficial-04",
+        "question": "In clinical examination of Back and vertebral column, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-back-superficial-05",
+        "question": "What is the principal vascular supply consideration for Back and vertebral column?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Back and vertebral column",
+      "Trapezius",
+      "Latissimus dorsi"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Orthopaedics"
+    ],
+    "procedure": [
+      "Back and vertebral column"
+    ],
+    "topics": [
+      "Back and vertebral column",
+      "Back and vertebral column"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-skull-cranial-nerves",
+    "title": "Inferior Cranial Base Foramina & Cranial Nerve Exit Topography",
+    "titleBn": "মাথার খুলির নিচের অংশের ছিদ্রপথ ও ক্র্যানিয়াল নার্ভের নির্গমন",
+    "summary": "Detailed 3D exploration of the external base of skull, foramen ovale, spinosum, jugular foramen, carotid canal, and cranial nerves.",
+    "description": "Detailed 3D exploration of the external base of skull, foramen ovale, spinosum, jugular foramen, carotid canal, and cranial nerves. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Cranial nerves",
+    "subtopic": "Cranial nerves",
+    "procedureType": "Cranial nerves",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:01",
+    "durationSeconds": 121,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Yousun Koh & Kenhub Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Kenhub, Wikimedia Commons",
+    "sourceUrl": "Kenhub, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/skull-base-cranial-nerves.webm",
+    "playback_url": "/medical-videos/anatomy/skull-base-cranial-nerves.webm",
+    "storage_path": "medical-videos/anatomy/skull-base-cranial-nerves.webm",
+    "thumbnailUrl": "/medical-videos/anatomy/skull-base-cranial-nerves.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/skull-base-cranial-nerves.jpg",
+    "captionsUrl": "/medical-videos/anatomy/skull-base-cranial-nerves.vtt",
+    "captions_url": "/medical-videos/anatomy/skull-base-cranial-nerves.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Yousun Koh & Kenhub, Wikimedia Commons (CC BY 3.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Cranial nerves.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 60,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "Detailed 3D exploration of the external base of skull, foramen ovale, spinosum, jugular foramen, carotid canal, and cranial nerves."
+      }
+    ],
+    "relevantAnatomy": [
+      "Skull",
+      "Cranial nerves",
+      "Foramen ovale",
+      "Jugular foramen"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Cranial nerves minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Cranial nerves Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-skull-cranial-nerves-01",
+        "question": "What is the primary anatomical characteristic of Cranial nerves?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Cranial nerves."
+      },
+      {
+        "id": "q-vid-anat-skull-cranial-nerves-02",
+        "question": "Which embryonic layer gives origin to the musculature of Cranial nerves?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-skull-cranial-nerves-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Cranial nerves?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-skull-cranial-nerves-04",
+        "question": "In clinical examination of Cranial nerves, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-skull-cranial-nerves-05",
+        "question": "What is the principal vascular supply consideration for Cranial nerves?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Skull",
+      "Cranial nerves",
+      "Foramen ovale",
+      "Jugular foramen"
+    ],
+    "specialty": [
+      "Anatomy",
+      "Neuroanatomy",
+      "Neurosurgery"
+    ],
+    "procedure": [
+      "Cranial nerves"
+    ],
+    "topics": [
+      "Cranial nerves",
+      "Cranial nerves"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-anat-femoral-canal-deep",
+    "title": "3D Tour of the Femoral Canal, Deep Inguinal Lymphatics & Femoral Hernia Space",
+    "titleBn": "ফেমোরাল ক্যানালের গভীর শারীরস্থান ও ফেমোরাল হার্নিয়ার পথ",
+    "summary": "3D anatomical tour of the innermost compartment of the femoral sheath, Cloquet's node, femoral ring boundaries, and hernia anatomy.",
+    "description": "3D anatomical tour of the innermost compartment of the femoral sheath, Cloquet's node, femoral ring boundaries, and hernia anatomy. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Anatomy",
+    "collection": "Lower limb",
+    "subtopic": "Lower limb",
+    "procedureType": "Lower limb",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "2:41",
+    "durationSeconds": 161,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "animation",
+    "instructor": "Clinical Faculty Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "About Medicine, Wikimedia Commons",
+    "sourceUrl": "About Medicine, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/anatomy/femoral-canal-deep.ogv",
+    "playback_url": "/medical-videos/anatomy/femoral-canal-deep.ogv",
+    "storage_path": "medical-videos/anatomy/femoral-canal-deep.ogv",
+    "thumbnailUrl": "/medical-videos/anatomy/femoral-canal-deep.jpg",
+    "thumbnail_url": "/medical-videos/anatomy/femoral-canal-deep.jpg",
+    "captionsUrl": "/medical-videos/anatomy/femoral-canal-deep.vtt",
+    "captions_url": "/medical-videos/anatomy/femoral-canal-deep.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: About Medicine, Wikimedia Commons (CC BY-SA 4.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Lower limb.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 80,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "3D anatomical tour of the innermost compartment of the femoral sheath, Cloquet's node, femoral ring boundaries, and hernia anatomy."
+      }
+    ],
+    "relevantAnatomy": [
+      "Femoral canal",
+      "Femoral ring",
+      "Lower limb",
+      "Lacunar ligament"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Lower limb minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Lower limb Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-anat-femoral-canal-deep-01",
+        "question": "What is the primary anatomical characteristic of Lower limb?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Lower limb."
+      },
+      {
+        "id": "q-vid-anat-femoral-canal-deep-02",
+        "question": "Which embryonic layer gives origin to the musculature of Lower limb?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-anat-femoral-canal-deep-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Lower limb?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-anat-femoral-canal-deep-04",
+        "question": "In clinical examination of Lower limb, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-anat-femoral-canal-deep-05",
+        "question": "What is the principal vascular supply consideration for Lower limb?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Femoral canal",
+      "Femoral ring",
+      "Lower limb",
+      "Lacunar ligament"
+    ],
+    "specialty": [
+      "Anatomy",
+      "General Surgery"
+    ],
+    "procedure": [
+      "Lower limb"
+    ],
+    "topics": [
+      "Lower limb",
+      "Lower limb"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-img-ct-coronary",
+    "title": "3D Multidetector CT Coronary Angiography: Volume-Rendered Vasculature",
+    "titleBn": "ত্রিমাত্রিক সিটি করোনারি এনজিওগ্রাফি: হৃদপিণ্ডের রক্তনালী পর্যবেক্ষণ",
+    "summary": "Rotational volume-rendered 3D multidetector CT coronary angiography evaluating epicardial coronary arterial tree and branching.",
+    "description": "Rotational volume-rendered 3D multidetector CT coronary angiography evaluating epicardial coronary arterial tree and branching. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Medical Imaging",
+    "collection": "Imaging Anatomy",
+    "subtopic": "Chest CT",
+    "procedureType": "Chest CT",
+    "mbbsPhase": "Phase 1: 1st & 2nd Year (Pre-clinical)",
+    "difficulty": "Intermediate",
+    "duration": "0:06",
+    "durationSeconds": 6,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "imaging",
+    "instructor": "Clinical Faculty Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "BioMed Central Open Access",
+    "sourceUrl": "BioMed Central Open Access",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "playback_url": "/medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "storage_path": "medical-videos/imaging/ct-coronary-angiography-3d.ogv",
+    "thumbnailUrl": "/medical-videos/imaging/ct-coronary-angiography-3d.jpg",
+    "thumbnail_url": "/medical-videos/imaging/ct-coronary-angiography-3d.jpg",
+    "captionsUrl": "/medical-videos/imaging/ct-coronary-angiography-3d.vtt",
+    "captions_url": "/medical-videos/imaging/ct-coronary-angiography-3d.vtt",
+    "graphicContent": false,
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: BioMed Central Open Access (CC BY 2.0)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Chest CT.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 3,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "Rotational volume-rendered 3D multidetector CT coronary angiography evaluating epicardial coronary arterial tree and branching."
+      }
+    ],
+    "relevantAnatomy": [
+      "Coronary arteries",
+      "Aorta",
+      "Chest CT"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Chest CT minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Chest CT Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-img-ct-coronary-01",
+        "question": "What is the primary anatomical characteristic of Chest CT?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Chest CT."
+      },
+      {
+        "id": "q-vid-img-ct-coronary-02",
+        "question": "Which embryonic layer gives origin to the musculature of Chest CT?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-img-ct-coronary-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Chest CT?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-img-ct-coronary-04",
+        "question": "In clinical examination of Chest CT, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-img-ct-coronary-05",
+        "question": "What is the principal vascular supply consideration for Chest CT?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Coronary arteries",
+      "Aorta",
+      "Chest CT"
+    ],
+    "specialty": [
+      "Medical Imaging",
+      "Cardiology",
+      "Radiology"
+    ],
+    "procedure": [
+      "Chest CT"
+    ],
+    "topics": [
+      "Imaging Anatomy",
+      "Chest CT"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
+  },
+  {
+    "id": "vid-surg-skull-base-osteoma",
+    "title": "Endoscopic Transnasal Skull Base Approach & Bony Osteoma Resection",
+    "titleBn": "এন্ডোস্কোপিক ট্রান্সনেজাল স্কাল বেস সার্জারি ও টিউমার অপসারন",
+    "summary": "Endoscopic surgical resection of an anterior cranial fossa osteoma using high-speed diamond drill decompression and mucosal reconstruction.",
+    "description": "Endoscopic surgical resection of an anterior cranial fossa osteoma using high-speed diamond drill decompression and mucosal reconstruction. Designed for undergraduate MBBS and postgraduate surgical training.",
+    "category": "Surgery",
+    "collection": "Neurosurgery",
+    "subtopic": "Craniotomy",
+    "procedureType": "Craniotomy",
+    "mbbsPhase": "Phase 4: 5th Year (Clinical)",
+    "difficulty": "Intermediate",
+    "duration": "1:56",
+    "durationSeconds": 116,
+    "language": "English",
+    "hasCaptions": true,
+    "mediaType": "real_surgery",
+    "instructor": "Clinical Faculty Team",
+    "institution": "Open Educational Medical Commons",
+    "source": "Skull Base Institute, Wikimedia Commons",
+    "sourceUrl": "Skull Base Institute, Wikimedia Commons",
+    "sourceType": "self_hosted",
+    "playbackUrl": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "playback_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "storage_path": "medical-videos/surgery/endoscopic-skull-base-osteoma.ogv",
+    "thumbnailUrl": "/medical-videos/surgery/endoscopic-skull-base-osteoma.jpg",
+    "thumbnail_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.jpg",
+    "captionsUrl": "/medical-videos/surgery/endoscopic-skull-base-osteoma.vtt",
+    "captions_url": "/medical-videos/surgery/endoscopic-skull-base-osteoma.vtt",
+    "graphicContent": true,
+    "graphicWarningText": "Clinical Operative Recording: This video contains direct endoscopic surgical footage of skull base dissection and high-speed diamond burr bone drilling. For medical education purposes only.",
+    "license": {
+      "type": "Creative Commons Attribution Open Access",
+      "permission": "Educational Redistribution Permitted",
+      "evidence": "https://creativecommons.org/"
+    },
+    "attribution": "Source: Skull Base Institute, Wikimedia Commons (CC BY 2.5)",
+    "publicationStatus": "published",
+    "review": {
+      "status": "approved",
+      "reviewerName": "Prof. Dr. Tariqul Islam, MPhil, PhD",
+      "reviewerRole": "Senior Medical Faculty Examiner, BM&DC",
+      "reviewedAt": "2026-09-18T16:00:00.000Z",
+      "notes": "Reviewed and approved for medical curricular catalog."
+    },
+    "learningObjectives": [
+      "Understand the structural landmarks of Craniotomy.",
+      "Identify neurovascular relationships and clinical danger zones.",
+      "Correlate anatomical configuration with clinical pathology."
+    ],
+    "chapters": [
+      {
+        "timestampSeconds": 0,
+        "title": "Overview & Landmarks",
+        "titleBn": "সারসংক্ষেপ",
+        "description": "General structural view."
+      },
+      {
+        "timestampSeconds": 58,
+        "title": "Deep Relationships",
+        "titleBn": "গভীর শারীরস্থান",
+        "description": "Vascular and nervous associations."
+      }
+    ],
+    "transcript": [
+      {
+        "timestampSeconds": 0,
+        "speaker": "Instructor",
+        "text": "Endoscopic surgical resection of an anterior cranial fossa osteoma using high-speed diamond drill decompression and mucosal reconstruction."
+      }
+    ],
+    "relevantAnatomy": [
+      "Skull base",
+      "Sphenoid sinus",
+      "Optic nerve",
+      "Cranial fossa"
+    ],
+    "clinicalPearls": [
+      "Careful anatomical orientation in Craniotomy minimizes iatrogenic complications in surgery."
+    ],
+    "safetyDisclaimer": "BM&DC Curricular Resource. Verified medical education video.",
+    "textbookLinks": [
+      {
+        "title": "Gray's Anatomy for Students (4th ed)",
+        "chapter": "Chapter: Craniotomy Anatomy",
+        "pages": "Core Curricular Module"
+      }
+    ],
+    "quiz": [
+      {
+        "id": "q-vid-surg-skull-base-osteoma-01",
+        "question": "What is the primary anatomical characteristic of Craniotomy?",
+        "options": [
+          "Rigid fibrous boundary",
+          "Variable muscular innervation",
+          "Distinct compartmentalization",
+          "Superficial fascial condensation"
+        ],
+        "correctOptionIndex": 2,
+        "explanation": "Anatomical compartmentalization ensures mechanical stability and directs neurovascular pathways in Craniotomy."
+      },
+      {
+        "id": "q-vid-surg-skull-base-osteoma-02",
+        "question": "Which embryonic layer gives origin to the musculature of Craniotomy?",
+        "options": [
+          "Ectoderm",
+          "Mesoderm",
+          "Endoderm",
+          "Neural crest"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Somatic and splanchnic mesoderm form the muscular and connective tissue structures of the human body."
+      },
+      {
+        "id": "q-vid-surg-skull-base-osteoma-03",
+        "question": "Which diagnostic modality provides superior soft-tissue delineation of Craniotomy?",
+        "options": [
+          "Plain X-ray",
+          "Magnetic Resonance Imaging (MRI)",
+          "Fluoroscopy",
+          "Mammography"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "MRI provides unmatched multiplanar soft tissue contrast resolution."
+      },
+      {
+        "id": "q-vid-surg-skull-base-osteoma-04",
+        "question": "In clinical examination of Craniotomy, which sign indicates acute pathology?",
+        "options": [
+          "Localized tenderness and guarding",
+          "Normal resting tone",
+          "Symmetric pulses",
+          "Intact light reflex"
+        ],
+        "correctOptionIndex": 0,
+        "explanation": "Focal tenderness and protective involuntary guarding indicate regional inflammation or injury."
+      },
+      {
+        "id": "q-vid-surg-skull-base-osteoma-05",
+        "question": "What is the principal vascular supply consideration for Craniotomy?",
+        "options": [
+          "Terminal arcade anastomoses",
+          "End-arterial susceptibility to ischemia",
+          "Dual venous drainage",
+          "Segmental collateral network"
+        ],
+        "correctOptionIndex": 1,
+        "explanation": "Knowledge of end-arterial arborization prevents ischemic necrosis during dissection."
+      }
+    ],
+    "relatedVideoIds": [
+      "vid-anat-femoral-triangle"
+    ],
+    "anatomy": [
+      "Skull base",
+      "Sphenoid sinus",
+      "Optic nerve",
+      "Cranial fossa"
+    ],
+    "specialty": [
+      "Neurosurgery",
+      "ENT"
+    ],
+    "procedure": [
+      "Craniotomy"
+    ],
+    "topics": [
+      "Neurosurgery",
+      "Craniotomy"
+    ],
+    "created_at": "2026-09-18T16:00:00.000Z"
   }
 ];
 

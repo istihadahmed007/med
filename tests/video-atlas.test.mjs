@@ -86,6 +86,7 @@ test("cloud storage paths and playback URLs follow self-hosted organization", ()
     "medical-videos/physiology/",
     "medical-videos/pathology/",
     "medical-videos/surgery/",
+    "medical-videos/imaging/",
   ];
 
   for (const video of videos) {
@@ -176,19 +177,33 @@ test("search, category filtering, and empty state when unverified", () => {
   const surgeryResults = filterMedicalVideos(videos, { category: "Surgery" });
   assert.ok(surgeryResults.length >= 2, "Surgery must contain verified records");
 
-  // Unverified collections/specialties must return empty so UI displays "No verified video available yet"
-  const neuroResults = filterMedicalVideos(videos, { specialty: "Neurosurgery" });
-  assert.deepEqual(
-    neuroResults,
-    [],
-    "Unverified specialty Neurosurgery must return empty array"
+  // Verified Thorax collection returns real records
+  const thoraxAnatomyResults = filterMedicalVideos(videos, { collection: "Thorax" });
+  assert.ok(
+    thoraxAnatomyResults.length >= 1,
+    "Thorax must contain verified records"
   );
 
-  const thoraxAnatomyResults = filterMedicalVideos(videos, { collection: "Thorax" });
+  // Verified Neurosurgery specialty returns real records
+  const neuroResults = filterMedicalVideos(videos, { specialty: "Neurosurgery" });
+  assert.ok(
+    neuroResults.length >= 1,
+    "Neurosurgery must contain verified records"
+  );
+
+  // Unverified collections/specialties must return empty so UI displays "No verified video available yet"
+  const orthoResults = filterMedicalVideos(videos, { specialty: "Orthopaedic Surgery" });
   assert.deepEqual(
-    thoraxAnatomyResults,
+    orthoResults,
     [],
-    "Unverified collection Thorax must return empty array"
+    "Unverified specialty Orthopaedic Surgery must return empty array"
+  );
+
+  const osteologyResults = filterMedicalVideos(videos, { collection: "Osteology demonstrations" });
+  assert.deepEqual(
+    osteologyResults,
+    [],
+    "Unverified collection Osteology demonstrations must return empty array"
   );
 
   // Related videos must never include the video itself
