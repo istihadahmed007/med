@@ -259,7 +259,7 @@ export const MedicalVideoLibrary: React.FC = () => {
     VideoStudioService.getVideos(filters)
       .then((data) => {
         if (active) {
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
             setVideos(data);
           } else {
             setVideos(MEDICAL_VIDEO_LIBRARY);
