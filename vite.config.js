@@ -49,7 +49,7 @@ const devApiFallbackPlugin = () => ({
             const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
             if (fs.existsSync(dbPath)) {
               const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-              let videos = data.medicalVideos || [];
+              let videos = Array.isArray(data) ? data : (data.medicalVideos || []);
               const parsed = new URL('http://localhost' + url);
               const category = parsed.searchParams.get('category');
               const collection = parsed.searchParams.get('collection');

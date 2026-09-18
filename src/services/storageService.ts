@@ -452,9 +452,27 @@ export class StorageService {
   // =========================================================================
   // Video Studio Persistence (Offline & Fallback Support)
   // =========================================================================
-  static getVideoJobs(): VideoGenerationJob[] {
+  private static purgeLegacyKenhubCache(): void {
     try {
-      const stored = localStorage.getItem('medx_video_jobs_v1');
+      if (typeof window === 'undefined' || !window.localStorage) return;
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key) {
+          const val = localStorage.getItem(key);
+          if (val && /ken\s*hub/i.test(val)) {
+            keysToRemove.push(key);
+          }
+        }
+      }
+      keysToRemove.forEach(k => localStorage.removeItem(k));
+    } catch {}
+  }
+
+  static getVideoJobs(): VideoGenerationJob[] {
+    this.purgeLegacyKenhubCache();
+    try {
+      const stored = localStorage.getItem('medx_video_jobs_v2');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -503,7 +521,7 @@ export class StorageService {
 
   static saveVideoJobs(jobs: VideoGenerationJob[]): void {
     try {
-      localStorage.setItem('medx_video_jobs_v1', JSON.stringify(jobs));
+      localStorage.setItem('medx_video_jobs_v2', JSON.stringify(jobs));
     } catch {}
   }
 
@@ -523,8 +541,9 @@ export class StorageService {
   }
 
   static getPublishedVideos(lessonId?: string): LessonVideo[] {
+    this.purgeLegacyKenhubCache();
     try {
-      const stored = localStorage.getItem('medx_published_videos_v1');
+      const stored = localStorage.getItem('medx_published_videos_v2');
       if (stored) {
         const list: LessonVideo[] = JSON.parse(stored);
         if (Array.isArray(list) && list.length >= 4) {
@@ -561,7 +580,7 @@ export class StorageService {
     });
 
     try {
-      localStorage.setItem('medx_published_videos_v1', JSON.stringify(initialVideos));
+      localStorage.setItem('medx_published_videos_v2', JSON.stringify(initialVideos));
     } catch {}
     if (lessonId) return initialVideos.filter(v => v.lessonId === lessonId);
     return initialVideos;

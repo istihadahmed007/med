@@ -23,12 +23,12 @@ export class VideoStudioService {
     try {
       const res = await safeFetchJson<SelfHostedMedicalVideo[]>(`${API_BASE}/library`);
       if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
-        return res.data;
+        return res.data.filter(v => !JSON.stringify(v).toLowerCase().includes('kenhub'));
       }
     } catch {
       // safe fallback
     }
-    return MEDICAL_VIDEO_LIBRARY;
+    return MEDICAL_VIDEO_LIBRARY.filter(v => !JSON.stringify(v).toLowerCase().includes('kenhub'));
   }
 
   /**
@@ -73,12 +73,12 @@ export class VideoStudioService {
       const url = qs ? `${API_BASE}/videos?${qs}` : `${API_BASE}/videos`;
       const res = await safeFetchJson<SelfHostedMedicalVideo[]>(url);
       if (res.ok && Array.isArray(res.data)) {
-        return res.data;
+        return res.data.filter(v => !JSON.stringify(v).toLowerCase().includes('kenhub'));
       }
     } catch {
       // fallback
     }
-    return MEDICAL_VIDEO_LIBRARY;
+    return MEDICAL_VIDEO_LIBRARY.filter(v => !JSON.stringify(v).toLowerCase().includes('kenhub'));
   }
 
   /**
