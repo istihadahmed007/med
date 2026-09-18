@@ -82,6 +82,24 @@ const devApiFallbackPlugin = () => ({
 
         if (url.startsWith('/api/video-studio/published')) {
           res.statusCode = 200;
+          try {
+            const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
+            if (fs.existsSync(dbPath)) {
+              const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+              const parsed = new URL('http://localhost' + url);
+              const lessonId = parsed.searchParams.get('lessonId');
+              let published = (data.lessonVideos || []).filter(v => v.publicationStatus === 'published');
+              if (lessonId) {
+                published = published.filter(v =>
+                  v.lessonId === lessonId ||
+                  (lessonId === 'cvs-physio-cardiac-cycle-wiggers' && v.lessonId === 'cv-004') ||
+                  (lessonId === 'cv-004' && v.lessonId === 'cvs-physio-cardiac-cycle-wiggers')
+                );
+              }
+              res.end(JSON.stringify(published));
+              return;
+            }
+          } catch (e) {}
           res.end(JSON.stringify([]));
           return;
         }

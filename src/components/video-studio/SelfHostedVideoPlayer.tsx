@@ -270,11 +270,23 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
   }, []);
 
   const seekTo = useCallback((seconds: number) => {
+    if (isEmbed) {
+      const iframe = containerRef.current?.querySelector('iframe');
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: 'seekTo',
+          args: [seconds, true]
+        }), '*');
+      }
+      setCurrentTime(seconds);
+      return;
+    }
     if (!videoRef.current) return;
     const clamped = Math.max(0, Math.min(seconds, videoRef.current.duration || 0));
     videoRef.current.currentTime = clamped;
     setCurrentTime(clamped);
-  }, []);
+  }, [isEmbed]);
 
   const seekDelta = useCallback((delta: number) => {
     if (!videoRef.current) return;

@@ -38,10 +38,12 @@ export default {
         }
       },
       fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        bengali: ['"Hind Siliguri"', '"Noto Sans Bengali"', 'Inter', 'sans-serif'],
         serif: ['"Source Serif 4"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        bengali: ['"Noto Sans Bengali"', 'Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        mono: ['"JetBrains Mono"', 'Fira Code', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
         'glow-cyan': '0 0 25px -3px rgba(8, 175, 193, 0.35)',
