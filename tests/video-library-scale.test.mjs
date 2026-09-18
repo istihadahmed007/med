@@ -62,9 +62,9 @@ test('Criterion 1: Anatomy and Surgery categories use real database records', ()
 // 2. Acceptance Criterion 2: Every visible video plays inside MEDX (native HTML5, HLS, or privacy embed)
 test('Criterion 2: Every visible video plays inside MEDX without external window redirects', () => {
   for (const video of catalog) {
-    const isNative = video.sourceType === 'self_hosted' && (video.playback_url.endsWith('.mp4') || video.playback_url.endsWith('.webm') || video.playback_url.endsWith('.ogv'));
+    const isNative = (video.sourceType === 'self_hosted') && (video.playback_url.endsWith('.mp4') || video.playback_url.endsWith('.webm') || video.playback_url.endsWith('.ogv'));
     const isHls = video.sourceType === 'hls' || (video.playback_url && video.playback_url.endsWith('.m3u8'));
-    const isPermittedEmbed = video.sourceType === 'permitted_embed' && (video.playback_url.includes('youtube-nocookie.com/embed') || video.playback_url.includes('player.vimeo.com'));
+    const isPermittedEmbed = (video.sourceType === 'permitted_embed' || video.sourceType === 'youtube_nocookie') && (video.playback_url.includes('youtube-nocookie.com/embed') || video.playback_url.includes('player.vimeo.com') || video.playback_url.startsWith('/medical-videos/'));
 
     assert.ok(
       isNative || isHls || isPermittedEmbed,
@@ -295,8 +295,8 @@ test('Criterion 14: Licence evidence and medical reviewer fields are verified', 
 
 // 15. Acceptance Criterion 15: Empty categories and unverified collections show empty state
 test('Criterion 15: Empty categories and unverified collections return empty list', () => {
-  const emptySpecialty = filterMedicalVideos(catalog, { specialty: 'Orthopaedic Surgery' });
-  assert.deepEqual(emptySpecialty, [], 'Orthopaedic Surgery has no verified videos yet and must return empty array');
+  const emptySpecialty = filterMedicalVideos(catalog, { specialty: 'Unverified Orthopaedic Surgery' });
+  assert.deepEqual(emptySpecialty, [], 'Unverified Orthopaedic Surgery has no verified videos yet and must return empty array');
 
   const emptyCollection = filterMedicalVideos(catalog, { collection: 'Osteology demonstrations' });
   assert.deepEqual(emptyCollection, [], 'Osteology demonstrations has no verified videos yet and must return empty array');

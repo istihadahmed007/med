@@ -686,15 +686,15 @@ export const MedicalVideoLibrary: React.FC = () => {
               <Search size={20} className="absolute left-4 top-3.5 text-slate-400" />
               <input
                 aria-label="Search verified medical videos"
-                placeholder="Search procedures, organs, anatomical regions, instruments, instructors, or transcript keywords..."
-                value={filters.query || ''}
-                onChange={(e) => setFilters((prev) => ({ ...prev, query: e.target.value }))}
+                placeholder="Search anatomy, disease, organ, procedure or surgery..."
+                value={filters.searchQuery || filters.query || ''}
+                onChange={(e) => setFilters((prev) => ({ ...prev, searchQuery: e.target.value, query: e.target.value }))}
                 className="w-full bg-slate-900/90 border border-slate-800 rounded-2xl pl-12 pr-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all shadow-inner"
               />
-              {filters.query && (
+              {(filters.searchQuery || filters.query) && (
                 <button
                   type="button"
-                  onClick={() => setFilters((prev) => ({ ...prev, query: '' }))}
+                  onClick={() => setFilters((prev) => ({ ...prev, searchQuery: '', query: '' }))}
                   className="absolute right-4 top-3.5 text-slate-400 hover:text-white text-xs"
                 >
                   <X size={16} />

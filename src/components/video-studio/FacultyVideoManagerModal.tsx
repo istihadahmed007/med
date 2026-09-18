@@ -52,7 +52,9 @@ export const FacultyVideoManagerModal: React.FC<FacultyVideoManagerModalProps> =
   const [difficulty, setDifficulty] = useState<'Beginner' | 'Intermediate' | 'Advanced'>(existingVideo?.difficulty || 'Intermediate');
   const [duration, setDuration] = useState(existingVideo?.duration || '03:30');
   const [mediaType, setMediaType] = useState(existingVideo?.mediaType || 'animation');
-  const [sourceType, setSourceType] = useState<'self_hosted' | 'hls' | 'permitted_embed'>(existingVideo?.sourceType || 'self_hosted');
+  const [sourceType, setSourceType] = useState<'self_hosted' | 'hls' | 'permitted_embed' | 'youtube_nocookie'>(
+    (existingVideo?.sourceType as any) || 'self_hosted'
+  );
   const [playbackUrl, setPlaybackUrl] = useState(existingVideo?.playbackUrl || existingVideo?.playback_url || '');
   const [thumbnailUrl, setThumbnailUrl] = useState(existingVideo?.thumbnailUrl || existingVideo?.thumbnail_url || '');
   const [captionsUrl, setCaptionsUrl] = useState(existingVideo?.captionsUrl || existingVideo?.captions_url || '');

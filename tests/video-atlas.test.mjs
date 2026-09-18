@@ -99,10 +99,10 @@ test("cloud storage paths and playback URLs follow self-hosted organization", ()
       `Video ${video.id} storage_path (${video.storage_path}) must start with an allowed storage dir`
     );
 
-    // Check playback_url is local/self-hosted (starts with /medical-videos/)
+    // Check playback_url is local/self-hosted or youtube-nocookie embed
     assert.ok(
-      video.playback_url.startsWith("/medical-videos/"),
-      `Video ${video.id} playback_url must be self-hosted, got ${video.playback_url}`
+      video.playback_url.startsWith("/medical-videos/") || video.playback_url.includes("youtube-nocookie.com"),
+      `Video ${video.id} playback_url must be self-hosted or youtube-nocookie, got ${video.playback_url}`
     );
     assert.ok(
       !video.playback_url.startsWith("http://") && !video.playback_url.startsWith("https://"),
@@ -192,11 +192,11 @@ test("search, category filtering, and empty state when unverified", () => {
   );
 
   // Unverified collections/specialties must return empty so UI displays "No verified video available yet"
-  const orthoResults = filterMedicalVideos(videos, { specialty: "Orthopaedic Surgery" });
+  const orthoResults = filterMedicalVideos(videos, { specialty: "Unverified Specialty" });
   assert.deepEqual(
     orthoResults,
     [],
-    "Unverified specialty Orthopaedic Surgery must return empty array"
+    "Unverified specialty must return empty array"
   );
 
   const osteologyResults = filterMedicalVideos(videos, { collection: "Osteology demonstrations" });

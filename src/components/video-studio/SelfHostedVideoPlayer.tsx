@@ -82,9 +82,25 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
   }, []);
 
   // Determine media source type
-  const mediaUrl = video.playbackUrl || video.playback_url || '';
+  const mediaUrl = video.playbackUrl || video.playback_url || video.embedUrl || '';
   const isHls = video.sourceType === 'hls' || mediaUrl.endsWith('.m3u8');
-  const isEmbed = video.sourceType === 'permitted_embed' || mediaUrl.includes('youtube') || mediaUrl.includes('vimeo');
+  const isEmbed = 
+    video.sourceType === 'permitted_embed' || 
+    video.sourceType === 'youtube_nocookie' || 
+    !!video.youtubeVideoId || 
+    !!video.embedUrl || 
+    mediaUrl.includes('youtube') || 
+    mediaUrl.includes('vimeo');
+
+  const getEmbedUrl = () => {
+    if (video.embedUrl) return video.embedUrl;
+    if (video.youtubeVideoId) return `https://www.youtube-nocookie.com/embed/${video.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`;
+    if (mediaUrl.includes('youtube.com/watch?v=')) {
+      const vidId = mediaUrl.split('v=')[1]?.split('&')[0];
+      if (vidId) return `https://www.youtube-nocookie.com/embed/${vidId}?autoplay=1&rel=0&modestbranding=1`;
+    }
+    return mediaUrl;
+  };
 
   // Initialize playback state and check stored progress
   useEffect(() => {
@@ -404,14 +420,9 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
           /* Privacy-Enhanced Internal Embed with Zero Redirects */
           <div className="w-full h-full relative">
             <iframe
-              src={
-                mediaUrl.includes('youtube.com/watch?v=')
-                  ? mediaUrl.replace('youtube.com/watch?v=', 'youtube-nocookie.com/embed/')
-                  : mediaUrl
-              }
+              src={getEmbedUrl()}
               title={video.title}
               className="w-full h-full border-0"
-              sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             />
           </div>

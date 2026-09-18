@@ -195,40 +195,83 @@ export interface VideoStudentProgress {
   bookmarked: boolean;
 }
 
+export type MedicalContentType = 
+  | 'Anatomy animation' 
+  | 'Physiology animation' 
+  | 'Disease mechanism' 
+  | 'Surgical animation' 
+  | 'Real surgical recording' 
+  | 'Clinical examination' 
+  | 'Bedside procedure' 
+  | 'Diagnostic imaging' 
+  | 'Lecture' 
+  | 'Case discussion';
+
 export interface SelfHostedMedicalVideo {
+  // Required 28-field schema
   id: string;
   title: string;
   titleBn?: string;
-  summary?: string;
+  slug?: string;
   description: string;
-  category: 'Anatomy' | 'Physiology' | 'Pathology' | 'Surgery' | 'Clinical Skills' | 'Medical Imaging' | string;
+  descriptionBn?: string;
+  youtubeVideoId?: string;
+  embedUrl?: string;
+  sourceUrl?: string;
+  sourceName?: string;
+  sourceType?: 'self_hosted' | 'hls' | 'permitted_embed' | 'youtube_nocookie' | string;
+  specialty: string | string[];
+  section: string;
+  topic: string;
+  procedureName?: string;
+  organSystem?: string;
+  mbbsYear?: string;
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  duration: string;
+  language?: string;
+  instructorOrPublisher?: string;
+  thumbnailUrl: string;
+  transcript?: string | {
+    timestampSeconds: number;
+    speaker: string;
+    text: string;
+  }[];
+  learningObjectives?: string[];
+  keySteps?: string[];
+  clinicalPearls?: string[];
+  prerequisiteTopics?: string[];
+  contentType?: MedicalContentType | string;
+  graphicContent?: boolean;
+  verified?: boolean;
+  embeddingAllowed?: boolean;
+  published?: boolean;
+  lastVerifiedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+
+  // Legacy / Supplemental properties for catalog compatibility
+  summary?: string;
+  category?: 'Anatomy' | 'Physiology' | 'Pathology' | 'Surgery' | 'Clinical Skills' | 'Medical Imaging' | string;
   collection?: string;
   subtopic?: string;
   procedureType?: string;
   mbbsPhase?: string;
-  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
-  duration: string;
   durationSeconds?: number;
-  language?: string;
   hasCaptions?: boolean;
   mediaType?: 'animation' | 'cadaveric' | 'clinical_demonstration' | 'imaging' | 'real_surgery';
   instructor?: string;
   institution?: string;
-  source: string;
-  sourceUrl?: string;
-  sourceType?: 'self_hosted' | 'hls' | 'permitted_embed';
+  source?: string;
   playbackUrl?: string;
-  thumbnailUrl?: string;
   captionsUrl?: string;
   hlsUrl?: string;
-  graphicContent?: boolean;
   graphicWarningText?: string;
-  license: string | {
+  license?: string | {
     type: string;
     permission: string;
     evidence: string;
   };
-  attribution: string;
+  attribution?: string;
   publicationStatus?: VideoPublicationStatus;
   review?: {
     status: string;
@@ -237,17 +280,11 @@ export interface SelfHostedMedicalVideo {
     reviewedAt: string;
     notes?: string;
   };
-  learningObjectives?: string[];
   chapters?: {
     timestampSeconds: number;
     title: string;
     titleBn?: string;
     description?: string;
-  }[];
-  transcript?: string | {
-    timestampSeconds: number;
-    speaker: string;
-    text: string;
   }[];
   surgicalSteps?: {
     stepNumber: number;
@@ -262,7 +299,6 @@ export interface SelfHostedMedicalVideo {
   patientPreparation?: string[];
   relevantAnatomy?: string[];
   instruments?: string[];
-  clinicalPearls?: string[];
   commonMistakes?: string[];
   complications?: string[];
   postoperativeCare?: string[];
@@ -280,15 +316,14 @@ export interface SelfHostedMedicalVideo {
   };
   quiz?: VideoQuizQuestion[];
   relatedVideoIds?: string[];
-  anatomy: string[];
-  specialty: string[];
-  procedure: string[];
-  topics: string[];
-  storage_path: string;
-  playback_url: string;
-  thumbnail_url: string;
-  captions_url: string;
-  created_at: string;
+  anatomy?: string[];
+  procedure?: string[];
+  topics?: string[];
+  storage_path?: string;
+  playback_url?: string;
+  thumbnail_url?: string;
+  captions_url?: string;
+  created_at?: string;
 }
 
 export type ComprehensiveMedicalVideo = SelfHostedMedicalVideo;
