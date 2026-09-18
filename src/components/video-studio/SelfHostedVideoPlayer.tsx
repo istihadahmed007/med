@@ -67,7 +67,9 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [playbackError, setPlaybackError] = useState<string | null>(null);
   const [resumePromptSeconds, setResumePromptSeconds] = useState<number | null>(null);
-  const [graphicConsentGiven, setGraphicConsentGiven] = useState<boolean>(!video.graphicContent);
+  const [graphicConsentGiven, setGraphicConsentGiven] = useState<boolean>(
+    () => !video.graphicContent || (typeof localStorage !== 'undefined' && localStorage.getItem('medx_graphic_consent') === 'true')
+  );
   const [pipSupported, setPipSupported] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'chapters' | 'transcript' | 'info'>('chapters');
   const [transcriptFilter, setTranscriptFilter] = useState('');
@@ -81,23 +83,35 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
     }
   }, []);
 
-  // Determine media source type
-  const mediaUrl = video.playbackUrl || video.playback_url || video.embedUrl || '';
-  const isHls = video.sourceType === 'hls' || mediaUrl.endsWith('.m3u8');
-  const isEmbed = 
+  // Determine media source type accurately
+  const mediaUrl = video.playbackUrl || video.playback_url || '';
+  const isNativeFile = 
+    video.sourceType === 'self_hosted' ||
+    mediaUrl.endsWith('.webm') ||
+    mediaUrl.endsWith('.mp4') ||
+    mediaUrl.endsWith('.ogv') ||
+    mediaUrl.startsWith('/medical-videos/');
+
+  const isHls = !isNativeFile && (video.sourceType === 'hls' || mediaUrl.endsWith('.m3u8'));
+  
+  const isEmbed = !isNativeFile && !isHls && (
     video.sourceType === 'permitted_embed' || 
     video.sourceType === 'youtube_nocookie' || 
     !!video.youtubeVideoId || 
     !!video.embedUrl || 
     mediaUrl.includes('youtube') || 
-    mediaUrl.includes('vimeo');
+    mediaUrl.includes('vimeo')
+  );
 
   const getEmbedUrl = () => {
+    const ytId = video.youtubeVideoId || (video.embedUrl?.includes('embed/') ? video.embedUrl.split('embed/')[1]?.split('?')[0] : '');
+    if (ytId) {
+      return `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1`;
+    }
     if (video.embedUrl) return video.embedUrl;
-    if (video.youtubeVideoId) return `https://www.youtube-nocookie.com/embed/${video.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`;
     if (mediaUrl.includes('youtube.com/watch?v=')) {
       const vidId = mediaUrl.split('v=')[1]?.split('&')[0];
-      if (vidId) return `https://www.youtube-nocookie.com/embed/${vidId}?autoplay=1&rel=0&modestbranding=1`;
+      if (vidId) return `https://www.youtube-nocookie.com/embed/${vidId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1`;
     }
     return mediaUrl;
   };
@@ -432,12 +446,19 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
             <video
               ref={videoRef}
               playsInline
-              preload="metadata"
+              autoPlay
+              preload="auto"
               poster={video.thumbnailUrl || video.thumbnail_url}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={() => {
                 if (videoRef.current) setDuration(videoRef.current.duration);
                 setIsLoading(false);
+              }}
+              onCanPlay={() => {
+                setIsLoading(false);
+                if (videoRef.current && videoRef.current.paused) {
+                  videoRef.current.play().catch(() => {});
+                }
               }}
               onWaiting={() => setIsLoading(true)}
               onPlaying={() => {

@@ -2,7 +2,7 @@
  * Comprehensive MBBS Medical Video Library Data Catalog
  *
  * Direct In-App Playback • Zero External Redirects • Verified Real Media Records
- * 20 Mandatory Medical Sections • Zero Kenhub Content
+ * 20 Mandatory Medical Sections • Verified Educational Media Collection
  */
 
 import { SelfHostedMedicalVideo, VideoQuizQuestion } from '../types/videoStudio';
