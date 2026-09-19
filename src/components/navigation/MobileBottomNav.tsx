@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, BookOpen, CheckSquare, Bookmark } from 'lucide-react';
+import { Home, BookOpen, CheckSquare, Bookmark, Pill } from 'lucide-react';
 import { NavigationView } from '../../types';
 
 interface MobileBottomNavProps {
@@ -23,6 +23,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
       label: 'Learn',
       icon: BookOpen,
       isActive: currentView === 'learn' || currentView === 'across-books' || currentView === 'textbook-library' || currentView === 'textbook'
+    },
+    {
+      id: 'drug-reference' as NavigationView,
+      label: 'Drugs',
+      icon: Pill,
+      isActive: currentView === 'drug-reference'
     },
     {
       id: 'practice' as NavigationView,

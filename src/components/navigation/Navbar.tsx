@@ -32,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks: { id: NavigationView; label: string; labelBn: string }[] = [
     { id: 'learn', label: 'Learn', labelBn: 'শিখুন' },
     { id: 'textbook-library', label: 'Library', labelBn: 'লাইব্রেরি' },
+    { id: 'drug-reference', label: 'Drug Reference', labelBn: 'ওষুধ নির্দেশিকা' },
     { id: 'visual-lab', label: 'Visual Lab', labelBn: 'ভিজ্যুয়াল ল্যাব' },
     { id: 'cases', label: 'Clinical Cases', labelBn: 'ক্লিনিক্যাল কেস' },
     { id: 'practice', label: 'Practice', labelBn: 'অনুশীলন' },

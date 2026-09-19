@@ -6,6 +6,8 @@ import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import { VokaSyncService } from './server/services/vokaSyncService.js';
 import { TextbookService } from './server/services/textbookService.js';
+import { DrugService } from './server/services/drugService.js';
+import { DrugImportService } from './server/services/drugImportService.js';
 
 // Dev API plugin ensures that Vite SPA server never serves index.html (<!DOCTYPE) for /api requests
 const devApiFallbackPlugin = () => ({
@@ -326,6 +328,354 @@ const devApiFallbackPlugin = () => ({
               const reviewed = TextbookService.reviewJob(jobId, payload.action, payload.reviewNotes, { name: reviewerName });
               res.statusCode = 200;
               res.end(JSON.stringify({ success: true, job: reviewed }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        // Drug Reference & Pharmacology Study Centre Endpoints
+        const clientId = req.headers['x-medx-user-id'] || 'dev-user';
+
+        if (url === '/api/drugs/stats' && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getDatabaseStats()));
+          return;
+        }
+
+        if (url === '/api/drugs/dosage-forms' && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getDosageForms()));
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/search') && req.method === 'GET') {
+          const parsed = new URL('http://localhost' + url);
+          const q = parsed.searchParams.get('q') || '';
+          const filterType = parsed.searchParams.get('type') || 'all';
+          const therapeuticClass = parsed.searchParams.get('class') || '';
+          const indication = parsed.searchParams.get('indication') || '';
+          const manufacturerId = parsed.searchParams.get('manufacturer') || '';
+          const letter = parsed.searchParams.get('letter') || '';
+          const dosageForm = parsed.searchParams.get('form') || '';
+          const strength = parsed.searchParams.get('strength') || '';
+          const prescriptionStatus = parsed.searchParams.get('prescription') || '';
+          const activeStatus = parsed.searchParams.get('status') || '';
+          const page = parsed.searchParams.get('page') || 1;
+          const limit = parsed.searchParams.get('limit') || 15;
+
+          const results = DrugService.searchDrugs({
+            query: q,
+            filterType,
+            therapeuticClass,
+            indication,
+            manufacturerId,
+            letter,
+            dosageForm,
+            strength,
+            prescriptionStatus,
+            activeStatus,
+            page,
+            limit
+          });
+          res.statusCode = 200;
+          res.end(JSON.stringify(results));
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/brand/') && req.method === 'GET') {
+          const slug = url.split('?')[0].replace('/api/drugs/brand/', '');
+          const detail = DrugService.getBrandDetail(slug);
+          if (detail) {
+            res.statusCode = 200;
+            res.end(JSON.stringify(detail));
+          } else {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ error: 'Bangladesh brand product not found' }));
+          }
+          return;
+        }
+
+        if (url.startsWith('/api/generics/') && url.includes('/brands') && req.method === 'GET') {
+          const slug = url.split('?')[0].replace('/api/generics/', '').replace('/brands', '');
+          const brands = DrugService.getBrandsForGeneric(slug);
+          res.statusCode = 200;
+          res.end(JSON.stringify(brands));
+          return;
+        }
+
+        if (url.startsWith('/api/generics/') && req.method === 'GET') {
+          const slug = url.split('?')[0].replace('/api/generics/', '');
+          const generic = DrugService.getGenericBySlug(slug);
+          if (generic) {
+            res.statusCode = 200;
+            res.end(JSON.stringify(generic));
+          } else {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ error: 'Generic medicine monograph not found' }));
+          }
+          return;
+        }
+
+        if (url.startsWith('/api/brands/') && req.method === 'GET') {
+          const slug = url.split('?')[0].replace('/api/brands/', '');
+          const brand = DrugService.getBrandBySlug(slug);
+          if (brand) {
+            res.statusCode = 200;
+            res.end(JSON.stringify(brand));
+          } else {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ error: 'Bangladesh brand product not found' }));
+          }
+          return;
+        }
+
+        if (url.startsWith('/api/interactions/check') && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const ids = Array.isArray(payload.ids) ? payload.ids : (Array.isArray(payload.genericIds) ? payload.genericIds : []);
+              const report = DrugService.checkInteractions(ids);
+              res.statusCode = 200;
+              res.end(JSON.stringify(report));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/compare') && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const ids = Array.isArray(payload.genericIds) ? payload.genericIds : [];
+              const matrix = DrugService.compareDrugs(ids);
+              res.statusCode = 200;
+              res.end(JSON.stringify(matrix));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/drug-classes') && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getTherapeuticClasses()));
+          return;
+        }
+
+        if (url.startsWith('/api/guidelines') && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getGuidelines()));
+          return;
+        }
+
+        if (url.startsWith('/api/investigations') && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getInvestigations()));
+          return;
+        }
+
+        if (url.startsWith('/api/comparisons') && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getPreconfiguredComparisons()));
+          return;
+        }
+
+        if (url.startsWith('/api/me/drug-bookmarks') && req.method === 'GET') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getUserBookmarks(userId)));
+          return;
+        }
+
+        if (url.startsWith('/api/me/drug-bookmarks') && req.method === 'POST') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const result = DrugService.toggleUserBookmark(userId, payload);
+              res.statusCode = 200;
+              res.end(JSON.stringify(result));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/me/drug-notes') && req.method === 'GET') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getUserNotes(userId)));
+          return;
+        }
+
+        if (url.startsWith('/api/me/drug-notes') && req.method === 'POST') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const saved = DrugService.saveUserNote(userId, payload.drugId, payload.note);
+              res.statusCode = 200;
+              res.end(JSON.stringify(saved));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/me/recent-drugs') && req.method === 'GET') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getRecentDrugs(userId)));
+          return;
+        }
+
+        if (url.startsWith('/api/me/recent-drugs') && req.method === 'POST') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const list = DrugService.trackRecentDrug(userId, payload);
+              res.statusCode = 200;
+              res.end(JSON.stringify(list));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/governance/audit-logs') && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getAuditLogs()));
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/governance/report-correction') && req.method === 'POST') {
+          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const report = DrugService.reportCorrection(userId, payload);
+              res.statusCode = 201;
+              res.end(JSON.stringify({ success: true, report }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        // Drug Ingestion & Import Management Endpoints
+        if (url === '/api/drugs/import/start' && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', async () => {
+            try {
+              const parsed = JSON.parse(body || '{}');
+              let records = parsed.records || [];
+              if (parsed.csvText) {
+                records = DrugImportService.parseCsv(parsed.csvText);
+              } else if (parsed.jsonText) {
+                records = DrugImportService.parseJson(parsed.jsonText);
+              }
+              const job = await DrugImportService.startImportJob({
+                adapterType: parsed.adapterType || 'json',
+                sourceName: parsed.sourceName || 'Authorized Admin Import',
+                sourceLicence: parsed.sourceLicence || 'Open Government / Permitted License',
+                records,
+                apiConfig: parsed.apiConfig || null,
+                batchSize: parsed.batchSize || 250,
+                dryRun: parsed.dryRun === true,
+                adminUser: { id: clientId, name: 'Administrator' }
+              });
+              res.statusCode = 200;
+              res.end(JSON.stringify(job));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url === '/api/drugs/import/jobs' && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugImportService.loadJobs()));
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/import/jobs/') && url.includes('/errors') && req.method === 'GET') {
+          const jobId = url.split('?')[0].replace('/api/drugs/import/jobs/', '').replace('/errors', '');
+          const parsed = new URL('http://localhost' + url);
+          const format = parsed.searchParams.get('format') || 'json';
+          if (format === 'csv') {
+            const csv = DrugImportService.exportErrorsAsCsv(jobId);
+            res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+            res.setHeader('Content-Disposition', `attachment; filename="import-errors-${jobId}.csv"`);
+            res.statusCode = 200;
+            res.end(csv);
+          } else {
+            const errors = DrugImportService.getErrorsForJob(jobId);
+            res.statusCode = 200;
+            res.end(JSON.stringify(errors));
+          }
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/import/jobs/') && url.includes('/retry') && req.method === 'POST') {
+          const jobId = url.split('?')[0].replace('/api/drugs/import/jobs/', '').replace('/retry', '');
+          DrugImportService.retryFailedJob(jobId)
+            .then(job => {
+              res.statusCode = 200;
+              res.end(JSON.stringify(job));
+            })
+            .catch(err => {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            });
+          return;
+        }
+
+        if (url === '/api/drugs/admin/drug/archive' && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              if (!payload.confirmed) {
+                res.statusCode = 400;
+                res.end(JSON.stringify({ error: 'Archive operation requires explicit confirmation: { confirmed: true }' }));
+                return;
+              }
+              const archived = DrugService.archiveBrand(payload.brandId, payload.reason || 'Admin archival', clientId);
+              res.statusCode = 200;
+              res.end(JSON.stringify(archived));
             } catch (err) {
               res.statusCode = 400;
               res.end(JSON.stringify({ error: err.message }));

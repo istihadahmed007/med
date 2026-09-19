@@ -15,7 +15,8 @@ import {
   Stethoscope,
   ChevronRight,
   Video,
-  BookMarked
+  BookMarked,
+  Pill
 } from 'lucide-react';
 import { NavigationView } from '../../types';
 
@@ -61,6 +62,13 @@ const PRIMARY_HUBS: NavItem[] = [
     icon: BookMarked,
     badge: 'Library',
     description: 'Verified MBBS textbooks & import'
+  },
+  {
+    id: 'drug-reference',
+    label: 'Drug Reference',
+    icon: Pill,
+    badge: 'ওষুধ',
+    description: 'ওষুধ নির্দেশিকা & Pharmacology'
   },
   { 
     id: 'visual-lab',

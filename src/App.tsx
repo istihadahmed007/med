@@ -25,14 +25,26 @@ import { VideoStudioHub } from './components/video-studio/VideoStudioHub';
 import { MobileBottomNav } from './components/navigation/MobileBottomNav';
 const AcrossBooksWorkspace = lazy(() => import('./components/across-books/AcrossBooksWorkspace').then(module => ({ default: module.AcrossBooksWorkspace })));
 const TextbookLibraryHub = lazy(() => import('./components/textbook/TextbookLibraryHub').then(module => ({ default: module.TextbookLibraryHub })));
+const DrugReferenceHub = lazy(() => import('./components/drug-reference/DrugReferenceHub').then(module => ({ default: module.DrugReferenceHub })));
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavigationView>(() => {
     if (typeof window !== 'undefined') {
-      const hash = window.location.hash.replace('#', '').split('/')[0];
+      const rawHash = window.location.hash.replace('#', '');
+      const parts = rawHash.split('?')[0].split('/');
+      const hash = parts[0];
+      if (hash === 'drugs' || hash === 'drug-reference') {
+        if (parts[1] === 'brand' && parts[2]) {
+          // deep link support: #drugs/brand/:slug -> query param brand
+          const newUrl = `#drug-reference?brand=${encodeURIComponent(parts[2])}`;
+          window.history.replaceState(null, '', newUrl);
+        }
+        return 'drug-reference';
+      }
       if (hash) return hash as NavigationView;
       const params = new URLSearchParams(window.location.search);
       const view = params.get('view');
+      if (view === 'drugs' || view === 'drug-reference') return 'drug-reference';
       if (view) return view as NavigationView;
     }
     return 'dashboard';
@@ -49,7 +61,16 @@ export const App: React.FC = () => {
   // Hash links support shareable topic URLs and browser back/forward navigation.
   useEffect(() => {
     const syncView = () => {
-      const hash = window.location.hash.slice(1).split('/')[0];
+      const rawHash = window.location.hash.slice(1);
+      const parts = rawHash.split('?')[0].split('/');
+      let hash = parts[0];
+      if (hash === 'drugs' || hash === 'drug-reference') {
+        if (parts[1] === 'brand' && parts[2]) {
+          const newUrl = `#drug-reference?brand=${encodeURIComponent(parts[2])}`;
+          window.history.replaceState(null, '', newUrl);
+        }
+        hash = 'drug-reference';
+      }
       setCurrentView((hash || 'dashboard') as NavigationView);
       setMobileMenuOpen(false);
     };
@@ -164,6 +185,18 @@ export const App: React.FC = () => {
             {(currentView === 'textbook-library' || currentView === 'textbook') && (
               <Suspense fallback={<p role="status" className="p-6 text-slate-300">Opening MBBS Textbook Library…</p>}>
                 <TextbookLibraryHub onNavigateAcrossBooks={(topicId) => {
+                  if (topicId) {
+                    window.location.hash = `across-books/${topicId}`;
+                  } else {
+                    handleNavigate('across-books');
+                  }
+                }} />
+              </Suspense>
+            )}
+
+            {(currentView === 'drug-reference' || currentView === 'drugs') && (
+              <Suspense fallback={<p role="status" className="p-6 text-slate-300">Opening Bangladesh Drug Reference…</p>}>
+                <DrugReferenceHub onOpenAcrossBooksTopic={(topicId) => {
                   if (topicId) {
                     window.location.hash = `across-books/${topicId}`;
                   } else {

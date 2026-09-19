@@ -10,6 +10,8 @@ export type NavigationView =
   | 'progress'
   | 'faculty-admin'
   | 'video-studio'
+  | 'drug-reference'
+  | 'drugs'
   // Direct sub-routes for deep linking & backwards compatibility
   | 'home'
   | '3d-anatomy'
@@ -34,6 +36,7 @@ export type NavigationView =
 
 export * from './videoStudio';
 export * from './textbook';
+export * from './drug';
 
 export type UserRole = 'student' | 'faculty' | 'author' | 'reviewer' | 'admin';
 
