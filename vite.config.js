@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import { VokaSyncService } from './server/services/vokaSyncService.js';
+import { TextbookService } from './server/services/textbookService.js';
 
 // Dev API plugin ensures that Vite SPA server never serves index.html (<!DOCTYPE) for /api requests
 const devApiFallbackPlugin = () => ({
@@ -196,6 +197,140 @@ const devApiFallbackPlugin = () => ({
               res.statusCode = 500;
               res.end(JSON.stringify({ error: err.message }));
             });
+          return;
+        }
+
+        // Textbook Library Endpoints
+        if (url.startsWith('/api/textbooks/user-uploads')) {
+          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+          res.statusCode = 200;
+          res.end(JSON.stringify(TextbookService.getUserUploads(userId)));
+          return;
+        }
+
+        if (url.startsWith('/api/textbooks/') && req.method === 'GET') {
+          const id = url.split('?')[0].replace('/api/textbooks/', '');
+          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+          const book = TextbookService.getTextbookById(id, userId);
+          if (book) {
+            res.statusCode = 200;
+            res.end(JSON.stringify(book));
+          } else {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ error: 'Textbook not found' }));
+          }
+          return;
+        }
+
+        if (url.startsWith('/api/textbooks') && req.method === 'GET') {
+          const parsed = new URL('http://localhost' + url);
+          const query = parsed.searchParams.get('query') || '';
+          const phase = parsed.searchParams.get('phase') || 'all';
+          const subject = parsed.searchParams.get('subject') || 'all';
+          const accessType = parsed.searchParams.get('accessType') || 'all';
+          const includePrivate = parsed.searchParams.get('includePrivate') === 'true';
+          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+
+          const results = TextbookService.getTextbooks({
+            query,
+            phase,
+            subject,
+            accessType,
+            userId,
+            includePrivate
+          });
+          res.statusCode = 200;
+          res.end(JSON.stringify(results));
+          return;
+        }
+
+        // Textbook Import Workflow Endpoints
+        if (url.startsWith('/api/textbook-import/fetch-metadata') && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', async () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const results = await TextbookService.fetchOnlineMetadata(payload.query || payload.isbn || '');
+              res.statusCode = 200;
+              res.end(JSON.stringify(results));
+            } catch (err) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/textbook-import/submit-job') && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+              const role = req.headers['x-medx-role'] || 'student';
+              const job = TextbookService.submitJob({
+                ...payload,
+                ownerId: userId,
+                ownerRole: role
+              });
+              res.statusCode = 201;
+              res.end(JSON.stringify({ success: true, job }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
+        if (url.startsWith('/api/textbook-import/jobs') && req.method === 'GET') {
+          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+          const role = req.headers['x-medx-role'] || 'student';
+          const jobs = TextbookService.getJobs({ ownerId: userId, role });
+          res.statusCode = 200;
+          res.end(JSON.stringify(jobs));
+          return;
+        }
+
+        if (url.includes('/retry') && url.startsWith('/api/textbook-import/jobs/') && req.method === 'POST') {
+          const parts = url.split('/');
+          const jobId = parts[4];
+          try {
+            const retried = TextbookService.retryJob(jobId);
+            res.statusCode = 200;
+            res.end(JSON.stringify({ success: true, job: retried }));
+          } catch (err) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: err.message }));
+          }
+          return;
+        }
+
+        if (url.includes('/review') && url.startsWith('/api/textbook-import/jobs/') && req.method === 'POST') {
+          const parts = url.split('/');
+          const jobId = parts[4];
+          const role = req.headers['x-medx-role'] || 'student';
+          if (role !== 'faculty' && role !== 'admin' && role !== 'reviewer') {
+            res.statusCode = 403;
+            res.end(JSON.stringify({ error: 'Unauthorized: Only faculty reviewers can approve or reject library jobs.' }));
+            return;
+          }
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const reviewerName = req.headers['x-reviewer-name'] || 'Prof. Dr. Tariqul Islam';
+              const reviewed = TextbookService.reviewJob(jobId, payload.action, payload.reviewNotes, { name: reviewerName });
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true, job: reviewed }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
           return;
         }
 

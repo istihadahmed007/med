@@ -24,6 +24,7 @@ import { VideoStudioHub } from './components/video-studio/VideoStudioHub';
 
 import { MobileBottomNav } from './components/navigation/MobileBottomNav';
 const AcrossBooksWorkspace = lazy(() => import('./components/across-books/AcrossBooksWorkspace').then(module => ({ default: module.AcrossBooksWorkspace })));
+const TextbookLibraryHub = lazy(() => import('./components/textbook/TextbookLibraryHub').then(module => ({ default: module.TextbookLibraryHub })));
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavigationView>(() => {
@@ -160,6 +161,18 @@ export const App: React.FC = () => {
               </Suspense>
             )}
 
+            {(currentView === 'textbook-library' || currentView === 'textbook') && (
+              <Suspense fallback={<p role="status" className="p-6 text-slate-300">Opening MBBS Textbook Library…</p>}>
+                <TextbookLibraryHub onNavigateAcrossBooks={(topicId) => {
+                  if (topicId) {
+                    window.location.hash = `across-books/${topicId}`;
+                  } else {
+                    handleNavigate('across-books');
+                  }
+                }} />
+              </Suspense>
+            )}
+
             {/* 3. Visual Lab (Simulation Hub) */}
             {(currentView === 'visual-lab' || 
               currentView === 'visual-engine' ||
@@ -172,8 +185,7 @@ export const App: React.FC = () => {
               currentView === 'surgery' ||
               currentView === 'pharmacology' ||
               currentView === 'investigations' ||
-              currentView === 'treatment' ||
-              currentView === 'textbook'
+              currentView === 'treatment'
             ) && (
               <VisualLabHub
                 initialSubTab={

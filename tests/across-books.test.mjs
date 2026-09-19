@@ -11,7 +11,7 @@ import ts from 'typescript';
 const scratch = mkdtempSync(join(tmpdir(), 'medx-across-books-'));
 after(() => rmSync(scratch, { recursive: true, force: true }));
 writeFileSync(join(scratch, 'package.json'), '{"type":"module"}');
-for (const file of ['data/cardiovascularPilotData', 'data/acrossBooksData', 'services/acrossBooksStorage']) {
+for (const file of ['data/cardiovascularPilotData', 'data/verifiedTextbooksData', 'data/acrossBooksData', 'services/acrossBooksStorage']) {
   const source = readFileSync(new URL(`../src/${file}.ts`, import.meta.url), 'utf8');
   const output = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } }).outputText
     .replace(/from '(\.[^']+)'/g, "from '$1.js'");

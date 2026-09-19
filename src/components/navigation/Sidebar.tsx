@@ -14,7 +14,8 @@ import {
   Search,
   Stethoscope,
   ChevronRight,
-  Video
+  Video,
+  BookMarked
 } from 'lucide-react';
 import { NavigationView } from '../../types';
 
@@ -53,6 +54,13 @@ const PRIMARY_HUBS: NavItem[] = [
     label: 'Across books',
     icon: Layers,
     description: 'Connect a topic across textbooks'
+  },
+  {
+    id: 'textbook-library',
+    label: 'Textbook Library',
+    icon: BookMarked,
+    badge: 'Library',
+    description: 'Verified MBBS textbooks & import'
   },
   { 
     id: 'visual-lab',

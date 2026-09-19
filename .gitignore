@@ -30,7 +30,8 @@ dist-ssr
 
 # Local utility scripts & server runtime data
 serve.js
-server/data/
+server/data/*
+!server/data/textbooks_catalog.json
 scratch/
 /medical-videos/
 

@@ -10,7 +10,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test:across-books": "node --test tests/across-books.test.mjs"
+    "test:across-books": "node --test tests/across-books.test.mjs",
+    "test:textbook-library": "node --test tests/textbook-library.test.mjs",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.2",

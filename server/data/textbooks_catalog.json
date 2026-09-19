@@ -1,0 +1,4978 @@
+[
+  {
+    "id": "bd-chaurasia-human-anatomy-v1",
+    "title": "BD Chaurasia's Human Anatomy: Regional and Applied Dissection and Clinical (Vol. 1: Upper Limb & Thorax)",
+    "titleBn": "বিডি চৌরাসিয়ার হিউম্যান অ্যানাটমি (ভলিউম ১)",
+    "authors": [
+      "B. D. Chaurasia"
+    ],
+    "editors": [
+      "Krishna Garg"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2023,
+    "publisher": "CBS Publishers & Distributors",
+    "isbn13": "978-9389218206",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.cbspd.com/bd-chaurasias-human-anatomy-9th-edition-vol-1",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849509W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CBS Publishers & Distributors Pvt Ltd. Official medical syllabus text.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false,
+      "termsUrl": "https://www.cbspd.com/terms-and-conditions"
+    },
+    "tableOfContents": [
+      {
+        "id": "bdc-v1-s1",
+        "chapterNumber": 1,
+        "title": "Superior Extremity: Bones and Joints of Pectoral Girdle",
+        "printedPageLabel": "3",
+        "pageIndex": 3,
+        "previewAllowed": false
+      },
+      {
+        "id": "bdc-v1-s2",
+        "chapterNumber": 15,
+        "title": "Thoracic Wall and Intercostal Nerves & Vessels",
+        "printedPageLabel": "178",
+        "pageIndex": 178,
+        "previewAllowed": false
+      },
+      {
+        "id": "bdc-v1-s3",
+        "chapterNumber": 18,
+        "title": "Pericardium and External Features of Heart",
+        "printedPageLabel": "215",
+        "pageIndex": 215,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "bdc-v1-s4",
+        "chapterNumber": 19,
+        "title": "Internal Anatomy of Cardiac Chambers & Conducting System",
+        "printedPageLabel": "228",
+        "pageIndex": 228,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "bdc-v1-s5",
+        "chapterNumber": 20,
+        "title": "Coronary Circulation and Cardiac Innervation",
+        "printedPageLabel": "242",
+        "pageIndex": 242,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-failure",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Primary dissecting manual and viva text recommended across all medical colleges in Bangladesh for Phase 1 Card & Thorax card examination.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Chaurasia BD. BD Chaurasia’s Human Anatomy: Upper Limb and Thorax. 9th ed. Garg K, editor. New Delhi: CBS Publishers; 2023."
+  },
+  {
+    "id": "bd-chaurasia-general-anatomy",
+    "title": "BD Chaurasia's Handbook of General Anatomy",
+    "titleBn": "বিডি চৌরাসিয়ার হ্যান্ডবুক অব জেনারেল অ্যানাটমি",
+    "authors": [
+      "B. D. Chaurasia"
+    ],
+    "editors": [
+      "Krishna Garg"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2019,
+    "publisher": "CBS Publishers & Distributors",
+    "isbn13": "978-9389218350",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.cbspd.com/bd-chaurasias-handbook-of-general-anatomy-6th-edition",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/books/OL28120023M",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CBS Publishers & Distributors. All rights reserved.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "bdc-gen-s1",
+        "chapterNumber": 1,
+        "title": "Anatomical Terminology and Planes",
+        "printedPageLabel": "1",
+        "pageIndex": 1,
+        "previewAllowed": false
+      },
+      {
+        "id": "bdc-gen-s2",
+        "chapterNumber": 4,
+        "title": "Cardiovascular System: Systemic, Pulmonary & Portal Circulation",
+        "printedPageLabel": "65",
+        "pageIndex": 65,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "bdc-gen-s3",
+        "chapterNumber": 5,
+        "title": "Lymphatic System and Anastomoses",
+        "printedPageLabel": "82",
+        "pageIndex": 82,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle"
+    ],
+    "bmdcCurriculumRelevance": "Compulsory foundation handbook for introductory BM&DC Phase 1 anatomy curriculum.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "vishram-singh-anatomy-thorax",
+    "title": "Vishram Singh Textbook of Anatomy: Upper Limb and Thorax (Vol. 1)",
+    "titleBn": "বিশ্রাম সিং টেক্সটবুক অব অ্যানাটমি (ভলিউম ১)",
+    "authors": [
+      "Vishram Singh"
+    ],
+    "edition": "3rd Edition",
+    "editionNumber": 3,
+    "publicationYear": 2018,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131252444",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/textbook-of-anatomy-upper-limb-and-thorax-volume-1/singh/978-81-312-5244-4",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL18192800W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier India Pvt Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "vs-th-s1",
+        "chapterNumber": 16,
+        "title": "Thoracic Cavity and Mediastinum",
+        "printedPageLabel": "202",
+        "pageIndex": 202,
+        "previewAllowed": false
+      },
+      {
+        "id": "vs-th-s2",
+        "chapterNumber": 18,
+        "title": "Heart and Pericardium: Morphogenesis & Coronary Artery Dominance",
+        "printedPageLabel": "235",
+        "pageIndex": 235,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Highly favored for clinical cross-sectional diagrams and clinical correlation boxes in BM&DC viva.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "ak-datta-essentials-human-anatomy",
+    "title": "Essentials of Human Anatomy: Thorax and Abdomen (Part 1)",
+    "titleBn": "এ কে দত্ত এসেনশিয়ালস অব হিউম্যান অ্যানাটমি",
+    "authors": [
+      "Asim Kumar Datta"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2020,
+    "publisher": "Current Books International",
+    "isbn13": "978-8186793831",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.currentbooksinternational.com/essentials-of-human-anatomy-thorax-and-abdomen",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL17354116W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Current Books International. Prestigious South Asian medical textbook.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "akd-s1",
+        "chapterNumber": 4,
+        "title": "Mediastinum and Pericardial Sinuses",
+        "printedPageLabel": "42",
+        "pageIndex": 42,
+        "previewAllowed": false
+      },
+      {
+        "id": "akd-s2",
+        "chapterNumber": 5,
+        "title": "The Heart: Chambers, Fibrous Skeleton & Atrioventricular Valves",
+        "printedPageLabel": "56",
+        "pageIndex": 56,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "akd-s3",
+        "chapterNumber": 6,
+        "title": "Blood Supply of the Heart and Cardiac Plexuses",
+        "printedPageLabel": "80",
+        "pageIndex": 80,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Traditional standard reference cited in BM&DC Anatomy 1st Professional written exams.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "snell-clinical-anatomy-by-regions",
+    "title": "Snell's Clinical Anatomy by Regions",
+    "titleBn": "স্নেলস ক্লিনিক্যাল অ্যানাটমি বাই রিজিয়নস",
+    "authors": [
+      "Lawrence E. Wineski"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2018,
+    "publisher": "Wolters Kluwer / Lippincott Williams & Wilkins",
+    "isbn13": "978-1496345646",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://shop.lww.com/Snell-s-Clinical-Anatomy-by-Regions/p/9781496345646",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL20807530W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "snell-s1",
+        "chapterNumber": 2,
+        "title": "The Thorax: Part I — The Thoracic Wall",
+        "printedPageLabel": "47",
+        "pageIndex": 47,
+        "previewAllowed": false
+      },
+      {
+        "id": "snell-s2",
+        "chapterNumber": 3,
+        "title": "The Thorax: Part II — The Thoracic Cavity & Pericardial Cavity",
+        "printedPageLabel": "82",
+        "pageIndex": 82,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "snell-s3",
+        "chapterNumber": 3,
+        "title": "Clinical Notes on Valvular Heart Disease and Coronary Occlusion",
+        "printedPageLabel": "112",
+        "pageIndex": 112,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Core recommended clinical anatomy textbook for BM&DC Clinical Correlates & OSPE.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "grays-anatomy-for-students",
+    "title": "Gray's Anatomy for Students",
+    "titleBn": "গ্রেজ অ্যানাটমি ফর স্টুডেন্টস",
+    "authors": [
+      "Richard L. Drake",
+      "A. Wayne Vogl",
+      "Adam W. M. Mitchell"
+    ],
+    "edition": "4th Edition",
+    "editionNumber": 4,
+    "publicationYear": 2019,
+    "publisher": "Elsevier Churchill Livingstone",
+    "isbn13": "978-0323393041",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/grays-anatomy-for-students/drake/978-0-323-39304-1",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL8271775W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "gray-s1",
+        "chapterNumber": 3,
+        "title": "Thorax: Regional Anatomy of the Mediastinum",
+        "printedPageLabel": "135",
+        "pageIndex": 135,
+        "previewAllowed": false
+      },
+      {
+        "id": "gray-s2",
+        "chapterNumber": 3,
+        "title": "Heart: Gross Architecture, Interventricular Septum & Conduction",
+        "printedPageLabel": "172",
+        "pageIndex": 172,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "gray-s3",
+        "chapterNumber": 3,
+        "title": "Coronary Vasculature, Anastomoses & Cardiac Veins",
+        "printedPageLabel": "194",
+        "pageIndex": 194,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "Gold standard global reference text cited throughout BM&DC anatomical learning objectives.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "moores-clinically-oriented-anatomy",
+    "title": "Moore's Clinically Oriented Anatomy",
+    "titleBn": "মুরস ক্লিনিক্যালি ওরিয়েন্টেড অ্যানাটমি",
+    "authors": [
+      "Arthur F. Dalley II",
+      "Anne M. R. Agur"
+    ],
+    "editors": [
+      "Keith L. Moore"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2022,
+    "publisher": "Wolters Kluwer",
+    "isbn13": "978-1975154066",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://shop.lww.com/Moore-s-Clinically-Oriented-Anatomy/p/9781975154066",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL1880496W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "moore-s1",
+        "chapterNumber": 1,
+        "title": "Thorax: Overview of Wall and Viscera",
+        "printedPageLabel": "75",
+        "pageIndex": 75,
+        "previewAllowed": false
+      },
+      {
+        "id": "moore-s2",
+        "chapterNumber": 1,
+        "title": "Middle Mediastinum and Heart Morphology",
+        "printedPageLabel": "124",
+        "pageIndex": 124,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "moore-s3",
+        "chapterNumber": 1,
+        "title": "Blue Boxes: Clinical Scenarios of Myocardial Infarction & Bypass Surgery",
+        "printedPageLabel": "150",
+        "pageIndex": 150,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Benchmark clinical correlation \"Blue Boxes\" referenced in BM&DC Phase 1 exam problem scenarios.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "netter-atlas-human-anatomy",
+    "title": "Atlas of Human Anatomy",
+    "titleBn": "নেটার অ্যাটলাস অব হিউম্যান অ্যানাটমি",
+    "authors": [
+      "Frank H. Netter"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2022,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323680424",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/atlas-of-human-anatomy/netter/978-0-323-68042-4",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15848529W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc. Frank H. Netter MD illustration legacy.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "netter-s1",
+        "chapterNumber": 4,
+        "title": "Section IV: Thorax — Plates 209-224 (Heart and Great Vessels)",
+        "printedPageLabel": "209",
+        "pageIndex": 209,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Standard visual pictorial atlas for Bangladesh OSPE flag-pinning stations.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "cunningham-manual-practical-anatomy",
+    "title": "Cunningham's Manual of Practical Anatomy (Vol. 2: Thorax and Abdomen)",
+    "titleBn": "কানিংহামস ম্যানুয়াল অব প্র্যাকটিক্যাল অ্যানাটমি",
+    "authors": [
+      "Rachel Koshi"
+    ],
+    "editors": [
+      "D. J. Cunningham"
+    ],
+    "edition": "16th Edition",
+    "editionNumber": 16,
+    "publicationYear": 2017,
+    "publisher": "Oxford University Press",
+    "isbn13": "978-0198812678",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://global.oup.com/academic/product/cunninghams-manual-of-practical-anatomy-volume-2-thorax-and-abdomen-9780198812678",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL17354117W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Oxford University Press.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "cun-s1",
+        "chapterNumber": 3,
+        "title": "Dissection of the Middle Mediastinum and Heart",
+        "printedPageLabel": "78",
+        "pageIndex": 78,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle"
+    ],
+    "bmdcCurriculumRelevance": "Historical dissection guidance manual respected in Dhaka, Chittagong, and Rajshahi Medical Colleges.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "mannan-regional-dissection-anatomy",
+    "title": "Regional Dissection and Surface Anatomy for Medical Students",
+    "titleBn": "ড. মান্নান রিজিওনাল ডিসেকশন অ্যান্ড সারফেস অ্যানাটমি",
+    "authors": [
+      "M. A. Mannan"
+    ],
+    "edition": "4th Edition",
+    "editionNumber": 4,
+    "publicationYear": 2016,
+    "publisher": "Paramount Book Corporation, Dhaka",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.paramountbooks.com.bd",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Medical Publishing)",
+      "attribution": "© Prof. Dr. M. A. Mannan. Paramount Book Corporation, Dhaka.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "mannan-s1",
+        "chapterNumber": 5,
+        "title": "Surface Markings of Heart Borders and Cardiac Valves",
+        "printedPageLabel": "88",
+        "pageIndex": 88,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "mannan-s2",
+        "chapterNumber": 6,
+        "title": "Viva Voice Tips for 1st Professional Anatomy Exam",
+        "printedPageLabel": "112",
+        "pageIndex": 112,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Beloved Bangladeshi viva handbook specifically designed for BM&DC visceral demonstration & surface marking tables.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "junqueiras-basic-histology",
+    "title": "Junqueira's Basic Histology: Text and Atlas",
+    "titleBn": "জাঙ্কুইরাস বেসিক হিস্টোলজি",
+    "authors": [
+      "Anthony L. Mescher"
+    ],
+    "edition": "16th Edition",
+    "editionNumber": 16,
+    "publicationYear": 2021,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1260462982",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=3049",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15848243W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "junq-s1",
+        "chapterNumber": 10,
+        "title": "Muscle Tissue: Intercalated Discs & Purkinje Fibers in Cardiac Muscle",
+        "printedPageLabel": "194",
+        "pageIndex": 194,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "junq-s2",
+        "chapterNumber": 11,
+        "title": "The Circulatory System: Endothelium, Elastic Arteries & Heart Valves",
+        "printedPageLabel": "215",
+        "pageIndex": 215,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Gold standard textbook for microscopic slide identification in BM&DC practical examinations.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "difiore-atlas-of-histology",
+    "title": "diFiore's Atlas of Histology with Functional Correlations",
+    "titleBn": "ডিফিওরে অ্যাটলাস অব হিস্টোলজি",
+    "authors": [
+      "Victor P. Eroschenko"
+    ],
+    "edition": "13th Edition",
+    "editionNumber": 13,
+    "publicationYear": 2017,
+    "publisher": "Wolters Kluwer / LWW",
+    "isbn13": "978-1496316769",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://shop.lww.com/diFiore-s-Atlas-of-Histology-with-Functional-Correlations/p/9781496316769",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "dif-s1",
+        "chapterNumber": 8,
+        "title": "Cardiovascular System: Slide plates of Aorta, Muscular Artery, & Myocardium",
+        "printedPageLabel": "165",
+        "pageIndex": 165,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle"
+    ],
+    "bmdcCurriculumRelevance": "Clear hand-drawn histological micrographs essential for drawing practical notebooks in Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "inderbir-singh-histology",
+    "title": "Inderbir Singh's Textbook of Human Histology with Colour Atlas and Practical Guide",
+    "titleBn": "ইন্দেরবীর সিং টেক্সটবুক অব হিউম্যান হিস্টোলজি",
+    "authors": [
+      "Inderbir Singh"
+    ],
+    "editors": [
+      "Vasudeva Neelam"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2019,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9388958868",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789388958868",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers (P) Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "is-hist-s1",
+        "chapterNumber": 13,
+        "title": "Blood Vessels: Tunica Intima, Media & Adventitia Architecture",
+        "printedPageLabel": "204",
+        "pageIndex": 204,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Widely used in South Asia for high-yield examination point summaries.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "wheaters-functional-histology",
+    "title": "Wheater's Functional Histology: A Text and Colour Atlas",
+    "titleBn": "হুইটার্স ফাংশনাল হিস্টোলজি",
+    "authors": [
+      "Barbara Young",
+      "Phillip Woodford",
+      "Geraldine O'Dowd"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2013,
+    "publisher": "Elsevier Churchill Livingstone",
+    "isbn13": "978-0702047473",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/wheaters-functional-histology/young/978-0-7020-4747-3",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Limited.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "wht-s1",
+        "chapterNumber": 8,
+        "title": "Circulatory System: Cardiac Muscle Structure and Specialized Nodal Tissue",
+        "printedPageLabel": "148",
+        "pageIndex": 148,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle"
+    ],
+    "bmdcCurriculumRelevance": "Benchmark ultrastructure and high-resolution electron micrographs.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "langmans-medical-embryology",
+    "title": "Langman's Medical Embryology",
+    "titleBn": "ল্যাংম্যানস মেডিক্যাল এমব্রায়োলজি",
+    "authors": [
+      "T. W. Sadler"
+    ],
+    "edition": "15th Edition",
+    "editionNumber": 15,
+    "publicationYear": 2023,
+    "publisher": "Wolters Kluwer",
+    "isbn13": "978-1975179960",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://shop.lww.com/Langman-s-Medical-Embryology/p/9781975179960",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15848805W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lang-s1",
+        "chapterNumber": 13,
+        "title": "Cardiovascular System: Formation of Heart Tube & Cardiac Looping",
+        "printedPageLabel": "185",
+        "pageIndex": 185,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "lang-s2",
+        "chapterNumber": 13,
+        "title": "Septation of Atria & Ventricles and Aortic Arch Derivation",
+        "printedPageLabel": "202",
+        "pageIndex": 202,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "lang-s3",
+        "chapterNumber": 13,
+        "title": "Clinical Correlates: Tetralogy of Fallot, VSD, ASD & Coarctation",
+        "printedPageLabel": "220",
+        "pageIndex": 220,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "Essential text for BM&DC Embryology questions on congenital anomalies.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "inderbir-singh-human-embryology",
+    "title": "Inderbir Singh's Human Embryology",
+    "titleBn": "ইন্দেরবীর সিং হিউম্যান এমব্রায়োলজি",
+    "authors": [
+      "Inderbir Singh"
+    ],
+    "editors": [
+      "V. Subhadra Devi"
+    ],
+    "edition": "12th Edition",
+    "editionNumber": 12,
+    "publicationYear": 2021,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9390595303",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789390595303",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "is-emb-s1",
+        "chapterNumber": 17,
+        "title": "Development of Cardiovascular System and Fetal Circulation",
+        "printedPageLabel": "245",
+        "pageIndex": 245,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "Step-by-step schematic drawings easy to replicate on BM&DC exam answer sheets.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "the-developing-human-moore",
+    "title": "The Developing Human: Clinically Oriented Embryology",
+    "titleBn": "দ্য ডেভেলপিং হিউম্যান: ক্লিনিক্যালি ওরিয়েন্টেড এমব্রায়োলজি",
+    "authors": [
+      "Keith L. Moore",
+      "T. V. N. Persaud",
+      "Mark G. Torchia"
+    ],
+    "edition": "11th Edition",
+    "editionNumber": 11,
+    "publicationYear": 2019,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323611541",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/the-developing-human/moore/978-0-323-61154-1",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "tdh-s1",
+        "chapterNumber": 13,
+        "title": "Cardiovascular System: Embryonic Primitive Heart Development",
+        "printedPageLabel": "278",
+        "pageIndex": 278,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "In-depth embryology and molecular genetic signaling pathways.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "snell-clinical-neuroanatomy",
+    "title": "Snell's Clinical Neuroanatomy",
+    "titleBn": "স্নেলস ক্লিনিক্যাল নিউরোঅ্যানাটমি",
+    "authors": [
+      "Ryan Splittgerber"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2018,
+    "publisher": "Wolters Kluwer",
+    "isbn13": "978-1496346759",
+    "subjectId": "anatomy",
+    "phase": "Phase 1",
+    "accessType": "preview_available",
+    "officialPublisherUrl": "https://shop.lww.com/Snell-s-Clinical-Neuroanatomy/p/9781496346759",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Authorized Sample Preview / Commercial",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sn-neuro-s1",
+        "chapterNumber": 1,
+        "title": "Introduction to the Nervous System (Sample Chapter)",
+        "printedPageLabel": "1",
+        "pageIndex": 1,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": true,
+        "summary": "Authorized publisher preview excerpt covering basic organization of central and peripheral nervous systems.",
+        "content": "### Chapter 1: Introduction to the Nervous System\\n\\n*Authorized Publisher Excerpt (Wolters Kluwer Health Sample Preview)*\\n\\nThe nervous system is divided into two main parts for convenience of description: the central nervous system (CNS), consisting of the brain and spinal cord, and the peripheral nervous system (PNS), consisting of the cranial and spinal nerves and their associated ganglia.\\n\\n> **Notice of Limited Access:** This section contains an authorized preview excerpt. For full clinical case correlations and complete chapters, consult the official 8th edition via Wolters Kluwer or your institutional library."
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle"
+    ],
+    "bmdcCurriculumRelevance": "The primary text for the Brain and Spinal Cord card in Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "guyton-and-hall-textbook-of-medical-physiology",
+    "title": "Guyton and Hall Textbook of Medical Physiology",
+    "titleBn": "গাইটন অ্যান্ড হল টেক্সটবুক অব মেডিক্যাল ফিজিওলজি",
+    "authors": [
+      "John E. Hall",
+      "Michael E. Hall"
+    ],
+    "edition": "14th Edition",
+    "editionNumber": 14,
+    "publicationYear": 2020,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323597128",
+    "subjectId": "physiology",
+    "phase": "Phase 1",
+    "accessType": "preview_available",
+    "officialPublisherUrl": "https://www.elsevier.com/books/guyton-and-hall-textbook-of-medical-physiology/hall/978-0-323-59712-8",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849508W",
+    "license": {
+      "licenseType": "Authorized Sample Preview / Commercial",
+      "attribution": "© Elsevier Inc. The premier world textbook of medical physiology.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "gh-s1",
+        "chapterNumber": 9,
+        "title": "Cardiac Muscle; The Heart as a Pump (Sample Chapter)",
+        "printedPageLabel": "109",
+        "pageIndex": 109,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-failure"
+        ],
+        "previewAllowed": true,
+        "summary": "Authorized Elsevier sample excerpt: Physiology of cardiac muscle, syncytium, and action potentials.",
+        "content": "### Chapter 9: Cardiac Muscle; The Heart as a Pump\\n\\n*Authorized Publisher Excerpt (Elsevier Education Sample Preview)*\\n\\nThe heart is composed of three major types of cardiac muscle: atrial muscle, ventricular muscle, and specialized excitatory and conductive muscle fibers. The atrial and ventricular types of muscle contract in much the same way as skeletal muscle, except that the duration of contraction is much longer.\\n\\n> **Notice of Limited Access:** This section contains an authorized preview excerpt. Complete physiological formulas, hemodynamic charts, and full chapters are available in the 14th edition via Elsevier."
+      },
+      {
+        "id": "gh-s2",
+        "chapterNumber": 10,
+        "title": "Rhythmical Excitation of the Heart: SA Node & Purkinje System",
+        "printedPageLabel": "123",
+        "pageIndex": 123,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "gh-s3",
+        "chapterNumber": 21,
+        "title": "Muscle Blood Flow and Cardiac Output During Exercise; the Coronary Circulation",
+        "printedPageLabel": "255",
+        "pageIndex": 255,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "gh-s4",
+        "chapterNumber": 22,
+        "title": "Heart Failure: Hemodynamics, Compensatory Mechanisms & Edema",
+        "printedPageLabel": "269",
+        "pageIndex": 269,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "gh-s5",
+        "chapterNumber": 23,
+        "title": "Heart Valves and Heart Sounds; Valvular and Congenital Heart Defects",
+        "printedPageLabel": "281",
+        "pageIndex": 281,
+        "mappedTopicIds": [
+          "heart-valves-and-infection",
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-failure",
+      "heart-valves-and-infection",
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "The supreme authoritative reference for BM&DC Phase 1 Physiology syllabus and 1st Professional examinations.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Hall JE, Hall ME. Guyton and Hall Textbook of Medical Physiology. 14th ed. Philadelphia: Elsevier; 2021."
+  },
+  {
+    "id": "ganongs-review-of-medical-physiology",
+    "title": "Ganong's Review of Medical Physiology",
+    "titleBn": "গ্যানংস রিভিউ অব মেডিক্যাল ফিজিওলজি",
+    "authors": [
+      "Kim E. Barrett",
+      "Susan M. Barman",
+      "Heddwen L. Brooks",
+      "Jason X.-J. Yuan"
+    ],
+    "edition": "26th Edition",
+    "editionNumber": 26,
+    "publicationYear": 2019,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1260122404",
+    "subjectId": "physiology",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=2525",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849507W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ganong-s1",
+        "chapterNumber": 29,
+        "title": "Origin of the Heartbeat & the Electrical Activity of the Heart",
+        "printedPageLabel": "517",
+        "pageIndex": 517,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "ganong-s2",
+        "chapterNumber": 30,
+        "title": "The Heart as a Pump: Mechanical Events & Pressure-Volume Relationships",
+        "printedPageLabel": "535",
+        "pageIndex": 535,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Renowned for rigorous molecular electrophysiology explanations in viva.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "cc-chatterjee-human-physiology",
+    "title": "Human Physiology — C. C. Chatterjee",
+    "titleBn": "সিসি চ্যাটার্জি হিউম্যান ফিজিওলজি",
+    "authors": [
+      "Chandrasekhar Chatterjee"
+    ],
+    "editors": [
+      "Nitin Ashok John"
+    ],
+    "edition": "13th Edition",
+    "editionNumber": 13,
+    "publicationYear": 2019,
+    "publisher": "CBS Publishers & Distributors",
+    "isbn13": "978-9388902939",
+    "subjectId": "physiology",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.cbspd.com/chatterjees-human-physiology-13th-edition",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CBS Publishers & Distributors.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ccc-s1",
+        "chapterNumber": 6,
+        "title": "Circulation: Cardiac Cycle, Wiggers Events, and Murmurs",
+        "printedPageLabel": "210",
+        "pageIndex": 210,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Classic subcontinent text prized for concise definitions and viva questions.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "sembulingam-essentials-medical-physiology",
+    "title": "Essentials of Medical Physiology — K. Sembulingam & Prema Sembulingam",
+    "titleBn": "সেমবুলিঙ্গম এসেনশিয়ালস অব মেডিক্যাল ফিজিওলজি",
+    "authors": [
+      "K. Sembulingam",
+      "Prema Sembulingam"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2019,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352706921",
+    "subjectId": "physiology",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352706921",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "semb-s1",
+        "chapterNumber": 87,
+        "title": "Cardiac Cycle: Phases, Jugular Venous Pulse & Apex Cardiogram",
+        "printedPageLabel": "512",
+        "pageIndex": 512,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "semb-s2",
+        "chapterNumber": 95,
+        "title": "Coronary Circulation and Pathophysiology of Angina",
+        "printedPageLabel": "568",
+        "pageIndex": 568,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Universally popular exam-oriented companion for BM&DC written revisions.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "cl-ghai-textbook-practical-physiology",
+    "title": "Textbook of Practical Physiology — C. L. Ghai",
+    "titleBn": "সি এল ঘাই টেক্সটবুক অব প্র্যাকটিক্যাল ফিজিওলজি",
+    "authors": [
+      "C. L. Ghai"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2018,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352705191",
+    "subjectId": "physiology",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352705191",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ghai-p-s1",
+        "chapterNumber": 22,
+        "title": "Auscultation of Heart Sounds and Recording of Blood Pressure",
+        "printedPageLabel": "144",
+        "pageIndex": 144,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "ghai-p-s2",
+        "chapterNumber": 25,
+        "title": "12-Lead Electrocardiography: Lead Placement & Wave Analysis",
+        "printedPageLabel": "168",
+        "pageIndex": 168,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Prescribed practical laboratory handbook for clinical examination stations in Phase 1.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "harpers-illustrated-biochemistry",
+    "title": "Harper's Illustrated Biochemistry",
+    "titleBn": "হার্পারস ইলাস্ট্রেটেড বায়োকেমিস্ট্রি",
+    "authors": [
+      "Peter J. Kennelly",
+      "Kathleen M. Botham",
+      "Owen P. McGuinness",
+      "Victor W. Rodwell",
+      "P. Anthony Weil"
+    ],
+    "edition": "32nd Edition",
+    "editionNumber": 32,
+    "publicationYear": 2022,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1260469943",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=3207",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849506W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "harper-s1",
+        "chapterNumber": 26,
+        "title": "Lipid Transport and Storage: Lipoproteins and Atherogenesis",
+        "printedPageLabel": "242",
+        "pageIndex": 242,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "harper-s2",
+        "chapterNumber": 50,
+        "title": "Biochemical Correlates of Myocardial Infarction: Troponins and CK-MB",
+        "printedPageLabel": "645",
+        "pageIndex": 645,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Authoritative international textbook recommended for cellular biochemistry in Phase 1.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "lippincott-illustrated-biochemistry",
+    "title": "Lippincott Illustrated Reviews: Biochemistry",
+    "titleBn": "লিপিনকট ইলাস্ট্রেটেড রিভিউস: বায়োকেমিস্ট্রি",
+    "authors": [
+      "Emine Ercikan Abali",
+      "Susan D. Cline",
+      "David S. Franklin",
+      "Susan M. Viselli"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2021,
+    "publisher": "Wolters Kluwer",
+    "isbn13": "978-1975155063",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://shop.lww.com/Lippincott-Illustrated-Reviews--Biochemistry/p/9781975155063",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lip-s1",
+        "chapterNumber": 18,
+        "title": "Cholesterol, Lipoprotein & Steroid Metabolism: Plaque Development",
+        "printedPageLabel": "227",
+        "pageIndex": 227,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Renowned for clear metabolic flowcharts and board-style high-yield reviews.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "satyanarayana-biochemistry",
+    "title": "Biochemistry — U. Satyanarayana and U. Chakrapani",
+    "titleBn": "সত্যনারায়ণ বায়োকেমিস্ট্রি",
+    "authors": [
+      "U. Satyanarayana",
+      "U. Chakrapani"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2021,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131264355",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/biochemistry/satyanarayana/978-81-312-6435-5",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier India.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sat-s1",
+        "chapterNumber": 14,
+        "title": "Lipid Metabolism & Atherosclerosis: Biomarkers of Cardiac Damage",
+        "printedPageLabel": "315",
+        "pageIndex": 315,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Most widely read undergraduate biochemistry book across Bangladesh medical colleges.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "mozammel-hoque-abc-medical-biochemistry",
+    "title": "ABC of Medical Biochemistry — Mozammel Hoque",
+    "titleBn": "এবিসি অব মেডিক্যাল বায়োকেমিস্ট্রি — মোজাম্মেল হক",
+    "authors": [
+      "Prof. Dr. Mozammel Hoque"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2020,
+    "publisher": "Global Prokashoni, Dhaka",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.bsmmu.edu.bd",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Authoritative Publication)",
+      "attribution": "© Prof. Dr. Mozammel Hoque, Chairman of Biochemistry, BSMMU, Dhaka.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "mh-s1",
+        "chapterNumber": 8,
+        "title": "Cardiac Enzymes and Biomarkers in Acute Coronary Syndrome",
+        "printedPageLabel": "142",
+        "pageIndex": 142,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "mh-s2",
+        "chapterNumber": 12,
+        "title": "Acid-Base Homeostasis & Clinical Interpretation of ABG",
+        "printedPageLabel": "210",
+        "pageIndex": 210,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Official BM&DC curriculum cornerstone written by the BSMMU Chairman of Biochemistry.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "vasudevan-biochemistry-for-medical-students",
+    "title": "Textbook of Biochemistry for Medical Students — D. M. Vasudevan",
+    "titleBn": "বাসুদেবান টেক্সটবুক অব বায়োকেমিস্ট্রি",
+    "authors": [
+      "D. M. Vasudevan",
+      "Sreekumari S.",
+      "Kannan Vaidyanathan"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2022,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9354659775",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789354659775",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "vas-s1",
+        "chapterNumber": 24,
+        "title": "Plasma Proteins and Diagnostic Enzymes: Cardiac Isoenzymes",
+        "printedPageLabel": "342",
+        "pageIndex": 342,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Distinguished clinical biochemistry text frequently consulted for 1st Prof preparation.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "chatterjea-shinde-medical-biochemistry",
+    "title": "Textbook of Medical Biochemistry — M. N. Chatterjea and Rana Shinde",
+    "titleBn": "চ্যাটার্জি অ্যান্ড শিন্ডে মেডিক্যাল বায়োকেমিস্ট্রি",
+    "authors": [
+      "M. N. Chatterjea",
+      "Rana Shinde"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2012,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9350254844",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789350254844",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "cs-s1",
+        "chapterNumber": 35,
+        "title": "Clinical Enzymology in Cardiac and Hepatic Diseases",
+        "printedPageLabel": "654",
+        "pageIndex": 654,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "In-depth reference for analytical clinical laboratory principles.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "ranjna-chawla-practical-clinical-biochemistry",
+    "title": "Practical Clinical Biochemistry: Methods and Interpretations — Ranjna Chawla",
+    "titleBn": "রঞ্জনা চাওলা প্র্যাকটিক্যাল ক্লিনিক্যাল বায়োকেমিস্ট্রি",
+    "authors": [
+      "Ranjna Chawla"
+    ],
+    "edition": "5th Edition",
+    "editionNumber": 5,
+    "publicationYear": 2019,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352709243",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352709243",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "rc-s1",
+        "chapterNumber": 10,
+        "title": "Serum Cardiac Biomarkers Estimation: Troponin I and CK-MB Test Protocols",
+        "printedPageLabel": "188",
+        "pageIndex": 188,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Indispensable practical exam preparation manual for urine & blood testing OSPE.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "manindra-nath-roy-practical-biochemistry",
+    "title": "Fundamentals of Practical Medical Biochemistry — Manindra Nath Roy",
+    "titleBn": "মণিন্দ্র নাথ রায় প্র্যাকটিক্যাল বায়োকেমিস্ট্রি",
+    "authors": [
+      "Prof. Manindra Nath Roy"
+    ],
+    "edition": "3rd Edition",
+    "editionNumber": 3,
+    "publicationYear": 2017,
+    "publisher": "Joy Prokashoni, Dhaka",
+    "subjectId": "biochemistry",
+    "phase": "Phase 1",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.paramountbooks.com.bd",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Medical Publishing)",
+      "attribution": "© Prof. Manindra Nath Roy, Dhaka.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "mnr-s1",
+        "chapterNumber": 4,
+        "title": "Qualitative & Quantitative Tests for Albumin, Sugar and Ketones",
+        "printedPageLabel": "56",
+        "pageIndex": 56,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Classic practical handbook found on laboratory benches in Bangladesh medical colleges.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "kd-tripathi-essentials-medical-pharmacology",
+    "title": "Essentials of Medical Pharmacology — K. D. Tripathi",
+    "titleBn": "কে ডি ত্রিপাঠী এসেনশিয়ালস অব মেডিক্যাল ফার্মাকোলজি",
+    "authors": [
+      "K. D. Tripathi"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2019,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352704996",
+    "subjectId": "pharmacology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352704996",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849505W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "kdt-s1",
+        "chapterNumber": 38,
+        "title": "Drugs Affecting Renin-Angiotensin System: ACE Inhibitors & ARBs",
+        "printedPageLabel": "528",
+        "pageIndex": 528,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "kdt-s2",
+        "chapterNumber": 39,
+        "title": "Nitrates and Other Antianginal Drugs: Beta-blockers & Calcium Blockers",
+        "printedPageLabel": "542",
+        "pageIndex": 542,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "kdt-s3",
+        "chapterNumber": 40,
+        "title": "Drugs for Heart Failure: Digoxin, Diuretics, ARNIs & SGLT2 Inhibitors",
+        "printedPageLabel": "560",
+        "pageIndex": 560,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Primary pharmacology textbook for BM&DC 2nd Professional pharmacology exam.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Tripathi KD. Essentials of Medical Pharmacology. 8th ed. New Delhi: Jaypee Brothers Medical Publishers; 2019."
+  },
+  {
+    "id": "katzung-basic-clinical-pharmacology",
+    "title": "Katzung's Basic & Clinical Pharmacology",
+    "titleBn": "কাটজুং বেসিক অ্যান্ড ক্লিনিক্যাল ফার্মাকোলজি",
+    "authors": [
+      "Bertram G. Katzung",
+      "Todd W. Vanderah"
+    ],
+    "edition": "15th Edition",
+    "editionNumber": 15,
+    "publicationYear": 2020,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1260452310",
+    "subjectId": "pharmacology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=2988",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "katz-s1",
+        "chapterNumber": 12,
+        "title": "Vasodilators and the Treatment of Angina Pectoris",
+        "printedPageLabel": "198",
+        "pageIndex": 198,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "katz-s2",
+        "chapterNumber": 13,
+        "title": "Drugs Used in Heart Failure: Inotropic Agents, RAAS Blockers, & Entresto",
+        "printedPageLabel": "215",
+        "pageIndex": 215,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "International reference text for mechanism of action and receptor pharmacodynamics.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "lippincott-pharmacology",
+    "title": "Lippincott Illustrated Reviews: Pharmacology",
+    "titleBn": "লিপিনকট ইলাস্ট্রেটেড রিভিউস: ফার্মাকোলজি",
+    "authors": [
+      "Karen Whalen"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2022,
+    "publisher": "Wolters Kluwer",
+    "isbn13": "978-1975170554",
+    "subjectId": "pharmacology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://shop.lww.com/Lippincott-Illustrated-Reviews--Pharmacology/p/9781975170554",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Wolters Kluwer Health.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lp-pharm-s1",
+        "chapterNumber": 18,
+        "title": "Antihypertensive and Heart Failure Therapeutics: Clinical Algorithms",
+        "printedPageLabel": "228",
+        "pageIndex": 228,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Popular diagrammatic visual guide for quick drug class categorization.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "rang-and-dale-pharmacology",
+    "title": "Rang & Dale's Pharmacology",
+    "titleBn": "র‌্যাংক অ্যান্ড ডেল ফার্মাকোলজি",
+    "authors": [
+      "James M. Ritter",
+      "Rod Flower",
+      "Graeme Henderson",
+      "Yoon Kong Loke",
+      "David MacEwan",
+      "Humphrey P. Rang"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2019,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702074486",
+    "subjectId": "pharmacology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/rang-and-dales-pharmacology/ritter/978-0-7020-7448-6",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "rd-s1",
+        "chapterNumber": 22,
+        "title": "The Heart: Cellular Mechanisms of Inotropy, Antiarrhythmics & Antianginal Drugs",
+        "printedPageLabel": "286",
+        "pageIndex": 286,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Authoritative British reference text for post-graduate and honors-level undergraduate prep.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "goodman-and-gilman-pharmacological-basis",
+    "title": "Goodman & Gilman's The Pharmacological Basis of Therapeutics",
+    "titleBn": "গুডম্যান অ্যান্ড গিলম্যান ফার্মাকোলজিক্যাল বেসিস অব থেরাপিউটিক্স",
+    "authors": [
+      "Laurence Brunton",
+      "Björn C. Knollmann"
+    ],
+    "edition": "14th Edition",
+    "editionNumber": 14,
+    "publicationYear": 2022,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1264258079",
+    "subjectId": "pharmacology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=3191",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill LLC. The bible of pharmacology.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "gg-s1",
+        "chapterNumber": 29,
+        "title": "Pharmacotherapy of Congestive Heart Failure",
+        "printedPageLabel": "525",
+        "pageIndex": 525,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "The definitive encyclopedia for complex mechanism disputes and faculty viva reference.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "reddy-murty-essentials-forensic-medicine",
+    "title": "The Essentials of Forensic Medicine and Toxicology — K. S. Narayan Reddy & O. P. Murty",
+    "titleBn": "রেড্ডি অ্যান্ড মূর্তি এসেনশিয়ালস অব ফরেনসিক মেডিসিন",
+    "authors": [
+      "K. S. Narayan Reddy",
+      "O. P. Murty"
+    ],
+    "edition": "34th Edition",
+    "editionNumber": 34,
+    "publicationYear": 2017,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352701032",
+    "subjectId": "forensic-medicine",
+    "phase": "Phase 2",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352701032",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "reddy-s1",
+        "chapterNumber": 12,
+        "title": "Mechanical Injuries: Firearms, Stabs and Blunt Force Trauma",
+        "printedPageLabel": "178",
+        "pageIndex": 178,
+        "previewAllowed": false
+      },
+      {
+        "id": "reddy-s2",
+        "chapterNumber": 16,
+        "title": "Sudden Death: Cardiac Causes, Atherosclerotic Rupture and Autopsy Findings",
+        "printedPageLabel": "280",
+        "pageIndex": 280,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "reddy-s3",
+        "chapterNumber": 25,
+        "title": "Organophosphorus and Agricultural Insecticide Poisoning",
+        "printedPageLabel": "488",
+        "pageIndex": 488,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Core recommended textbook for BM&DC 2nd Professional forensic medicine autopsies and legal jurisprudence.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "parikh-medical-jurisprudence-toxicology",
+    "title": "Parikh's Textbook of Medical Jurisprudence, Forensic Medicine and Toxicology",
+    "titleBn": "পারিথ টেক্সটবুক অব মেডিক্যাল জুরিসপ্রুডেন্স",
+    "authors": [
+      "C. K. Parikh"
+    ],
+    "editors": [
+      "B. V. Subrahmanyam"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2019,
+    "publisher": "CBS Publishers & Distributors",
+    "isbn13": "978-8123929316",
+    "subjectId": "forensic-medicine",
+    "phase": "Phase 2",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.cbspd.com/parikhs-textbook-of-medical-jurisprudence-8th-edition",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CBS Publishers & Distributors.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "par-s1",
+        "chapterNumber": 8,
+        "title": "Medicolegal Aspects of Sudden Natural Cardiac Deaths",
+        "printedPageLabel": "190",
+        "pageIndex": 190,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Authoritative legal court proceedings and postmortem certification guide.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "simpson-forensic-medicine",
+    "title": "Simpson's Forensic Medicine",
+    "titleBn": "সিম্পসনস ফরেনসিক মেডিসিন",
+    "authors": [
+      "Jason Payne-James",
+      "Richard Jones"
+    ],
+    "edition": "14th Edition",
+    "editionNumber": 14,
+    "publicationYear": 2019,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-1138497337",
+    "subjectId": "forensic-medicine",
+    "phase": "Phase 2",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Simpsons-Forensic-Medicine/Payne-James-Jones/p/book/9781138497337",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "simp-s1",
+        "chapterNumber": 6,
+        "title": "Deaths from Natural Causes: Cardiac Infarction at Post-Mortem",
+        "printedPageLabel": "72",
+        "pageIndex": 72,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Renowned British pathology standard for clear inquest evidence.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "vv-pillay-forensic-medicine-toxicology",
+    "title": "Textbook of Forensic Medicine and Toxicology: Principles and Practice — V. V. Pillay",
+    "titleBn": "ভি ভি পিল্লাই টেক্সটবুক অব ফরেনসিক মেডিসিন অ্যান্ড টক্সিকোলজি",
+    "authors": [
+      "V. V. Pillay"
+    ],
+    "edition": "19th Edition",
+    "editionNumber": 19,
+    "publicationYear": 2019,
+    "publisher": "Paras Medical Publisher",
+    "isbn13": "978-8181914903",
+    "subjectId": "forensic-medicine",
+    "phase": "Phase 2",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.parasredkart.com/textbook-of-forensic-medicine-and-toxicology-by-vv-pillay",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Paras Medical Publisher.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "vvp-s1",
+        "chapterNumber": 22,
+        "title": "Toxicology: Heavy Metals, Pesticides and Antidotes in South Asia",
+        "printedPageLabel": "340",
+        "pageIndex": 340,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Gold standard South Asian reference for acute poisonings, OPC toxidromes, and snakebite.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "park-preventive-social-medicine",
+    "title": "Park's Textbook of Preventive and Social Medicine",
+    "titleBn": "পার্কস প্রিভেন্টিভ অ্যান্ড সোশ্যাল মেডিসিন",
+    "authors": [
+      "K. Park"
+    ],
+    "edition": "26th Edition",
+    "editionNumber": 26,
+    "publicationYear": 2021,
+    "publisher": "Banarsidas Bhanot Publishers",
+    "isbn13": "978-9382219163",
+    "subjectId": "community-medicine",
+    "phase": "Phase 2",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.mbbscouncil.com/books/parks-textbook-of-preventive-and-social-medicine",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Banarsidas Bhanot Publishers. The premier community medicine textbook of South Asia.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "park-s1",
+        "chapterNumber": 6,
+        "title": "Epidemiology of Chronic Non-communicable Diseases: Coronary Heart Disease & Hypertension",
+        "printedPageLabel": "372",
+        "pageIndex": 372,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "park-s2",
+        "chapterNumber": 7,
+        "title": "Rheumatic Heart Disease Epidemiology and Secondary Penicillin Prophylaxis",
+        "printedPageLabel": "404",
+        "pageIndex": 404,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "park-s3",
+        "chapterNumber": 15,
+        "title": "National Health Programmes: Maternal, Child & EPI Immunization",
+        "printedPageLabel": "640",
+        "pageIndex": 640,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "The absolute essential textbook for Community Medicine in Bangladesh; cited on every BM&DC exam question.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Park K. Park’s Textbook of Preventive and Social Medicine. 26th ed. Jabalpur: Banarsidas Bhanot Publishers; 2021."
+  },
+  {
+    "id": "suryakantha-community-medicine",
+    "title": "Community Medicine with Recent Advances — A. H. Suryakantha",
+    "titleBn": "সূর্যকান্ত কমিউনিটি মেডিসিন উইথ রিসেন্ট অ্যাডভান্সেস",
+    "authors": [
+      "A. H. Suryakantha"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2021,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9390595082",
+    "subjectId": "community-medicine",
+    "phase": "Phase 2",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789390595082",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sury-s1",
+        "chapterNumber": 10,
+        "title": "Cardiovascular Risk Prevention: Community Screening & Diet Interventions",
+        "printedPageLabel": "298",
+        "pageIndex": 298,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Modern public health updates and biostatistics calculation examples.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "robbins-and-cotran-pathologic-basis-of-disease",
+    "title": "Robbins & Cotran Pathologic Basis of Disease",
+    "titleBn": "রবিন্স অ্যান্ড কোটরান প্যাথলজিক বেসিস অব ডিজিজ",
+    "authors": [
+      "Vinay Kumar",
+      "Abul K. Abbas",
+      "Jon C. Aster"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2020,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323531139",
+    "subjectId": "pathology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/robbins-and-cotran-pathologic-basis-of-disease/kumar/978-0-323-53113-9",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849504W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc. The premier medical pathology textbook.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "rob-s1",
+        "chapterNumber": 11,
+        "title": "Blood Vessels: Atherosclerosis Pathogenesis, Plaque Vulnerability & Aneurysms",
+        "printedPageLabel": "489",
+        "pageIndex": 489,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "rob-s2",
+        "chapterNumber": 12,
+        "title": "The Heart: Ischemic Heart Disease, Myocardial Infarction Evolution & Complications",
+        "printedPageLabel": "527",
+        "pageIndex": 527,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "rob-s3",
+        "chapterNumber": 12,
+        "title": "Hypertensive Heart Disease and Cor Pulmonale",
+        "printedPageLabel": "548",
+        "pageIndex": 548,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "rob-s4",
+        "chapterNumber": 12,
+        "title": "Valvular Heart Disease: Rheumatic Heart Disease and Infective Endocarditis",
+        "printedPageLabel": "552",
+        "pageIndex": 552,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "rob-s5",
+        "chapterNumber": 12,
+        "title": "Congenital Heart Disease: Left-to-Right Shunts, Cyanotic Defects & Shunt Reversal",
+        "printedPageLabel": "568",
+        "pageIndex": 568,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure",
+      "heart-valves-and-infection",
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "The definitive pathology authority for BM&DC Phase 3 Pathology written papers and viva.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Kumar V, Abbas AK, Aster JC. Robbins & Cotran Pathologic Basis of Disease. 10th ed. Philadelphia: Elsevier; 2021."
+  },
+  {
+    "id": "robbins-basic-pathology",
+    "title": "Robbins Basic Pathology",
+    "titleBn": "রবিন্স বেসিক প্যাথলজি",
+    "authors": [
+      "Vinay Kumar",
+      "Abul K. Abbas",
+      "Jon C. Aster"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2017,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323353175",
+    "subjectId": "pathology",
+    "phase": "Phase 3",
+    "accessType": "preview_available",
+    "officialPublisherUrl": "https://www.elsevier.com/books/robbins-basic-pathology/kumar/978-0-323-35317-5",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Authorized Sample Preview / Commercial",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "rbp-s1",
+        "chapterNumber": 10,
+        "title": "Blood Vessels: Atherosclerotic Plaque and Thrombosis (Sample Chapter)",
+        "printedPageLabel": "365",
+        "pageIndex": 365,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": true,
+        "summary": "Authorized Elsevier sample excerpt: Pathogenesis of vascular injury, endothelial dysfunction, and atherosclerosis.",
+        "content": "### Chapter 10: Blood Vessels\\n\\n*Authorized Publisher Excerpt (Elsevier Education Sample Preview)*\\n\\nVascular disease is responsible for more morbidity and mortality than any other category of human disease. Atherosclerosis, the most common and important form of arteriosclerosis, is characterized by intimal lesions called atheromas (or atheromatous or fibrofatty plaques) that impinge on the vascular lumen and can rupture...\\n\\n> **Notice of Limited Access:** This section contains an authorized preview excerpt. Full histological photomicrographs and pathological case studies are available in the 10th edition via Elsevier."
+      },
+      {
+        "id": "rbp-s2",
+        "chapterNumber": 11,
+        "title": "Heart Pathology: Infarction Chronology and Rheumatic Vegetations",
+        "printedPageLabel": "398",
+        "pageIndex": 398,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Compact student edition widely chosen for rapid review across Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "harsh-mohan-textbook-of-pathology",
+    "title": "Textbook of Pathology — Harsh Mohan",
+    "titleBn": "হর্ষ মোহন টেক্সটবুক অব প্যাথলজি",
+    "authors": [
+      "Harsh Mohan"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2018,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352705566",
+    "subjectId": "pathology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352705566",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "hm-s1",
+        "chapterNumber": 15,
+        "title": "The Cardiovascular System: Rheumatic Heart Disease & Aschoff Bodies",
+        "printedPageLabel": "394",
+        "pageIndex": 394,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "hm-s2",
+        "chapterNumber": 15,
+        "title": "Ischemic Heart Disease and Atherosclerosis Gross Specimens",
+        "printedPageLabel": "412",
+        "pageIndex": 412,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection",
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Extremely popular for gross specimen photographs and line diagram reproduction.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "harsh-mohan-practical-pathology",
+    "title": "Practical Pathology — Harsh Mohan",
+    "titleBn": "হর্ষ মোহন প্র্যাকটিক্যাল প্যাথলজি",
+    "authors": [
+      "Harsh Mohan"
+    ],
+    "edition": "5th Edition",
+    "editionNumber": 5,
+    "publicationYear": 2017,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9386150240",
+    "subjectId": "pathology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789386150240",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "hmp-s1",
+        "chapterNumber": 8,
+        "title": "Hematology, Gross Specimens & Histopathology Slide Stations in OSPE",
+        "printedPageLabel": "124",
+        "pageIndex": 124,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "The benchmark manual for Phase 3 pathology OSPE museum jar specimens.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "levinson-review-medical-microbiology",
+    "title": "Review of Medical Microbiology and Immunology — Warren Levinson et al.",
+    "titleBn": "লেভিনসন রিভিউ অব মেডিক্যাল মাইক্রোবায়োলজি",
+    "authors": [
+      "Warren E. Levinson",
+      "Peter Chin-Hong",
+      "Elizabeth A. Joyce",
+      "Jesse Nussbaum",
+      "Brian Schwartz"
+    ],
+    "edition": "17th Edition",
+    "editionNumber": 17,
+    "publicationYear": 2022,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1264267088",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=3145",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lev-s1",
+        "chapterNumber": 15,
+        "title": "Gram-Positive Cocci: Streptococcus viridans, S. pyogenes & Staphylococci in Endocarditis",
+        "printedPageLabel": "135",
+        "pageIndex": 135,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "lev-s2",
+        "chapterNumber": 64,
+        "title": "Infective Endocarditis: Blood Culture Protocols and Duke Diagnostic Criteria",
+        "printedPageLabel": "592",
+        "pageIndex": 592,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Widely praised for high-yield summaries and immunology summaries.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "jawetz-medical-microbiology",
+    "title": "Jawetz, Melnick & Adelberg's Medical Microbiology",
+    "titleBn": "জাওয়েটজ মেডিক্যাল মাইক্রোবায়োলজি",
+    "authors": [
+      "Stefan Riedel",
+      "Stephen A. Morse",
+      "Thomas Mietzner",
+      "Steve Miller"
+    ],
+    "edition": "28th Edition",
+    "editionNumber": 28,
+    "publicationYear": 2019,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1260012026",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=2629",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "jaw-s1",
+        "chapterNumber": 14,
+        "title": "The Streptococci, Enterococci, and Related Genera",
+        "printedPageLabel": "210",
+        "pageIndex": 210,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Authoritative reference for microbial pathogenesis and antimicrobial resistance.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "ananthanarayan-paniker-microbiology",
+    "title": "Ananthanarayan and Paniker's Textbook of Microbiology",
+    "titleBn": "অনন্তনরায়ণ অ্যান্ড পানিকার টেক্সটবুক অব মাইক্রোবায়োলজি",
+    "authors": [
+      "R. Ananthanarayan",
+      "C. K. Jayaram Paniker"
+    ],
+    "editors": [
+      "Reba Kanungo"
+    ],
+    "edition": "12th Edition",
+    "editionNumber": 12,
+    "publicationYear": 2022,
+    "publisher": "Universities Press / Orient BlackSwan",
+    "isbn13": "978-9393330109",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.universitiespress.com/details?id=9789393330109",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Universities Press (India) Private Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ap-s1",
+        "chapterNumber": 22,
+        "title": "Streptococcus: Post-Streptococcal Rheumatic Fever and Rheumatic Heart Disease",
+        "printedPageLabel": "240",
+        "pageIndex": 240,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Core recommended textbook across South Asia for undergraduate medical microbiology.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "cp-baveja-textbook-microbiology",
+    "title": "Textbook of Microbiology — C. P. Baveja",
+    "titleBn": "সি পি বাভেজা টেক্সটবুক অব মাইক্রোবায়োলজি",
+    "authors": [
+      "C. P. Baveja"
+    ],
+    "edition": "7th Edition",
+    "editionNumber": 7,
+    "publicationYear": 2021,
+    "publisher": "Arya Publications",
+    "isbn13": "978-8178558455",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.aryapublications.com",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Arya Publications.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "bav-s1",
+        "chapterNumber": 18,
+        "title": "Infective Endocarditis Organisms and Blood Culture Media",
+        "printedPageLabel": "185",
+        "pageIndex": 185,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Exam-oriented student favorite with clear bulleted points for quick revision.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "sastry-bhat-essentials-medical-microbiology",
+    "title": "Essentials of Medical Microbiology — Apurba S. Sastry & Sandhya Bhat",
+    "titleBn": "শাস্ত্রী অ্যান্ড ভাট এসেনশিয়ালস অব মেডিক্যাল মাইক্রোবায়োলজি",
+    "authors": [
+      "Apurba S. Sastry",
+      "Sandhya Bhat"
+    ],
+    "edition": "3rd Edition",
+    "editionNumber": 3,
+    "publicationYear": 2021,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9390595051",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789390595051",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sas-s1",
+        "chapterNumber": 26,
+        "title": "Cardiovascular System Infections: Infective Endocarditis & Rheumatic Fever",
+        "printedPageLabel": "345",
+        "pageIndex": 345,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Rapidly rising as the modern standard for clinical case based microbiology.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "paniker-textbook-medical-parasitology",
+    "title": "Paniker's Textbook of Medical Parasitology",
+    "titleBn": "পানিকার টেক্সটবুক অব মেডিক্যাল প্যারাসাইটোলজি",
+    "authors": [
+      "C. K. Jayaram Paniker"
+    ],
+    "editors": [
+      "Sougata Ghosh"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2018,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352701865",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352701865",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "pan-p-s1",
+        "chapterNumber": 5,
+        "title": "Plasmodium and Malaria: Severe Falciparum Pathogenesis & Cerebral Malaria",
+        "printedPageLabel": "78",
+        "pageIndex": 78,
+        "previewAllowed": false
+      },
+      {
+        "id": "pan-p-s2",
+        "chapterNumber": 8,
+        "title": "Leishmania donovani: Visceral Leishmaniasis (Kala-azar in Bangladesh)",
+        "printedPageLabel": "115",
+        "pageIndex": 115,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Crucial textbook for Kala-azar, Filariasis, and Malaria questions in Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "basic-immunology-abbas",
+    "title": "Basic Immunology: Functions and Disorders of the Immune System",
+    "titleBn": "বেসিক ইমিউনোলজি — আব্বাস",
+    "authors": [
+      "Abul K. Abbas",
+      "Andrew H. Lichtman",
+      "Shiv Pillai"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2019,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323549431",
+    "subjectId": "microbiology",
+    "phase": "Phase 3",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/basic-immunology/abbas/978-0-323-54943-1",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "abb-s1",
+        "chapterNumber": 9,
+        "title": "Immunologic Tolerance and Autoimmunity: Rheumatic Carditis Molecular Mimicry",
+        "printedPageLabel": "175",
+        "pageIndex": 175,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Renowned for clear explanations of hypersensitivity and autoimmune cascades.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "davidsons-principles-and-practice-of-medicine",
+    "title": "Davidson's Principles and Practice of Medicine",
+    "titleBn": "ডেভিডসনস প্রিন্সিপলস অ্যান্ড প্র্যাকটিস অব মেডিসিন",
+    "authors": [
+      "Ian D. Penman",
+      "Mark W. J. Strachan",
+      "Richard P. Hobson",
+      "Brian R. Walker"
+    ],
+    "edition": "24th Edition",
+    "editionNumber": 24,
+    "publicationYear": 2022,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702083471",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/davidsons-principles-and-practice-of-medicine/penman/978-0-7020-8347-1",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849503W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Limited. The definitive clinical medicine textbook in Bangladesh.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "dav-s1",
+        "chapterNumber": 18,
+        "title": "Cardiovascular Disease: Anatomy, Physiology & Cardiovascular Clinical Investigation",
+        "printedPageLabel": "520",
+        "pageIndex": 520,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "dav-s2",
+        "chapterNumber": 18,
+        "title": "Acute Coronary Syndromes: STEMI, NSTEMI and Chronic Coronary Syndromes",
+        "printedPageLabel": "556",
+        "pageIndex": 556,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "dav-s3",
+        "chapterNumber": 18,
+        "title": "Heart Failure: HFrEF, HFpEF, Diagnosis & Evidence-Based Management",
+        "printedPageLabel": "575",
+        "pageIndex": 575,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "dav-s4",
+        "chapterNumber": 18,
+        "title": "Rheumatic Heart Disease and Valvular Disease (Mitral & Aortic)",
+        "printedPageLabel": "592",
+        "pageIndex": 592,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "dav-s5",
+        "chapterNumber": 18,
+        "title": "Infective Endocarditis: Clinical Features, Duke Criteria & Antibiotic Regimens",
+        "printedPageLabel": "608",
+        "pageIndex": 608,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "dav-s6",
+        "chapterNumber": 18,
+        "title": "Congenital Heart Disease in Adult Life (ASD, VSD, PDA, Coarctation)",
+        "printedPageLabel": "622",
+        "pageIndex": 622,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "coronary-artery-disease",
+      "heart-failure",
+      "heart-valves-and-infection",
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "The primary textbook for internal medicine cited in BM&DC Final Professional examinations across Bangladesh.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Penman ID, Strachan MWJ, Hobson RP, Walker BR, editors. Davidson’s Principles and Practice of Medicine. 24th ed. Edinburgh: Elsevier; 2023."
+  },
+  {
+    "id": "kumar-and-clark-clinical-medicine",
+    "title": "Kumar & Clark's Clinical Medicine",
+    "titleBn": "কুমার অ্যান্ড ক্লার্কস ক্লিনিক্যাল মেডিসিন",
+    "authors": [
+      "Adam Feather",
+      "David Randall",
+      "Mona Waterhouse"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2020,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702078705",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/kumar-and-clarks-clinical-medicine/feather/978-0-7020-7870-5",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "kc-s1",
+        "chapterNumber": 14,
+        "title": "Cardiovascular Disease: Pathophysiology and Emergency Interventions",
+        "printedPageLabel": "680",
+        "pageIndex": 680,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Comprehensive internal medicine textbook renowned for pathophysiology depth.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "harrisons-principles-of-internal-medicine",
+    "title": "Harrison's Principles of Internal Medicine",
+    "titleBn": "হ্যারিসনস প্রিন্সিপলস অব ইন্টারনাল মেডিসিন",
+    "authors": [
+      "Joseph Loscalzo",
+      "Anthony S. Fauci",
+      "Dennis L. Kasper",
+      "Stephen L. Hauser",
+      "Dan L. Longo",
+      "J. Larry Jameson"
+    ],
+    "edition": "21st Edition",
+    "editionNumber": 21,
+    "publicationYear": 2022,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1264268504",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=3095",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849502W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill LLC. The gold standard treatise of internal medicine.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "har-s1",
+        "chapterNumber": 268,
+        "title": "ST-Segment Elevation Myocardial Infarction",
+        "printedPageLabel": "1985",
+        "pageIndex": 1985,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "har-s2",
+        "chapterNumber": 271,
+        "title": "Heart Failure: Pathophysiology and Management",
+        "printedPageLabel": "2015",
+        "pageIndex": 2015,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Encyclopedic reference text for complex clinical decision-making.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "macleods-clinical-examination",
+    "title": "Macleod's Clinical Examination",
+    "titleBn": "ম্যাকলিওডস ক্লিনিক্যাল এক্সামিনেশন",
+    "authors": [
+      "J. Alastair Innes",
+      "Anna R. Dover",
+      "Karen Fairhurst"
+    ],
+    "edition": "14th Edition",
+    "editionNumber": 14,
+    "publicationYear": 2018,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702069932",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/macleods-clinical-examination/innes/978-0-7020-6993-2",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Limited.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "mac-s1",
+        "chapterNumber": 4,
+        "title": "The Cardiovascular System: Inspection, Palpation of Precordium, Auscultation",
+        "printedPageLabel": "87",
+        "pageIndex": 87,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Primary bedside clinical examination manual in medical wards across Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "hutchisons-clinical-methods",
+    "title": "Hutchison's Clinical Methods: An Integrated Approach to Clinical Practice",
+    "titleBn": "হাচিসনস ক্লিনিক্যাল মেথডস",
+    "authors": [
+      "Michael Glynn",
+      "William M. Drake"
+    ],
+    "edition": "25th Edition",
+    "editionNumber": 25,
+    "publicationYear": 2022,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702082658",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/hutchisons-clinical-methods/glynn/978-0-7020-8265-8",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "hut-s1",
+        "chapterNumber": 3,
+        "title": "The Cardiovascular System: Pulse, JVP Waveforms & Cardiac Murmurs",
+        "printedPageLabel": "52",
+        "pageIndex": 52,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Historic British clinical methods manual with deep physiological bedside integration.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "kundu-bedside-clinics-in-medicine",
+    "title": "Bedside Clinics in Medicine (Part 1 & 2) — Arup Kumar Kundu",
+    "titleBn": "কুন্ডু বেডসাইড ক্লিনিকস ইন মেডিসিন",
+    "authors": [
+      "Arup Kumar Kundu"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2018,
+    "publisher": "K relays / Jaypee Brothers",
+    "isbn13": "978-9352704514",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352704514",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Dr. Arup Kumar Kundu.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "kun-s1",
+        "chapterNumber": 2,
+        "title": "Cardiovascular Long Cases: Mitral Stenosis, Aortic Regurgitation & Heart Failure",
+        "printedPageLabel": "115",
+        "pageIndex": 115,
+        "mappedTopicIds": [
+          "heart-failure",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-failure",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Legendary South Asian clinical viva guide essential for final professional ward rounds.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "abm-abdullah-short-cases-clinical-medicine",
+    "title": "Short Cases in Clinical Medicine — A. B. M. Abdullah",
+    "titleBn": "শর্ট কেসেস ইন ক্লিনিক্যাল মেডিসিন — অধ্যাপক এ বি এম আবদুল্লাহ",
+    "authors": [
+      "Prof. A. B. M. Abdullah"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2019,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131255568",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/short-cases-in-clinical-medicine/abdullah/978-81-312-5556-8",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL20807531W",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Authoritative Publication)",
+      "attribution": "© Prof. A. B. M. Abdullah, National Professor of Bangladesh. Published by Elsevier India.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "abm-sc-s1",
+        "chapterNumber": 3,
+        "title": "Cardiovascular Short Cases: Malar Flush, Apex Beat & Murmurs",
+        "printedPageLabel": "64",
+        "pageIndex": 64,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "abm-sc-s2",
+        "chapterNumber": 3,
+        "title": "Prosthetic Heart Valve Auscultation & Infective Endocarditis Stigmata",
+        "printedPageLabel": "88",
+        "pageIndex": 88,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "National Professor A. B. M. Abdullah’s flagship clinical exam book, universally used in Bangladesh final professional exams.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Abdullah ABM. Short Cases in Clinical Medicine. 6th ed. New Delhi: Elsevier India; 2019."
+  },
+  {
+    "id": "abm-abdullah-long-cases-clinical-medicine",
+    "title": "Long Cases in Clinical Medicine — A. B. M. Abdullah",
+    "titleBn": "লং কেসেস ইন ক্লিনিক্যাল মেডিসিন — অধ্যাপক এ বি এম আবদুল্লাহ",
+    "authors": [
+      "Prof. A. B. M. Abdullah"
+    ],
+    "edition": "3rd Edition",
+    "editionNumber": 3,
+    "publicationYear": 2019,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131259979",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/long-cases-in-clinical-medicine/abdullah/978-81-312-5997-9",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Authoritative Publication)",
+      "attribution": "© Prof. A. B. M. Abdullah, National Professor of Bangladesh. Published by Elsevier India.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "abm-lc-s1",
+        "chapterNumber": 2,
+        "title": "Chronic Rheumatic Heart Disease with Mitral Stenosis and Pulmonary Arterial Hypertension",
+        "printedPageLabel": "75",
+        "pageIndex": 75,
+        "mappedTopicIds": [
+          "heart-valves-and-infection",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "abm-lc-s2",
+        "chapterNumber": 3,
+        "title": "Ischemic Heart Disease with Congestive Cardiac Failure",
+        "printedPageLabel": "110",
+        "pageIndex": 110,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection",
+      "heart-failure",
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Comprehensive case presentations with detailed history, physical examination, and viva questions.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "abm-abdullah-ecg-in-medical-practice",
+    "title": "ECG in Medical Practice — A. B. M. Abdullah",
+    "titleBn": "ইসিজি ইন মেডিক্যাল প্র্যাকটিস — অধ্যাপক এ বি এম আবদুল্লাহ",
+    "authors": [
+      "Prof. A. B. M. Abdullah"
+    ],
+    "edition": "5th Edition",
+    "editionNumber": 5,
+    "publicationYear": 2020,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9389587845",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789389587845",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Authoritative Publication)",
+      "attribution": "© Prof. A. B. M. Abdullah. Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "abm-ecg-s1",
+        "chapterNumber": 4,
+        "title": "ECG in Acute Myocardial Infarction: Culprit Artery Localization",
+        "printedPageLabel": "85",
+        "pageIndex": 85,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "abm-ecg-s2",
+        "chapterNumber": 7,
+        "title": "Chamber Enlargement: Left Ventricular Hypertrophy and P Mitrale",
+        "printedPageLabel": "142",
+        "pageIndex": 142,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-and-cardiac-cycle",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "The definitive ECG interpretation handbook for final year MBBS students and intern doctors.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "oxford-handbook-of-clinical-medicine",
+    "title": "Oxford Handbook of Clinical Medicine",
+    "titleBn": "অক্সফোর্ড হ্যান্ডবুক অব ক্লিনিক্যাল মেডিসিন",
+    "authors": [
+      "Ian B. Wilkinson",
+      "Tim Raine",
+      "Kate Wiles",
+      "Anna Goodhart",
+      "Catriona Hall",
+      "Harriet O'Neill"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2017,
+    "publisher": "Oxford University Press",
+    "isbn13": "978-0199688371",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://academic.oup.com/book/25139",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Oxford University Press.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ohcm-s1",
+        "chapterNumber": 3,
+        "title": "Cardiovascular Medicine: Acute STEMI Protocol, MONA & Heart Failure Pathway",
+        "printedPageLabel": "112",
+        "pageIndex": 112,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Beloved pocket clinical guide carried during emergency ward duties.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "hampton-the-ecg-made-easy",
+    "title": "The ECG Made Easy — John R. Hampton",
+    "titleBn": "দ্য ইসিজি মেড ইজি — জন হ্যাম্পটন",
+    "authors": [
+      "John Hampton",
+      "David Adlam",
+      "J. Alastair Hampton"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2019,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702074578",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/the-ecg-made-easy/hampton/978-0-7020-7457-8",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Limited.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ecg-me-s1",
+        "chapterNumber": 3,
+        "title": "The ECG in Myocardial Infarction and Ischemia",
+        "printedPageLabel": "68",
+        "pageIndex": 68,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Internationally recognized introductory manual for rapid ECG mastery.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "bailey-and-love-short-practice-of-surgery",
+    "title": "Bailey & Love's Short Practice of Surgery",
+    "titleBn": "বেইলি অ্যান্ড লাভস শর্ট প্র্যাকটিস অব সার্জারি",
+    "authors": [
+      "P. Ronan O'Connell",
+      "Andrew W. McCaskie",
+      "Robert D. Sayers"
+    ],
+    "edition": "28th Edition",
+    "editionNumber": 28,
+    "publicationYear": 2023,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-0367613662",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Bailey--Loves-Short-Practice-of-Surgery/OConnell-McCaskie-Sayers/p/book/9780367613662",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849501W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CRC Press. Taylor & Francis Group. The quintessential surgery textbook in Bangladesh.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "bl-s1",
+        "chapterNumber": 52,
+        "title": "Cardiac Surgery: Extracorporeal Circulation, CABG & Valve Replacement",
+        "printedPageLabel": "920",
+        "pageIndex": 920,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "bl-s2",
+        "chapterNumber": 53,
+        "title": "The Thorax: Chest Trauma, Pneumothorax and Hemothorax Drainage",
+        "printedPageLabel": "942",
+        "pageIndex": 942,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "The primary prescribed textbook for General Surgery in BM&DC Final Professional examinations.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "O’Connell PR, McCaskie AW, Sayers RD, editors. Bailey & Love’s Short Practice of Surgery. 28th ed. Boca Raton: CRC Press; 2023."
+  },
+  {
+    "id": "s-das-clinical-surgery",
+    "title": "A Manual on Clinical Surgery — S. Das",
+    "titleBn": "এস দাস ক্লিনিক্যাল সার্জারি",
+    "authors": [
+      "S. Das"
+    ],
+    "edition": "15th Edition",
+    "editionNumber": 15,
+    "publicationYear": 2022,
+    "publisher": "Dr. S. Das, Kolkata",
+    "isbn13": "978-8190568159",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.sdasclinic.com",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Dr. S. Das, Kolkata.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sdas-cs-s1",
+        "chapterNumber": 22,
+        "title": "Examination of Swellings, Ulcers, Sinus & Fistulae",
+        "printedPageLabel": "184",
+        "pageIndex": 184,
+        "previewAllowed": false
+      },
+      {
+        "id": "sdas-cs-s2",
+        "chapterNumber": 32,
+        "title": "Examination of Hernias, Scrotal Swellings and Varicose Veins",
+        "printedPageLabel": "390",
+        "pageIndex": 390,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Unanimously treated as the ultimate bedside surgical examination manual in Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "s-das-concise-textbook-of-surgery",
+    "title": "A Concise Textbook of Surgery — S. Das",
+    "titleBn": "এস দাস কনসাইজ টেক্সটবুক অব সার্জারি",
+    "authors": [
+      "S. Das"
+    ],
+    "edition": "11th Edition",
+    "editionNumber": 11,
+    "publicationYear": 2021,
+    "publisher": "Dr. S. Das, Kolkata",
+    "isbn13": "978-8190568166",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.sdasclinic.com",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Dr. S. Das.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sdas-con-s1",
+        "chapterNumber": 18,
+        "title": "Principles of Operative Surgery, Hemostasis and Shock Management",
+        "printedPageLabel": "245",
+        "pageIndex": 245,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Concise written examination companion for quick surgical revisions.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "srb-manual-of-surgery",
+    "title": "SRB's Manual of Surgery",
+    "titleBn": "এসআরবি ম্যানুয়াল অব সার্জারি",
+    "authors": [
+      "M. Sriram Bhat"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2019,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352709076",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352709076",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "srb-s1",
+        "chapterNumber": 24,
+        "title": "Surgery of the Thorax and Cardiothoracic Interventions",
+        "printedPageLabel": "685",
+        "pageIndex": 685,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Popular comprehensive textbook packed with operative photographs and tables.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "manipal-manual-of-surgery",
+    "title": "Manipal Manual of Surgery — K. Rajgopal Shenoy & Anitha Shenoy",
+    "titleBn": "মনিপাল ম্যানুয়াল অব সার্জারি",
+    "authors": [
+      "K. Rajgopal Shenoy",
+      "Anitha Shenoy"
+    ],
+    "edition": "5th Edition",
+    "editionNumber": 5,
+    "publicationYear": 2020,
+    "publisher": "CBS Publishers & Distributors",
+    "isbn13": "978-9389218770",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.cbspd.com/manipal-manual-of-surgery-5th-edition",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CBS Publishers & Distributors.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "mms-s1",
+        "chapterNumber": 28,
+        "title": "Cardiothoracic Surgery Essentials for Undergraduates",
+        "printedPageLabel": "740",
+        "pageIndex": 740,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Exemplary clinical examination guide with step-by-step methodology.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "browses-symptoms-signs-surgical-disease",
+    "title": "Browse's Introduction to the Symptoms & Signs of Surgical Disease",
+    "titleBn": "ব্রাউজেস সিম্পটমস অ্যান্ড সাইনস অব সার্জিক্যাল ডিজিজ",
+    "authors": [
+      "James A. Gossage",
+      "Matthew F. Bultitude",
+      "Steven A. Corbett"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2021,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-0367253998",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Browses-Introduction-to-the-Symptoms--Signs-of-Surgical-Disease/Gossage-Bultitude-Corbett/p/book/9780367253998",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "brw-s1",
+        "chapterNumber": 15,
+        "title": "Symptoms and Signs of Arterial Disease and Venous Disorders of Lower Limb",
+        "printedPageLabel": "348",
+        "pageIndex": 348,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Renowned for surgical symptomatology and differential diagnostic flowcharts.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "s-das-operative-surgery",
+    "title": "A Practical Guide to Operative Surgery — S. Das",
+    "titleBn": "এস দাস অপারেটিভ সার্জারি",
+    "authors": [
+      "S. Das"
+    ],
+    "edition": "7th Edition",
+    "editionNumber": 7,
+    "publicationYear": 2017,
+    "publisher": "Dr. S. Das, Kolkata",
+    "isbn13": "978-8190568142",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.sdasclinic.com",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Dr. S. Das.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sdas-op-s1",
+        "chapterNumber": 12,
+        "title": "Operative Instruments, Incisions and Suture Techniques in OSPE",
+        "printedPageLabel": "142",
+        "pageIndex": 142,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Essential manual for final professional surgery viva instrument tables.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "sml-rahman-short-cases-surgery",
+    "title": "Short Cases in Surgery — S. M. L. Rahman",
+    "titleBn": "শর্ট কেসেস ইন সার্জারি — অধ্যাপক এস এম এল রহমান",
+    "authors": [
+      "Prof. S. M. L. Rahman"
+    ],
+    "edition": "4th Edition",
+    "editionNumber": 4,
+    "publicationYear": 2018,
+    "publisher": "Friends Book Corner, Dhaka",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.friendsbookcorner.com.bd",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (Bangladeshi Medical Publishing)",
+      "attribution": "© Prof. S. M. L. Rahman. Dhaka, Bangladesh.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sml-s1",
+        "chapterNumber": 6,
+        "title": "Thyroid Swelling, Cervical Lymphadenopathy & Parotid Tumour Examination",
+        "printedPageLabel": "85",
+        "pageIndex": 85,
+        "previewAllowed": false
+      },
+      {
+        "id": "sml-s2",
+        "chapterNumber": 9,
+        "title": "Inguinoscrotal Swellings and Diabetic Foot Ulcers Viva Points",
+        "printedPageLabel": "140",
+        "pageIndex": 140,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Beloved clinical examination short case guide written specifically for Bangladeshi medical students.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "schwartzs-principles-of-surgery",
+    "title": "Schwartz's Principles of Surgery",
+    "titleBn": "শোয়ার্টজ প্রিন্সিপলস অব সার্জারি",
+    "authors": [
+      "F. Charles Brunicardi et al."
+    ],
+    "edition": "11th Edition",
+    "editionNumber": 11,
+    "publicationYear": 2019,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1259835353",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accesssurgery.mhmedical.com/book.aspx?bookid=2576",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill Education.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sch-s1",
+        "chapterNumber": 21,
+        "title": "Acquired Heart Disease: Valve Repair vs Replacement and CABG Outcomes",
+        "printedPageLabel": "782",
+        "pageIndex": 782,
+        "mappedTopicIds": [
+          "heart-valves-and-infection",
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection",
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Premier American surgical treatise frequently cited in postgraduate residency.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "sabiston-textbook-of-surgery",
+    "title": "Sabiston Textbook of Surgery: The Biological Basis of Modern Surgical Practice",
+    "titleBn": "স্যাবিস্টন টেক্সটবুক অব সার্জারি",
+    "authors": [
+      "Courtney M. Townsend Jr.",
+      "R. Daniel Beauchamp",
+      "B. Mark Evers",
+      "Kenneth L. Mattox"
+    ],
+    "edition": "21st Edition",
+    "editionNumber": 21,
+    "publicationYear": 2021,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323640626",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/sabiston-textbook-of-surgery/townsend/978-0-323-64062-6",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "sab-s1",
+        "chapterNumber": 59,
+        "title": "Cardiovascular Interventions and Cardiopulmonary Bypass Physiology",
+        "printedPageLabel": "1540",
+        "pageIndex": 1540,
+        "mappedTopicIds": [
+          "coronary-artery-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Authoritative biological science and evidence-based surgical reference.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "dc-dutta-textbook-of-obstetrics",
+    "title": "DC Dutta's Textbook of Obstetrics",
+    "titleBn": "ডিসি দত্ত টেক্সটবুক অব অবস্টেট্রিক্স",
+    "authors": [
+      "D. C. Dutta"
+    ],
+    "editors": [
+      "Hiralal Konar"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2018,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352704774",
+    "subjectId": "obstetrics-gynaecology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352704774",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers. The preeminent obstetrics text of South Asia.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "dcd-obs-s1",
+        "chapterNumber": 19,
+        "title": "Medical Disorders in Pregnancy: Heart Disease in Pregnancy (Mitral Stenosis Management)",
+        "printedPageLabel": "298",
+        "pageIndex": 298,
+        "mappedTopicIds": [
+          "heart-valves-and-infection",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "dcd-obs-s2",
+        "chapterNumber": 27,
+        "title": "Hypertensive Disorders in Pregnancy: Preeclampsia & Eclampsia Protocols",
+        "printedPageLabel": "415",
+        "pageIndex": 415,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "The absolute essential textbook for Obstetrics in BM&DC Final Professional examinations.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Konar H, editor. DC Dutta’s Textbook of Obstetrics. 9th ed. New Delhi: Jaypee Brothers Medical Publishers; 2018."
+  },
+  {
+    "id": "dc-dutta-textbook-of-gynecology",
+    "title": "DC Dutta's Textbook of Gynecology",
+    "titleBn": "ডিসি দত্ত টেক্সটবুক অব গাইনোকোলজি",
+    "authors": [
+      "D. C. Dutta"
+    ],
+    "editors": [
+      "Hiralal Konar"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2020,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9389587401",
+    "subjectId": "obstetrics-gynaecology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789389587401",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "dcd-gyn-s1",
+        "chapterNumber": 14,
+        "title": "Infections of the Female Genital Tract & Pelvic Inflammatory Disease",
+        "printedPageLabel": "168",
+        "pageIndex": 168,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "The core companion text for Gynaecology clinical wards and exams.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "obstetrics-by-ten-teachers",
+    "title": "Obstetrics by Ten Teachers",
+    "titleBn": "অবস্টেট্রিক্স বাই টেন টিচার্স",
+    "authors": [
+      "Louise C. Kenny",
+      "Jenny E. Myers"
+    ],
+    "edition": "20th Edition",
+    "editionNumber": 20,
+    "publicationYear": 2017,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-1498744393",
+    "subjectId": "obstetrics-gynaecology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Obstetrics-by-Ten-Teachers/Kenny-Myers/p/book/9781498744393",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ten-obs-s1",
+        "chapterNumber": 12,
+        "title": "Maternal Cardiac Disease: Hemodynamic Changes in Labor and Postpartum",
+        "printedPageLabel": "198",
+        "pageIndex": 198,
+        "mappedTopicIds": [
+          "heart-valves-and-infection",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Famous British obstetric treatise respected for evidence-based clinical protocols.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "gynaecology-by-ten-teachers",
+    "title": "Gynaecology by Ten Teachers",
+    "titleBn": "গাইনোকোলজি বাই টেন টিচার্স",
+    "authors": [
+      "Louise C. Kenny",
+      "Helen Bickerstaff"
+    ],
+    "edition": "20th Edition",
+    "editionNumber": 20,
+    "publicationYear": 2017,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-1498744287",
+    "subjectId": "obstetrics-gynaecology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Gynaecology-by-Ten-Teachers/Kenny-Bickerstaff/p/book/9781498744287",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ten-gyn-s1",
+        "chapterNumber": 10,
+        "title": "Benign and Malignant Gynecological Neoplasms",
+        "printedPageLabel": "154",
+        "pageIndex": 154,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Classic counterpart to Obstetrics by Ten Teachers.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "shaws-textbook-of-gynaecology",
+    "title": "Shaw's Textbook of Gynaecology",
+    "titleBn": "শজ টেক্সটবুক অব গাইনোকোলজি",
+    "authors": [
+      "V. G. Padubidri",
+      "Shirish N. Daftary"
+    ],
+    "edition": "17th Edition",
+    "editionNumber": 17,
+    "publicationYear": 2018,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131254240",
+    "subjectId": "obstetrics-gynaecology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/shaws-textbook-of-gynaecology/padubidri/978-81-312-5424-0",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier India Pvt Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "shaw-s1",
+        "chapterNumber": 20,
+        "title": "Disorders of Menstruation and Pelvic Anatomy",
+        "printedPageLabel": "240",
+        "pageIndex": 240,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Standard textbook for gynaecological pathology and pelvic anatomy.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "williams-obstetrics",
+    "title": "Williams Obstetrics",
+    "titleBn": "উইলিয়ামস অবস্টেট্রিক্স",
+    "authors": [
+      "F. Gary Cunningham",
+      "Kenneth J. Leveno",
+      "Steven L. Bloom",
+      "Jodi S. Dashe",
+      "Barbara L. Hoffman",
+      "Brian M. Casey",
+      "Catherine Y. Spong"
+    ],
+    "edition": "26th Edition",
+    "editionNumber": 26,
+    "publicationYear": 2022,
+    "publisher": "McGraw Hill",
+    "isbn13": "978-1260462739",
+    "subjectId": "obstetrics-gynaecology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://accessmedicine.mhmedical.com/book.aspx?bookid=2977",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© McGraw Hill LLC. The premier reference work in obstetrics.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "wil-s1",
+        "chapterNumber": 49,
+        "title": "Cardiovascular Disorders: Rheumatic Mitral Stenosis and Peripartum Cardiomyopathy",
+        "printedPageLabel": "928",
+        "pageIndex": 928,
+        "mappedTopicIds": [
+          "heart-valves-and-infection",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "The definitive encyclopedic authority on high-risk maternal-fetal medicine.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "ghai-essential-pediatrics",
+    "title": "Ghai Essential Pediatrics",
+    "titleBn": "ঘাই এসেনশিয়াল পেডিয়াট্রিক্স",
+    "authors": [
+      "Vinod K. Paul",
+      "Arvind Bagga"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2019,
+    "publisher": "CBS Publishers & Distributors",
+    "isbn13": "978-9387964402",
+    "subjectId": "paediatrics",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.cbspd.com/ghai-essential-pediatrics-9th-edition",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openlibrary.org/works/OL15849500W",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© CBS Publishers & Distributors. The premier undergraduate pediatrics textbook of South Asia.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ghai-ped-s1",
+        "chapterNumber": 14,
+        "title": "Cardiovascular Disorders: Congenital Heart Diseases (Acyanotic vs Cyanotic)",
+        "printedPageLabel": "382",
+        "pageIndex": 382,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "ghai-ped-s2",
+        "chapterNumber": 14,
+        "title": "Ventricular Septal Defect, Tetralogy of Fallot & Acute Rheumatic Fever in Children",
+        "printedPageLabel": "402",
+        "pageIndex": 402,
+        "mappedTopicIds": [
+          "congenital-heart-disease",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "The undisputed gold standard textbook for Paediatrics in Bangladesh medical colleges.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Paul VK, Bagga A, editors. Ghai Essential Pediatrics. 9th ed. New Delhi: CBS Publishers; 2019."
+  },
+  {
+    "id": "illustrated-textbook-of-paediatrics-lissauer",
+    "title": "Illustrated Textbook of Paediatrics — Tom Lissauer & Will Carroll",
+    "titleBn": "ইলাস্ট্রেটেড টেক্সটবুক অব পেডিয়াট্রিক্স — লিসাওয়ার",
+    "authors": [
+      "Tom Lissauer",
+      "Will Carroll"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2021,
+    "publisher": "Elsevier",
+    "isbn13": "978-0702078590",
+    "subjectId": "paediatrics",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/illustrated-textbook-of-paediatrics/lissauer/978-0-7020-7859-0",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Limited.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lis-s1",
+        "chapterNumber": 18,
+        "title": "Cardiac Disorders: Presentation of Heart Murmurs, Cyanosis & Heart Failure in Infancy",
+        "printedPageLabel": "312",
+        "pageIndex": 312,
+        "mappedTopicIds": [
+          "congenital-heart-disease",
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Renowned for its \"Sunflower\" visual illustrations and concise emergency algorithms.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "nelson-essentials-of-pediatrics",
+    "title": "Nelson Essentials of Pediatrics",
+    "titleBn": "নেলসন এসেনশিয়ালস অব পেডিয়াট্রিক্স",
+    "authors": [
+      "Karen J. Marcdante",
+      "Robert M. Kliegman"
+    ],
+    "edition": "9th Edition",
+    "editionNumber": 9,
+    "publicationYear": 2022,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323775625",
+    "subjectId": "paediatrics",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/nelson-essentials-of-pediatrics/marcdante/978-0-323-77562-5",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "nel-ess-s1",
+        "chapterNumber": 141,
+        "title": "Evaluation of the Cardiovascular System in Children and Congenital Anomalies",
+        "printedPageLabel": "495",
+        "pageIndex": 495,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "High-yield student edition of the Nelson pediatrics canon.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "nelson-textbook-of-pediatrics",
+    "title": "Nelson Textbook of Pediatrics",
+    "titleBn": "নেলসন টেক্সটবুক অব পেডিয়াট্রিক্স",
+    "authors": [
+      "Robert M. Kliegman",
+      "Joseph St. Geme"
+    ],
+    "edition": "21st Edition",
+    "editionNumber": 21,
+    "publicationYear": 2019,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323529501",
+    "subjectId": "paediatrics",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/nelson-textbook-of-pediatrics-2-volume-set/kliegman/978-0-323-52950-1",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc. The premier world treatise of pediatrics.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "nel-tx-s1",
+        "chapterNumber": 454,
+        "title": "Congenital Heart Disease: Detailed Pathophysiology, Echocardiography & Surgery",
+        "printedPageLabel": "2320",
+        "pageIndex": 2320,
+        "mappedTopicIds": [
+          "congenital-heart-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "congenital-heart-disease"
+    ],
+    "bmdcCurriculumRelevance": "The definitive encyclopedic treatise of child health.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "dhingra-diseases-of-ear-nose-throat",
+    "title": "Dhingra's Diseases of Ear, Nose and Throat & Head and Neck Surgery",
+    "titleBn": "ধিংরা ডিজিজেস অব ইএনটি",
+    "authors": [
+      "P. L. Dhingra",
+      "Shruti Dhingra"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2021,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131264423",
+    "subjectId": "ent",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/diseases-of-ear-nose-and-throat-head-and-neck-surgery/dhingra/978-81-312-6442-3",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier India Pvt Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "dhin-s1",
+        "chapterNumber": 44,
+        "title": "Acute & Chronic Tonsillitis: Streptococcal Pharyngitis & Rheumatic Sequelae",
+        "printedPageLabel": "312",
+        "pageIndex": 312,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "The standard ENT textbook prescribed for BM&DC Phase 4 clinical examination.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "logan-turner-diseases-nose-throat-ear",
+    "title": "Logan Turner's Diseases of the Nose, Throat and Ear, Head and Neck Surgery",
+    "titleBn": "লোগান টার্নার ডিজিজেস অব ইএনটি",
+    "authors": [
+      "S. Musheer Hussain"
+    ],
+    "edition": "11th Edition",
+    "editionNumber": 11,
+    "publicationYear": 2015,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-1444144437",
+    "subjectId": "ent",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Logan-Turners-Diseases-of-the-Nose-Throat-and-Ear-Head-and-Neck-Surgery/Hussain/p/book/9781444144437",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lt-s1",
+        "chapterNumber": 18,
+        "title": "Infections of the Pharynx and Deep Neck Spaces",
+        "printedPageLabel": "185",
+        "pageIndex": 185,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Classic British ENT treatise referenced by senior professors in Bangladesh.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "khurana-comprehensive-ophthalmology",
+    "title": "Comprehensive Ophthalmology — A. K. Khurana",
+    "titleBn": "খুরানা কম্প্রিহেনসিভ অপথ্যালমোলজি",
+    "authors": [
+      "A. K. Khurana"
+    ],
+    "edition": "8th Edition",
+    "editionNumber": 8,
+    "publicationYear": 2022,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9354655975",
+    "subjectId": "ophthalmology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789354655975",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "khu-s1",
+        "chapterNumber": 11,
+        "title": "Diseases of the Retina: Hypertensive & Diabetic Retinopathy Fundus Signs",
+        "printedPageLabel": "248",
+        "pageIndex": 248,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "khu-s2",
+        "chapterNumber": 12,
+        "title": "Roth Spots in Subacute Bacterial Endocarditis Fundoscopy",
+        "printedPageLabel": "286",
+        "pageIndex": 286,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease",
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Primary eye textbook for BM&DC Ophthalmology written exams and eye ward clinical cases.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "parsons-diseases-of-the-eye",
+    "title": "Parsons' Diseases of the Eye",
+    "titleBn": "পার্সনস ডিজিজেস অব দ্য আই",
+    "authors": [
+      "Radhika Tandon"
+    ],
+    "edition": "23rd Edition",
+    "editionNumber": 23,
+    "publicationYear": 2019,
+    "publisher": "Elsevier India",
+    "isbn13": "978-8131254349",
+    "subjectId": "ophthalmology",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/parsons-diseases-of-the-eye/tandon/978-81-312-5434-9",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier India Pvt Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "par-eye-s1",
+        "chapterNumber": 19,
+        "title": "Systemic Diseases Affecting the Eye: Atherosclerosis & Endocarditis",
+        "printedPageLabel": "310",
+        "pageIndex": 310,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Prestigious hundred-year British-Indian ophthalmic reference.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "apley-and-solomon-orthopaedics-trauma",
+    "title": "Apley & Solomon's System of Orthopaedics and Trauma",
+    "titleBn": "অ্যাপলে অ্যান্ড সলোমনস অর্থোপেডিকস",
+    "authors": [
+      "Ashley Blom",
+      "David Warwick",
+      "Michael R. Whitehouse"
+    ],
+    "edition": "10th Edition",
+    "editionNumber": 10,
+    "publicationYear": 2018,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-1498749206",
+    "subjectId": "orthopaedics",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Apley--Solomons-System-of-Orthopaedics-and-Trauma/Blom-Warwick-Whitehouse/p/book/9781498749206",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "apley-s1",
+        "chapterNumber": 23,
+        "title": "Principles of Fractures: Emergency ATLS Management & Splintage",
+        "printedPageLabel": "680",
+        "pageIndex": 680,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "The premier international orthopaedic textbook.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "maheshwari-essential-orthopaedics",
+    "title": "Essential Orthopaedics (Including Clinical Methods) — J. Maheshwari & Vikram A. Mhaskar",
+    "titleBn": "মহেশ্বরী এসেনশিয়াল অর্থোপেডিকস",
+    "authors": [
+      "J. Maheshwari",
+      "Vikram A. Mhaskar"
+    ],
+    "edition": "6th Edition",
+    "editionNumber": 6,
+    "publicationYear": 2019,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9352706808",
+    "subjectId": "orthopaedics",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789352706808",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "mah-s1",
+        "chapterNumber": 2,
+        "title": "Fractures: Healing, Complications and Plaster Technique",
+        "printedPageLabel": "28",
+        "pageIndex": 28,
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [],
+    "bmdcCurriculumRelevance": "Primary orthopaedic textbook read by undergraduate medical students in Bangladesh.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "abc-of-dermatology",
+    "title": "ABC of Dermatology — Rachael Morris-Jones",
+    "titleBn": "এবিসি অব ডার্মাটোলজি",
+    "authors": [
+      "Rachael Morris-Jones"
+    ],
+    "edition": "7th Edition",
+    "editionNumber": 7,
+    "publicationYear": 2019,
+    "publisher": "Wiley-Blackwell / BMJ Books",
+    "isbn13": "978-1119488996",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.wiley.com/en-us/ABC+of+Dermatology%2C+7th+Edition-p-9781119488996",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© John Wiley & Sons Ltd.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "dermat-s1",
+        "chapterNumber": 8,
+        "title": "Cutaneous Manifestations of Systemic Disease: Splinter Hemorrhages & Osler Nodes",
+        "printedPageLabel": "74",
+        "pageIndex": 74,
+        "mappedTopicIds": [
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-valves-and-infection"
+    ],
+    "bmdcCurriculumRelevance": "Essential diagnostic atlas for skin manifestations of infective endocarditis.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "niraj-ahuja-short-textbook-of-psychiatry",
+    "title": "A Short Textbook of Psychiatry — Niraj Ahuja",
+    "titleBn": "নিরাজ আহুজা শর্ট টেক্সটবুক অব সাইকিয়াট্রি",
+    "authors": [
+      "Niraj Ahuja"
+    ],
+    "edition": "7th Edition",
+    "editionNumber": 7,
+    "publicationYear": 2011,
+    "publisher": "Jaypee Brothers Medical Publishers",
+    "isbn13": "978-9380704661",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.jaypeedigital.com/book/9789380704661",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Jaypee Brothers Medical Publishers.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "ahu-s1",
+        "chapterNumber": 5,
+        "title": "Depression, Somatization and Panic Disorder Mimicking Cardiac Chest Pain",
+        "printedPageLabel": "88",
+        "pageIndex": 88,
+        "mappedTopicIds": [
+          "coronary-artery-disease"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "coronary-artery-disease"
+    ],
+    "bmdcCurriculumRelevance": "Standard undergraduate psychiatry textbook across Bangladesh medical colleges.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "lees-synopsis-of-anaesthesia",
+    "title": "Lee's Synopsis of Anaesthesia",
+    "titleBn": "লিস সিনপসিস অব অ্যানেস্থেসিয়া",
+    "authors": [
+      "Judith Dinsmore",
+      "N. J. H. Davies"
+    ],
+    "edition": "14th Edition",
+    "editionNumber": 14,
+    "publicationYear": 2017,
+    "publisher": "CRC Press / Taylor & Francis",
+    "isbn13": "978-0340942208",
+    "subjectId": "surgery",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.routledge.com/Lees-Synopsis-of-Anaesthesia/Dinsmore-Davies/p/book/9780340942208",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Taylor & Francis Group, LLC.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "lee-s1",
+        "chapterNumber": 8,
+        "title": "Preoperative Cardiac Risk Assessment and Intraoperative Hemodynamic Monitoring",
+        "printedPageLabel": "142",
+        "pageIndex": 142,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Comprehensive review text for anaesthesia rotations and pre-op surgical assessment.",
+    "isBangladeshiCurriculumCore": false
+  },
+  {
+    "id": "herring-learning-radiology",
+    "title": "Learning Radiology: Recognizing the Basics — William Herring",
+    "titleBn": "লার্নিং রেডিওলজি — উইলিয়াম হেরিং",
+    "authors": [
+      "William Herring"
+    ],
+    "edition": "4th Edition",
+    "editionNumber": 4,
+    "publicationYear": 2019,
+    "publisher": "Elsevier",
+    "isbn13": "978-0323567299",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "external_access",
+    "officialPublisherUrl": "https://www.elsevier.com/books/learning-radiology/herring/978-0-323-56729-9",
+    "verificationDate": "2026-09-18",
+    "license": {
+      "licenseType": "Commercial (All Rights Reserved)",
+      "attribution": "© Elsevier Inc.",
+      "allowedAudience": "undergraduate-mbbs",
+      "indexingPermitted": false,
+      "aiProcessingPermitted": false
+    },
+    "tableOfContents": [
+      {
+        "id": "herr-s1",
+        "chapterNumber": 11,
+        "title": "Recognizing Cardiomegaly and Left Atrial Enlargement on Chest Radiograph",
+        "printedPageLabel": "115",
+        "pageIndex": 115,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-valves-and-infection"
+        ],
+        "previewAllowed": false
+      },
+      {
+        "id": "herr-s2",
+        "chapterNumber": 12,
+        "title": "Recognizing Signs of Heart Failure and Pulmonary Edema (Kerley B Lines, Bat-Wing)",
+        "printedPageLabel": "128",
+        "pageIndex": 128,
+        "mappedTopicIds": [
+          "heart-failure"
+        ],
+        "previewAllowed": false
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-valves-and-infection",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "The gold standard radiology visual primer for interpreting chest X-rays in final year exams.",
+    "isBangladeshiCurriculumCore": true
+  },
+  {
+    "id": "openstax-anatomy-and-physiology-2e",
+    "title": "Anatomy and Physiology 2e — OpenStax",
+    "titleBn": "অ্যানাটমি অ্যান্ড ফিজিওলজি ২য় সংস্করণ — ওপেনস্ট্যাক্স (সম্পূর্ণ পাঠ্য)",
+    "authors": [
+      "J. Gordon Betts",
+      "Kelly A. Young",
+      "James A. Wise",
+      "Eddie Johnson",
+      "Brandon Poe",
+      "Dean H. Kruse",
+      "Oksana Korol"
+    ],
+    "edition": "2nd Edition",
+    "editionNumber": 2,
+    "publicationYear": 2022,
+    "publisher": "OpenStax, Rice University",
+    "isbn13": "978-1951693428",
+    "subjectId": "physiology",
+    "phase": "Phase 1",
+    "accessType": "read_in_medx",
+    "officialPublisherUrl": "https://openstax.org/details/books/anatomy-and-physiology-2e",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://openstax.org/books/anatomy-and-physiology-2e",
+    "license": {
+      "licenseType": "CC-BY-4.0 (Creative Commons Attribution 4.0 International)",
+      "attribution": "Access for free at openstax.org. Licensed under Creative Commons Attribution 4.0 International License.",
+      "allowedAudience": "all",
+      "indexingPermitted": true,
+      "aiProcessingPermitted": true,
+      "termsUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "tableOfContents": [
+      {
+        "id": "openstax-ap-ch19-s1",
+        "chapterNumber": 19,
+        "title": "19.1 Heart Anatomy: Location, Layers, and Internal Structures",
+        "titleBn": "১৯.১ হৃদপিণ্ডের গঠন: অবস্থান, স্তরসমূহ এবং অভ্যন্তরীণ কাঠামো",
+        "printedPageLabel": "835",
+        "pageIndex": 835,
+        "previewAllowed": true,
+        "readTimeMinutes": 14,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "summary": "Location of the heart in mediastinum, pericardial cavity, epicardium, myocardium, endocardium, and four chambers.",
+        "content": "### 19.1 Heart Anatomy: Location, Layers, and Internal Structures\n\nThe human heart is a muscular pump located within the thoracic cavity, medially between the lungs in the mediastinum. It is about the size of a clenched fist, approximately 12 cm in length, 9 cm in width, and 6 cm in depth.\n\n#### Location and Orientation\nThe heart resides within the pericardial cavity. The dorsal surface lies near the bodies of the thoracic vertebrae, and its anterior surface sits deep to the sternum and costal cartilages. The inferior tip, known as the **apex**, lies just to the left of the sternum between the junction of the fourth and fifth ribs near their articulation with the costal cartilages (approximately 5th left intercostal space, midclavicular line in clinical examination).\n\n#### Membranes: The Pericardium\nThe membrane that directly surrounds the heart and defines the pericardial cavity is called the **pericardium** or pericardial sac:\n1. **Fibrous Pericardium**: Tough, dense connective tissue outer layer that protects the heart and anchors it to surrounding structures.\n2. **Serous Pericardium**: Two-layered inner membrane consisting of the outer *parietal pericardium* fused to the fibrous pericardium, and an inner *visceral pericardium* (or **epicardium**) that directly covers the myocardium.\nBetween these layers lies the *pericardial cavity*, containing lubricating serous pericardial fluid that reduces friction during rhythmic contractions.\n\n#### Layers of the Heart Wall\n1. **Epicardium**: The outermost layer of the heart wall, forming the visceral layer of the serous pericardium.\n2. **Myocardium**: The middle and thickest layer, composed largely of cardiac muscle cells (cardiomyocytes) organized in swirling spiral patterns around the chambers. The left ventricular myocardium is significantly thicker (9-12 mm) than the right ventricular wall (3-5 mm) to overcome high systemic vascular resistance.\n3. **Endocardium**: The innermost layer, composed of simple squamous epithelium continuous with the endothelial lining of the vascular system. It lines the chambers and covers the cardiac valve cusps.\n\n#### Internal Chambers and Valves\nThe heart consists of four chambers:\n- **Right Atrium**: Receives deoxygenated systemic venous return from the superior vena cava, inferior vena cava, and coronary sinus. Features the *pectinate muscles*, *crista terminalis*, and the *fossa ovalis* on the interatrial septum.\n- **Tricuspid Valve (Right Atrioventricular)**: Composed of three fibrous cusps attached via *chordae tendineae* to *papillary muscles* projecting from the ventricular wall.\n- **Right Ventricle**: Ejects blood through the *pulmonary semilunar valve* into the pulmonary trunk towards the lungs for gas exchange. Characterized by prominent *trabeculae carneae* and the *moderator band* (septomarginal trabecula) conveying the right bundle branch.\n- **Left Atrium**: Receives oxygenated blood from four pulmonary veins (two superior and two inferior).\n- **Mitral Valve (Bicuspid / Left Atrioventricular)**: Consists of two robust cusps (anterior and posterior) that prevent regurgitation into the left atrium during high-pressure ventricular systole.\n- **Left Ventricle**: The systemic pump that ejects blood across the three semilunar cusps of the *aortic valve* into the ascending aorta at pressures reaching 120 mmHg in healthy resting adults."
+      },
+      {
+        "id": "openstax-ap-ch19-s2",
+        "chapterNumber": 19,
+        "title": "19.2 Cardiac Muscle and Electrical Conduction System",
+        "titleBn": "১৯.২ কার্ডিয়াক পেশী এবং বৈদ্যুতিক পরিবাহী ব্যবস্থা",
+        "printedPageLabel": "849",
+        "pageIndex": 849,
+        "previewAllowed": true,
+        "readTimeMinutes": 16,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle"
+        ],
+        "summary": "Cardiac muscle histology, intercalated discs, action potentials, SA node pacemaking, and ECG correlations.",
+        "content": "### 19.2 Cardiac Muscle and Electrical Conduction System\n\nUnlike skeletal muscle cells which require voluntary neurological excitation, cardiac muscle possesses **autorhythmicity** (inherent pacemaking capability).\n\n#### Microscopic Organization of Cardiomyocytes\nCardiomyocytes are branched striated cells typically containing a single centrally positioned nucleus. Critical structural hallmarks include:\n- **Intercalated Discs**: Specialized intercellular junctions that bind neighboring cells mechanically and electrically.\n- **Desmosomes (Macula Adherens)**: Anchor intermediate filaments and prevent cardiomyocytes from pulling apart during vigorous systolic contraction.\n- **Gap Junctions (Nexus)**: Form low-resistance ionic channels that allow direct passage of depolarization ions ($Na^+$ and $Ca^{2+}$) from cell to cell, creating a functional electrical syncytium.\n\n#### The Cardiac Conduction Pathway\n1. **Sinoatrial (SA) Node**: Located in the superior posterolateral wall of the right atrium adjacent to the entrance of the superior vena cava. Acting as the primary physiological pacemaker, its unstable resting membrane potential spontaneously depolarizes at approximately 60-100 impulses per minute via hyperpolarization-activated cyclic nucleotide-gated (HCN) \"funny\" channels ($I_f$).\n2. **Internodal Pathways & Bachmann's Bundle**: Conduct the depolarization wavefront across the right atrium and over to the left atrium, ensuring coordinated atrial contraction.\n3. **Atrioventricular (AV) Node**: Located in the inferior interatrial septum. It imposes an essential physiological delay of approximately **0.10 to 0.12 seconds**. This delay allows the atria to complete mechanical contraction and empty their remaining blood (\"atrial kick\", contributing 20-30% of end-diastolic volume) into the ventricles before ventricular systole commences.\n4. **Bundle of His (Atrioventricular Bundle)**: Penetrates the central fibrous skeleton of the heart into the membranous interventricular septum.\n5. **Left and Right Bundle Branches**: Run down the muscular interventricular septum towards the apex. The left branch bifurcates into anterior and posterior fascicles.\n6. **Purkinje Fibers**: Large-diameter specialized myocardial conduction cells with high glycogen content that rapidly transmit impulses (up to 4 m/s) throughout the subendocardium, stimulating ventricular contraction upward from the cardiac apex towards the base."
+      },
+      {
+        "id": "openstax-ap-ch19-s3",
+        "chapterNumber": 19,
+        "title": "19.3 The Cardiac Cycle, Pressure-Volume Loops, and Heart Sounds",
+        "titleBn": "১৯.৩ কার্ডিয়াক চক্র, চাপ-আয়তন লুপ এবং হৃদধ্বনি",
+        "printedPageLabel": "862",
+        "pageIndex": 862,
+        "previewAllowed": true,
+        "readTimeMinutes": 18,
+        "mappedTopicIds": [
+          "heart-and-cardiac-cycle",
+          "heart-failure"
+        ],
+        "summary": "The Wiggers diagram, isovolumetric contraction, ejection, isovolumetric relaxation, and S1/S2 heart sounds.",
+        "content": "### 19.3 The Cardiac Cycle, Pressure-Volume Loops, and Heart Sounds\n\nThe cardiac cycle includes all physiological events associated with one complete heartbeat, normally lasting approximately 0.80 seconds at a resting heart rate of 75 beats per minute.\n\n#### Phases of the Cardiac Cycle\n1. **Ventricular Diastole (Filling Phase)**:\n   - *Rapid Inflow*: As ventricular pressure drops below atrial pressure, the AV valves open briskly, producing rapid passive filling (representing ~70% of ventricular volume).\n   - *Diastasis*: Slow filling as ventricular and atrial pressures equilibrate.\n   - *Atrial Systole*: Atrial contraction completes filling, contributing the remaining ~20-30% of blood. The total volume at the end of diastole is the **End-Diastolic Volume (EDV)**, typically 120-130 mL.\n2. **Ventricular Systole (Pumping Phase)**:\n   - *Isovolumetric Contraction (Phase 2)*: Depolarization triggers ventricular contraction. Ventricular pressure spikes immediately above atrial pressure, snapping the mitral and tricuspid valves shut. Because aortic and pulmonary valves remain closed (aortic diastolic pressure ~80 mmHg), all four valves are closed simultaneously. Pressure rises steeply from ~10 mmHg to 80 mmHg without change in volume.\n   - *Rapid Ventricular Ejection (Phase 3)*: When left ventricular pressure exceeds aortic diastolic pressure (80 mmHg), the aortic valve cusps are forced open, ejecting blood briskly into systemic circulation. Left ventricular pressure peaks at ~120 mmHg.\n   - *Reduced Ejection*: Ejection rate decelerates as myocardial repolarization begins. The volume remaining in the ventricle at the conclusion of ejection is the **End-Systolic Volume (ESV)**, typically 50 mL.\n   - **Stroke Volume (SV)** = $EDV - ESV = 120 - 50 = 70\\text{ mL}$.\n   - **Ejection Fraction (EF)** = $(SV / EDV) \\times 100\\% \\approx 58-65\\%$.\n3. **Early Ventricular Diastole**:\n   - *Isovolumetric Relaxation*: As the ventricles relax, ventricular pressure plummets below systemic aortic pressure. Backward blood flow snaps the aortic and pulmonary valves shut. All four valves are once again closed simultaneously until ventricular pressure drops below atrial pressure, initiating the next cycle.\n\n#### Genesis of Heart Sounds\n- **First Heart Sound ($S_1$)**: \"Lub\" sound caused by reverberation of blood against the closing atrioventricular (mitral and tricuspid) valves at the onset of ventricular systole. Longest and loudest at the cardiac apex.\n- **Second Heart Sound ($S_2$)**: \"Dub\" sound generated by abrupt closure of the aortic and pulmonary semilunar valves at the initiation of ventricular diastole. Higher pitched, best heard over the 2nd right and left intercostal spaces. Physiologically splits into $A_2$ and $P_2$ during deep inspiration."
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-and-cardiac-cycle",
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "Fully licensed open-access medical textbook providing in-app full text for Phase 1 Anatomy & Physiology.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Betts JG, Young KA, Wise JA, et al. Anatomy and Physiology 2e. Houston: OpenStax, Rice University; 2022."
+  },
+  {
+    "id": "dghs-bangladesh-dengue-guideline-2024",
+    "title": "National Guidelines for Clinical Management of Dengue Syndrome 2024",
+    "titleBn": "জাতীয় ডেঙ্গু ক্লিনিক্যাল ম্যানেজমেন্ট গাইডলাইন ২০২৪ (সম্পূর্ণ পাঠ্য)",
+    "authors": [
+      "Directorate General of Health Services (DGHS)",
+      "Ministry of Health and Family Welfare Bangladesh"
+    ],
+    "editors": [
+      "Prof. Dr. Abul Bashar Mohammad Khurshid Alam",
+      "Prof. Dr. Md. Robed Amin"
+    ],
+    "edition": "5th Revised National Edition",
+    "editionNumber": 5,
+    "publicationYear": 2024,
+    "publisher": "Disease Control Division (CDC), DGHS, Dhaka, Bangladesh",
+    "subjectId": "medicine",
+    "phase": "Phase 4",
+    "accessType": "read_in_medx",
+    "officialPublisherUrl": "https://dghs.gov.bd/index.php/en/publications/guidelines",
+    "verificationDate": "2026-09-18",
+    "sourceUrl": "https://dghs.gov.bd/guidelines/dengue_guideline_2024.pdf",
+    "license": {
+      "licenseType": "Open Government / Public Health Standard",
+      "attribution": "Government of the People’s Republic of Bangladesh, Directorate General of Health Services (DGHS). For public medical education and clinical management.",
+      "allowedAudience": "all",
+      "indexingPermitted": true,
+      "aiProcessingPermitted": true,
+      "termsUrl": "https://dghs.gov.bd"
+    },
+    "tableOfContents": [
+      {
+        "id": "dghs-dengue-s1",
+        "chapterNumber": 1,
+        "title": "Classification of Dengue: Group A, Group B, and Group C (Expanded Dengue)",
+        "titleBn": "১. ডেঙ্গুর ক্লিনিক্যাল শ্রেণিবিভাগ: গ্রুপ এ, বি এবং সি",
+        "printedPageLabel": "7",
+        "pageIndex": 7,
+        "previewAllowed": true,
+        "readTimeMinutes": 12,
+        "summary": "Clinical triage criteria for Bangladeshi hospitals: Group A (home care), Group B (in-hospital warning signs), Group C (dengue shock syndrome and severe organ involvement).",
+        "content": "### National Clinical Guidelines for Dengue Management 2024 (DGHS Bangladesh)\n\n#### 1. Clinical Classification & Triage\nDengue infection is classified into three operational clinical groups for immediate hospital triage across Upazila, District, and Tertiary hospitals in Bangladesh:\n\n- **Group A (Patients who can be managed at home)**:\n  - Patients who do NOT have any warning signs, can tolerate oral fluids well, have adequate urine output (at least once every 4-6 hours), and have stable hematocrit.\n  - Management: Paracetamol (maximum 60 mg/kg/day or 500 mg 4 times daily in adults). **STRICTLY AVOID NSAIDs (Aspirin, Ibuprofen, Diclofenac)** due to life-threatening platelet dysfunction and gastrointestinal hemorrhage. Oral rehydration solution (ORS), fresh fruit juice, coconut water.\n\n- **Group B (Patients requiring hospital admission)**:\n  - Patients presenting with **Warning Signs**:\n    1. Persistent vomiting (unable to retain fluids).\n    2. Severe abdominal pain or tenderness.\n    3. Clinical fluid accumulation (pleural effusion, ascites).\n    4. Mucosal bleeding (epistaxis, gum bleeding, menorrhagia).\n    5. Lethargy, restlessness, or postural hypotension.\n    6. Hepatomegaly > 2 cm below costal margin.\n    7. Progressive increase in Hematocrit (HCT) accompanied by rapid decrease in platelet count (< 100,000/µL).\n  - Co-existing conditions: Pregnancy, diabetes mellitus, hypertension, ischemic heart disease, extremes of age (<1 yr or >65 yrs), chronic kidney disease.\n\n- **Group C (Patients with Severe Dengue requiring emergency resuscitation / ICU)**:\n  - **Severe Plasma Leakage** leading to Dengue Shock Syndrome (DSS) or fluid accumulation with respiratory distress.\n  - **Severe Bleeding**: Massive hematemesis, melena, intracranial hemorrhage.\n  - **Severe Organ Impairment**: AST/ALT ≥ 1000 U/L, acute kidney injury, encephalopathy, or viral myocarditis."
+      },
+      {
+        "id": "dghs-dengue-s2",
+        "chapterNumber": 2,
+        "title": "Fluid Management Protocol in Dengue Shock Syndrome (DSS)",
+        "titleBn": "২. ডেঙ্গু শক সিন্ড্রোমে তরল ব্যবস্থাপনা প্রোটোকল",
+        "printedPageLabel": "18",
+        "pageIndex": 18,
+        "previewAllowed": true,
+        "readTimeMinutes": 15,
+        "summary": "Isotonic crystalloid fluid regimens, hematocrit monitoring, colloid titration, and fluid overload prevention.",
+        "content": "### 2. Fluid Management Protocol in Dengue Shock Syndrome (DSS)\n\nDengue shock is a medical emergency caused by acute microvascular plasma leakage typically occurring between Day 3 and Day 7 of illness (the *Critical Phase*, coincident with defervescence).\n\n#### Resuscitation Principles\n1. **Initial Bolus**: In compensated shock (narrow pulse pressure ≤ 20 mmHg, tachycardia, delayed capillary refill > 2 sec, cold extremities with normal SBP), administer **Normal Saline (0.9% NaCl) or Ringer’s Lactate at 5-10 mL/kg/hour** over 1 hour.\n2. In hypotensive / decompensated shock (undetectable diastolic pressure, systolic BP < 90 mmHg):\n   - Administer crystalloid bolus **20 mL/kg as a rapid push over 15 minutes**.\n   - Check immediate post-resuscitation hematocrit (HCT).\n   - If shock improves: Titrate fluids downward stepwise: 10 mL/kg/hr for 1-2 hours $\\to$ 7 mL/kg/hr for 2 hours $\\to$ 5 mL/kg/hr $\\to$ 3 mL/kg/hr.\n   - If shock persists despite crystalloid boluses and HCT remains high: Switch to **Colloid (Dextran 40 or 6% Hydroxyethyl Starch) 10-20 mL/kg** over 30-60 minutes.\n   - If shock persists but HCT plummets significantly: Suspect occult internal hemorrhage (GI bleed) and arrange urgent cross-matched **Fresh Whole Blood (10 mL/kg)** or packed red cells.\n\n#### Recognizing Fluid Overload\nPlasma leakage rarely exceeds 24 to 48 hours. Continuing high-volume intravenous infusions beyond the critical phase precipitates pulmonary edema, pleural effusion, and heart failure.\n- *Signs of Recovery*: Stable pulse and blood pressure, return of appetite, diuresis, and the classic confluent erythematous rash with pale islands of normal skin (\"islands of white in a sea of red\"). Discontinue IV fluids promptly!"
+      }
+    ],
+    "connectedTopicIds": [
+      "heart-failure"
+    ],
+    "bmdcCurriculumRelevance": "The statutory national guideline for Dengue clinical exams, internship management, and hospital protocol in Bangladesh.",
+    "isBangladeshiCurriculumCore": true,
+    "citationStandard": "Directorate General of Health Services. National Guidelines for Clinical Management of Dengue Syndrome. 5th ed. Dhaka: Ministry of Health and Family Welfare; 2024."
+  }
+]

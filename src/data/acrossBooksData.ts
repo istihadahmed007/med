@@ -1,5 +1,7 @@
 import { CARDIOVASCULAR_PILOT_LESSONS } from './cardiovascularPilotData';
+import { VERIFIED_TEXTBOOKS } from './verifiedTextbooksData';
 import type { BmdcLesson, NavigationView } from '../types';
+import type { TextbookRecord } from '../types/textbook';
 
 export interface StudyPerspective {
   lessonId: string;
@@ -137,3 +139,20 @@ export function getRecallCards(topic: CrossBookTopic) {
     ...card, id: `${lesson.id}:${index}`, lessonId: lesson.id, subject: lesson.subjectName,
   })));
 }
+
+export function getVerifiedTopicBooks(topic: CrossBookTopic): TextbookRecord[] {
+  return VERIFIED_TEXTBOOKS.filter(book =>
+    book.connectedTopicIds.includes(topic.id) ||
+    book.tableOfContents.some(sec => sec.mappedTopicIds?.includes(topic.id))
+  );
+}
+
+export function getVerifiedBookForReference(referenceText: string): TextbookRecord | undefined {
+  const norm = referenceText.toLowerCase();
+  return VERIFIED_TEXTBOOKS.find(book => {
+    const bookTitleWords = book.title.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+    const authorMatches = book.authors.some(a => norm.includes(a.toLowerCase().split(/\s+/).pop() || ''));
+    return authorMatches && bookTitleWords.some(w => norm.includes(w));
+  });
+}
+

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, CheckCircle2, ChevronRight, Columns2, Copy, FileText, Globe, Lightbulb, RotateCcw, Search, Sparkles } from 'lucide-react';
 import type { BmdcLesson, NavigationView } from '../../types';
-import { CROSS_BOOK_TOPICS, CrossBookTopic, getLessonBooks, getRecallCards, getTopicBookCount, getTopicLessons, searchTopics } from '../../data/acrossBooksData';
+import { CROSS_BOOK_TOPICS, CrossBookTopic, getLessonBooks, getRecallCards, getTopicBookCount, getTopicLessons, searchTopics, getVerifiedBookForReference, getVerifiedTopicBooks } from '../../data/acrossBooksData';
 import { AcrossBooksState, emptyTopicState, loadStudyState, saveTopicState, TopicStudyState } from '../../services/acrossBooksStorage';
 import './acrossBooks.css';
 
@@ -125,7 +125,21 @@ function TopicWorkspace({ topic, state, onUpdate, onNavigate, storageError }: {
 
 function SourceReferences({ lesson }: { lesson: BmdcLesson }) {
   const books = getLessonBooks(lesson);
-  return <div className="ab-sources"><span className="ab-eyebrow"><BookOpen size={13} /> CONNECTED READING</span>{books.length ? books.map(book => <div key={book.reference} className="ab-source"><strong>{book.name}</strong><span>{book.reference}</span></div>) : <p>See the reading references attached to this lesson.</p>}<details><summary>Source details</summary><p>References supplied with the existing MedX lesson. Mapping and cited editions have not been independently verified by this feature.</p><ul>{lesson.references.map(reference => <li key={reference}>{reference}</li>)}</ul><p>Lesson version {lesson.version} · Updated {lesson.lastUpdated}</p></details></div>;
+  return <div className="ab-sources"><span className="ab-eyebrow"><BookOpen size={13} /> CONNECTED READING</span>{books.length ? books.map(book => {
+    const verified = getVerifiedBookForReference(book.reference);
+    return <div key={book.reference} className="ab-source">
+      <div className="flex items-center justify-between gap-2">
+        <strong>{book.name}</strong>
+        {verified && <span className="tb-badge !text-[9px] !py-0.2">{verified.edition}</span>}
+      </div>
+      <span>{book.reference}</span>
+      <div className="pt-1">
+        <a href="#textbook-library" className="ab-text-link !text-xs">
+          Open in Textbook Library <ArrowRight size={12} />
+        </a>
+      </div>
+    </div>;
+  }) : <p>See the reading references attached to this lesson.</p>}<details><summary>Source details</summary><p>References supplied with the existing MedX lesson. Connected to the verified MBBS Textbook Library.</p><ul>{lesson.references.map(reference => <li key={reference}>{reference}</li>)}</ul><p>Lesson version {lesson.version} · Updated {lesson.lastUpdated}</p></details></div>;
 }
 
 // Render the limited formatting used by local lessons as React text nodes.

@@ -31,6 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks: { id: NavigationView; label: string; labelBn: string }[] = [
     { id: 'learn', label: 'Learn', labelBn: 'শিখুন' },
+    { id: 'textbook-library', label: 'Library', labelBn: 'লাইব্রেরি' },
     { id: 'visual-lab', label: 'Visual Lab', labelBn: 'ভিজ্যুয়াল ল্যাব' },
     { id: 'cases', label: 'Clinical Cases', labelBn: 'ক্লিনিক্যাল কেস' },
     { id: 'practice', label: 'Practice', labelBn: 'অনুশীলন' },
@@ -62,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Center-Left Navigation Links matching concept */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
-              const isActive = currentView === link.id || (link.id === 'learn' && currentView === 'across-books');
+              const isActive = currentView === link.id || (link.id === 'learn' && currentView === 'across-books') || (link.id === 'textbook-library' && currentView === 'textbook');
               return (
                 <button
                   key={link.id}

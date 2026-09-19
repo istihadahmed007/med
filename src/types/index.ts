@@ -2,6 +2,7 @@ export type NavigationView =
   | 'dashboard'
   | 'learn'
   | 'across-books'
+  | 'textbook-library'
   | 'visual-lab'
   | 'cases'
   | 'practice'
@@ -32,6 +33,7 @@ export type NavigationView =
   | 'visual-engine';
 
 export * from './videoStudio';
+export * from './textbook';
 
 export type UserRole = 'student' | 'faculty' | 'author' | 'reviewer' | 'admin';
 
