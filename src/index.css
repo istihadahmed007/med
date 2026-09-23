@@ -8,6 +8,7 @@
   --font-heading: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --font-bengali: 'Hind Siliguri', 'Noto Sans Bengali', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --medx-cyan: #08AFC1;
 }
 
 body {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12h-4l-3 9L9 3l-3 9H2'/></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MEDX BD — Interactive Medical Simulation & Learning Platform</title>
     <meta name="description" content="Next-generation interactive medical education, 3D anatomy, physiology simulation, OSPE/OSCE training, and virtual patient cases for Bangladesh MBBS students." />
     
@@ -13,7 +13,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#06172E] text-[#F5F9FF] font-sans antialiased selection:bg-[#08AFC1]/30 selection:text-white overflow-x-hidden min-h-screen">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Pre-hydration medical skeleton to eliminate blank screen flash -->
+      <div id="pre-hydration-skeleton" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #040D21; color: #C4D4EA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <div style="width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, #08AFC1, #10b981); padding: 2px; box-shadow: 0 0 30px rgba(8, 175, 193, 0.4); margin-bottom: 16px;">
+          <div style="width: 100%; height: 100%; background: #06172E; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+            <svg style="width: 24px; height: 24px; color: #08AFC1;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z"/>
+            </svg>
+          </div>
+        </div>
+        <div style="font-size: 16px; font-weight: 700; color: #F5F9FF; letter-spacing: 0.05em;">MEDX BANGLADESH</div>
+        <div style="font-size: 12px; color: #8eaecf; margin-top: 6px;">Initializing MBBS Student Companion...</div>
+      </div>
+    </div>
     <script>
       function shouldIgnoreError(msg) {
         if (!msg) return true;

@@ -9,19 +9,21 @@ import { GlobalSearch } from './components/navigation/GlobalSearch';
 import { VoiceAssistantModal } from './components/ai/VoiceAssistantModal';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 
-// 7 Primary Navigation Hubs
+// Core Navigation Hubs
 import { DashboardView } from './components/home/DashboardView';
 import { LearnSubjectLibrary } from './components/learn/LearnSubjectLibrary';
-import { VisualLabHub, VisualLabTab } from './components/visual-lab/VisualLabHub';
-import { ClinicalCaseEngine } from './components/cases/ClinicalCaseEngine';
-import { PracticeExamsHub, PracticeTab } from './components/practice/PracticeExamsHub';
-import { RevisionHub } from './components/revision/RevisionHub';
-import { PersonalizedProgress } from './components/progress/PersonalizedProgress';
+
+// Lazy-loaded heavy hubs to optimize initial dashboard bundle & performance
+const VisualLabHub = lazy(() => import('./components/visual-lab/VisualLabHub').then(module => ({ default: module.VisualLabHub })));
+const ClinicalCaseEngine = lazy(() => import('./components/cases/ClinicalCaseEngine').then(module => ({ default: module.ClinicalCaseEngine })));
+const PracticeExamsHub = lazy(() => import('./components/practice/PracticeExamsHub').then(module => ({ default: module.PracticeExamsHub })));
+const RevisionHub = lazy(() => import('./components/revision/RevisionHub').then(module => ({ default: module.RevisionHub })));
+const PersonalizedProgress = lazy(() => import('./components/progress/PersonalizedProgress').then(module => ({ default: module.PersonalizedProgress })));
 
 // Intelligence & Governance
-import { AiTutorChat } from './components/ai/AiTutorChat';
-import { FacultyAdminPortal } from './components/faculty/FacultyAdminPortal';
-import { VideoStudioHub } from './components/video-studio/VideoStudioHub';
+const AiTutorChat = lazy(() => import('./components/ai/AiTutorChat').then(module => ({ default: module.AiTutorChat })));
+const FacultyAdminPortal = lazy(() => import('./components/faculty/FacultyAdminPortal').then(module => ({ default: module.FacultyAdminPortal })));
+const VideoStudioHub = lazy(() => import('./components/video-studio/VideoStudioHub').then(module => ({ default: module.VideoStudioHub })));
 
 import { MobileBottomNav } from './components/navigation/MobileBottomNav';
 const AcrossBooksWorkspace = lazy(() => import('./components/across-books/AcrossBooksWorkspace').then(module => ({ default: module.AcrossBooksWorkspace })));
@@ -236,26 +238,30 @@ export const App: React.FC = () => {
               currentView === 'investigations' ||
               currentView === 'treatment'
             ) && (
-              <VisualLabHub
-                initialSubTab={
-                  currentView === 'physiology' ? 'cardiac-cycle' :
-                  currentView === 'pathology' ? 'pathology-slider' :
-                  currentView === 'histology' ? 'histology' :
-                  currentView === 'comparison' ? 'normal-vs-abnormal' :
-                  currentView === 'diagrams' ? 'diagrams' :
-                  currentView === 'surgery' ? 'surgery' :
-                  currentView === 'pharmacology' ? 'pharmacology' :
-                  currentView === 'investigations' ? 'radiology-dicom' :
-                  '3d-anatomy'
-                }
-                onNavigateToCase={() => handleNavigate('cases')}
-                onStartViva={() => handleNavigate('ai-viva')}
-              />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading 3D Visual Lab…</p>}>
+                <VisualLabHub
+                  initialSubTab={
+                    currentView === 'physiology' ? 'cardiac-cycle' :
+                    currentView === 'pathology' ? 'pathology-slider' :
+                    currentView === 'histology' ? 'histology' :
+                    currentView === 'comparison' ? 'normal-vs-abnormal' :
+                    currentView === 'diagrams' ? 'diagrams' :
+                    currentView === 'surgery' ? 'surgery' :
+                    currentView === 'pharmacology' ? 'pharmacology' :
+                    currentView === 'investigations' ? 'radiology-dicom' :
+                    '3d-anatomy'
+                  }
+                  onNavigateToCase={() => handleNavigate('cases')}
+                  onStartViva={() => handleNavigate('ai-viva')}
+                />
+              </Suspense>
             )}
 
             {/* 4. Clinical Cases */}
             {currentView === 'cases' && (
-              <ClinicalCaseEngine />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Clinical Case Engine…</p>}>
+                <ClinicalCaseEngine />
+              </Suspense>
             )}
 
             {/* 5. Practice & Exams */}
@@ -266,43 +272,55 @@ export const App: React.FC = () => {
               currentView === 'ai-viva' ||
               currentView === 'clinical-exam'
             ) && (
-              <PracticeExamsHub
-                initialSubTab={
-                  currentView === 'ospe' ? 'ospe' :
-                  currentView === 'osce' ? 'osce' :
-                  currentView === 'ai-viva' ? 'ai-viva' :
-                  'questions'
-                }
-              />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Practice & Exam Hub…</p>}>
+                <PracticeExamsHub
+                  initialSubTab={
+                    currentView === 'ospe' ? 'ospe' :
+                    currentView === 'osce' ? 'osce' :
+                    currentView === 'ai-viva' ? 'ai-viva' :
+                    'questions'
+                  }
+                />
+              </Suspense>
             )}
 
             {/* 6. Revision Hub (Spaced Flashcards & Mistakes) */}
             {currentView === 'revision' && (
-              <RevisionHub
-                onNavigateToLesson={handleOpenLesson}
-                onNavigateView={handleNavigate}
-              />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Revision Deck…</p>}>
+                <RevisionHub
+                  onNavigateToLesson={handleOpenLesson}
+                  onNavigateView={handleNavigate}
+                />
+              </Suspense>
             )}
 
             {/* 7. Progress Radar */}
             {currentView === 'progress' && (
-              <PersonalizedProgress
-                onNavigateToView={handleNavigate}
-                onNavigateToTopic={() => handleNavigate('learn')}
-              />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Student Progress Radar…</p>}>
+                <PersonalizedProgress
+                  onNavigateToView={handleNavigate}
+                  onNavigateToTopic={() => handleNavigate('learn')}
+                />
+              </Suspense>
             )}
 
             {/* Intelligence & Faculty */}
             {currentView === 'ai-tutor' && (
-              <AiTutorChat />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading AI Tutor…</p>}>
+                <AiTutorChat />
+              </Suspense>
             )}
 
             {currentView === 'faculty-admin' && (
-              <FacultyAdminPortal />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Faculty Portal…</p>}>
+                <FacultyAdminPortal />
+              </Suspense>
             )}
 
             {currentView === 'video-studio' && (
-              <VideoStudioHub />
+              <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Video Studio…</p>}>
+                <VideoStudioHub />
+              </Suspense>
             )}
           </ErrorBoundary>
         </main>
@@ -334,6 +352,7 @@ export const App: React.FC = () => {
       <MobileBottomNav
         currentView={currentView}
         onNavigate={handleNavigate}
+        onOpenSearch={() => setIsSearchOpen(true)}
       />
     </div>
   );

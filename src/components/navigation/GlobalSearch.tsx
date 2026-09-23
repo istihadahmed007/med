@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Search,
   X,
@@ -6,15 +6,19 @@ import {
   Pill,
   Building2,
   Clock,
-  ArrowRight,
   Sparkles,
-  FileText,
   ChevronRight,
   Stethoscope,
+  Layers,
+  Bookmark,
+  Plus,
+  Trash2
 } from 'lucide-react';
 import { searchStudyMaterials } from '../../data/studyMaterialsData';
 import { StudyService } from '../../services/studyService';
 import { StaticDrugDbService } from '../../services/staticDrugDbService';
+import { CLINICAL_CASES } from '../../data/clinicalCasesData';
+import { ANATOMICAL_STRUCTURES } from '../../data/anatomyData';
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -22,48 +26,77 @@ interface GlobalSearchProps {
   onNavigate: (view: string, params?: Record<string, string>) => void;
 }
 
-interface SearchResult {
+export interface SearchResult {
   id: string;
   title: string;
   subtitle: string;
-  type: 'topic' | 'generic' | 'brand' | 'manufacturer' | 'subject';
+  type: 'topic' | 'generic' | 'brand' | 'manufacturer' | 'case' | 'anatomy';
   slug?: string;
   genericId?: string;
+  badge?: string;
 }
 
 interface GroupedResults {
   topics: SearchResult[];
+  anatomy: SearchResult[];
+  cases: SearchResult[];
   generics: SearchResult[];
   brands: SearchResult[];
   manufacturers: SearchResult[];
 }
 
 const CATEGORY_CONFIG = {
-  topics: { label: 'Study Materials', icon: BookOpen, color: '#08AFC1' },
+  topics: { label: 'Curriculum Topics', icon: BookOpen, color: '#08AFC1' },
+  anatomy: { label: '3D Anatomy & Structures', icon: Layers, color: '#06b6d4' },
+  cases: { label: 'Clinical Cases & Symptoms', icon: Stethoscope, color: '#ec4899' },
   generics: { label: 'Generics (INN)', icon: Pill, color: '#10b981' },
-  brands: { label: 'Brands', icon: Stethoscope, color: '#f59e0b' },
-  manufacturers: { label: 'Companies', icon: Building2, color: '#8b5cf6' },
+  brands: { label: 'Medicine Brands', icon: Pill, color: '#f59e0b' },
+  manufacturers: { label: 'Pharmaceutical Companies', icon: Building2, color: '#8b5cf6' },
 } as const;
+
+const STORAGE_KEY_SAVED_SEARCHES = 'medx_saved_searches';
 
 export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onNavigate }) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<GroupedResults>({ topics: [], generics: [], brands: [], manufacturers: [] });
+  const [results, setResults] = useState<GroupedResults>({
+    topics: [],
+    anatomy: [],
+    cases: [],
+    generics: [],
+    brands: [],
+    manufacturers: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [savedSearches, setSavedSearches] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Load recent & saved searches on open
   useEffect(() => {
     if (isOpen) {
       setRecentSearches(StudyService.getRecentSearches());
-      setTimeout(() => inputRef.current?.focus(), 100);
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_SAVED_SEARCHES);
+        if (saved) setSavedSearches(JSON.parse(saved));
+      } catch {
+        setSavedSearches(['STEMI chest pain', 'Left ventricle relations', 'Atorvastatin']);
+      }
+      setTimeout(() => inputRef.current?.focus(), 80);
     } else {
       setQuery('');
-      setResults({ topics: [], generics: [], brands: [], manufacturers: [] });
+      setResults({
+        topics: [],
+        anatomy: [],
+        cases: [],
+        generics: [],
+        brands: [],
+        manufacturers: [],
+      });
     }
   }, [isOpen]);
 
-  // Keyboard handler
+  // Keyboard shortcut listener (ESC to close)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -74,46 +107,106 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onN
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  const handleSaveSearch = (textToSave: string) => {
+    if (!textToSave.trim() || savedSearches.includes(textToSave)) return;
+    const updated = [textToSave, ...savedSearches].slice(0, 10);
+    setSavedSearches(updated);
+    try {
+      localStorage.setItem(STORAGE_KEY_SAVED_SEARCHES, JSON.stringify(updated));
+    } catch (err) {
+      console.warn('Could not save search:', err);
+    }
+  };
+
+  const handleRemoveSavedSearch = (textToRemove: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const updated = savedSearches.filter(s => s !== textToRemove);
+    setSavedSearches(updated);
+    try {
+      localStorage.setItem(STORAGE_KEY_SAVED_SEARCHES, JSON.stringify(updated));
+    } catch (err) {
+      console.warn('Could not remove saved search:', err);
+    }
+  };
+
   const performSearch = useCallback(async (q: string) => {
-    if (q.length < 2) {
-      setResults({ topics: [], generics: [], brands: [], manufacturers: [] });
+    const lowerQ = q.trim().toLowerCase();
+    if (lowerQ.length < 2) {
+      setResults({
+        topics: [],
+        anatomy: [],
+        cases: [],
+        generics: [],
+        brands: [],
+        manufacturers: [],
+      });
       return;
     }
 
     setIsLoading(true);
 
-    // Search study materials (client-side, instant)
-    const studyResults = searchStudyMaterials(q, 10);
+    // 1. Search study materials & curriculum topics
+    const studyResults = searchStudyMaterials(lowerQ, 6);
     const topics: SearchResult[] = studyResults.map(r => ({
       id: r.id,
       title: r.title,
       subtitle: r.subtitle,
-      type: r.type === 'subject' ? 'subject' as const : 'topic' as const,
+      type: 'topic',
       slug: r.slug,
     }));
 
-    // Search drug database (API call with static fallback)
-    let apiResults: GroupedResults = { topics: [], generics: [], brands: [], manufacturers: [] };
+    // 2. Search Anatomical Structures & Symptoms
+    const matchedAnatomy = ANATOMICAL_STRUCTURES.filter(a => {
+      const matchName = a.name.toLowerCase().includes(lowerQ) || (a.latinName && a.latinName.toLowerCase().includes(lowerQ));
+      const matchSystem = a.system.toLowerCase().includes(lowerQ) || a.category.toLowerCase().includes(lowerQ);
+      const matchSymptoms = a.clinicalConnections?.symptoms?.some(s => s.toLowerCase().includes(lowerQ));
+      const matchConditions = a.commonConditions?.some(c => c.toLowerCase().includes(lowerQ));
+      return matchName || matchSystem || matchSymptoms || matchConditions;
+    }).slice(0, 5).map(a => ({
+      id: a.id,
+      title: a.name,
+      subtitle: `${a.latinName || a.category} • ${a.system.toUpperCase()}`,
+      type: 'anatomy' as const,
+      badge: a.clinicalImportance ? 'Clinical High-Yield' : undefined,
+    }));
+
+    // 3. Search Clinical Cases
+    const matchedCases = CLINICAL_CASES.filter(c => {
+      const matchTitle = c.title.toLowerCase().includes(lowerQ);
+      const matchComplaint = c.chiefComplaint.toLowerCase().includes(lowerQ);
+      const matchSystem = c.system.toLowerCase().includes(lowerQ);
+      return matchTitle || matchComplaint || matchSystem;
+    }).slice(0, 5).map(c => ({
+      id: c.id,
+      title: c.title,
+      subtitle: `Chief Complaint: ${c.chiefComplaint.slice(0, 80)}...`,
+      type: 'case' as const,
+      badge: c.difficulty,
+    }));
+
+    // 4. Search Drug Database (API call with static fallback)
+    let apiResults = { generics: [] as SearchResult[], brands: [] as SearchResult[], manufacturers: [] as SearchResult[] };
     try {
-      const res = await fetch(`/api/search/global?q=${encodeURIComponent(q)}&limit=10`);
+      const res = await fetch(`/api/search/global?q=${encodeURIComponent(lowerQ)}&limit=6`);
       if (res.ok) {
         const data = await res.json();
         apiResults = data.results || apiResults;
       } else {
-        const staticResults = await StaticDrugDbService.globalSearch(q, 10);
-        apiResults = { topics: [], ...staticResults };
+        const staticResults = await StaticDrugDbService.globalSearch(lowerQ, 6);
+        apiResults = { generics: staticResults.generics as any, brands: staticResults.brands as any, manufacturers: staticResults.manufacturers as any };
       }
     } catch {
-      // API not available (e.g. static GitHub Pages hosting) - query static database
-      const staticResults = await StaticDrugDbService.globalSearch(q, 10);
-      apiResults = { topics: [], ...staticResults };
+      const staticResults = await StaticDrugDbService.globalSearch(lowerQ, 6);
+      apiResults = { generics: staticResults.generics as any, brands: staticResults.brands as any, manufacturers: staticResults.manufacturers as any };
     }
 
     setResults({
       topics,
-      generics: (apiResults.generics || []),
-      brands: (apiResults.brands || []),
-      manufacturers: (apiResults.manufacturers || []),
+      anatomy: matchedAnatomy,
+      cases: matchedCases,
+      generics: apiResults.generics || [],
+      brands: apiResults.brands || [],
+      manufacturers: apiResults.manufacturers || [],
     });
 
     setIsLoading(false);
@@ -124,7 +217,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onN
     setQuery(val);
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => performSearch(val), 300);
+    debounceRef.current = setTimeout(() => performSearch(val), 250);
   };
 
   const handleResultClick = (result: SearchResult) => {
@@ -132,10 +225,17 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onN
 
     switch (result.type) {
       case 'topic':
-      case 'subject':
         if (result.slug) {
           window.location.hash = `study-materials/${result.slug}`;
+        } else {
+          window.location.hash = 'learn';
         }
+        break;
+      case 'anatomy':
+        window.location.hash = 'visual-lab';
+        break;
+      case 'case':
+        window.location.hash = 'cases';
         break;
       case 'generic':
         window.location.hash = `drug-reference?q=${encodeURIComponent(result.title)}&tab=generics`;
@@ -151,160 +251,252 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onN
     onClose();
   };
 
-  const handleRecentClick = (search: string) => {
-    setQuery(search);
-    performSearch(search);
+  const handleSelectPredefined = (text: string) => {
+    setQuery(text);
+    performSearch(text);
   };
 
-  const totalResults = results.topics.length + results.generics.length +
-    results.brands.length + results.manufacturers.length;
+  const totalResults = results.topics.length + results.anatomy.length + results.cases.length +
+    results.generics.length + results.brands.length + results.manufacturers.length;
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh]">
+    <div 
+      role="dialog"
+      aria-modal="true"
+      aria-label="Global Medical Search"
+      className="fixed inset-0 z-[100] flex items-start justify-center pt-[8vh] sm:pt-[10vh] px-3 pointer-events-auto"
+    >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-[#040D21]/80 backdrop-blur-md transition-opacity"
         onClick={onClose}
+        aria-hidden="true"
       />
 
-      {/* Search Modal */}
-      <div className="relative w-full max-w-2xl mx-4 bg-[#0f172a] border border-[rgba(148,163,184,0.15)] rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-200">
-        {/* Search Input */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-[rgba(148,163,184,0.1)]">
-          <Search className="w-5 h-5 text-[#64748b] shrink-0" />
+      {/* Search Modal Container */}
+      <div className="relative w-full max-w-2xl bg-[#07172E] border border-[rgba(190,225,255,0.22)] rounded-[24px] shadow-[0_24px_64px_rgba(0,0,0,0.65)] overflow-hidden animate-fadeIn z-10 flex flex-col max-h-[80vh]">
+        
+        {/* Search Input Bar */}
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-[rgba(190,225,255,0.14)] bg-[rgba(10,36,74,0.40)]">
+          <Search className="w-5 h-5 text-[#08AFC1] shrink-0" aria-hidden="true" />
           <input
             ref={inputRef}
-            type="text"
-            placeholder="Search medicines, topics, subjects..."
+            type="search"
+            aria-label="Search topics, medicines, cases, or anatomy"
+            placeholder="Search topics, medicines, cases, or anatomy…"
             value={query}
             onChange={handleQueryChange}
-            className="flex-1 bg-transparent text-[#e2e8f0] placeholder-[#64748b] text-base font-sans outline-none"
+            className="flex-1 bg-transparent text-[#F5F9FF] placeholder-[#8eaecf] text-sm sm:text-base font-sans outline-none focus:ring-0"
           />
+
           {query && (
-            <button
-              onClick={() => { setQuery(''); setResults({ topics: [], generics: [], brands: [], manufacturers: [] }); }}
-              className="p-1 rounded-lg hover:bg-white/5 text-[#64748b] hover:text-[#e2e8f0] transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => handleSaveSearch(query)}
+                title="Save this search"
+                aria-label="Save this search query"
+                className="p-1.5 rounded-lg hover:bg-white/10 text-[#8eaecf] hover:text-[#08AFC1] transition-colors"
+              >
+                <Bookmark className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => { 
+                  setQuery(''); 
+                  setResults({ topics: [], anatomy: [], cases: [], generics: [], brands: [], manufacturers: [] }); 
+                }}
+                aria-label="Clear search input"
+                className="p-1.5 rounded-lg hover:bg-white/10 text-[#8eaecf] hover:text-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           )}
-          <kbd className="hidden sm:inline-flex text-[10px] font-mono text-[#475569] bg-white/5 px-1.5 py-0.5 rounded border border-[rgba(148,163,184,0.1)]">
+
+          <kbd className="hidden sm:inline-flex text-[10px] font-mono text-[#8eaecf] bg-white/5 px-2 py-0.5 rounded border border-white/10">
             ESC
           </kbd>
         </div>
 
-        {/* Results */}
-        <div className="max-h-[60vh] overflow-y-auto py-2">
-          {/* Loading */}
+        {/* Results / Suggestions Scrollable Container */}
+        <div className="flex-1 overflow-y-auto py-2">
+          
+          {/* Loading Indicator */}
           {isLoading && (
-            <div className="px-5 py-6 text-center text-[#64748b] text-sm font-sans">
-              <Sparkles className="w-4 h-4 animate-spin inline-block mr-2" />
-              Searching...
+            <div className="px-5 py-8 text-center text-[#8eaecf] text-sm font-sans flex items-center justify-center gap-2">
+              <Sparkles className="w-4 h-4 animate-spin text-[#08AFC1]" />
+              <span>Searching across medical taxonomy...</span>
             </div>
           )}
 
-          {/* Empty state with recent searches */}
+          {/* Empty Query State: Recent Searches & Saved Searches */}
           {!isLoading && query.length < 2 && (
-            <div className="px-5 py-4">
+            <div className="px-5 py-4 space-y-5">
+              
+              {/* Saved Searches */}
+              {savedSearches.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-[#08AFC1] font-bold">
+                    <span className="flex items-center gap-1.5">
+                      <Bookmark className="w-3.5 h-3.5" />
+                      Saved Searches
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {savedSearches.map((s, i) => (
+                      <div
+                        key={i}
+                        onClick={() => handleSelectPredefined(s)}
+                        role="button"
+                        tabIndex={0}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(8,175,193,0.15)] border border-[rgba(8,175,193,0.35)] text-xs text-[#F5F9FF] hover:bg-[#08AFC1]/25 transition-all cursor-pointer group"
+                      >
+                        <span>{s}</span>
+                        <button
+                          onClick={(e) => handleRemoveSavedSearch(s, e)}
+                          title="Remove saved search"
+                          className="text-[#8eaecf] hover:text-rose-400 p-0.5"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Recent Searches */}
               {recentSearches.length > 0 && (
-                <>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-[#64748b] font-bold mb-2">
+                <div className="space-y-1.5">
+                  <p className="text-[11px] font-mono uppercase tracking-widest text-[#8eaecf] font-bold">
                     Recent Searches
                   </p>
                   <div className="space-y-0.5">
                     {recentSearches.slice(0, 5).map((s, i) => (
                       <button
                         key={i}
-                        onClick={() => handleRecentClick(s)}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/5 text-left transition-colors group"
+                        onClick={() => handleSelectPredefined(s)}
+                        className="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/5 text-left transition-colors group cursor-pointer"
                       >
-                        <Clock className="w-3.5 h-3.5 text-[#475569]" />
-                        <span className="text-sm text-[#94a3b8] group-hover:text-[#e2e8f0] transition-colors">{s}</span>
+                        <span className="flex items-center gap-2.5 text-xs sm:text-sm text-[#C4D4EA] group-hover:text-white">
+                          <Clock className="w-3.5 h-3.5 text-[#08AFC1]" />
+                          <span>{s}</span>
+                        </span>
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white" />
                       </button>
                     ))}
                   </div>
-                </>
+                </div>
               )}
-              {recentSearches.length === 0 && (
-                <p className="text-sm text-[#64748b] text-center py-4 font-sans">
-                  Search across {' '}
-                  <span className="text-[#38bdf8]">study materials</span>,{' '}
-                  <span className="text-[#10b981]">medicines</span>,{' '}
-                  <span className="text-[#f59e0b]">brands</span>, and{' '}
-                  <span className="text-[#8b5cf6]">companies</span>
+
+              {/* Quick suggestion categories */}
+              <div className="pt-2 border-t border-white/5">
+                <p className="text-[11px] font-mono uppercase tracking-widest text-[#8eaecf] font-bold mb-2">
+                  Suggested Medical Categories
                 </p>
-              )}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {[
+                    { label: 'Left Ventricle', icon: Layers, query: 'left ventricle' },
+                    { label: 'Acute STEMI', icon: Stethoscope, query: 'stemi' },
+                    { label: 'Wiggers Diagram', icon: BookOpen, query: 'cardiac cycle' },
+                    { label: 'Atorvastatin', icon: Pill, query: 'atorvastatin' },
+                    { label: 'Paracetamol', icon: Pill, query: 'paracetamol' },
+                    { label: 'Coronary Arteries', icon: Layers, query: 'coronary' },
+                  ].map((sug, idx) => {
+                    const SugIcon = sug.icon;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => handleSelectPredefined(sug.query)}
+                        className="flex items-center gap-2 p-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-[#C4D4EA] hover:text-[#F5F9FF] border border-white/5 transition-all text-left cursor-pointer"
+                      >
+                        <SugIcon className="w-3.5 h-3.5 text-[#08AFC1]" />
+                        <span>{sug.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
             </div>
           )}
 
-          {/* No results */}
+          {/* No Results Found */}
           {!isLoading && query.length >= 2 && totalResults === 0 && (
-            <div className="px-5 py-8 text-center">
-              <p className="text-sm text-[#64748b] font-sans">
-                No results found for "<span className="text-[#e2e8f0]">{query}</span>"
+            <div className="px-5 py-10 text-center space-y-1">
+              <p className="text-sm font-semibold text-[#F5F9FF]">
+                No medical results found for "<span className="text-[#08AFC1]">{query}</span>"
               </p>
-              <p className="text-xs text-[#475569] mt-1">
-                Try different keywords or check the spelling
+              <p className="text-xs text-[#8eaecf]">
+                Try searching for organ names, generic medicines, clinical symptoms, or BMDC exam topics.
               </p>
             </div>
           )}
 
-          {/* Grouped Results */}
+          {/* Grouped Results Display */}
           {!isLoading && totalResults > 0 && (
-            <div>
+            <div className="divide-y divide-white/5">
               {(Object.entries(CATEGORY_CONFIG) as [keyof GroupedResults, typeof CATEGORY_CONFIG[keyof typeof CATEGORY_CONFIG]][]).map(([key, config]) => {
                 const items = results[key];
                 if (!items || items.length === 0) return null;
                 const Icon = config.icon;
 
                 return (
-                  <div key={key} className="mb-1">
+                  <div key={key} className="py-2">
                     <div className="px-5 py-1.5 flex items-center gap-2">
                       <Icon className="w-3.5 h-3.5" style={{ color: config.color }} />
                       <span className="text-[10px] font-mono uppercase tracking-widest font-bold" style={{ color: config.color }}>
                         {config.label}
                       </span>
-                      <span className="text-[10px] text-[#475569] font-mono">({items.length})</span>
+                      <span className="text-[10px] text-[#8eaecf] font-mono">({items.length})</span>
                     </div>
-                    {items.map(item => (
-                      <button
-                        key={`${key}-${item.id}`}
-                        onClick={() => handleResultClick(item)}
-                        className="w-full flex items-center justify-between px-5 py-2.5 hover:bg-white/[0.04] transition-colors group"
-                      >
-                        <div className="text-left min-w-0">
-                          <p className="text-sm text-[#e2e8f0] group-hover:text-[#38bdf8] transition-colors truncate font-sans font-medium">
-                            {item.title}
-                          </p>
-                          {item.subtitle && (
-                            <p className="text-xs text-[#64748b] truncate mt-0.5">
-                              {item.subtitle}
-                            </p>
-                          )}
-                        </div>
-                        <ChevronRight className="w-3.5 h-3.5 text-[#475569] group-hover:text-[#38bdf8] shrink-0 ml-2 transition-colors" />
-                      </button>
-                    ))}
+
+                    <div className="space-y-0.5 mt-1">
+                      {items.map(item => (
+                        <button
+                          key={`${key}-${item.id}`}
+                          onClick={() => handleResultClick(item)}
+                          className="w-full flex items-center justify-between px-5 py-2.5 hover:bg-white/10 transition-colors group cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#08AFC1]"
+                        >
+                          <div className="text-left min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs sm:text-sm text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors truncate font-sans font-semibold">
+                                {item.title}
+                              </span>
+                              {item.badge && (
+                                <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-white/10 text-amber-300">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            {item.subtitle && (
+                              <p className="text-[11px] text-[#8eaecf] truncate mt-0.5">
+                                {item.subtitle}
+                              </p>
+                            )}
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-[#08AFC1] shrink-0 ml-2 transition-colors" />
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 );
               })}
             </div>
           )}
+
         </div>
 
-        {/* Footer */}
-        <div className="px-5 py-2.5 border-t border-[rgba(148,163,184,0.08)] flex items-center justify-between">
-          <span className="text-[10px] text-[#475569] font-mono">
-            {totalResults > 0 ? `${totalResults} results` : 'Type to search'}
-          </span>
-          <div className="flex items-center gap-3 text-[10px] text-[#475569] font-mono">
-            <span>↑↓ Navigate</span>
+        {/* Modal Keyboard Accessible Footer */}
+        <div className="px-5 py-2.5 border-t border-[rgba(190,225,255,0.10)] bg-[rgba(6,23,46,0.60)] flex items-center justify-between text-[11px] text-[#8eaecf] font-mono">
+          <span>{totalResults > 0 ? `${totalResults} medical entries found` : 'Indexed 21,000+ records'}</span>
+          <div className="flex items-center gap-3">
             <span>↵ Select</span>
             <span>ESC Close</span>
           </div>
         </div>
+
       </div>
     </div>
   );
