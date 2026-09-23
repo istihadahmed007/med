@@ -79,8 +79,9 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onN
       try {
         const saved = localStorage.getItem(STORAGE_KEY_SAVED_SEARCHES);
         if (saved) setSavedSearches(JSON.parse(saved));
+        else setSavedSearches([]);
       } catch {
-        setSavedSearches(['STEMI chest pain', 'Left ventricle relations', 'Atorvastatin']);
+        setSavedSearches([]);
       }
       setTimeout(() => inputRef.current?.focus(), 80);
     } else {
