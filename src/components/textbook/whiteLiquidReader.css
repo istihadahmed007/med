@@ -1,0 +1,401 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MEDX Clean White Liquid-Glass Reading Experience
+   - Pearl-white background: #F7F9FC
+   - Soft pale-blue and silver ambient gradient shapes with gentle movement
+   - Nearly opaque glass reading panel: rgba(255, 255, 255, 0.94)
+   - Max 760px column, 20px radius, 40px desktop / 20px mobile padding
+   - Inter (EN) + Noto Sans Bengali (BN) typography (#1F2937, line-height 1.8)
+   - Reduced motion compliant
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Container Scope ── */
+.medx-white-liquid-reader {
+  background-color: #F7F9FC;
+  color: #1F2937;
+  font-family: 'Inter', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Liquid Ambient Gradient Shapes ── */
+.liquid-bg-shape {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  -webkit-filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.75;
+  will-change: transform;
+}
+
+/* Shape 1: Top-Right Pale Blue */
+.liquid-shape-1 {
+  top: -120px;
+  right: -80px;
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, rgba(219, 234, 254, 0.6) 0%, rgba(224, 242, 254, 0.25) 55%, transparent 75%);
+  animation: liquidDrift1 26s ease-in-out infinite alternate;
+}
+
+/* Shape 2: Bottom-Left Silver / Pale Slate */
+.liquid-shape-2 {
+  bottom: -100px;
+  left: -80px;
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, rgba(226, 232, 240, 0.65) 0%, rgba(241, 245, 249, 0.3) 55%, transparent 75%);
+  animation: liquidDrift2 30s ease-in-out infinite alternate;
+}
+
+/* Shape 3: Mid-Right Cool Silver-Blue */
+.liquid-shape-3 {
+  top: 42%;
+  right: -100px;
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(214, 230, 254, 0.45) 0%, rgba(226, 232, 240, 0.2) 60%, transparent 75%);
+  animation: liquidDrift3 24s ease-in-out infinite alternate;
+}
+
+@keyframes liquidDrift1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-35px, 40px) scale(1.05); }
+  100% { transform: translate(-20px, 70px) scale(0.97); }
+}
+
+@keyframes liquidDrift2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(45px, -35px) scale(1.04); }
+  100% { transform: translate(25px, -60px) scale(0.96); }
+}
+
+@keyframes liquidDrift3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, -30px) scale(1.03); }
+  100% { transform: translate(-45px, 20px) scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-bg-shape {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ── Sticky Glass Toolbar ── */
+.liquid-glass-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #FFFFFF; /* Fallback for browsers without backdrop-filter */
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+  transition: all 0.2s ease-in-out;
+}
+
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .liquid-glass-toolbar {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+/* ── Glass Reading Panel ── */
+.liquid-glass-panel {
+  background: #FFFFFF; /* Fallback */
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 20px 40px -15px rgba(15, 23, 42, 0.04);
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem; /* 40px desktop */
+  position: relative;
+  z-index: 10;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .liquid-glass-panel {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+@media (max-width: 640px) {
+  .liquid-glass-panel {
+    padding: 1.25rem; /* 20px mobile */
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  }
+}
+
+/* ── Collapsible Sidebar / Drawer ── */
+.liquid-glass-sidebar {
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.04);
+}
+
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .liquid-glass-sidebar {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* ── Comfortable Typography ── */
+.liquid-reading-body {
+  font-family: 'Inter', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 18px; /* Desktop default */
+  line-height: 1.8;
+  color: #1F2937; /* Main text */
+  letter-spacing: -0.005em;
+  word-break: break-word;
+}
+
+@media (max-width: 640px) {
+  .liquid-reading-body {
+    font-size: 17px; /* Mobile default */
+  }
+}
+
+.liquid-reading-body p {
+  margin-bottom: 1.5em;
+  color: #1F2937;
+  line-height: 1.8;
+}
+
+.liquid-reading-body h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.35;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.liquid-reading-body h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.4;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.liquid-reading-body h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.45;
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.liquid-reading-body strong {
+  color: #0F172A;
+  font-weight: 700;
+}
+
+.liquid-reading-body em {
+  font-style: italic;
+  color: #334155;
+}
+
+.liquid-reading-body a {
+  color: #2563EB;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.liquid-reading-body a:hover {
+  color: #1D4ED8;
+}
+
+.liquid-reading-body ul,
+.liquid-reading-body ol {
+  margin-bottom: 1.5em;
+  padding-left: 1.6em;
+  line-height: 1.8;
+}
+
+.liquid-reading-body li {
+  margin-bottom: 0.5em;
+  color: #1F2937;
+}
+
+.liquid-reading-body code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88em;
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  background: #F1F5F9;
+  color: #2563EB;
+  border: 1px solid #E2E8F0;
+}
+
+/* ── Medical Callout Boxes ── */
+.liquid-callout-info {
+  background: rgba(239, 246, 255, 0.85);
+  border-left: 4px solid #2563EB;
+  border-radius: 0 12px 12px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #1E3A8A;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.liquid-callout-warning {
+  background: rgba(254, 243, 199, 0.85);
+  border-left: 4px solid #F59E0B;
+  border-radius: 0 12px 12px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #92400E;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.liquid-callout-clinical {
+  background: rgba(236, 253, 245, 0.85);
+  border-left: 4px solid #10B981;
+  border-radius: 0 12px 12px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #065F46;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ── Horizontal Scrollable Tables ── */
+.liquid-table-container {
+  overflow-x: auto;
+  margin: 1.75rem 0;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  -webkit-overflow-scrolling: touch;
+}
+
+.liquid-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.liquid-table th {
+  background: #F8FAFC;
+  color: #334155;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #E2E8F0;
+  white-space: nowrap;
+}
+
+.liquid-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1F2937;
+}
+
+.liquid-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Image & Diagram Tap-to-Enlarge ── */
+.liquid-image-figure {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
+.liquid-image-figure img {
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  cursor: zoom-in;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.liquid-image-figure img:hover {
+  transform: scale(1.015);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.liquid-image-caption {
+  margin-top: 0.65rem;
+  font-size: 0.85rem;
+  color: #64748B;
+  line-height: 1.5;
+}
+
+/* ── Lightbox Overlay ── */
+.liquid-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.liquid-lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.liquid-lightbox-content img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-contain: contain;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+
+.liquid-lightbox-caption {
+  margin-top: 1rem;
+  color: #F8FAFC;
+  font-size: 0.95rem;
+  text-align: center;
+  max-width: 760px;
+}
+
+/* ── Focus Mode Exit Floating Bar ── */
+.liquid-focus-bar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
