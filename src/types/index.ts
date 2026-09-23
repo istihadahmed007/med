@@ -1,5 +1,6 @@
 export type NavigationView =
   | 'dashboard'
+  | 'study-materials'
   | 'learn'
   | 'across-books'
   | 'textbook-library'
@@ -37,6 +38,7 @@ export type NavigationView =
 export * from './videoStudio';
 export * from './textbook';
 export * from './drug';
+export * from './study';
 
 export type UserRole = 'student' | 'faculty' | 'author' | 'reviewer' | 'admin';
 

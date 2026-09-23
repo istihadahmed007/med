@@ -20,13 +20,33 @@ const MAX_REQUESTS_PER_WINDOW = 120;
 export class DrugService {
   static DB_FILE = DB_FILE;
   static USERDATA_FILE = USERDATA_FILE;
+  static _cachedDb = null;
+  static _cachedMtime = null;
 
   /**
    * Load the normalized drug reference database
    */
   static loadDb() {
     const dbFile = this.DB_FILE || DB_FILE;
-    let db = {
+    try {
+      if (fs.existsSync(dbFile)) {
+        const stats = fs.statSync(dbFile);
+        if (this._cachedDb && this._cachedMtime && stats.mtimeMs === this._cachedMtime) {
+          return this._cachedDb;
+        }
+        const db = JSON.parse(fs.readFileSync(dbFile, 'utf-8'));
+        if (!Array.isArray(db.dosageForms)) db.dosageForms = [];
+        if (!Array.isArray(db.importJobs)) db.importJobs = [];
+        if (!Array.isArray(db.auditLogs)) db.auditLogs = [];
+        if (!Array.isArray(db.reportedCorrections)) db.reportedCorrections = [];
+        this._cachedDb = db;
+        this._cachedMtime = stats.mtimeMs;
+        return db;
+      }
+    } catch (e) {
+      console.warn('Failed to load drug_reference_db.json, defaulting to empty structure', e);
+    }
+    return {
       generics: [],
       brands: [],
       manufacturers: [],
@@ -40,19 +60,6 @@ export class DrugService {
       auditLogs: [],
       reportedCorrections: []
     };
-    try {
-      if (fs.existsSync(dbFile)) {
-        db = JSON.parse(fs.readFileSync(dbFile, 'utf-8'));
-      }
-    } catch (e) {
-      console.warn('Failed to load drug_reference_db.json, defaulting to empty structure', e);
-    }
-    // Schema migration checks
-    if (!Array.isArray(db.dosageForms)) db.dosageForms = [];
-    if (!Array.isArray(db.importJobs)) db.importJobs = [];
-    if (!Array.isArray(db.auditLogs)) db.auditLogs = [];
-    if (!Array.isArray(db.reportedCorrections)) db.reportedCorrections = [];
-    return db;
   }
 
   /**
@@ -62,6 +69,8 @@ export class DrugService {
     try {
       const dbFile = this.DB_FILE || DB_FILE;
       fs.writeFileSync(dbFile, JSON.stringify(db, null, 2), 'utf-8');
+      this._cachedDb = null;
+      this._cachedMtime = null;
       return true;
     } catch (e) {
       console.error('Failed to save drug reference database', e);

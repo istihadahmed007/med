@@ -35,5 +35,6 @@ server/data/*
 !server/data/drug_reference_db.json
 scratch/
 /medical-videos/
+*.xlsx
 
 

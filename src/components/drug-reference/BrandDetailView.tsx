@@ -13,6 +13,13 @@ interface BrandDetailViewProps {
   onToggleBookmark: () => void;
 }
 
+const ClinicalInfoUnavailable: React.FC<{ section?: string }> = ({ section }) => (
+  <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 text-slate-300 text-xs flex items-center gap-2.5">
+    <span className="text-amber-400 text-sm">ℹ️</span>
+    <span>Clinical information not yet available in the MEDX verified database.</span>
+  </div>
+);
+
 export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
   slugOrId,
   onBack,
@@ -237,6 +244,16 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
               </button>
 
               <button
+                onClick={() => {
+                  window.location.hash = '#study-materials/pharmacology';
+                }}
+                className="w-full px-3.5 py-2 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20 transition"
+              >
+                <span>📚</span>
+                <span>Open Pharmacology Study Materials</span>
+              </button>
+
+              <button
                 onClick={() => onOpenPracticeQuestions && onOpenPracticeQuestions(generic.therapeuticClass || 'Pharmacology')}
                 className="w-full px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center justify-center gap-2 transition"
               >
@@ -305,18 +322,22 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
         {activeTab === 'overview' && (
           <div className="space-y-4">
             <h3 className="text-base font-bold text-white">Clinical Overview: {generic.name}</h3>
-            <p className="text-sm text-slate-300 leading-relaxed">
-              {generic.pharmacology || generic.mechanismOfAction || 'Standard Bangladesh Pharmacopoeia therapeutic agent.'}
-            </p>
+            {generic.pharmacology || generic.mechanismOfAction ? (
+              <p className="text-sm text-slate-300 leading-relaxed">
+                {generic.pharmacology || generic.mechanismOfAction}
+              </p>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
               <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
                 <span className="text-xs text-slate-400 block font-medium">Therapeutic Class</span>
-                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.therapeuticClass}</span>
+                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.therapeuticClass || 'Not Classified'}</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
                 <span className="text-xs text-slate-400 block font-medium">Pharmacological Class</span>
-                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.pharmacologicalClass}</span>
+                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.pharmacologicalClass || 'Not Classified'}</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
                 <span className="text-xs text-slate-400 block font-medium">ATC Code</span>
@@ -351,7 +372,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-slate-400">See full generic monograph or DGDA prescribing leaflet for specific clinical indication listings.</p>
+              <ClinicalInfoUnavailable />
             )}
           </div>
         )}
@@ -359,19 +380,21 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
         {/* TAB 3: PHARMACOLOGY */}
         {activeTab === 'pharmacology' && (
           <div className="space-y-4 text-sm text-slate-300">
-            <div>
-              <h4 className="font-bold text-white text-sm">Mechanism of Action</h4>
-              <p className="mt-1 leading-relaxed">{generic.mechanismOfAction || 'Details cataloged in pharmacology syllabus.'}</p>
-            </div>
+            {generic.mechanismOfAction ? (
+              <div>
+                <h4 className="font-bold text-white text-sm">Mechanism of Action</h4>
+                <p className="mt-1 leading-relaxed">{generic.mechanismOfAction}</p>
+              </div>
+            ) : null}
 
-            {generic.receptorOrTarget && (
+            {generic.receptorOrTarget ? (
               <div>
                 <h4 className="font-bold text-white text-sm">Target / Receptor</h4>
                 <p className="mt-1 text-cyan-300">{generic.receptorOrTarget}</p>
               </div>
-            )}
+            ) : null}
 
-            {generic.pharmacokinetics && (
+            {generic.pharmacokinetics ? (
               <div className="pt-2">
                 <h4 className="font-bold text-white text-sm">Pharmacokinetics Summary</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 mt-2 text-xs">
@@ -393,6 +416,10 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                   </div>
                 </div>
               </div>
+            ) : null}
+
+            {!generic.mechanismOfAction && !generic.receptorOrTarget && !generic.pharmacokinetics && (
+              <ClinicalInfoUnavailable />
             )}
           </div>
         )}
@@ -402,7 +429,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
           <div className="space-y-4 text-sm text-slate-300">
             <h3 className="text-base font-bold text-white">Standard Dosage and Administration</h3>
             
-            {generic.dosageGuidance ? (
+            {generic.dosageGuidance && (generic.dosageGuidance.adult || generic.dosageGuidance.paediatric || generic.dosageGuidance.pediatric) ? (
               <div className="space-y-3">
                 {generic.dosageGuidance.adult && (
                   <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
@@ -424,7 +451,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 )}
               </div>
             ) : (
-              <p className="text-xs text-slate-400">Consult official prescribing information or attending physician for individualized dose regimens.</p>
+              <ClinicalInfoUnavailable />
             )}
 
             {generic.doseAdjustment && (
@@ -463,7 +490,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-slate-400">Hypersensitivity to the active ingredient or any excipients.</p>
+              <ClinicalInfoUnavailable />
             )}
           </div>
         )}
@@ -473,27 +500,33 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
           <div className="space-y-4">
             <h3 className="text-base font-bold text-white">Adverse Reactions & Side Effects</h3>
             
-            {generic.adverseEffects?.seriousWarnings && generic.adverseEffects.seriousWarnings.length > 0 && (
-              <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/40 space-y-1 text-xs">
-                <strong className="text-rose-300 font-bold block">⚠️ Serious Warnings & Critical Reactions:</strong>
-                <ul className="list-disc list-inside text-rose-200 space-y-0.5">
-                  {generic.adverseEffects.seriousWarnings.map((w, idx) => (
-                    <li key={idx}>{w}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {(generic.adverseEffects?.common && generic.adverseEffects.common.length > 0) || (generic.adverseEffects?.seriousWarnings && generic.adverseEffects.seriousWarnings.length > 0) ? (
+              <>
+                {generic.adverseEffects?.seriousWarnings && generic.adverseEffects.seriousWarnings.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/40 space-y-1 text-xs">
+                    <strong className="text-rose-300 font-bold block">⚠️ Serious Warnings & Critical Reactions:</strong>
+                    <ul className="list-disc list-inside text-rose-200 space-y-0.5">
+                      {generic.adverseEffects.seriousWarnings.map((w, idx) => (
+                        <li key={idx}>{w}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                <strong className="text-blue-300 font-semibold block">Common / Frequent Reactions</strong>
-                <p className="text-slate-300 mt-1">{generic.adverseEffects?.common?.join(', ') || 'Mild gastrointestinal disturbances'}</p>
-              </div>
-              <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                <strong className="text-slate-300 font-semibold block">Less Frequent / Rare Reactions</strong>
-                <p className="text-slate-400 mt-1">{generic.adverseEffects?.rare?.join(', ') || 'Idiosyncratic allergic rash'}</p>
-              </div>
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                    <strong className="text-blue-300 font-semibold block">Common / Frequent Reactions</strong>
+                    <p className="text-slate-300 mt-1">{generic.adverseEffects?.common?.join(', ') || 'None reported'}</p>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                    <strong className="text-slate-300 font-semibold block">Less Frequent / Rare Reactions</strong>
+                    <p className="text-slate-400 mt-1">{generic.adverseEffects?.rare?.join(', ') || 'None reported'}</p>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
           </div>
         )}
 
@@ -511,7 +544,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 ))}
               </ul>
             ) : (
-              <p className="text-xs text-slate-400">Standard clinical surveillance required during prolonged administration.</p>
+              <ClinicalInfoUnavailable />
             )}
 
             {generic.monitoringRequirements && generic.monitoringRequirements.length > 0 && (
@@ -557,7 +590,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-slate-400">No major pharmacokinetic interactions reported in base monograph.</p>
+              <ClinicalInfoUnavailable />
             )}
           </div>
         )}
@@ -566,23 +599,27 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
         {activeTab === 'pregnancy' && (
           <div className="space-y-4">
             <h3 className="text-base font-bold text-white">Pregnancy and Lactation Safety</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2">
-                <span className="text-blue-300 font-bold block text-sm">Pregnancy Information</span>
-                <div className="inline-block px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/40 font-bold">
-                  FDA Category: {generic.pregnancyInfo?.category || 'Not Classified'}
+            {generic.pregnancyInfo?.details || generic.breastfeedingInfo?.details ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2">
+                  <span className="text-blue-300 font-bold block text-sm">Pregnancy Information</span>
+                  <div className="inline-block px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/40 font-bold">
+                    FDA Category: {generic.pregnancyInfo?.category || 'Not Classified'}
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">{generic.pregnancyInfo?.details || 'Clinical data pending review.'}</p>
                 </div>
-                <p className="text-slate-300 leading-relaxed">{generic.pregnancyInfo?.details || 'Use only if potential clinical benefits outweigh fetal risks.'}</p>
-              </div>
 
-              <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2">
-                <span className="text-cyan-300 font-bold block text-sm">Breastfeeding & Lactation</span>
-                <div className="inline-block px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold uppercase">
-                  Safety: {generic.breastfeedingInfo?.safety || 'Evaluate Risks'}
+                <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2">
+                  <span className="text-cyan-300 font-bold block text-sm">Breastfeeding & Lactation</span>
+                  <div className="inline-block px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold uppercase">
+                    Safety: {generic.breastfeedingInfo?.safety || 'Evaluate Risks'}
+                  </div>
+                  <p className="text-slate-300 leading-relaxed">{generic.breastfeedingInfo?.details || 'Clinical data pending review.'}</p>
                 </div>
-                <p className="text-slate-300 leading-relaxed">{generic.breastfeedingInfo?.details || 'Excretion in breast milk not fully documented.'}</p>
               </div>
-            </div>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
           </div>
         )}
 
@@ -590,7 +627,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
         {activeTab === 'overdose' && (
           <div className="space-y-4 text-xs text-slate-300">
             <h3 className="text-base font-bold text-rose-300">Overdose Information & Management</h3>
-            {(generic.overdoseInformation || generic.overdoseInfo) ? (
+            {(generic.overdoseInformation || generic.overdoseInfo)?.symptoms || (generic.overdoseInformation || generic.overdoseInfo)?.management ? (
               <div className="space-y-3">
                 <div>
                   <strong className="text-white block font-semibold">Signs & Symptoms:</strong>
@@ -607,7 +644,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 )}
               </div>
             ) : (
-              <p className="text-slate-400">In case of suspected overdose, provide gastric lavage, support vital signs, and transfer to nearest tertiary hospital.</p>
+              <ClinicalInfoUnavailable />
             )}
           </div>
         )}
@@ -616,9 +653,13 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
         {activeTab === 'storage' && (
           <div className="space-y-3 text-xs text-slate-300">
             <h3 className="text-base font-bold text-white">Storage Conditions</h3>
-            <p className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 text-slate-200">
-              {generic.storageInformation || generic.storageConditions || 'Store below 30°C in a dry place protected from direct sunlight and moisture. Keep out of reach of children.'}
-            </p>
+            {generic.storageInformation || generic.storageConditions ? (
+              <p className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 text-slate-200">
+                {generic.storageInformation || generic.storageConditions}
+              </p>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
           </div>
         )}
 

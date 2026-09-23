@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   Menu, 
   X, 
-  User
+  User,
+  Search
 } from 'lucide-react';
 import { NavigationView, UserRole } from '../../types';
 
@@ -30,6 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showRoleMenu, setShowRoleMenu] = useState(false);
 
   const navLinks: { id: NavigationView; label: string; labelBn: string }[] = [
+    { id: 'study-materials', label: 'Study Materials', labelBn: 'পাঠ্য উপকরণ' },
     { id: 'learn', label: 'Learn', labelBn: 'শিখুন' },
     { id: 'textbook-library', label: 'Library', labelBn: 'লাইব্রেরি' },
     { id: 'drug-reference', label: 'Drug Reference', labelBn: 'ওষুধ নির্দেশিকা' },
@@ -82,8 +84,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
         </div>
 
-        {/* Right Controls: EN / বাংলা, separator, Sign in */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        {/* Right Controls: Search, EN / বাংলা, separator, Sign in */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Global Medical Search Trigger */}
+          <button
+            onClick={onOpenSearch}
+            className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-[#C4D4EA] hover:text-[#F5F9FF] transition-all select-none"
+            title="Search medicines, study materials, topics (Ctrl + K)"
+            aria-label="Open search"
+          >
+            <Search className="w-3.5 h-3.5 text-[#08AFC1]" />
+            <span className="hidden xl:inline text-xs">
+              {currentLang === 'bn' ? 'অনুসন্ধান...' : 'Search medicines, topics...'}
+            </span>
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-white/10 rounded text-slate-300">
+              Ctrl+K
+            </kbd>
+          </button>
+
           {/* EN / বাংলা Language Toggle */}
           <button
             onClick={() => setCurrentLang(currentLang === 'en' ? 'bn' : 'en')}

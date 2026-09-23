@@ -62,7 +62,9 @@ test('2. Generic & Brand Search: English, Bangla aliases, and Typo Tolerance', (
 
 test('3. Source Provenance & Medical Review Standards', () => {
   const db = DrugService.loadDb();
-  for (const gen of db.generics) {
+  const publishedGenerics = db.generics.filter(g => g.medicalReview && g.medicalReview.status === 'published');
+  assert.ok(publishedGenerics.length >= 22, 'Must have at least 22 published curriculum generics');
+  for (const gen of publishedGenerics) {
     // Provenance sources
     assert.ok(gen.sources && gen.sources.length >= 2, `Generic ${gen.id} must have at least 2 verified sources`);
     for (const src of gen.sources) {

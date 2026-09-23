@@ -5,6 +5,7 @@ import { ApiService } from './services/apiService';
 import { Navbar } from './components/navigation/Navbar';
 import { Sidebar } from './components/navigation/Sidebar';
 import { CommandPalette } from './components/navigation/CommandPalette';
+import { GlobalSearch } from './components/navigation/GlobalSearch';
 import { VoiceAssistantModal } from './components/ai/VoiceAssistantModal';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 
@@ -26,6 +27,7 @@ import { MobileBottomNav } from './components/navigation/MobileBottomNav';
 const AcrossBooksWorkspace = lazy(() => import('./components/across-books/AcrossBooksWorkspace').then(module => ({ default: module.AcrossBooksWorkspace })));
 const TextbookLibraryHub = lazy(() => import('./components/textbook/TextbookLibraryHub').then(module => ({ default: module.TextbookLibraryHub })));
 const DrugReferenceHub = lazy(() => import('./components/drug-reference/DrugReferenceHub').then(module => ({ default: module.DrugReferenceHub })));
+const StudyMaterialsHub = lazy(() => import('./components/study/StudyMaterialsHub').then(module => ({ default: module.StudyMaterialsHub })));
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavigationView>(() => {
@@ -41,6 +43,7 @@ export const App: React.FC = () => {
         }
         return 'drug-reference';
       }
+      if (hash === 'study-materials') return 'study-materials';
       if (hash) return hash as NavigationView;
       const params = new URLSearchParams(window.location.search);
       const view = params.get('view');
@@ -52,6 +55,7 @@ export const App: React.FC = () => {
 
   const [role, setRole] = useState<UserRole>(StorageService.getRole());
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
   const [isVoiceOpen, setIsVoiceOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
@@ -71,6 +75,7 @@ export const App: React.FC = () => {
         }
         hash = 'drug-reference';
       }
+      if (hash === 'study-materials') hash = 'study-materials';
       setCurrentView((hash || 'dashboard') as NavigationView);
       setMobileMenuOpen(false);
     };
@@ -78,12 +83,16 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('hashchange', syncView);
   }, []);
 
-  // Global Ctrl + K listener
+  // Global Ctrl + K listener for Global Search and Ctrl + Shift + P for Command Palette
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsSearchOpen((prev) => !prev);
+      }
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        setIsCommandOpen((prev) => !prev);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -165,6 +174,13 @@ export const App: React.FC = () => {
                 onNavigate={handleNavigate} 
                 onOpenLesson={handleOpenLesson} 
               />
+            )}
+
+            {/* Study Materials (Medical Textbook Reference) */}
+            {currentView === 'study-materials' && (
+              <Suspense fallback={<p role="status" className="p-6 text-slate-300">Loading Study Materials…</p>}>
+                <StudyMaterialsHub onNavigate={handleNavigate} />
+              </Suspense>
             )}
 
             {/* 2. Learn (Curriculum & 5-Stage Lesson System) */}
@@ -293,9 +309,18 @@ export const App: React.FC = () => {
       </div>
 
       {/* Global Modals */}
-      <CommandPalette
+      <GlobalSearch
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
+        onNavigate={(view, params) => {
+          setIsSearchOpen(false);
+          handleNavigate(view as NavigationView);
+        }}
+      />
+
+      <CommandPalette
+        isOpen={isCommandOpen}
+        onClose={() => setIsCommandOpen(false)}
         onSelectView={handleNavigate}
       />
 

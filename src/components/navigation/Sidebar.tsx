@@ -43,6 +43,13 @@ const PRIMARY_HUBS: NavItem[] = [
     badge: 'Hub',
     description: 'Command center & milestones'
   },
+  {
+    id: 'study-materials',
+    label: 'Study Materials',
+    icon: BookOpen,
+    badge: 'MBBS',
+    description: '25 subjects · textbook-style reading'
+  },
   { 
     id: 'learn', 
     label: 'Learn (Curriculum)', 

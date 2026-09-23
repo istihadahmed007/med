@@ -684,6 +684,54 @@ const devApiFallbackPlugin = () => ({
           return;
         }
 
+        // Global Search Endpoint (searches across drugs + study materials)
+        if (url.startsWith('/api/search/global') && req.method === 'GET') {
+          const parsed = new URL('http://localhost' + url);
+          const q = (parsed.searchParams.get('q') || '').trim().toLowerCase();
+          const limit = parseInt(parsed.searchParams.get('limit') || '20', 10);
+
+          if (!q || q.length < 2) {
+            res.statusCode = 200;
+            res.end(JSON.stringify({ query: q, results: { topics: [], generics: [], brands: [], manufacturers: [] } }));
+            return;
+          }
+
+          const drugDb = DrugService.loadDb();
+          const results = { topics: [], generics: [], brands: [], manufacturers: [] };
+
+          // Search generics
+          for (const g of (drugDb.generics || [])) {
+            if (results.generics.length >= limit) break;
+            if ((g.name || '').toLowerCase().includes(q) ||
+                (g.normalizedName || '').includes(q) ||
+                (g.nameBn || '').includes(q)) {
+              results.generics.push({ id: g.id, title: g.name, subtitle: g.therapeuticClass || g.pharmacologicalClass || '', type: 'generic' });
+            }
+          }
+
+          // Search brands
+          for (const b of (drugDb.brands || [])) {
+            if (results.brands.length >= limit) break;
+            if ((b.brandName || '').toLowerCase().includes(q) ||
+                (b.slug || '').includes(q)) {
+              results.brands.push({ id: b.id, title: b.brandName, subtitle: `${b.strength || ''} ${b.dosageForm || ''} — ${b.manufacturerName || ''}`.trim(), type: 'brand', genericId: b.genericId });
+            }
+          }
+
+          // Search manufacturers
+          for (const m of (drugDb.manufacturers || [])) {
+            if (results.manufacturers.length >= limit) break;
+            if ((m.name || '').toLowerCase().includes(q) ||
+                (m.shortName || '').toLowerCase().includes(q)) {
+              results.manufacturers.push({ id: m.id, title: m.name, subtitle: m.headquarters || '', type: 'manufacturer' });
+            }
+          }
+
+          res.statusCode = 200;
+          res.end(JSON.stringify({ query: q, results }));
+          return;
+        }
+
         res.statusCode = 200;
         res.end(JSON.stringify({ message: 'Dev API active', path: url }));
         return;
