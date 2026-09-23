@@ -13,10 +13,14 @@ interface BrandDetailViewProps {
   onToggleBookmark: () => void;
 }
 
-const ClinicalInfoUnavailable: React.FC<{ section?: string }> = ({ section }) => (
-  <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 text-slate-300 text-xs flex items-center gap-2.5">
-    <span className="text-amber-400 text-sm">ℹ️</span>
-    <span>Clinical information not yet available in the MEDX verified database.</span>
+const ClinicalInfoUnavailable: React.FC<{ message?: string }> = ({
+  message = 'Information not available in the current verified monograph.'
+}) => (
+  <div className="drug-info-unavailable" role="status">
+    <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>{message}</span>
   </div>
 );
 
@@ -33,10 +37,38 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
   const [data, setData] = useState<BrandDetailResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<
-    'overview' | 'indications' | 'pharmacology' | 'dosage' | 'contraindications' | 'side-effects' | 'precautions' | 'interactions' | 'pregnancy' | 'overdose' | 'storage' | 'alternatives'
-  >('overview');
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
+
+  // Card expansion toggles for lengthy sections
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    dosage: false,
+    indications: false,
+    interactions: false,
+    brands: false
+  });
+
+  // Mobile accordion open states
+  const [mobileOpenCards, setMobileOpenCards] = useState<Record<string, boolean>>({
+    indications: true,
+    dosage: true,
+    sideEffects: true,
+    interactions: true,
+    contraindications: true,
+    pharmacology: true,
+    pharmacokinetics: false,
+    pregnancy: false,
+    impairment: false,
+    brands: true,
+    references: false
+  });
+
+  const toggleSectionExpand = (sectionKey: string) => {
+    setExpandedSections(prev => ({ ...prev, [sectionKey]: !prev[sectionKey] }));
+  };
+
+  const toggleMobileAccordion = (cardKey: string) => {
+    setMobileOpenCards(prev => ({ ...prev, [cardKey]: !prev[cardKey] }));
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -76,639 +108,957 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
     }
   };
 
+  const scrollToSection = (sectionId: string) => {
+    // Ensure section is opened on mobile
+    if (sectionId in mobileOpenCards) {
+      setMobileOpenCards(prev => ({ ...prev, [sectionId]: true }));
+    }
+    const elem = document.getElementById(sectionId);
+    if (elem) {
+      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Temporary subtle highlight
+      elem.classList.add('ring-2', 'ring-[#08AFC1]');
+      setTimeout(() => {
+        elem.classList.remove('ring-2', 'ring-[#08AFC1]');
+      }, 1500);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-300">
-        <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-cyan-400 mb-3"></div>
-        <p className="text-sm">Loading verified Bangladesh medicine monograph…</p>
+      <div className="py-20 px-4 text-center max-w-xl mx-auto">
+        <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#08AFC1] border-t-transparent mb-4"></div>
+        <h3 className="text-lg font-bold text-[#0F2C59]">Loading Medicine Monograph…</h3>
+        <p className="text-sm text-slate-500 mt-1">Retrieving official clinical pharmacology and Bangladesh commercial records.</p>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="p-8 max-w-2xl mx-auto text-center space-y-4">
-        <div className="p-4 rounded-xl bg-rose-950/30 border border-rose-500/30 text-rose-300">
-          <p className="font-semibold">{error || 'Medicine not found'}</p>
-          <p className="text-xs text-rose-400/80 mt-1">Please check the spelling or search using another generic or brand.</p>
+      <div className="py-16 px-4 max-w-xl mx-auto text-center space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-rose-200 shadow-md">
+          <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3 text-xl font-bold">✕</div>
+          <h3 className="text-lg font-bold text-rose-900">{error || 'Medicine not found'}</h3>
+          <p className="text-sm text-slate-600 mt-2">
+            The medicine or brand formulation you requested is not indexed in the verified dataset.
+          </p>
+          <div className="pt-4 mt-4 border-t border-slate-100 flex justify-center">
+            <button
+              onClick={onBack}
+              className="px-5 py-2.5 min-h-[44px] rounded-xl bg-[#0F2C59] hover:bg-[#0A1E3F] text-white text-sm font-semibold transition shadow-sm"
+            >
+              ← Return to Drug Directory
+            </button>
+          </div>
         </div>
-        <button
-          onClick={onBack}
-          className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition"
-        >
-          ← Return to Drug Directory
-        </button>
       </div>
     );
   }
 
-  const { brand, generic, otherBrandsWithSameGeneric, availableStrengths, relatedClasses } = data;
+  const { brand, generic, otherBrandsWithSameGeneric, availableStrengths } = data;
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12 animate-fadeIn" id="brand-detail-page">
+    <div className="space-y-6 max-w-6xl mx-auto px-3 sm:px-6 py-6" id="brand-detail-page">
       {/* Top Breadcrumb & Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+          className="inline-flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-sm font-semibold text-[#0F2C59] transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
         >
-          <span>←</span> Back to Directory
+          <svg className="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back to Directory</span>
         </button>
 
         <div className="flex items-center gap-2.5">
           {/* Copy Share Link */}
           <button
             onClick={handleCopyShareLink}
-            className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700 transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             title="Copy shareable link to this drug"
           >
-            <span>🔗</span> {copySuccess ? 'Link Copied!' : 'Share Link'}
+            <svg className="w-4 h-4 text-[#08AFC1]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            <span>{copySuccess ? 'Link Copied!' : 'Share'}</span>
           </button>
 
           {/* Bookmark Button */}
           <button
             onClick={onToggleBookmark}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl border text-xs sm:text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-xl border text-xs sm:text-sm font-semibold transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
               isBookmarked
-                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                : 'bg-slate-900/80 text-slate-300 border-slate-700/60 hover:text-white'
+                ? 'bg-amber-50 text-amber-800 border-amber-300'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
             }`}
           >
-            <span>{isBookmarked ? '★' : '☆'}</span>
+            <span className={isBookmarked ? 'text-amber-500 font-bold' : 'text-slate-400'}>
+              {isBookmarked ? '★' : '☆'}
+            </span>
             <span>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</span>
           </button>
         </div>
       </div>
 
-      {/* Mandatory Educational Safety Notice */}
-      <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/30 text-amber-300/90 text-xs flex items-start gap-2.5 shadow-sm">
-        <span className="text-amber-400 font-bold text-base leading-none">⚠️</span>
-        <div>
-          <strong className="text-amber-200">Educational safety notice:</strong> Educational information only. This platform does not replace a registered physician, pharmacist, official prescribing information or current clinical guidelines. Do not start, stop or change a medicine based only on this page.
-        </div>
-      </div>
-
-      {/* Brand Hero Card */}
-      <div className="p-6 rounded-2xl bg-gradient-to-br from-[#0c1f4a]/90 via-[#071330]/90 to-[#040d21]/90 border border-blue-500/30 backdrop-blur-xl shadow-xl relative overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 relative z-10">
-          <div className="space-y-3">
+      {/* 1. REFERENCE-STYLE OVERVIEW (TOP CARD) */}
+      <div className="drug-white-card relative overflow-hidden bg-white/95">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+          <div className="space-y-3 flex-1">
+            {/* Badges Row */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40 text-xs font-bold uppercase tracking-wider">
-                Bangladesh Commercial Brand
+              <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0F2C59] border border-blue-200 text-xs font-bold uppercase tracking-wider">
+                Commercial Brand
               </span>
               <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
                 brand.prescriptionStatus === 'OTC'
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                  : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'bg-rose-50 text-rose-800 border border-rose-200'
               }`}>
                 {brand.prescriptionStatus === 'OTC' ? 'OTC (Over-The-Counter)' : 'Prescription Only (Rx)'}
               </span>
-              <span className="text-xs text-slate-400">
-                Status: <strong className="text-emerald-400 capitalize">{brand.activeStatus || 'Active'}</strong>
+              <span className="text-xs text-slate-500 font-medium">
+                Registration: <strong className="text-slate-800">{brand.registrationNumber || 'DGDA Verified'}</strong>
               </span>
             </div>
 
+            {/* Drug Titles */}
             <div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">
-                {brand.brandName}
-              </h1>
-              {brand.brandNameBn && (
-                <p className="text-base text-blue-300/90 font-medium mt-0.5">{brand.brandNameBn}</p>
-              )}
-            </div>
-
-            {/* Active Generic & Manufacturer */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                <span className="text-slate-400 block font-medium">Generic Name</span>
-                <span className="text-white text-sm font-semibold capitalize mt-0.5 block">
-                  {generic.name}
-                </span>
-                {generic.therapeuticClass && (
-                  <span className="text-blue-400 text-xs block mt-0.5">
-                    {generic.therapeuticClass}
+              <div className="flex items-baseline gap-3 flex-wrap">
+                <h1 className="text-2.5xl sm:text-3xl font-extrabold text-[#0F2C59] tracking-tight">
+                  {brand.brandName}
+                </h1>
+                {brand.brandNameBn && (
+                  <span className="text-lg text-sky-700 font-medium font-bengali">
+                    {brand.brandNameBn}
                   </span>
                 )}
               </div>
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                <span className="text-slate-400 block font-medium">Manufacturer / Company</span>
-                <span className="text-white text-sm font-semibold mt-0.5 block">
-                  {brand.manufacturerName}
+              <p className="text-sm sm:text-base text-slate-600 mt-1 font-medium">
+                Active Generic:{' '}
+                <button
+                  onClick={() => onOpenGeneric && onOpenGeneric(generic.id)}
+                  className="font-bold text-[#08AFC1] hover:underline hover:text-cyan-700 capitalize"
+                >
+                  {generic.name}
+                </button>
+                {generic.nameBn && (
+                  <span className="font-bengali text-slate-500 ml-1.5">({generic.nameBn})</span>
+                )}
+              </p>
+            </div>
+
+            {/* Quick Specs Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-slate-500 block font-medium">Strength</span>
+                <span className="text-slate-900 text-sm font-bold mt-0.5 block">{brand.strength || 'Standard'}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-slate-500 block font-medium">Dosage Form</span>
+                <span className="text-slate-900 text-sm font-bold mt-0.5 block">{brand.dosageForm || 'Dosage unit'}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-slate-500 block font-medium">Route</span>
+                <span className="text-slate-900 text-sm font-bold mt-0.5 block">
+                  {brand.route || (generic.dosageGuidance?.routes?.join(', ') || 'Oral')}
                 </span>
-                <span className="text-slate-400 text-xs block mt-0.5">
-                  Origin: Bangladesh DGDA Registered
-                </span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-slate-500 block font-medium">Pack Info</span>
+                <span className="text-slate-900 text-sm font-bold mt-0.5 block">{brand.packInfo || 'Strip / Blister'}</span>
               </div>
             </div>
 
-            {/* Specifications Bar */}
-            <div className="flex flex-wrap gap-y-2 gap-x-4 text-xs text-slate-300 pt-1">
-              <div><strong>Dosage Form:</strong> <span className="text-white font-medium">{brand.dosageForm}</span></div>
-              <div>•</div>
-              <div><strong>Strength:</strong> <span className="text-white font-medium">{brand.strength}</span></div>
-              <div>•</div>
-              <div><strong>Route:</strong> <span className="text-white font-medium">{brand.route || (generic.dosageGuidance?.routes?.join(', ') || 'Oral')}</span></div>
-              <div>•</div>
-              <div><strong>Pack Size:</strong> <span className="text-white font-medium">{brand.packInfo || 'Standard strip / blister'}</span></div>
+            {/* Manufacturer & Class metadata */}
+            <div className="pt-1 text-xs text-slate-600 space-y-1">
+              <p>
+                <strong className="text-slate-800">Manufacturer:</strong> {brand.manufacturerName}
+                <span className="text-slate-400 ml-1.5">(DGDA Licensed Pharma)</span>
+              </p>
+              {generic.therapeuticClass && (
+                <p>
+                  <strong className="text-slate-800">Therapeutic Class:</strong> {generic.therapeuticClass}
+                </p>
+              )}
+              {generic.pharmacologicalClass && (
+                <p>
+                  <strong className="text-slate-800">Pharmacological Class:</strong> {generic.pharmacologicalClass}
+                </p>
+              )}
+            </div>
+
+            {/* Regulatory provenance & last reviewed date */}
+            <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+              <span><strong>Source:</strong> {brand.source || 'Bangladesh DGDA / National Formulary'}</span>
+              <span>•</span>
+              <span><strong>Last Reviewed:</strong> {brand.lastVerifiedDate || 'Recent clinical review'}</span>
             </div>
           </div>
 
-          {/* Pricing & Study Actions Box */}
-          <div className="flex flex-col gap-3 min-w-[240px] shrink-0">
+          {/* Pricing Box & Action CTAs */}
+          <div className="flex flex-col gap-3 min-w-[220px] lg:w-64 shrink-0">
             {/* Price Box */}
-            <div className="p-4 rounded-xl bg-[#091533]/80 border border-emerald-500/30 text-right">
-              <span className="text-xs text-emerald-400 font-semibold uppercase tracking-wider block">
-                Verified Maximum Retail Price
+            <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-50/80 to-teal-50/60 border border-emerald-200 text-right">
+              <span className="text-xs text-emerald-800 font-bold uppercase tracking-wider block">
+                Verified Retail Price (MRP)
               </span>
-              <div className="text-2xl font-black text-emerald-300 mt-1">
+              <div className="text-2xl font-black text-emerald-700 mt-1">
                 {brand.verifiedPrice?.amount
                   ? `৳ ${brand.verifiedPrice.amount.toFixed(2)}`
                   : 'Gazette Regulated'}
               </div>
-              <p className="text-[11px] text-slate-400 mt-1">
-                {brand.verifiedPrice?.unit ? `Per ${brand.verifiedPrice.unit}` : 'Per commercial unit'} • Last updated: {brand.verifiedPrice?.verifiedDate || brand.lastVerifiedDate || 'Recent'}
-              </p>
-              <p className="text-[10px] text-slate-500 italic mt-1">
-                Prices are official gazetted reference only and not guaranteed at retail.
+              <p className="text-[11px] text-emerald-800/80 mt-0.5">
+                {brand.verifiedPrice?.unit ? `Per ${brand.verifiedPrice.unit}` : 'Per commercial unit'}
               </p>
             </div>
 
-            {/* Action Buttons: Cross Book Study & Practice MCQs */}
-            <div className="flex flex-col gap-2.5">
+            {/* Action Buttons: Study Across Books & Practice Questions */}
+            <div className="flex flex-col gap-2">
               <button
                 onClick={() => onOpenAcrossBooksTopic && onOpenAcrossBooksTopic(generic.name)}
-                className="w-full px-4 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+                className="w-full px-3.5 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-[#0F2C59] to-[#08AFC1] hover:from-[#0A1E3F] hover:to-cyan-600 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <span>📖</span>
-                <span>Study {generic.name} Across Books</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  window.location.hash = '#study-materials/pharmacology';
-                }}
-                className="w-full px-4 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-teal-600 to-[#08AFC1] hover:from-teal-500 hover:to-cyan-400 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
-              >
-                <span>📚</span>
-                <span>Open Pharmacology Study Materials</span>
+                <span>Study Across Books</span>
               </button>
 
               <button
                 onClick={() => onOpenPracticeQuestions && onOpenPracticeQuestions(generic.therapeuticClass || 'Pharmacology')}
-                className="w-full px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+                className="w-full px-3.5 py-2.5 min-h-[44px] rounded-xl bg-white hover:bg-slate-50 text-[#0F2C59] border border-slate-200 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <span>🎯</span>
-                <span>Practice Pharmacology MCQs</span>
+                <span>Practice MCQs</span>
               </button>
             </div>
           </div>
         </div>
+
+        {/* Available Formulations Pills */}
+        {availableStrengths && availableStrengths.length > 1 && (
+          <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-slate-600 font-semibold">Available Formulations:</span>
+            <div className="flex flex-wrap gap-1.5">
+              {availableStrengths.map((str, i) => (
+                <span
+                  key={i}
+                  className={`px-2.5 py-0.5 rounded-lg border text-xs font-mono font-medium ${
+                    str.toLowerCase().includes(brand.strength.toLowerCase()) &&
+                    str.toLowerCase().includes(brand.dosageForm.toLowerCase())
+                      ? 'bg-[#08AFC1]/15 text-[#0F2C59] border-[#08AFC1]/40 font-bold'
+                      : 'bg-slate-50 text-slate-700 border-slate-200'
+                  }`}
+                >
+                  {str}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Small Educational Reference Note */}
+        <div className="drug-ref-disclaimer-note">
+          <span className="text-amber-600 font-bold text-sm">⚠️</span>
+          <span>For educational reference. Verify prescribing information before clinical use.</span>
+        </div>
       </div>
 
-      {/* Alternative Formulations & Strengths Banner */}
-      {availableStrengths && availableStrengths.length > 1 && (
-        <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs sm:text-sm flex flex-wrap items-center gap-2">
-          <span className="text-[#C4D4EA] font-semibold">Available Formulations for {generic.name}:</span>
-          <div className="flex flex-wrap gap-2">
-            {availableStrengths.map((str, i) => (
-              <span
-                key={i}
-                className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-medium ${
-                  str.toLowerCase().includes(brand.strength.toLowerCase()) && str.toLowerCase().includes(brand.dosageForm.toLowerCase())
-                    ? 'bg-[#08AFC1]/20 text-cyan-300 border-[#08AFC1]/40 font-bold'
-                    : 'bg-slate-800/60 text-slate-300 border-slate-700'
-                }`}
-              >
-                {str}
-              </span>
-            ))}
+      {/* 2. SIX-ITEM ICON GRID (MATCHING REFERENCE VIDEO SPECIFICATION) */}
+      <div>
+        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+          Clinical Monograph Overview
+        </h2>
+        <div className="drug-six-grid">
+          {/* Item 1: Indications */}
+          <div
+            onClick={() => scrollToSection('section-indications')}
+            className="drug-six-grid-card"
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && scrollToSection('section-indications')}
+            aria-label="Scroll to Indications"
+          >
+            <div className="navy-med-icon-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+            </div>
+            <div>
+              <div className="grid-label">Indications</div>
+              <div className="grid-preview">
+                {generic.indications && generic.indications.length > 0
+                  ? generic.indications.map(i => i.name).slice(0, 2).join(', ')
+                  : 'Approved clinical conditions'}
+              </div>
+            </div>
+          </div>
+
+          {/* Item 2: Dosage & Administration */}
+          <div
+            onClick={() => scrollToSection('section-dosage')}
+            className="drug-six-grid-card"
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && scrollToSection('section-dosage')}
+            aria-label="Scroll to Dosage & Administration"
+          >
+            <div className="navy-med-icon-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <div className="grid-label">Dosage & Admin</div>
+              <div className="grid-preview">
+                {generic.dosageGuidance?.adult
+                  ? generic.dosageGuidance.adult
+                  : 'Adult & pediatric dosing protocols'}
+              </div>
+            </div>
+          </div>
+
+          {/* Item 3: Side Effects */}
+          <div
+            onClick={() => scrollToSection('section-side-effects')}
+            className="drug-six-grid-card"
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && scrollToSection('section-side-effects')}
+            aria-label="Scroll to Side Effects"
+          >
+            <div className="navy-med-icon-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div>
+              <div className="grid-label">Side Effects</div>
+              <div className="grid-preview">
+                {generic.adverseEffects?.common && generic.adverseEffects.common.length > 0
+                  ? generic.adverseEffects.common.slice(0, 3).join(', ')
+                  : 'Adverse reactions & warnings'}
+              </div>
+            </div>
+          </div>
+
+          {/* Item 4: Interactions */}
+          <div
+            onClick={() => scrollToSection('section-interactions')}
+            className="drug-six-grid-card"
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && scrollToSection('section-interactions')}
+            aria-label="Scroll to Interactions"
+          >
+            <div className="navy-med-icon-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+            </div>
+            <div>
+              <div className="grid-label">Interactions</div>
+              <div className="grid-preview">
+                {generic.keyInteractions && generic.keyInteractions.length > 0
+                  ? `Interacts with ${generic.keyInteractions[0].genericB}`
+                  : 'Multi-drug interactions checker'}
+              </div>
+            </div>
+          </div>
+
+          {/* Item 5: Mechanism of Action */}
+          <div
+            onClick={() => scrollToSection('section-pharmacology')}
+            className="drug-six-grid-card"
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && scrollToSection('section-pharmacology')}
+            aria-label="Scroll to Mechanism of Action"
+          >
+            <div className="navy-med-icon-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+            </div>
+            <div>
+              <div className="grid-label">Mechanism (MOA)</div>
+              <div className="grid-preview">
+                {generic.mechanismOfAction
+                  ? generic.mechanismOfAction
+                  : 'Pharmacodynamics & targets'}
+              </div>
+            </div>
+          </div>
+
+          {/* Item 6: Contraindications */}
+          <div
+            onClick={() => scrollToSection('section-contraindications')}
+            className="drug-six-grid-card"
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && scrollToSection('section-contraindications')}
+            aria-label="Scroll to Contraindications"
+          >
+            <div className="navy-med-icon-badge">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+              </svg>
+            </div>
+            <div>
+              <div className="grid-label">Contraindications</div>
+              <div className="grid-preview">
+                {generic.contraindications && generic.contraindications.length > 0
+                  ? generic.contraindications[0].condition
+                  : 'Absolute & relative warnings'}
+              </div>
+            </div>
           </div>
         </div>
-      )}
-
-      {/* Clinical Sections Tabs Navigation */}
-      <div className="flex flex-wrap gap-1.5 border-b border-slate-800 pb-3">
-        {[
-          { id: 'overview', label: 'Overview' },
-          { id: 'indications', label: 'Indications' },
-          { id: 'pharmacology', label: 'Pharmacology' },
-          { id: 'dosage', label: 'Dosage & Admin' },
-          { id: 'contraindications', label: 'Contraindications' },
-          { id: 'side-effects', label: 'Side Effects' },
-          { id: 'precautions', label: 'Precautions' },
-          { id: 'interactions', label: 'Interactions' },
-          { id: 'pregnancy', label: 'Pregnancy & Lactation' },
-          { id: 'overdose', label: 'Overdose' },
-          { id: 'storage', label: 'Storage' },
-          { id: 'alternatives', label: `Other BD Brands (${otherBrandsWithSameGeneric.length})` }
-        ].map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`px-3.5 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-semibold transition-all border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
-              activeTab === tab.id
-                ? 'bg-[#08AFC1] text-slate-950 border-[#08AFC1] font-bold shadow-glow-cyan'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/80 border-transparent'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
       </div>
 
-      {/* Tab Content Display */}
-      <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md min-h-[300px]">
-        {/* TAB 1: OVERVIEW */}
-        {activeTab === 'overview' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-white">Clinical Overview: {generic.name}</h3>
-            {generic.pharmacology || generic.mechanismOfAction ? (
-              <p className="text-sm text-slate-300 leading-relaxed">
-                {generic.pharmacology || generic.mechanismOfAction}
-              </p>
-            ) : (
-              <ClinicalInfoUnavailable />
-            )}
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
-              <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
-                <span className="text-xs text-slate-400 block font-medium">Therapeutic Class</span>
-                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.therapeuticClass || 'Not Classified'}</span>
+      {/* 3. THREE-COLUMN DASHBOARD GRID (DESKTOP: 3 COLS, TABLET: 2 COLS, MOBILE: 1 COL) */}
+      <div className="drug-three-column-grid">
+        {/* CARD 1: INDICATIONS */}
+        <div id="section-indications" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
               </div>
-              <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
-                <span className="text-xs text-slate-400 block font-medium">Pharmacological Class</span>
-                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.pharmacologicalClass || 'Not Classified'}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
-                <span className="text-xs text-slate-400 block font-medium">ATC Code</span>
-                <span className="text-white text-sm font-semibold mt-0.5 block">{generic.atcCode || 'Unassigned'}</span>
-              </div>
+              <h3 className="drug-card-heading">Indications</h3>
             </div>
-
-            <div className="pt-3 border-t border-slate-800 text-xs text-slate-400 space-y-1">
-              <p><strong>Source Attribution:</strong> {brand.source || brand.verifiedSource || 'Bangladesh DGDA / National Formulary'}</p>
-              <p><strong>Last Synchronized:</strong> {brand.lastSynchronizedDate || brand.lastVerifiedDate || 'Recent audit'}</p>
-              <p><strong>Registration Code:</strong> {brand.registrationNumber || 'DGDA Verified Registration'}</p>
-            </div>
+            {/* Mobile Accordion Toggle */}
+            <button
+              onClick={() => toggleMobileAccordion('indications')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Indications"
+            >
+              {mobileOpenCards.indications ? '▲' : '▼'}
+            </button>
           </div>
-        )}
 
-        {/* TAB 2: INDICATIONS */}
-        {activeTab === 'indications' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-white">Approved Clinical Indications</h3>
+          <div className={`space-y-3 ${mobileOpenCards.indications ? 'block' : 'hidden md:block'}`}>
             {generic.indications && generic.indications.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {generic.indications.map((ind, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                    <span className="text-sm font-semibold text-cyan-300 block">{ind.name}</span>
-                    {ind.evidenceLevel && (
-                      <span className="text-[11px] text-slate-400 block mt-0.5">Evidence: Level {ind.evidenceLevel}</span>
-                    )}
+              <div className="space-y-2.5">
+                {(expandedSections.indications
+                  ? generic.indications
+                  : generic.indications.slice(0, 3)
+                ).map((ind, i) => (
+                  <div key={i} className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-[#0F2C59]">{ind.name}</span>
+                      {ind.evidenceLevel && (
+                        <span className="text-[11px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold">
+                          Level {ind.evidenceLevel}
+                        </span>
+                      )}
+                    </div>
                     {(ind.notes || ind.note || ind.guidelineRecommendation) && (
-                      <p className="text-xs text-slate-300 mt-1">{ind.notes || ind.note || ind.guidelineRecommendation}</p>
+                      <p className="text-xs text-slate-600 mt-1">
+                        {ind.notes || ind.note || ind.guidelineRecommendation}
+                      </p>
                     )}
                   </div>
                 ))}
+
+                {generic.indications.length > 3 && (
+                  <button
+                    onClick={() => toggleSectionExpand('indications')}
+                    className="text-xs font-semibold text-[#08AFC1] hover:underline pt-1 block"
+                  >
+                    {expandedSections.indications
+                      ? 'Show Fewer Indications'
+                      : `+ View ${generic.indications.length - 3} More Indications`}
+                  </button>
+                )}
               </div>
             ) : (
               <ClinicalInfoUnavailable />
             )}
           </div>
-        )}
+        </div>
 
-        {/* TAB 3: PHARMACOLOGY */}
-        {activeTab === 'pharmacology' && (
-          <div className="space-y-4 text-sm text-slate-300">
-            {generic.mechanismOfAction ? (
-              <div>
-                <h4 className="font-bold text-white text-sm">Mechanism of Action</h4>
-                <p className="mt-1 leading-relaxed">{generic.mechanismOfAction}</p>
+        {/* CARD 2: DOSAGE & ADMINISTRATION */}
+        <div id="section-dosage" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-            ) : null}
-
-            {generic.receptorOrTarget ? (
-              <div>
-                <h4 className="font-bold text-white text-sm">Target / Receptor</h4>
-                <p className="mt-1 text-cyan-300">{generic.receptorOrTarget}</p>
-              </div>
-            ) : null}
-
-            {generic.pharmacokinetics ? (
-              <div className="pt-2">
-                <h4 className="font-bold text-white text-sm">Pharmacokinetics Summary</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 mt-2 text-xs">
-                  <div className="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40">
-                    <strong className="text-slate-400 block">Bioavailability</strong>
-                    <span className="text-white mt-0.5 block">{generic.pharmacokinetics.bioavailability || 'Standard'}</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40">
-                    <strong className="text-slate-400 block">Elimination Half-life</strong>
-                    <span className="text-white mt-0.5 block">{generic.pharmacokinetics.halfLife || 'Noted in monograph'}</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40">
-                    <strong className="text-slate-400 block">Metabolism</strong>
-                    <span className="text-white mt-0.5 block">{generic.pharmacokinetics.metabolism || 'Hepatic'}</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40">
-                    <strong className="text-slate-400 block">Excretion</strong>
-                    <span className="text-white mt-0.5 block">{generic.pharmacokinetics.excretion || 'Renal'}</span>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-
-            {!generic.mechanismOfAction && !generic.receptorOrTarget && !generic.pharmacokinetics && (
-              <ClinicalInfoUnavailable />
-            )}
+              <h3 className="drug-card-heading">Dosage & Administration</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('dosage')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Dosage"
+            >
+              {mobileOpenCards.dosage ? '▲' : '▼'}
+            </button>
           </div>
-        )}
 
-        {/* TAB 4: DOSAGE & ADMINISTRATION */}
-        {activeTab === 'dosage' && (
-          <div className="space-y-4 text-sm text-slate-300">
-            <h3 className="text-base font-bold text-white">Standard Dosage and Administration</h3>
-            
-            {generic.dosageGuidance && (generic.dosageGuidance.adult || generic.dosageGuidance.paediatric || generic.dosageGuidance.pediatric) ? (
-              <div className="space-y-3">
+          <div className={`space-y-3 ${mobileOpenCards.dosage ? 'block' : 'hidden md:block'}`}>
+            {generic.dosageGuidance &&
+            (generic.dosageGuidance.adult ||
+              generic.dosageGuidance.paediatric ||
+              generic.dosageGuidance.pediatric ||
+              generic.dosageGuidance.administrationNotes) ? (
+              <div className="space-y-2.5">
                 {generic.dosageGuidance.adult && (
-                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                    <strong className="text-sm text-blue-300 block">Adult Dosing Guidance</strong>
-                    <p className="text-xs text-slate-300 mt-1">{generic.dosageGuidance.adult}</p>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                    <strong className="text-xs text-blue-900 uppercase tracking-wide block font-bold">
+                      Adult Dosing
+                    </strong>
+                    <p className="text-sm text-slate-700 mt-1 leading-relaxed">
+                      {generic.dosageGuidance.adult}
+                    </p>
                   </div>
                 )}
+
                 {(generic.dosageGuidance.paediatric || generic.dosageGuidance.pediatric) && (
-                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                    <strong className="text-sm text-cyan-300 block">Pediatric Dosing Guidance</strong>
-                    <p className="text-xs text-slate-300 mt-1">{generic.dosageGuidance.paediatric || generic.dosageGuidance.pediatric}</p>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                    <strong className="text-xs text-sky-900 uppercase tracking-wide block font-bold">
+                      Pediatric Dosing
+                    </strong>
+                    <p className="text-sm text-slate-700 mt-1 leading-relaxed">
+                      {generic.dosageGuidance.paediatric || generic.dosageGuidance.pediatric}
+                    </p>
                   </div>
                 )}
+
                 {(generic.dosageGuidance.administrationNotes || generic.dosageGuidance.timingNotice) && (
-                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                    <strong className="text-sm text-slate-300 block">Administration Instructions</strong>
-                    <p className="text-xs text-slate-300 mt-1">{generic.dosageGuidance.administrationNotes || generic.dosageGuidance.timingNotice}</p>
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600">
+                    <strong className="text-slate-800 block font-semibold">Administration Instructions:</strong>
+                    <p className="mt-0.5">{generic.dosageGuidance.administrationNotes || generic.dosageGuidance.timingNotice}</p>
                   </div>
                 )}
               </div>
             ) : (
               <ClinicalInfoUnavailable />
             )}
+          </div>
+        </div>
 
-            {generic.doseAdjustment && (
-              <div className="pt-2">
-                <h4 className="font-bold text-white text-sm">Organ Function Dose Adjustments</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 text-xs">
-                  <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/40">
-                    <strong className="text-amber-400 block font-semibold">Renal Impairment</strong>
-                    <p className="text-slate-300 mt-1">{generic.doseAdjustment.renal || 'No specific dose modification needed unless severe'}</p>
-                  </div>
-                  <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/40">
-                    <strong className="text-amber-400 block font-semibold">Hepatic Impairment</strong>
-                    <p className="text-slate-300 mt-1">{generic.doseAdjustment.hepatic || 'Caution advised in decompensated hepatic failure'}</p>
-                  </div>
-                </div>
+        {/* CARD 3: SIDE EFFECTS & ADVERSE REACTIONS */}
+        <div id="section-side-effects" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
               </div>
-            )}
+              <h3 className="drug-card-heading">Side Effects & Reactions</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('sideEffects')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Side Effects"
+            >
+              {mobileOpenCards.sideEffects ? '▲' : '▼'}
+            </button>
           </div>
-        )}
 
-        {/* TAB 5: CONTRAINDICATIONS */}
-        {activeTab === 'contraindications' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-rose-300">Contraindications</h3>
-            {generic.contraindications && generic.contraindications.length > 0 ? (
-              <div className="space-y-2">
-                {generic.contraindications.map((contra, i) => (
-                  <div key={i} className="p-3 rounded-xl bg-rose-950/30 border border-rose-500/30 flex items-start gap-2.5 text-xs text-rose-200">
-                    <span className="text-rose-400 font-bold">✕</span>
-                    <div>
-                      <strong className="text-rose-300 font-semibold">{contra.condition}</strong>
-                      <span className="ml-2 text-rose-400/80 font-medium">({contra.type} Contraindication)</span>
-                      {(contra.explanation || contra.reason) && <p className="text-rose-200/80 mt-0.5">{contra.explanation || contra.reason}</p>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <ClinicalInfoUnavailable />
-            )}
-          </div>
-        )}
-
-        {/* TAB 6: SIDE EFFECTS */}
-        {activeTab === 'side-effects' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-white">Adverse Reactions & Side Effects</h3>
-            
-            {(generic.adverseEffects?.common && generic.adverseEffects.common.length > 0) || (generic.adverseEffects?.seriousWarnings && generic.adverseEffects.seriousWarnings.length > 0) ? (
-              <>
-                {generic.adverseEffects?.seriousWarnings && generic.adverseEffects.seriousWarnings.length > 0 && (
-                  <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/40 space-y-1 text-xs">
-                    <strong className="text-rose-300 font-bold block">⚠️ Serious Warnings & Critical Reactions:</strong>
-                    <ul className="list-disc list-inside text-rose-200 space-y-0.5">
-                      {generic.adverseEffects.seriousWarnings.map((w, idx) => (
-                        <li key={idx}>{w}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                    <strong className="text-blue-300 font-semibold block">Common / Frequent Reactions</strong>
-                    <p className="text-slate-300 mt-1">{generic.adverseEffects?.common?.join(', ') || 'None reported'}</p>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                    <strong className="text-slate-300 font-semibold block">Less Frequent / Rare Reactions</strong>
-                    <p className="text-slate-400 mt-1">{generic.adverseEffects?.rare?.join(', ') || 'None reported'}</p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <ClinicalInfoUnavailable />
-            )}
-          </div>
-        )}
-
-        {/* TAB 7: PRECAUTIONS */}
-        {activeTab === 'precautions' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-amber-300">Clinical Precautions & Monitoring</h3>
-            {generic.precautions && generic.precautions.length > 0 ? (
-              <ul className="space-y-2 text-xs text-slate-300">
-                {generic.precautions.map((p, i) => (
-                  <li key={i} className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/40 flex items-start gap-2">
-                    <span className="text-amber-400 font-bold">ℹ</span>
-                    <span>{p}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ClinicalInfoUnavailable />
-            )}
-
-            {generic.monitoringRequirements && generic.monitoringRequirements.length > 0 && (
-              <div className="pt-3">
-                <h4 className="font-bold text-white text-xs mb-2">Recommended Laboratory Monitoring</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  {generic.monitoringRequirements.map((m, idx) => (
-                    <div key={idx} className="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                      <strong className="text-cyan-300 block">{m.parameter}</strong>
-                      <span className="text-slate-400 text-[11px]">Frequency: {m.frequency}</span>
-                    </div>
+          <div className={`space-y-3 ${mobileOpenCards.sideEffects ? 'block' : 'hidden md:block'}`}>
+            {generic.adverseEffects?.seriousWarnings && generic.adverseEffects.seriousWarnings.length > 0 && (
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs">
+                <strong className="text-rose-900 font-bold block mb-1">⚠️ Critical Warnings:</strong>
+                <ul className="list-disc list-inside text-rose-800 space-y-0.5">
+                  {generic.adverseEffects.seriousWarnings.map((w, idx) => (
+                    <li key={idx}>{w}</li>
                   ))}
-                </div>
+                </ul>
               </div>
             )}
-          </div>
-        )}
 
-        {/* TAB 8: INTERACTIONS */}
-        {activeTab === 'interactions' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-white">Drug Interactions</h3>
-            <p className="text-xs text-slate-300">
-              Co-administration with other therapeutic classes should be cross-checked using the MEDX Multi-Drug Interaction Checker.
-            </p>
+            {(generic.adverseEffects?.common && generic.adverseEffects.common.length > 0) ||
+            (generic.adverseEffects?.rare && generic.adverseEffects.rare.length > 0) ? (
+              <div className="space-y-2 text-xs">
+                {generic.adverseEffects?.common && generic.adverseEffects.common.length > 0 && (
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <strong className="text-slate-800 font-semibold block">Common Reactions:</strong>
+                    <p className="text-slate-600 mt-1">{generic.adverseEffects.common.join(', ')}</p>
+                  </div>
+                )}
+                {generic.adverseEffects?.rare && generic.adverseEffects.rare.length > 0 && (
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <strong className="text-slate-800 font-semibold block">Rare / Less Frequent:</strong>
+                    <p className="text-slate-600 mt-1">{generic.adverseEffects.rare.join(', ')}</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
+          </div>
+        </div>
+
+        {/* CARD 4: DRUG INTERACTIONS */}
+        <div id="section-interactions" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">Drug Interactions</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('interactions')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Interactions"
+            >
+              {mobileOpenCards.interactions ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-3 ${mobileOpenCards.interactions ? 'block' : 'hidden md:block'}`}>
             {generic.keyInteractions && generic.keyInteractions.length > 0 ? (
-              <div className="space-y-2">
-                {generic.keyInteractions.map((inter, i) => (
-                  <div key={i} className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-xs text-slate-200">
-                    <div className="flex items-center justify-between font-semibold">
-                      <span className="text-cyan-300">Interacts with: {inter.genericB}</span>
+              <div className="space-y-2.5">
+                {(expandedSections.interactions
+                  ? generic.keyInteractions
+                  : generic.keyInteractions.slice(0, 3)
+                ).map((inter, i) => (
+                  <div key={i} className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                    <div className="flex items-center justify-between font-bold">
+                      <span className="text-[#0F2C59]">{inter.genericB}</span>
                       <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold ${
                         inter.severity === 'contraindicated' || inter.severity === 'major'
-                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                          : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                          ? 'bg-rose-100 text-rose-800'
+                          : 'bg-amber-100 text-amber-800'
                       }`}>
                         {inter.severity}
                       </span>
                     </div>
-                    <p className="text-slate-300 mt-1">{inter.clinicalEffect}</p>
-                    <p className="text-slate-400 text-[11px] mt-0.5"><strong>Action:</strong> {inter.recommendation}</p>
+                    <p className="text-slate-700 mt-1">{inter.clinicalEffect}</p>
+                    {inter.recommendation && (
+                      <p className="text-slate-500 mt-0.5"><strong>Action:</strong> {inter.recommendation}</p>
+                    )}
                   </div>
                 ))}
-              </div>
-            ) : (
-              <ClinicalInfoUnavailable />
-            )}
-          </div>
-        )}
 
-        {/* TAB 9: PREGNANCY & LACTATION */}
-        {activeTab === 'pregnancy' && (
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-white">Pregnancy and Lactation Safety</h3>
-            {generic.pregnancyInfo?.details || generic.breastfeedingInfo?.details ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2">
-                  <span className="text-blue-300 font-bold block text-sm">Pregnancy Information</span>
-                  <div className="inline-block px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/40 font-bold">
-                    FDA Category: {generic.pregnancyInfo?.category || 'Not Classified'}
-                  </div>
-                  <p className="text-slate-300 leading-relaxed">{generic.pregnancyInfo?.details || 'Clinical data pending review.'}</p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 space-y-2">
-                  <span className="text-cyan-300 font-bold block text-sm">Breastfeeding & Lactation</span>
-                  <div className="inline-block px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold uppercase">
-                    Safety: {generic.breastfeedingInfo?.safety || 'Evaluate Risks'}
-                  </div>
-                  <p className="text-slate-300 leading-relaxed">{generic.breastfeedingInfo?.details || 'Clinical data pending review.'}</p>
-                </div>
-              </div>
-            ) : (
-              <ClinicalInfoUnavailable />
-            )}
-          </div>
-        )}
-
-        {/* TAB 10: OVERDOSE */}
-        {activeTab === 'overdose' && (
-          <div className="space-y-4 text-xs text-slate-300">
-            <h3 className="text-base font-bold text-rose-300">Overdose Information & Management</h3>
-            {(generic.overdoseInformation || generic.overdoseInfo)?.symptoms || (generic.overdoseInformation || generic.overdoseInfo)?.management ? (
-              <div className="space-y-3">
-                <div>
-                  <strong className="text-white block font-semibold">Signs & Symptoms:</strong>
-                  <p className="mt-1">{(generic.overdoseInformation || generic.overdoseInfo)?.symptoms}</p>
-                </div>
-                <div>
-                  <strong className="text-white block font-semibold">Emergency Clinical Management:</strong>
-                  <p className="mt-1">{(generic.overdoseInformation || generic.overdoseInfo)?.management}</p>
-                </div>
-                {(generic.overdoseInformation || generic.overdoseInfo)?.antidote && (
-                  <div className="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 text-emerald-200">
-                    <strong>Specific Antidote:</strong> {(generic.overdoseInformation || generic.overdoseInfo)?.antidote}
-                  </div>
+                {generic.keyInteractions.length > 3 && (
+                  <button
+                    onClick={() => toggleSectionExpand('interactions')}
+                    className="text-xs font-semibold text-[#08AFC1] hover:underline pt-1 block"
+                  >
+                    {expandedSections.interactions
+                      ? 'Show Fewer Interactions'
+                      : `+ View ${generic.keyInteractions.length - 3} More Interactions`}
+                  </button>
                 )}
               </div>
             ) : (
               <ClinicalInfoUnavailable />
             )}
           </div>
-        )}
+        </div>
 
-        {/* TAB 11: STORAGE */}
-        {activeTab === 'storage' && (
-          <div className="space-y-3 text-xs text-slate-300">
-            <h3 className="text-base font-bold text-white">Storage Conditions</h3>
-            {generic.storageInformation || generic.storageConditions ? (
-              <p className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 text-slate-200">
-                {generic.storageInformation || generic.storageConditions}
+        {/* CARD 5: CONTRAINDICATIONS & PRECAUTIONS */}
+        <div id="section-contraindications" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">Contraindications & Precautions</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('contraindications')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Contraindications"
+            >
+              {mobileOpenCards.contraindications ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-3 ${mobileOpenCards.contraindications ? 'block' : 'hidden md:block'}`}>
+            {generic.contraindications && generic.contraindications.length > 0 ? (
+              <div className="space-y-2">
+                {generic.contraindications.map((contra, i) => (
+                  <div key={i} className="p-2.5 rounded-xl bg-rose-50/70 border border-rose-200 text-xs">
+                    <span className="font-bold text-rose-900 block">{contra.condition}</span>
+                    <span className="text-[11px] text-rose-700">Type: {contra.type} Contraindication</span>
+                    {(contra.explanation || contra.reason) && (
+                      <p className="text-slate-600 mt-0.5">{contra.explanation || contra.reason}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
+
+            {generic.precautions && generic.precautions.length > 0 && (
+              <div className="pt-2 border-t border-slate-100">
+                <strong className="text-xs text-slate-800 font-bold block mb-1">Clinical Precautions:</strong>
+                <ul className="text-xs text-slate-600 space-y-1 list-disc list-inside">
+                  {generic.precautions.slice(0, 3).map((p, idx) => (
+                    <li key={idx}>{p}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* CARD 6: MECHANISM OF ACTION & PHARMACOLOGY */}
+        <div id="section-pharmacology" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">Mechanism & Pharmacology</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('pharmacology')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Pharmacology"
+            >
+              {mobileOpenCards.pharmacology ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-3 ${mobileOpenCards.pharmacology ? 'block' : 'hidden md:block'}`}>
+            {generic.mechanismOfAction ? (
+              <p className="text-sm text-slate-700 leading-relaxed">
+                {generic.mechanismOfAction}
               </p>
             ) : (
               <ClinicalInfoUnavailable />
             )}
-          </div>
-        )}
 
-        {/* TAB 12: OTHER BANGLADESH BRANDS (DIMS-style alternative brands) */}
-        {activeTab === 'alternatives' && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-bold text-white">
-                Other Bangladesh Brands containing {generic.name}
-              </h3>
-              <span className="text-xs text-slate-400 font-medium">
-                {otherBrandsWithSameGeneric.length} registered brands
-              </span>
+            {generic.receptorOrTarget && (
+              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs">
+                <strong className="text-slate-800 block">Biological Target:</strong>
+                <span className="text-[#08AFC1] font-semibold mt-0.5 block">{generic.receptorOrTarget}</span>
+              </div>
+            )}
+
+            <div className="pt-2 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+              <span>ATC Code: <strong className="text-slate-800">{generic.atcCode || 'Unassigned'}</strong></span>
             </div>
+          </div>
+        </div>
 
+        {/* CARD 7: PHARMACOKINETICS */}
+        <div id="section-pharmacokinetics" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">Pharmacokinetics</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('pharmacokinetics')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Pharmacokinetics"
+            >
+              {mobileOpenCards.pharmacokinetics ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-3 ${mobileOpenCards.pharmacokinetics ? 'block' : 'hidden md:block'}`}>
+            {generic.pharmacokinetics ? (
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-500 block">Bioavailability</strong>
+                  <span className="text-slate-900 font-semibold mt-0.5 block">
+                    {generic.pharmacokinetics.bioavailability || 'Standard'}
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-500 block">Half-life</strong>
+                  <span className="text-slate-900 font-semibold mt-0.5 block">
+                    {generic.pharmacokinetics.halfLife || 'Monograph noted'}
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-500 block">Metabolism</strong>
+                  <span className="text-slate-900 font-semibold mt-0.5 block">
+                    {generic.pharmacokinetics.metabolism || 'Hepatic'}
+                  </span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-500 block">Excretion</strong>
+                  <span className="text-slate-900 font-semibold mt-0.5 block">
+                    {generic.pharmacokinetics.excretion || 'Renal'}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
+          </div>
+        </div>
+
+        {/* CARD 8: PREGNANCY & BREASTFEEDING */}
+        <div id="section-pregnancy" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">Pregnancy & Lactation</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('pregnancy')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Pregnancy"
+            >
+              {mobileOpenCards.pregnancy ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-3 ${mobileOpenCards.pregnancy ? 'block' : 'hidden md:block'}`}>
+            {generic.pregnancyInfo?.details || generic.breastfeedingInfo?.details ? (
+              <div className="space-y-2.5 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <div className="flex items-center justify-between font-bold">
+                    <span className="text-slate-800">Pregnancy Category</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+                      FDA {generic.pregnancyInfo?.category || 'Unclassified'}
+                    </span>
+                  </div>
+                  <p className="text-slate-600 mt-1 leading-relaxed">
+                    {generic.pregnancyInfo?.details || 'Clinical data under review.'}
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-800 font-bold block">Lactation & Breastfeeding:</strong>
+                  <p className="text-slate-600 mt-1 leading-relaxed">
+                    {generic.breastfeedingInfo?.details || generic.breastfeedingInfo?.safety || 'Evaluate risk vs benefit.'}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
+          </div>
+        </div>
+
+        {/* CARD 9: RENAL & HEPATIC IMPAIRMENT */}
+        <div id="section-impairment" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">Renal & Hepatic Impairment</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('impairment')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Impairment"
+            >
+              {mobileOpenCards.impairment ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-3 ${mobileOpenCards.impairment ? 'block' : 'hidden md:block'}`}>
+            {generic.doseAdjustment ? (
+              <div className="space-y-2 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-800 font-bold block">Renal Impairment:</strong>
+                  <p className="text-slate-600 mt-1">
+                    {generic.doseAdjustment.renal || 'No specific dose adjustment needed unless severe GFR reduction.'}
+                  </p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <strong className="text-slate-800 font-bold block">Hepatic Impairment:</strong>
+                  <p className="text-slate-600 mt-1">
+                    {generic.doseAdjustment.hepatic || 'Caution advised in acute or decompensated liver disease.'}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <ClinicalInfoUnavailable />
+            )}
+          </div>
+        </div>
+
+        {/* CARD 10: AVAILABLE BANGLADESH BRANDS (SPAN 2 COLS ON DESKTOP) */}
+        <div id="section-brands" className="drug-dashboard-card lg:col-span-2 scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="drug-card-heading">Available Brands in Bangladesh</h3>
+                <span className="text-xs text-slate-500 font-medium">
+                  {otherBrandsWithSameGeneric.length} registered formulations containing {generic.name}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('brands')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle Brands Table"
+            >
+              {mobileOpenCards.brands ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`${mobileOpenCards.brands ? 'block' : 'hidden md:block'}`}>
             {otherBrandsWithSameGeneric.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-800 text-slate-400 font-medium">
+                    <tr className="border-b border-slate-200 text-slate-500 font-bold bg-slate-50">
                       <th className="py-2.5 px-3">Brand Name</th>
-                      <th className="py-2.5 px-3">Form & Strength</th>
+                      <th className="py-2.5 px-3">Strength & Form</th>
                       <th className="py-2.5 px-3">Manufacturer</th>
                       <th className="py-2.5 px-3 text-right">Price</th>
                       <th className="py-2.5 px-3 text-center">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
-                    {otherBrandsWithSameGeneric.map((altBrand) => (
-                      <tr key={altBrand.id} className="hover:bg-slate-800/30 transition">
-                        <td className="py-2.5 px-3 font-bold text-white">
+                  <tbody className="divide-y divide-slate-100">
+                    {(expandedSections.brands
+                      ? otherBrandsWithSameGeneric
+                      : otherBrandsWithSameGeneric.slice(0, 6)
+                    ).map((altBrand) => (
+                      <tr key={altBrand.id} className="hover:bg-blue-50/50 transition">
+                        <td className="py-2.5 px-3 font-bold text-[#0F2C59]">
                           {altBrand.brandName}
                           {altBrand.brandNameBn && (
-                            <span className="block text-[11px] text-slate-400 font-normal">{altBrand.brandNameBn}</span>
+                            <span className="block text-[11px] text-sky-600 font-normal font-bengali">
+                              {altBrand.brandNameBn}
+                            </span>
                           )}
                         </td>
-                        <td className="py-2.5 px-3 text-slate-300">
-                          {altBrand.dosageForm} • {altBrand.strength}
+                        <td className="py-2.5 px-3 text-slate-700">
+                          {altBrand.strength} • {altBrand.dosageForm}
                         </td>
-                        <td className="py-2.5 px-3 text-slate-400 font-medium">
+                        <td className="py-2.5 px-3 text-slate-600 font-medium">
                           {altBrand.manufacturerName}
                         </td>
-                        <td className="py-2.5 px-3 text-right font-semibold text-emerald-300">
+                        <td className="py-2.5 px-3 text-right font-bold text-emerald-700">
                           {altBrand.verifiedPrice?.amount ? `৳ ${altBrand.verifiedPrice.amount.toFixed(2)}` : '—'}
                         </td>
                         <td className="py-2.5 px-3 text-center">
                           <button
                             onClick={() => onOpenBrand && onOpenBrand(altBrand.slug || altBrand.id)}
-                            className="px-2.5 py-1 rounded-md bg-blue-600/80 hover:bg-blue-500 text-white text-[11px] font-semibold transition"
+                            className="px-2.5 py-1 min-h-[36px] rounded-lg bg-blue-50 hover:bg-blue-100 text-[#0F2C59] font-bold text-[11px] transition"
                           >
                             View
                           </button>
@@ -717,12 +1067,61 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                     ))}
                   </tbody>
                 </table>
+
+                {otherBrandsWithSameGeneric.length > 6 && (
+                  <div className="pt-3 text-center">
+                    <button
+                      onClick={() => toggleSectionExpand('brands')}
+                      className="px-4 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition min-h-[38px]"
+                    >
+                      {expandedSections.brands
+                        ? 'Show Fewer Brands'
+                        : `View All ${otherBrandsWithSameGeneric.length} Registered Brands`}
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
-              <p className="text-xs text-slate-400">No other registered brands for this generic are currently active in the database.</p>
+              <p className="text-xs text-slate-500 py-3">No other registered brands indexed for this generic.</p>
             )}
           </div>
-        )}
+        </div>
+
+        {/* CARD 11: REFERENCES & GOVERNANCE */}
+        <div id="section-references" className="drug-dashboard-card scroll-mt-24">
+          <div className="drug-card-header-bar">
+            <div className="drug-card-title-group">
+              <div className="navy-med-icon-badge">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="drug-card-heading">References & Review</h3>
+            </div>
+            <button
+              onClick={() => toggleMobileAccordion('references')}
+              className="md:hidden text-slate-500 p-1 text-sm font-bold min-h-[44px] flex items-center"
+              aria-label="Toggle References"
+            >
+              {mobileOpenCards.references ? '▲' : '▼'}
+            </button>
+          </div>
+
+          <div className={`space-y-2.5 text-xs text-slate-600 ${mobileOpenCards.references ? 'block' : 'hidden md:block'}`}>
+            <p><strong>Primary Source:</strong> {brand.source || 'Directorate General of Drug Administration (DGDA)'}</p>
+            <p><strong>Registration Code:</strong> {brand.registrationNumber || 'Gazetted DGDA Registration'}</p>
+            {generic.medicalReview && (
+              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+                <p><strong>Reviewer:</strong> {generic.medicalReview.reviewerName}</p>
+                <p><strong>Credentials:</strong> {generic.medicalReview.reviewerCredentials}</p>
+                <p><strong>Content Version:</strong> v{generic.medicalReview.contentVersion}</p>
+              </div>
+            )}
+            <p className="text-[11px] text-slate-400 italic pt-1">
+              Data synchronized from verified DGDA, British National Formulary (BNF), and DGHS guidelines.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -132,6 +132,26 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
   const [isImportRunning, setIsImportRunning] = useState(false);
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
 
+  // Live Auto-Suggestions across complete connected database
+  const [suggestions, setSuggestions] = useState<Array<{
+    id: string;
+    slug?: string;
+    type: 'brand' | 'generic';
+    brandName: string;
+    brandNameBn?: string;
+    genericName: string;
+    strength?: string;
+    dosageForm?: string;
+    manufacturerName?: string;
+    price?: number;
+    prescriptionStatus?: string;
+  }>>([]);
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const [isSuggesting, setIsSuggesting] = useState(false);
+  const suggestionRequestId = React.useRef(0);
+  const searchWrapperRef = React.useRef<HTMLDivElement>(null);
+
   // Sync state to URL hash
   const syncToUrl = useCallback(() => {
     if (typeof window === 'undefined') return;
@@ -217,6 +237,147 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
     selectedPrescriptionStatus,
     currentPage
   ]);
+
+  // Fetch live suggestions across complete connected database (brands, generics, forms, manufacturers)
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed || trimmed.length < 2) {
+      setSuggestions([]);
+      setIsSuggestionsOpen(false);
+      setActiveSuggestionIndex(-1);
+      return;
+    }
+
+    const currentReqId = ++suggestionRequestId.current;
+    setIsSuggesting(true);
+
+    const timer = setTimeout(async () => {
+      try {
+        const resp = await DrugClientService.searchDrugs({
+          query: trimmed,
+          limit: 12
+        });
+
+        if (currentReqId !== suggestionRequestId.current) return;
+
+        const items: Array<{
+          id: string;
+          slug?: string;
+          type: 'brand' | 'generic';
+          brandName: string;
+          brandNameBn?: string;
+          genericName: string;
+          strength?: string;
+          dosageForm?: string;
+          manufacturerName?: string;
+          price?: number;
+          prescriptionStatus?: string;
+        }> = [];
+
+        // Brands suggestions
+        if (resp.results.brands) {
+          resp.results.brands.slice(0, 8).forEach(b => {
+            items.push({
+              id: b.id,
+              slug: b.slug,
+              type: 'brand',
+              brandName: b.brandName,
+              brandNameBn: b.brandNameBn,
+              genericName: b.genericId.replace(/-/g, ' '),
+              strength: b.strength,
+              dosageForm: b.dosageForm,
+              manufacturerName: b.manufacturerName,
+              price: b.verifiedPrice?.amount,
+              prescriptionStatus: b.prescriptionStatus
+            });
+          });
+        }
+
+        // Generics suggestions
+        if (resp.results.generics) {
+          resp.results.generics.slice(0, 4).forEach(g => {
+            items.push({
+              id: g.id,
+              type: 'generic',
+              brandName: g.name,
+              brandNameBn: g.nameBn,
+              genericName: g.pharmacologicalClass || g.therapeuticClass || 'Generic Molecule',
+              dosageForm: 'Active Generic',
+              prescriptionStatus: g.prescriptionStatus
+            });
+          });
+        }
+
+        setSuggestions(items);
+        setIsSuggestionsOpen(items.length > 0);
+        setActiveSuggestionIndex(-1);
+      } catch (err) {
+        console.warn('Failed to fetch suggestions', err);
+      } finally {
+        if (currentReqId === suggestionRequestId.current) {
+          setIsSuggesting(false);
+        }
+      }
+    }, 180);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // Click outside to dismiss suggestions dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target as Node)) {
+        setIsSuggestionsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isSuggestionsOpen || suggestions.length === 0) {
+      if (e.key === 'Enter') {
+        setIsSuggestionsOpen(false);
+        executeSearch();
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveSuggestionIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveSuggestionIndex(prev => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeSuggestionIndex >= 0 && activeSuggestionIndex < suggestions.length) {
+        handleSelectSuggestion(suggestions[activeSuggestionIndex]);
+      } else {
+        setIsSuggestionsOpen(false);
+        executeSearch();
+      }
+    } else if (e.key === 'Escape') {
+      setIsSuggestionsOpen(false);
+    }
+  };
+
+  const handleSelectSuggestion = (sug: typeof suggestions[0]) => {
+    setIsSuggestionsOpen(false);
+    if (sug.type === 'brand') {
+      handleOpenBrandDetail(sug.slug || sug.id);
+    } else {
+      handleOpenGeneric(sug.id);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setQuery('');
+    setSelectedLetter('');
+    setCurrentPage(1);
+    setSuggestions([]);
+    setIsSuggestionsOpen(false);
+  };
 
   const loadAuxiliaryData = async () => {
     try {
@@ -408,309 +569,437 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
   // Alphabet A-Z Bar
   const alphabet = useMemo(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), []);
 
-  // If viewing a single brand monograph in detail mode
-  if (activeBrandSlug) {
-    return (
-      <div className="drug-reference-container">
-        <BrandDetailView
-          slugOrId={activeBrandSlug}
-          onBack={() => setActiveBrandSlug(null)}
-          onOpenGeneric={handleOpenGeneric}
-          onOpenBrand={handleOpenBrandDetail}
-          onOpenAcrossBooksTopic={onOpenAcrossBooksTopic}
-          onOpenPracticeQuestions={() => {
-            window.location.hash = 'practice';
-          }}
-          isBookmarked={bookmarks.brands.includes(activeBrandSlug)}
-          onToggleBookmark={() => handleToggleBookmark('brand', activeBrandSlug)}
-        />
-      </div>
-    );
-  }
-
   const allGenericsList = searchResponse?.results.generics || [];
 
   return (
-    <div className="drug-reference-container">
-      {/* 1. MANDATORY CONCISE CLINICAL SAFETY NOTICE */}
-      <div className="drug-disclaimer-banner" role="alert">
-        <span className="disclaimer-icon">⚠️</span>
-        <div>
-          <strong className="text-amber-300">Educational safety notice:</strong> Educational information only. This platform does not replace a registered physician, pharmacist, official prescribing information or current clinical guidelines. Do not start, stop or change a medicine based only on this page.
+    <div className="drug-reference-page min-h-screen">
+      {/* 1. DARK NAVY TOP BAR WITH MEDX BRANDING, MENU & CONTROLS */}
+      <div className="drug-navy-topbar">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              window.location.hash = '#dashboard';
+            }}
+            className="flex items-center gap-2.5 text-white hover:text-cyan-300 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] rounded-lg p-1"
+            aria-label="MEDX Home"
+          >
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#08AFC1] to-blue-600 flex items-center justify-center font-black text-white text-base shadow-sm">
+              M
+            </div>
+            <span className="font-extrabold tracking-tight text-white text-base">
+              MEDX <span className="text-[#08AFC1] font-semibold text-xs ml-1">REFERENCE</span>
+            </span>
+          </button>
+        </div>
+
+        <div className="flex items-center gap-3 text-xs">
+          <button
+            onClick={() => setIsInteractionModalOpen(true)}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[38px] rounded-lg bg-blue-950/60 hover:bg-blue-900/60 text-cyan-300 border border-cyan-500/30 font-semibold transition"
+          >
+            <span>⚡</span> Interaction Checker
+          </button>
+
+          <button
+            onClick={() => handleOpenCompare(['enalapril', 'losartan'])}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[38px] rounded-lg bg-blue-950/60 hover:bg-blue-900/60 text-slate-200 border border-slate-700 font-medium transition"
+          >
+            <span>⚖️</span> Compare
+          </button>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 min-h-[38px] rounded-lg bg-slate-900/80 border border-slate-700/60 text-slate-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span className="font-semibold text-white">MBBS Student</span>
+          </div>
         </div>
       </div>
 
-      {/* 2. HEADER & HERO SECTION */}
-      <div className="drug-hero-section">
-        <div className="flex items-center justify-center gap-2 mb-1">
-          <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold border border-blue-500/30">
-            DGDA Registered Drug Directory
-          </span>
-          <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">
-            DIMS-Inspired Architecture
-          </span>
-        </div>
-
-        <h1 className="drug-hero-title">Bangladesh Drug Directory</h1>
-        <div className="drug-hero-subtitle">
-          Clinical Pharmacology Reference & Bangladesh Medicine Catalog
-          <span className="bangla-label">• বাংলাদেশে ব্যবহৃত ওষুধের তথ্য</span>
-        </div>
-
-        {/* 3. REAL DATABASE SUMMARY CARDS (NO HARDCODED FAKE TOTALS) */}
-        <div className="drug-summary-cards">
-          <div className="drug-stat-card">
-            <span className="drug-stat-number text-blue-400">
-              {dbStats ? dbStats.totalBrands.toLocaleString() : '—'}
-            </span>
-            <span className="drug-stat-label">Total Brands</span>
-            <span className="drug-stat-subtext">Commercial formulations</span>
+      {/* 2. BLUE-TO-CYAN CURVED HEADER WITH PROMINENT SEARCH */}
+      <div className="drug-curved-header">
+        <div className="drug-curved-header-content text-center">
+          <div className="drug-header-badge">
+            <span>DGDA Bangladesh Registered</span>
+            <span>•</span>
+            <span>Clinical Pharmacology</span>
           </div>
 
-          <div className="drug-stat-card">
-            <span className="drug-stat-number text-cyan-400">
-              {dbStats ? dbStats.totalGenerics.toLocaleString() : '—'}
-            </span>
-            <span className="drug-stat-label">Total Generics</span>
-            <span className="drug-stat-subtext">Active pharmaceutical entities</span>
-          </div>
+          <h1 className="drug-header-title">Drug Reference</h1>
+          <p className="drug-header-subtitle">
+            Search Bangladesh Medicines, Generic Formulations & Official Clinical Guidelines
+            <span className="bangla-text">• ওষুধ নির্দেশিকা ও ফার্মাকোলজি</span>
+          </p>
 
-          <div className="drug-stat-card">
-            <span className="drug-stat-number text-emerald-400">
-              {dbStats ? dbStats.totalManufacturers.toLocaleString() : '—'}
-            </span>
-            <span className="drug-stat-label">Manufacturers</span>
-            <span className="drug-stat-subtext">DGDA licensed pharma</span>
-          </div>
-
-          <div className="drug-stat-card">
-            <span className="drug-stat-number text-indigo-400">
-              {dbStats ? (dbStats.totalTherapeuticClasses ?? dbStats.totalClasses ?? 0).toLocaleString() : '—'}
-            </span>
-            <span className="drug-stat-label">Therapeutic Classes</span>
-            <span className="drug-stat-subtext">Clinical categories</span>
-          </div>
-
-          <div className="drug-stat-card">
-            <span className="drug-stat-number text-amber-400">
-              {dbStats ? (dbStats.recordsUpdatedThisMonth ?? dbStats.updatedThisMonth ?? 0).toLocaleString() : '—'}
-            </span>
-            <span className="drug-stat-label">Updated This Month</span>
-            <span className="drug-stat-subtext">Verified audits & gazette</span>
-          </div>
-        </div>
-
-        {/* 4. LARGE SEARCH FIELD & LANGUAGE TOGGLE */}
-        <div className="drug-search-wrapper">
-          <div className="drug-search-box">
-            <span className="drug-search-icon">🔍</span>
-            <input
-              type="text"
-              value={query}
-              onChange={e => {
-                setQuery(e.target.value);
-                setCurrentPage(1);
-              }}
-              placeholder="Search brand, generic, company, class or indication… / জেনেরিক, ব্র্যান্ড, রোগ, কোম্পানি বা ড্রাগ ক্লাস খুঁজুন…"
-              className="drug-search-input"
-              aria-label="Search brand, generic, company, class or indication"
-            />
-            {query && (
-              <button
-                onClick={() => {
-                  setQuery('');
-                  setSelectedLetter('');
+          {/* PROMINENT SEARCH INPUT WITH SUGGESTIONS DROPDOWN */}
+          <div className="drug-header-search-wrapper" ref={searchWrapperRef}>
+            <div className="drug-header-search-box">
+              <span className="drug-header-search-icon">🔍</span>
+              <input
+                type="text"
+                value={query}
+                onChange={e => {
+                  setQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="drug-search-clear"
-                aria-label="Clear search"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Language control & Suggestions bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 mt-2 px-1 text-xs">
-            <div className="flex items-center gap-1.5 text-slate-400">
-              <span>Display Language:</span>
-              <button
-                onClick={() => setLanguageMode('both')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
-                  languageMode === 'both' ? 'bg-blue-600 text-white' : 'bg-slate-800/80 text-slate-300'
-                }`}
-              >
-                English + বাংলা
-              </button>
-              <button
-                onClick={() => setLanguageMode('en')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
-                  languageMode === 'en' ? 'bg-blue-600 text-white' : 'bg-slate-800/80 text-slate-300'
-                }`}
-              >
-                English Only
-              </button>
-              <button
-                onClick={() => setLanguageMode('bn')}
-                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition ${
-                  languageMode === 'bn' ? 'bg-blue-600 text-white' : 'bg-slate-800/80 text-slate-300'
-                }`}
-              >
-                বাংলা শুধুমাত্র
-              </button>
+                onKeyDown={handleSearchKeyDown}
+                onFocus={() => {
+                  if (suggestions.length > 0) setIsSuggestionsOpen(true);
+                }}
+                placeholder="Search brand, generic, or manufacturer…"
+                className="drug-header-search-input"
+                aria-label="Search brand, generic, or manufacturer"
+                aria-autocomplete="list"
+                aria-expanded={isSuggestionsOpen}
+              />
+              {isSuggesting && (
+                <div className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-[#08AFC1] border-t-transparent mr-2 shrink-0"></div>
+              )}
+              {query && (
+                <button
+                  onClick={handleClearSearch}
+                  className="drug-search-clear"
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
             </div>
 
-            {searchResponse?.suggestions && searchResponse.suggestions.length > 0 && (
-              <div className="drug-suggestions-bar !mt-0">
-                <span>Did you mean:</span>
-                {searchResponse.suggestions.map((sug, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setQuery(sug);
-                      setCurrentPage(1);
-                    }}
-                    className="drug-suggestion-chip"
+            {/* AUTO-SUGGESTIONS DROPDOWN */}
+            {isSuggestionsOpen && suggestions.length > 0 && (
+              <div className="drug-suggestions-dropdown" role="listbox">
+                {suggestions.map((sug, idx) => (
+                  <div
+                    key={`${sug.type}-${sug.id}`}
+                    onClick={() => handleSelectSuggestion(sug)}
+                    className={`drug-suggestion-item ${idx === activeSuggestionIndex ? 'active' : ''}`}
+                    role="option"
+                    aria-selected={idx === activeSuggestionIndex}
                   >
-                    {sug}
-                  </button>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0F2C59] flex items-center justify-center font-bold text-xs shrink-0">
+                        {sug.type === 'brand' ? '💊' : '🧬'}
+                      </div>
+                      <div className="text-left">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold text-[#0F2C59] text-sm">{sug.brandName}</span>
+                          {sug.strength && (
+                            <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px] font-semibold">
+                              {sug.strength}
+                            </span>
+                          )}
+                          {sug.dosageForm && (
+                            <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[11px]">
+                              {sug.dosageForm}
+                            </span>
+                          )}
+                          {sug.brandNameBn && (
+                            <span className="font-bengali text-xs text-sky-700 font-medium">
+                              {sug.brandNameBn}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-xs text-slate-500 mt-0.5">
+                          {sug.type === 'brand' ? (
+                            <span>
+                              Generic: <strong className="text-slate-700 capitalize">{sug.genericName}</strong> • {sug.manufacturerName}
+                            </span>
+                          ) : (
+                            <span>
+                              Class: <strong className="text-slate-700">{sug.genericName}</strong>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {sug.price && (
+                      <span className="text-emerald-700 font-bold text-xs shrink-0">
+                        ৳ {sug.price.toFixed(2)}
+                      </span>
+                    )}
+                  </div>
                 ))}
               </div>
             )}
           </div>
-        </div>
 
-        {/* 5. ACTION TOOL LAUNCHERS */}
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
-          <button
-            onClick={() => setIsInteractionModalOpen(true)}
-            className="btn-primary-action"
-          >
-            <span>⚡</span> Multi-Drug Interaction Checker
-          </button>
-          <button
-            onClick={() => handleOpenCompare(['enalapril', 'losartan'])}
-            className="btn-secondary-action"
-          >
-            <span>⚖️</span> Drug-Class Comparisons
-          </button>
-          <button
-            onClick={() => {
-              if (allGenericsList.length > 0) {
-                setStudyGeneric(allGenericsList[0]);
-              }
-            }}
-            className="btn-secondary-action"
-          >
-            <span>🎓</span> Pharmacology Study Mode
-          </button>
-          <button
-            onClick={() => {
-              setActiveCategory('admin-import');
-              window.scrollTo({ top: 400, behavior: 'smooth' });
-            }}
-            className="btn-secondary-action text-xs text-amber-300 border-amber-500/30 hover:border-amber-400"
-          >
-            <span>⚙️</span> Ingestion & Admin Portal
-          </button>
-        </div>
+          {/* Quick In-Header Filters: Brand/Generic, Manufacturer, Dosage Form */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
+            <div className="flex items-center rounded-lg bg-white/15 backdrop-blur-md p-0.5 border border-white/20">
+              <button
+                type="button"
+                onClick={() => { setActiveCategory('all'); setCurrentPage(1); }}
+                className={`px-3 py-1.5 rounded-md font-semibold transition ${
+                  activeCategory === 'all' ? 'bg-white text-[#0F2C59] shadow-sm' : 'text-white/80 hover:text-white'
+                }`}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveCategory('brands'); setCurrentPage(1); }}
+                className={`px-3 py-1.5 rounded-md font-semibold transition ${
+                  activeCategory === 'brands' ? 'bg-white text-[#0F2C59] shadow-sm' : 'text-white/80 hover:text-white'
+                }`}
+              >
+                Brands
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveCategory('generics'); setCurrentPage(1); }}
+                className={`px-3 py-1.5 rounded-md font-semibold transition ${
+                  activeCategory === 'generics' ? 'bg-white text-[#0F2C59] shadow-sm' : 'text-white/80 hover:text-white'
+                }`}
+              >
+                Generics
+              </button>
+            </div>
 
-        {/* 6. ALPHABETICAL A-Z BROWSING BAR */}
-        <div className="drug-az-bar">
-          <button
-            onClick={() => {
-              setSelectedLetter('');
-              setCurrentPage(1);
-            }}
-            className={`drug-az-pill ${!selectedLetter ? 'active' : ''}`}
-            title="Show all letters"
-          >
-            All
-          </button>
-          {alphabet.map(letter => (
-            <button
-              key={letter}
-              onClick={() => {
-                setSelectedLetter(letter);
-                setCurrentPage(1);
-              }}
-              className={`drug-az-pill ${selectedLetter === letter ? 'active' : ''}`}
-              title={`Browse drugs starting with ${letter}`}
+            {/* Quick Manufacturer Filter */}
+            <select
+              value={selectedManufacturer}
+              onChange={e => { setSelectedManufacturer(e.target.value); setCurrentPage(1); }}
+              className="px-3 py-1.5 rounded-lg bg-white/15 backdrop-blur-md text-white border border-white/20 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-300 [&>option]:text-slate-900"
+              aria-label="Filter by manufacturer"
             >
-              {letter}
-            </button>
-          ))}
-        </div>
+              <option value="all">All Manufacturers</option>
+              <option value="square">Square Pharma</option>
+              <option value="beximco">Beximco Pharma</option>
+              <option value="incepta">Incepta Pharma</option>
+              <option value="renata">Renata Ltd</option>
+              <option value="eskayef">Eskayef Pharma</option>
+              <option value="acme">The ACME Labs</option>
+              <option value="healthcare">Healthcare Pharma</option>
+              <option value="opsonin">Opsonin Pharma</option>
+              <option value="aristopharma">Aristopharma</option>
+              <option value="drug-international">Drug International</option>
+            </select>
 
-        {/* 7. QUICK HUB NAVIGATION TABS */}
-        <div className="drug-quick-hubs">
-          <button
-            className={`drug-hub-tab ${activeCategory === 'all' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('all'); setCurrentPage(1); }}
-          >
-            All Medicines
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'brands' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('brands'); setCurrentPage(1); }}
-          >
-            By Brand ({dbStats ? dbStats.totalBrands : '…'})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'generics' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('generics'); setCurrentPage(1); }}
-          >
-            By Generic ({dbStats ? dbStats.totalGenerics : '…'})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'classes' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('classes'); setCurrentPage(1); }}
-          >
-            Therapeutic Classes ({therapeuticClasses.length})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'guidelines' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('guidelines'); setCurrentPage(1); }}
-          >
-            DGHS Guidelines ({guidelines.length})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'investigations' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('investigations'); setCurrentPage(1); }}
-          >
-            Lab Investigations ({investigations.length})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'saved' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('saved'); setCurrentPage(1); }}
-          >
-            ★ Saved ({bookmarks.generics.length + bookmarks.brands.length})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'recent' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('recent'); setCurrentPage(1); }}
-          >
-            🕒 Recent ({recentDrugs.length})
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'offline' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('offline'); setCurrentPage(1); }}
-          >
-            📥 Offline ({offlineMonographs.length})
-            {outdatedOfflineCount > 0 && (
-              <span className="tab-badge bg-rose-600 text-white font-bold ml-1">
-                {outdatedOfflineCount}
-              </span>
-            )}
-          </button>
-          <button
-            className={`drug-hub-tab ${activeCategory === 'admin-import' ? 'active' : ''}`}
-            onClick={() => { setActiveCategory('admin-import'); }}
-          >
-            ⚡ Ingestion Engine
-          </button>
+            {/* Quick Dosage Form Filter */}
+            <select
+              value={selectedDosageForm}
+              onChange={e => { setSelectedDosageForm(e.target.value); setCurrentPage(1); }}
+              className="px-3 py-1.5 rounded-lg bg-white/15 backdrop-blur-md text-white border border-white/20 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-300 [&>option]:text-slate-900"
+              aria-label="Filter by dosage form"
+            >
+              <option value="all">All Dosage Forms</option>
+              {dosageFormsList.slice(0, 15).map(df => {
+                const fName = df.form || df.name || '';
+                return (
+                  <option key={fName} value={fName}>
+                    {fName}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </div>
       </div>
+
+      {/* 3. MAIN PAGE CONTENT (PALE BLUE-WHITE BACKGROUND) */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6">
+        {activeBrandSlug ? (
+          <BrandDetailView
+            slugOrId={activeBrandSlug}
+            onBack={() => {
+              setActiveBrandSlug(null);
+              // Clear brand parameter from hash
+              const url = new URL(window.location.href);
+              const hash = url.hash.replace(/brand=[^&]+&?/, '').replace(/\?$/, '');
+              window.history.replaceState(null, '', hash || '#drug-reference');
+            }}
+            onOpenGeneric={handleOpenGeneric}
+            onOpenBrand={handleOpenBrandDetail}
+            onOpenAcrossBooksTopic={onOpenAcrossBooksTopic}
+            onOpenPracticeQuestions={() => {
+              window.location.hash = 'practice';
+            }}
+            isBookmarked={bookmarks.brands.includes(activeBrandSlug)}
+            onToggleBookmark={() => handleToggleBookmark('brand', activeBrandSlug)}
+          />
+        ) : (
+          <div className="space-y-6">
+            {/* Regulatory Safety Notice */}
+            <div className="drug-disclaimer-banner" role="alert">
+              <span className="disclaimer-icon">⚠️</span>
+              <div>
+                <strong>Educational reference:</strong> Verify prescribing information before clinical use. This platform is designed for medical students and does not replace official DGDA gazettes, product monographs, or certified physician prescribing.
+              </div>
+            </div>
+
+            {/* Real Database Summary Counters */}
+            <div className="drug-summary-cards">
+              <div className="drug-stat-card">
+                <span className="drug-stat-number">
+                  {dbStats ? dbStats.totalBrands.toLocaleString() : '—'}
+                </span>
+                <span className="drug-stat-label">Total Brands</span>
+                <span className="drug-stat-subtext">Commercial formulations</span>
+              </div>
+
+              <div className="drug-stat-card">
+                <span className="drug-stat-number">
+                  {dbStats ? dbStats.totalGenerics.toLocaleString() : '—'}
+                </span>
+                <span className="drug-stat-label">Total Generics</span>
+                <span className="drug-stat-subtext">Active pharmaceutical entities</span>
+              </div>
+
+              <div className="drug-stat-card">
+                <span className="drug-stat-number">
+                  {dbStats ? dbStats.totalManufacturers.toLocaleString() : '—'}
+                </span>
+                <span className="drug-stat-label">Manufacturers</span>
+                <span className="drug-stat-subtext">DGDA licensed pharma</span>
+              </div>
+
+              <div className="drug-stat-card">
+                <span className="drug-stat-number">
+                  {dbStats ? (dbStats.totalTherapeuticClasses ?? dbStats.totalClasses ?? 0).toLocaleString() : '—'}
+                </span>
+                <span className="drug-stat-label">Therapeutic Classes</span>
+                <span className="drug-stat-subtext">Clinical categories</span>
+              </div>
+
+              <div className="drug-stat-card">
+                <span className="drug-stat-number">
+                  {dbStats ? (dbStats.recordsUpdatedThisMonth ?? dbStats.updatedThisMonth ?? 0).toLocaleString() : '—'}
+                </span>
+                <span className="drug-stat-label">Updated This Month</span>
+                <span className="drug-stat-subtext">Verified audits & gazette</span>
+              </div>
+            </div>
+
+            {/* Action Tool Launchers */}
+            <div className="flex flex-wrap justify-center gap-2">
+              <button
+                onClick={() => setIsInteractionModalOpen(true)}
+                className="btn-primary-action"
+              >
+                <span>⚡</span> Multi-Drug Interaction Checker
+              </button>
+              <button
+                onClick={() => handleOpenCompare(['enalapril', 'losartan'])}
+                className="btn-secondary-action"
+              >
+                <span>⚖️</span> Drug-Class Comparisons
+              </button>
+              <button
+                onClick={() => {
+                  if (allGenericsList.length > 0) {
+                    setStudyGeneric(allGenericsList[0]);
+                  }
+                }}
+                className="btn-secondary-action"
+              >
+                <span>🎓</span> Pharmacology Study Mode
+              </button>
+              <button
+                onClick={() => {
+                  setActiveCategory('admin-import');
+                  window.scrollTo({ top: 400, behavior: 'smooth' });
+                }}
+                className="btn-secondary-action text-xs text-amber-300 border-amber-500/30 hover:border-amber-400"
+              >
+                <span>⚙️</span> Ingestion & Admin Portal
+              </button>
+            </div>
+
+            {/* Quick Hub Navigation Tabs */}
+            <div className="drug-quick-hubs">
+              <button
+                className={`drug-hub-tab ${activeCategory === 'all' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('all'); setCurrentPage(1); }}
+              >
+                All Medicines
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'brands' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('brands'); setCurrentPage(1); }}
+              >
+                By Brand ({dbStats ? dbStats.totalBrands : '…'})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'generics' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('generics'); setCurrentPage(1); }}
+              >
+                By Generic ({dbStats ? dbStats.totalGenerics : '…'})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'classes' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('classes'); setCurrentPage(1); }}
+              >
+                Therapeutic Classes ({therapeuticClasses.length})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'guidelines' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('guidelines'); setCurrentPage(1); }}
+              >
+                DGHS Guidelines ({guidelines.length})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'investigations' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('investigations'); setCurrentPage(1); }}
+              >
+                Lab Investigations ({investigations.length})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'saved' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('saved'); setCurrentPage(1); }}
+              >
+                ★ Saved ({bookmarks.generics.length + bookmarks.brands.length})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'recent' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('recent'); setCurrentPage(1); }}
+              >
+                🕒 Recent ({recentDrugs.length})
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'offline' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('offline'); setCurrentPage(1); }}
+              >
+                📥 Offline ({offlineMonographs.length})
+                {outdatedOfflineCount > 0 && (
+                  <span className="tab-badge bg-rose-600 text-white font-bold ml-1">
+                    {outdatedOfflineCount}
+                  </span>
+                )}
+              </button>
+              <button
+                className={`drug-hub-tab ${activeCategory === 'admin-import' ? 'active' : ''}`}
+                onClick={() => { setActiveCategory('admin-import'); }}
+              >
+                ⚡ Ingestion Engine
+              </button>
+            </div>
+
+            {/* A-Z Alphabetical Bar */}
+            <div className="drug-az-bar">
+              <button
+                onClick={() => {
+                  setSelectedLetter('');
+                  setCurrentPage(1);
+                }}
+                className={`drug-az-pill ${!selectedLetter ? 'active' : ''}`}
+                title="Show all letters"
+              >
+                All
+              </button>
+              {alphabet.map(letter => (
+                <button
+                  key={letter}
+                  onClick={() => {
+                    setSelectedLetter(letter);
+                    setCurrentPage(1);
+                  }}
+                  className={`drug-az-pill ${selectedLetter === letter ? 'active' : ''}`}
+                  title={`Browse drugs starting with ${letter}`}
+                >
+                  {letter}
+                </button>
+              ))}
+            </div>
 
       {/* 8. FILTER CONTROLS & VIEW TOGGLE BAR */}
       {activeCategory !== 'admin-import' && (
@@ -1465,6 +1754,10 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
           </button>
         </div>
       )}
+
+          </div>
+        )}
+      </div>
 
       {/* 11. MODALS */}
       {/* Generic Monograph Modal */}
