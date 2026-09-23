@@ -1379,27 +1379,27 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
       ) : activeCategory === 'guidelines' ? (
         /* Clinical Guidelines List */
         <div className="space-y-4">
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-600 font-medium">
             National treatment guidelines published by the Directorate General of Health Services (DGHS) and international health authorities.
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {guidelines.map(gd => (
-              <div key={gd.id} className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2.5">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-bold text-white text-base">{gd.title}</h3>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">
+              <div key={gd.id} className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs space-y-2.5">
+                <div className="flex justify-between items-start gap-2">
+                  <h3 className="font-bold text-[#0F2C59] text-base">{gd.title}</h3>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200 shrink-0">
                     Official Guideline
                   </span>
                 </div>
-                {gd.titleBn && <div className="text-xs text-sky-400 font-medium">{gd.titleBn}</div>}
-                <div className="text-xs text-slate-300 leading-relaxed">{gd.summary}</div>
-                <div className="p-2.5 rounded bg-slate-950/70 text-xs space-y-1">
-                  <p><strong className="text-emerald-400">First-Line Generics:</strong> {gd.firstLineGenerics.join(', ')}</p>
+                {gd.titleBn && <div className="text-xs text-sky-700 font-medium font-bengali">{gd.titleBn}</div>}
+                <div className="text-xs text-slate-600 leading-relaxed">{gd.summary}</div>
+                <div className="p-2.5 rounded bg-slate-50 border border-slate-200/80 text-xs space-y-1">
+                  <p><strong className="text-emerald-800">First-Line Generics:</strong> <span className="text-slate-700">{gd.firstLineGenerics.join(', ')}</span></p>
                   {gd.contraindicatedGenerics?.length > 0 && (
-                    <p><strong className="text-rose-400">Strictly Contraindicated:</strong> {gd.contraindicatedGenerics.join(', ')}</p>
+                    <p><strong className="text-rose-800">Strictly Contraindicated:</strong> <span className="text-slate-700">{gd.contraindicatedGenerics.join(', ')}</span></p>
                   )}
                 </div>
-                <div className="text-[11px] text-slate-500 pt-1 flex justify-between">
+                <div className="text-[11px] text-slate-500 pt-1 flex justify-between border-t border-slate-100">
                   <span>Authority: {gd.issuingOrganization} ({gd.jurisdiction})</span>
                   <span>Date: {gd.publicationDate}</span>
                 </div>
@@ -1410,26 +1410,26 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
       ) : activeCategory === 'investigations' ? (
         /* Clinical Investigations List */
         <div className="space-y-4">
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-600 font-medium">
             Clinical lab test directory connecting diagnostic reference ranges to pharmacological agents.
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {investigations.map(inv => (
-              <div key={inv.id} className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
-                <div className="flex justify-between items-baseline">
-                  <h3 className="font-bold text-white text-base">{inv.name}</h3>
-                  <span className="text-xs text-slate-400">{inv.specimen}</span>
+              <div key={inv.id} className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs space-y-2">
+                <div className="flex justify-between items-baseline gap-2">
+                  <h3 className="font-bold text-[#0F2C59] text-base">{inv.name}</h3>
+                  <span className="text-xs text-slate-500 font-medium">{inv.specimen}</span>
                 </div>
-                {inv.nameBn && <div className="text-xs text-sky-400">{inv.nameBn}</div>}
-                <div className="text-xs text-slate-300">{inv.purpose}</div>
-                <div className="p-2.5 rounded bg-blue-950/30 border border-blue-500/20 text-xs">
-                  <strong className="text-sky-300">Normal Reference:</strong> {inv.normalReference}
+                {inv.nameBn && <div className="text-xs text-sky-700 font-medium font-bengali">{inv.nameBn}</div>}
+                <div className="text-xs text-slate-600">{inv.purpose}</div>
+                <div className="p-2.5 rounded bg-blue-50/60 border border-blue-200/70 text-xs">
+                  <strong className="text-blue-900">Normal Reference:</strong> <span className="text-slate-700">{inv.normalReference}</span>
                 </div>
-                <div className="text-[11px] text-slate-400">
-                  <strong>Drugs Causing Elevation:</strong> {inv.drugsCausingElevation.join(', ') || 'None indexed'}
+                <div className="text-[11px] text-slate-600">
+                  <strong className="text-slate-800">Drugs Causing Elevation:</strong> {inv.drugsCausingElevation.join(', ') || 'None indexed'}
                 </div>
-                <div className="text-[11px] text-slate-400">
-                  <strong>Drugs Causing Reduction:</strong> {inv.drugsCausingReduction.join(', ') || 'None indexed'}
+                <div className="text-[11px] text-slate-600">
+                  <strong className="text-slate-800">Drugs Causing Reduction:</strong> {inv.drugsCausingReduction.join(', ') || 'None indexed'}
                 </div>
               </div>
             ))}
@@ -1438,11 +1438,11 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
       ) : activeCategory === 'saved' ? (
         /* Saved Bookmarks */
         <div className="space-y-4">
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-600 font-medium">
             Your saved generic monographs and Bangladesh brand products.
           </div>
           {bookmarks.generics.length === 0 && bookmarks.brands.length === 0 ? (
-            <div className="p-12 text-center text-slate-400 text-sm bg-slate-900/40 rounded-xl border border-slate-800">
+            <div className="p-12 text-center text-slate-500 text-sm bg-white rounded-xl border border-slate-200 shadow-xs">
               No saved medicines yet. Click the "Bookmark" button on any generic or brand to save it here for quick revision.
             </div>
           ) : (
@@ -1453,18 +1453,19 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                   <div
                     key={id}
                     onClick={() => handleOpenGeneric(id)}
-                    className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-sky-500/40 cursor-pointer flex justify-between items-center"
+                    className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs hover:border-[#08AFC1] cursor-pointer flex justify-between items-center transition"
                   >
                     <div>
-                      <div className="text-xs font-bold text-sky-400 uppercase tracking-wide">Generic Record</div>
-                      <div className="font-bold text-white text-base capitalize">{gen ? gen.name : id}</div>
+                      <div className="text-xs font-bold text-[#08AFC1] uppercase tracking-wide">Generic Record</div>
+                      <div className="font-bold text-[#0F2C59] text-base capitalize mt-0.5">{gen ? gen.name : id}</div>
                     </div>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleToggleBookmark('generic', id);
                       }}
-                      className="text-amber-400 text-lg hover:text-rose-400"
+                      className="text-amber-500 text-xl hover:text-rose-500 p-1"
+                      aria-label="Remove bookmark"
                     >
                       ★
                     </button>
@@ -1477,23 +1478,23 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
       ) : activeCategory === 'offline' ? (
         /* Offline Saved Monographs */
         <div className="space-y-4">
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-600 font-medium">
             Medically reviewed generic monographs saved to your device for offline study without an active internet connection.
           </div>
           {offlineMonographs.length === 0 ? (
-            <div className="p-12 text-center text-slate-400 text-sm bg-slate-900/40 rounded-xl border border-slate-800">
+            <div className="p-12 text-center text-slate-500 text-sm bg-white rounded-xl border border-slate-200 shadow-xs">
               No offline copies downloaded yet. Click "Download" inside any generic monograph to make it available offline.
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {offlineMonographs.map(off => (
-                <div key={off.genericId} className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
-                  <div className="flex justify-between items-baseline">
-                    <h3 className="font-bold text-white text-base">{off.genericName}</h3>
-                    <span className="text-[11px] font-mono text-slate-400">v{off.contentVersion}</span>
+                <div key={off.genericId} className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs space-y-2">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <h3 className="font-bold text-[#0F2C59] text-base">{off.genericName}</h3>
+                    <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded">v{off.contentVersion}</span>
                   </div>
                   {off.isOutdated && (
-                    <div className="p-2 rounded bg-amber-950/40 border border-amber-500/30 text-amber-300 text-xs font-semibold flex justify-between items-center">
+                    <div className="p-2 rounded bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold flex justify-between items-center">
                       <span>Newer version available (v{off.latestVersionAvailable})</span>
                       <button
                         onClick={() => handleOpenGeneric(off.genericId)}
@@ -1503,12 +1504,12 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                       </button>
                     </div>
                   )}
-                  <div className="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-800">
+                  <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
                     <span>Downloaded: {new Date(off.downloadedAt).toLocaleDateString()}</span>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleOpenGeneric(off.genericId)}
-                        className="px-3 py-1 rounded bg-blue-600 text-white text-xs font-semibold"
+                        className="px-3 py-1.5 rounded-lg bg-[#0F2C59] hover:bg-[#134B70] text-white text-xs font-semibold transition"
                       >
                         Read Monograph
                       </button>
@@ -1517,7 +1518,7 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                           DrugClientService.removeOfflineMonograph(off.genericId);
                           setOfflineMonographs(DrugClientService.getOfflineMonographs());
                         }}
-                        className="px-2 py-1 rounded bg-rose-950 text-rose-300 text-xs hover:bg-rose-900"
+                        className="px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 text-xs font-semibold transition"
                       >
                         Remove
                       </button>
@@ -1535,10 +1536,10 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
           {searchResponse?.results.brands && searchResponse.results.brands.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                <h2 className="text-sm font-bold text-[#0F2C59] uppercase tracking-wider flex items-center gap-2">
                   <span>🏷️</span> Bangladesh Brand Formulations ({searchResponse.results.brands.length})
                 </h2>
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-slate-600 font-medium">
                   Click any brand to view complete DIMS-style clinical details & price
                 </span>
               </div>
@@ -1564,29 +1565,29 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                           <tr
                             key={brand.id}
                             onClick={() => handleOpenBrandDetail(brand.slug || brand.id)}
-                            className="hover:bg-blue-950/20"
+                            className="hover:bg-blue-50/70 transition"
                           >
                             <td>
-                              <div className="font-bold text-white text-sm">
+                              <div className="font-bold text-[#0F2C59] text-base">
                                 {brand.brandName}
                               </div>
                               {languageMode !== 'en' && brand.brandNameBn && (
-                                <div className="text-[11px] text-sky-400 font-medium">{brand.brandNameBn}</div>
+                                <div className="text-xs text-sky-700 font-medium font-bengali mt-0.5">{brand.brandNameBn}</div>
                               )}
                             </td>
                             <td>
-                              <span className="capitalize text-slate-200 font-medium">
+                              <span className="capitalize text-slate-800 font-medium text-sm">
                                 {brand.genericId.replace(/-/g, ' ')}
                               </span>
                             </td>
                             <td>
-                              <span className="text-slate-300">{brand.strength}</span>
-                              <span className="text-slate-400 text-xs block">{brand.dosageForm}</span>
+                              <span className="text-slate-900 font-semibold text-sm">{brand.strength}</span>
+                              <span className="text-slate-600 text-xs block font-medium mt-0.5">{brand.dosageForm}</span>
                             </td>
                             <td>
-                              <span className="text-slate-300 font-medium">{brand.manufacturerName}</span>
+                              <span className="text-slate-700 font-medium text-sm">{brand.manufacturerName}</span>
                             </td>
-                            <td className="text-right font-bold text-emerald-400">
+                            <td className="text-right font-bold text-emerald-700 text-sm">
                               {brand.verifiedPrice?.amount ? `৳ ${brand.verifiedPrice.amount.toFixed(2)}` : '—'}
                             </td>
                             <td className="text-center">
@@ -1602,7 +1603,7 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                                   e.stopPropagation();
                                   handleOpenBrandDetail(brand.slug || brand.id);
                                 }}
-                                className="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-semibold transition"
+                                className="px-3 py-1.5 min-h-[38px] rounded-lg bg-[#0F2C59] hover:bg-[#134B70] text-white text-xs font-bold transition shadow-xs"
                               >
                                 View Details →
                               </button>
@@ -1626,24 +1627,24 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                       onKeyDown={e => e.key === 'Enter' && handleOpenBrandDetail(brand.slug || brand.id)}
                     >
                       <div>
-                        <div className="flex justify-between items-baseline">
-                          <div className="brand-card-name">{brand.brandName}</div>
-                          <div className="brand-card-strength">{brand.strength}</div>
+                        <div className="flex justify-between items-baseline gap-2">
+                          <div className="brand-card-name text-[#0F2C59] font-bold text-base sm:text-lg">{brand.brandName}</div>
+                          <div className="brand-card-strength text-[#0284C7] font-bold text-xs sm:text-sm shrink-0">{brand.strength}</div>
                         </div>
                         {languageMode !== 'en' && brand.brandNameBn && (
-                          <div className="text-xs text-sky-400">{brand.brandNameBn}</div>
+                          <div className="text-xs text-sky-700 font-medium font-bengali mt-0.5">{brand.brandNameBn}</div>
                         )}
-                        <div className="text-xs text-slate-400 mt-1">Form: {brand.dosageForm}</div>
-                        <div className="brand-card-manufacturer">🏢 {brand.manufacturerName}</div>
+                        <div className="text-xs text-slate-600 font-medium mt-1">Form: {brand.dosageForm}</div>
+                        <div className="brand-card-manufacturer text-xs text-slate-600 mt-0.5">🏢 {brand.manufacturerName}</div>
                       </div>
 
-                      <div className="brand-card-generic-link justify-between">
-                        <div>
+                      <div className="brand-card-generic-link justify-between pt-2 border-t border-slate-100 mt-2">
+                        <div className="text-xs text-slate-600">
                           <span>Generic:</span>
-                          <strong className="text-white capitalize ml-1">{brand.genericId.replace(/-/g, ' ')}</strong>
+                          <strong className="text-[#0284C7] capitalize ml-1 font-bold">{brand.genericId.replace(/-/g, ' ')}</strong>
                         </div>
                         {brand.verifiedPrice?.amount && (
-                          <span className="text-emerald-400 font-bold text-xs">
+                          <span className="text-emerald-700 font-bold text-xs">
                             ৳ {brand.verifiedPrice.amount.toFixed(2)}
                           </span>
                         )}
@@ -1657,8 +1658,8 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
 
           {/* GENERICS SECTION */}
           {searchResponse?.results.generics && searchResponse.results.generics.length > 0 && (
-            <div className="pt-4 border-t border-slate-800">
-              <h2 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <div className="pt-4 border-t border-slate-200">
+              <h2 className="text-sm font-bold text-[#0F2C59] uppercase tracking-wider mb-3 flex items-center gap-2">
                 <span>💊</span> Generic Clinical Monographs ({searchResponse.results.generics.length})
               </h2>
               <div className="drug-grid-layout">
@@ -1674,9 +1675,9 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                     <div>
                       <div className="generic-card-header">
                         <div>
-                          <div className="generic-card-name">{gen.name}</div>
+                          <div className="generic-card-name text-[#0F2C59] font-bold text-base sm:text-lg">{gen.name}</div>
                           {languageMode !== 'en' && gen.nameBn && (
-                            <div className="generic-card-name-bn">{gen.nameBn}</div>
+                            <div className="generic-card-name-bn text-xs text-sky-700 font-medium font-bengali mt-0.5">{gen.nameBn}</div>
                           )}
                         </div>
                         <span
@@ -1692,16 +1693,16 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                         </span>
                       </div>
 
-                      <div className="generic-card-class">{gen.pharmacologicalClass}</div>
+                      <div className="generic-card-class text-xs text-slate-600 font-medium mb-2">{gen.pharmacologicalClass}</div>
 
-                      <div className="generic-card-indications">
-                        <strong>Indications:</strong> {gen.indications.map(i => i.name).join(', ')}
+                      <div className="generic-card-indications text-xs text-slate-700 leading-relaxed mb-3">
+                        <strong className="text-slate-900 font-semibold">Indications:</strong> {gen.indications.map(i => i.name).join(', ')}
                       </div>
                     </div>
 
-                    <div className="generic-card-footer">
-                      <span>ATC: {gen.atcCode || 'N/A'}</span>
-                      <span className="text-sky-400 font-semibold flex items-center gap-1">
+                    <div className="generic-card-footer pt-2 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
+                      <span>ATC: <strong className="text-slate-700">{gen.atcCode || 'N/A'}</strong></span>
+                      <span className="text-[#08AFC1] font-bold flex items-center gap-1 hover:underline">
                         Read Monograph →
                       </span>
                     </div>
@@ -1715,10 +1716,10 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
           {searchResponse &&
             searchResponse.results.generics.length === 0 &&
             searchResponse.results.brands.length === 0 && (
-              <div className="p-16 text-center text-slate-400 text-sm bg-slate-900/40 rounded-2xl border border-slate-800">
+              <div className="p-16 text-center text-slate-600 text-sm bg-white rounded-2xl border border-slate-200 shadow-sm">
                 <div className="text-3xl mb-2">🔍</div>
-                <div className="text-base font-bold text-white mb-1">No matching medicine found</div>
-                <p className="text-xs max-w-md mx-auto leading-relaxed">
+                <div className="text-base font-bold text-[#0F2C59] mb-1">No matching medicine found</div>
+                <p className="text-xs max-w-md mx-auto leading-relaxed text-slate-500">
                   No verified Bangladesh generic or brand matched "{query}". Try checking for spelling variations, choosing a letter from the A–Z bar, or searching by pharmacological class (e.g., "diuretic", "beta blocker", "macrolide").
                 </p>
               </div>
