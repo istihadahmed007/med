@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { searchStudyMaterials } from '../../data/studyMaterialsData';
 import { StudyService } from '../../services/studyService';
+import { StaticDrugDbService } from '../../services/staticDrugDbService';
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -91,16 +92,21 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose, onN
       slug: r.slug,
     }));
 
-    // Search drug database (API call)
+    // Search drug database (API call with static fallback)
     let apiResults: GroupedResults = { topics: [], generics: [], brands: [], manufacturers: [] };
     try {
       const res = await fetch(`/api/search/global?q=${encodeURIComponent(q)}&limit=10`);
       if (res.ok) {
         const data = await res.json();
         apiResults = data.results || apiResults;
+      } else {
+        const staticResults = await StaticDrugDbService.globalSearch(q, 10);
+        apiResults = { topics: [], ...staticResults };
       }
     } catch {
-      // API not available, continue with client-side results only
+      // API not available (e.g. static GitHub Pages hosting) - query static database
+      const staticResults = await StaticDrugDbService.globalSearch(q, 10);
+      apiResults = { topics: [], ...staticResults };
     }
 
     setResults({

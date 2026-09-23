@@ -25,7 +25,32 @@ export const DEFAULT_READER_PREFS: ReaderPreferences = {
 export class FrontendTextbookService {
   // =========================================================================
   // Catalog Methods
-  // =========================================================================
+  private static catalogCache: TextbookRecord[] | null = null;
+
+  private static async loadStaticCatalog(): Promise<TextbookRecord[] | null> {
+    if (this.catalogCache) return this.catalogCache;
+    try {
+      const candidates = ['./data/textbooks_catalog.json', 'data/textbooks_catalog.json', '/data/textbooks_catalog.json'];
+      const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || '';
+      if (base && base !== './' && base !== '/') {
+        candidates.unshift(`${base.replace(/\/$/, '')}/data/textbooks_catalog.json`);
+      }
+      for (const url of candidates) {
+        try {
+          const res = await fetch(url);
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              this.catalogCache = data;
+              return data;
+            }
+          }
+        } catch {}
+      }
+    } catch {}
+    return null;
+  }
+
   static async getTextbooks(options?: Partial<TextbookFilterOptions>): Promise<TextbookRecord[]> {
     const query = options?.query || '';
     const phase = options?.phase || 'all';
@@ -51,6 +76,23 @@ export class FrontendTextbookService {
       // Offline or network error - fallback to local verified dataset
     }
 
+    const staticCatalog = await this.loadStaticCatalog();
+    if (staticCatalog) {
+      return staticCatalog.filter(book => {
+        if (phase !== 'all' && book.phase !== phase) return false;
+        if (subject !== 'all' && book.subjectId !== subject) return false;
+        if (accessType !== 'all' && book.accessType !== accessType) return false;
+        if (query) {
+          const q = query.toLowerCase();
+          const matchTitle = (book.title || '').toLowerCase().includes(q);
+          const matchAuthor = (book.authors || []).some(a => a.toLowerCase().includes(q));
+          const matchSubject = (book.subjectId || '').toLowerCase().includes(q);
+          if (!matchTitle && !matchAuthor && !matchSubject) return false;
+        }
+        return true;
+      });
+    }
+
     return searchVerifiedTextbooks(query, phase, subject, accessType);
   }
 
@@ -64,6 +106,13 @@ export class FrontendTextbookService {
     } catch (e) {
       // fallback
     }
+
+    const staticCatalog = await this.loadStaticCatalog();
+    if (staticCatalog) {
+      const book = staticCatalog.find(b => b.id === id);
+      if (book) return book;
+    }
+
     return getVerifiedTextbookById(id);
   }
 

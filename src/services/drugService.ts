@@ -36,6 +36,7 @@ import {
   searchVerifiedDrugs,
   evaluateDrugInteractions
 } from '../data/bangladeshDrugData';
+import { StaticDrugDbService } from './staticDrugDbService';
 
 const OFFLINE_MONOGRAPHS_KEY = 'medx_offline_drug_monographs';
 const OFFLINE_BOOKMARKS_KEY = 'medx_offline_drug_bookmarks';
@@ -87,52 +88,11 @@ export class DrugClientService {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Network search failed, using local offline dataset', e);
+      console.warn('Network search failed, using static verified dataset', e);
     }
 
-    // Local client-side fallback
-    const local = searchVerifiedDrugs(q);
-    let matchedGenerics = local.generics;
-    let matchedBrands = local.brands;
-
-    if (params.therapeuticClass && params.therapeuticClass !== 'all') {
-      const tc = params.therapeuticClass.toLowerCase();
-      matchedGenerics = matchedGenerics.filter(g =>
-        g.therapeuticClassId?.toLowerCase() === tc ||
-        g.therapeuticClass?.toLowerCase().includes(tc) ||
-        g.pharmacologicalClass?.toLowerCase().includes(tc)
-      );
-      const allowedGenericIds = new Set(matchedGenerics.map(g => g.id));
-      matchedBrands = matchedBrands.filter(b => allowedGenericIds.has(b.genericId));
-    }
-
-    if (params.manufacturerId && params.manufacturerId !== 'all') {
-      const mId = params.manufacturerId.toLowerCase();
-      matchedBrands = matchedBrands.filter(b => b.manufacturerId?.toLowerCase() === mId);
-    }
-
-    const totalGenerics = matchedGenerics.length;
-    const totalBrands = matchedBrands.length;
-    const startIndex = (page - 1) * limit;
-
-    return {
-      query: q,
-      pagination: {
-        page,
-        limit,
-        totalResults: totalGenerics + totalBrands,
-        totalGenerics,
-        totalBrands,
-        totalPages: Math.max(1, Math.ceil(Math.max(totalGenerics, totalBrands) / limit))
-      },
-      suggestions: [],
-      results: {
-        generics: matchedGenerics.slice(startIndex, startIndex + limit),
-        brands: matchedBrands.slice(startIndex, startIndex + limit),
-        manufacturers: local.manufacturers,
-        classes: local.classes
-      }
-    };
+    // Static client-side dataset fallback (contains all 21,226 brands & 1,519 generics)
+    return StaticDrugDbService.searchDrugs(params as any);
   }
 
   /**
@@ -147,12 +107,12 @@ export class DrugClientService {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Failed to fetch generic from server, checking local dataset', e);
+      console.warn('Failed to fetch generic from server, checking static dataset', e);
     }
-    // Fallback: check offline storage or bundled data
+    // Fallback: check offline storage or static database
     const offlineCopy = this.getOfflineMonograph(slug);
     if (offlineCopy) return offlineCopy.data;
-    return getVerifiedGenericById(slug) || null;
+    return StaticDrugDbService.getGeneric(slug);
   }
 
   /**
@@ -167,9 +127,9 @@ export class DrugClientService {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Failed to fetch brands from server, checking local dataset', e);
+      console.warn('Failed to fetch brands from server, checking static dataset', e);
     }
-    return getVerifiedBrandsForGeneric(genericSlug);
+    return StaticDrugDbService.getBrandsForGeneric(genericSlug);
   }
 
   /**
@@ -184,9 +144,9 @@ export class DrugClientService {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Failed to fetch brand from server, checking local dataset', e);
+      console.warn('Failed to fetch brand from server, checking static dataset', e);
     }
-    return getVerifiedBrandById(brandSlug) || null;
+    return StaticDrugDbService.getBrand(brandSlug);
   }
 
   /**
@@ -577,18 +537,9 @@ export class DrugClientService {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Failed to fetch real database statistics, falling back to local dataset', e);
+      console.warn('Failed to fetch real database statistics, falling back to static dataset', e);
     }
-    return {
-      totalBrands: VERIFIED_BRANDS.length,
-      totalGenerics: VERIFIED_GENERICS.length,
-      totalManufacturers: VERIFIED_MANUFACTURERS.length,
-      totalClasses: VERIFIED_THERAPEUTIC_CLASSES.length,
-      totalTherapeuticClasses: VERIFIED_THERAPEUTIC_CLASSES.length,
-      updatedThisMonth: VERIFIED_BRANDS.length,
-      recordsUpdatedThisMonth: VERIFIED_BRANDS.length,
-      lastSynchronized: new Date().toISOString()
-    };
+    return StaticDrugDbService.getDatabaseStats();
   }
 
   /**
@@ -605,7 +556,7 @@ export class DrugClientService {
     } catch (e) {
       console.warn('Failed to fetch dosage forms from server', e);
     }
-    return [];
+    return StaticDrugDbService.getDosageForms();
   }
 
   /**
@@ -620,32 +571,10 @@ export class DrugClientService {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Failed to fetch brand detail from server, falling back to local dataset', e);
+      console.warn('Failed to fetch brand detail from server, falling back to static dataset', e);
     }
 
-    // Local fallback
-    const brand = getVerifiedBrandById(slugOrId);
-    if (!brand) return null;
-    const generic = getVerifiedGenericById(brand.genericId);
-    if (!generic) return null;
-
-    const allForGeneric = getVerifiedBrandsForGeneric(brand.genericId);
-    const otherBrands = allForGeneric.filter(b => b.id !== brand.id && b.brandName.toLowerCase() !== brand.brandName.toLowerCase());
-    const availableStrengths = Array.from(new Set(allForGeneric.map(b => `${b.dosageForm} ${b.strength}`)));
-
-    return {
-      brand,
-      generic,
-      otherBrandsWithSameGeneric: otherBrands,
-      availableStrengths,
-      relatedClasses: [
-        {
-          id: generic.therapeuticClassId,
-          name: generic.therapeuticClass,
-          slug: generic.therapeuticClassId
-        }
-      ]
-    };
+    return StaticDrugDbService.getBrandDetail(slugOrId);
   }
 
   // ==========================================================================
