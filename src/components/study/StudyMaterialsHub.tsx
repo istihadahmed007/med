@@ -199,7 +199,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
       </div>
 
       {/* Primary Section Switcher Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-2">
+      <div className="flex flex-wrap gap-2 border-b border-[rgba(190,225,255,0.15)] pb-3">
         {[
           { id: 'subjects', label: '25 MBBS Subjects', icon: BookOpen },
           { id: 'my-study', label: 'My Study & Progress', icon: UserCheck },
@@ -218,10 +218,10 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
                 setActiveTab(tab.id as HubTab);
                 window.history.replaceState(null, '', `#study-materials/${tab.id === 'subjects' ? '' : tab.id}`);
               }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition select-none ${
+              className={`min-h-[44px] flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] text-white font-bold shadow-[0_0_18px_rgba(8,175,193,0.45)] border border-[#08AFC1]'
+                  : 'text-[#C4D4EA] hover:text-[#F5F9FF] hover:bg-white/5 border border-transparent'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -235,25 +235,29 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
       {activeTab === 'subjects' && (
         <div className="space-y-6">
           {/* Search Bar & Phase Filters */}
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <div className="relative max-w-xl">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8EACCF]" />
               <input
                 type="text"
                 placeholder="Search 25 subjects, topics, or keywords..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[rgba(15,23,42,0.6)] border border-[rgba(148,163,184,0.15)] text-[#e2e8f0] placeholder-[#64748b] font-sans text-sm focus:outline-none focus:border-[#08AFC1]/40 focus:ring-1 focus:ring-[#08AFC1]/20 transition-all"
+                className="w-full min-h-[44px] pl-10 pr-4 py-2.5 rounded-xl bg-[rgba(10,36,74,0.55)] border border-[rgba(190,225,255,0.20)] text-[#F5F9FF] placeholder-[#8EACCF] font-sans text-sm focus:outline-none focus:border-[#08AFC1] focus:ring-2 focus:ring-[#08AFC1]/30 transition-all"
               />
             </div>
 
             {/* Phase Filter Pills */}
-            <div className="study-phase-pills">
+            <div className="study-phase-pills flex flex-wrap gap-2">
               {['all', 'Phase 1', 'Phase 2', 'Phase 3', 'Phase 4'].map(phase => (
                 <button
                   key={phase}
                   onClick={() => setPhaseFilter(phase)}
-                  className={`study-phase-pill ${phaseFilter === phase ? 'active' : ''}`}
+                  className={`min-h-[40px] px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer select-none border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+                    phaseFilter === phase
+                      ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] text-white font-bold border-[#08AFC1] shadow-[0_0_16px_rgba(8,175,193,0.45)]'
+                      : 'bg-[rgba(18,55,99,0.35)] text-[#C4D4EA] border-[rgba(190,225,255,0.20)] hover:bg-[rgba(18,55,99,0.55)] hover:text-white'
+                  }`}
                 >
                   {PHASE_LABELS[phase]}
                 </button>
@@ -263,12 +267,17 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
 
           {/* Subject Grid */}
           {filteredSubjects.length === 0 ? (
-            <div className="study-no-content">
-              <div className="icon">🔍</div>
-              <p>No subjects match your search. Try a different keyword.</p>
+            <div className="medx-empty-state">
+              <div className="medx-empty-state-icon">
+                <Search className="w-6 h-6" />
+              </div>
+              <div className="medx-empty-state-title">No subjects found</div>
+              <p className="medx-empty-state-desc">
+                No MBBS subjects match your current search query or phase filter. Try clearing the filter or using different keywords.
+              </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredSubjects.map(subject => {
                 const completedCount = subject.units
                   .flatMap(u => u.topics)
@@ -278,35 +287,35 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
                   <button
                     key={subject.id}
                     onClick={() => handleSelectSubject(subject)}
-                    className="study-subject-card text-left w-full group"
+                    className="study-subject-card text-left w-full group rounded-2xl p-5 sm:p-6 transition-all border border-[rgba(190,225,255,0.20)] hover:border-[#08AFC1]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
                     style={{ '--subject-color': subject.color } as React.CSSProperties}
                   >
-                    <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-start justify-between mb-3.5">
                       <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold"
-                        style={{ background: `${subject.color}18`, color: subject.color }}
+                        className="w-11 h-11 rounded-xl flex items-center justify-center text-lg font-bold font-heading"
+                        style={{ background: `${subject.color}22`, color: subject.color }}
                       >
                         {subject.name.charAt(0)}
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/5 text-[#94a3b8] uppercase">
+                        <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-white/5 text-[#8EACCF] uppercase">
                           {subject.phase}
                         </span>
                       </div>
                     </div>
 
-                    <h3 className="text-sm font-bold text-[#F5F9FF] mb-0.5 font-sans group-hover:text-[#38bdf8] transition-colors">
+                    <h3 className="text-base font-bold font-heading text-[#F5F9FF] mb-1 group-hover:text-[#08AFC1] transition-colors">
                       {subject.name}
                     </h3>
                     {subject.nameBn && (
-                      <p className="text-xs text-[#64748b] mb-2 font-sans">{subject.nameBn}</p>
+                      <p className="text-xs text-[#8EACCF] mb-2 font-bengali">{subject.nameBn}</p>
                     )}
-                    <p className="text-xs text-[#94a3b8] line-clamp-2 mb-3 font-sans leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#C4D4EA] line-clamp-2 mb-4 leading-relaxed font-sans">
                       {subject.description}
                     </p>
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3 text-xs text-[#64748b] font-sans">
+                    <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                      <div className="flex items-center gap-3 text-xs text-[#8EACCF] font-sans">
                         <span className="flex items-center gap-1">
                           <BookOpen className="w-3.5 h-3.5" />
                           {subject.totalTopics} topics
@@ -317,7 +326,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
                         </span>
                       </div>
                       {completedCount > 0 && (
-                        <span className="text-[10px] font-mono text-[#10b981] font-bold">
+                        <span className="text-xs font-mono text-[#10b981] font-bold">
                           {completedCount}/{subject.totalTopics}
                         </span>
                       )}
@@ -325,7 +334,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
 
                     {/* Progress bar */}
                     {completedCount > 0 && (
-                      <div className="mt-2.5 h-1 bg-white/5 rounded-full overflow-hidden">
+                      <div className="mt-3 h-1.5 bg-white/5 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full bg-gradient-to-r from-[#10b981] to-[#08AFC1] transition-all"
                           style={{ width: `${Math.round((completedCount / subject.totalTopics) * 100)}%` }}

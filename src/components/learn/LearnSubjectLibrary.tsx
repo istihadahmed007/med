@@ -87,60 +87,62 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto space-y-8 pb-16">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[rgba(190,225,255,0.15)] pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-cyan-400 uppercase tracking-widest bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30">
+            <span className="text-xs font-semibold text-[#08AFC1] uppercase tracking-widest bg-[#08AFC1]/15 px-3 py-1 rounded-full border border-[#08AFC1]/30">
               BM&DC National Curriculum (2020 / 2026)
             </span>
-            <span className="text-xs text-emerald-400 font-mono">12 Verified Pilot Lessons</span>
+            <span className="text-xs text-[#10b981] font-mono font-semibold">12 Verified Pilot Lessons</span>
           </div>
-          <h1 className="text-3xl font-black text-white mt-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold font-heading text-[#F5F9FF] mt-2">
             MBBS Integrated Curriculum & Lesson Hub
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-sm sm:text-base text-[#C4D4EA] mt-1.5 leading-relaxed font-sans">
             Structured by professional phase, subject, and organ systems. Includes verified 5-stage interactive lessons with English/Bangla medical explanations.
           </p>
         </div>
       </div>
 
-      <a href="#across-books" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border border-cyan-300/25 bg-cyan-950/30 hover:border-cyan-300/60 transition-colors group">
+      <a href="#across-books" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border border-[rgba(190,225,255,0.20)] bg-[rgba(10,36,74,0.40)] hover:border-[#08AFC1]/60 transition-colors group">
         <div className="flex gap-4 items-start">
-          <BookOpen className="w-6 h-6 text-cyan-200 shrink-0 mt-1" />
+          <BookOpen className="w-6 h-6 text-[#08AFC1] shrink-0 mt-1" />
           <div>
-            <h2 className="text-lg font-bold text-white">Study a topic across books</h2>
-            <p className="text-sm text-slate-300 mt-1">Connect your textbook reading, compare perspectives and practise recall in one place.</p>
+            <h2 className="text-lg font-bold font-heading text-[#F5F9FF]">Study a topic across books</h2>
+            <p className="text-sm sm:text-base text-[#C4D4EA] mt-1 leading-relaxed">Connect your textbook reading, compare perspectives and practise recall in one place.</p>
           </div>
         </div>
-        <span className="text-sm text-cyan-200 font-semibold flex items-center gap-2 shrink-0">Explore topics <ArrowRight className="w-4 h-4" /></span>
+        <span className="text-sm text-[#08AFC1] font-semibold flex items-center gap-2 shrink-0 group-hover:text-white transition-colors">
+          Explore topics <ArrowRight className="w-4 h-4" />
+        </span>
       </a>
 
       {/* Phase Selector Tabs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
         {PHASES.map((p) => {
           const isActive = selectedPhase === p.id;
           return (
             <button
               key={p.id}
               onClick={() => setSelectedPhase(p.id)}
-              className={`p-4 rounded-2xl border text-left transition-all ${
+              className={`min-h-[44px] p-4 sm:p-5 rounded-2xl border text-left transition-all select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isActive
-                  ? 'bg-gradient-to-r from-blue-600/90 to-cyan-600/90 border-cyan-400 text-white shadow-glow-cyan font-bold'
-                  : 'bg-slate-900/70 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+                  ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] border-[#08AFC1] text-white shadow-[0_0_20px_rgba(8,175,193,0.45)] font-bold'
+                  : 'bg-[rgba(18,55,99,0.30)] border-[rgba(190,225,255,0.20)] text-[#C4D4EA] hover:text-[#F5F9FF] hover:bg-[rgba(18,55,99,0.50)]'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase font-black">
+                <span className="text-xs font-mono uppercase font-black tracking-wide">
                   {p.short}
                 </span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'}`}>
+                <span className={`text-xs px-2.5 py-0.5 rounded-full font-mono font-semibold ${isActive ? 'bg-white/20 text-white' : 'bg-white/5 text-[#8EACCF]'}`}>
                   MBBS
                 </span>
               </div>
-              <div className="text-sm font-bold block mt-1">
+              <div className="text-sm sm:text-base font-bold font-heading block mt-1.5">
                 {p.label}
               </div>
-              <p className={`text-xs mt-0.5 truncate ${isActive ? 'text-slate-100' : 'text-slate-500'}`}>
+              <p className={`text-xs sm:text-sm mt-0.5 truncate ${isActive ? 'text-white/90' : 'text-[#8EACCF]'}`}>
                 {p.desc}
               </p>
             </button>
@@ -149,19 +151,19 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
       </div>
 
       {/* Filter Bar (System Selector & Search) */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[rgba(10,36,74,0.40)] border border-[rgba(190,225,255,0.20)]">
         {/* System Buttons */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
           {BODY_SYSTEMS.map((sys) => {
             const isSelected = selectedSystem === sys.id;
             return (
               <button
                 key={sys.id}
                 onClick={() => setSelectedSystem(sys.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
+                className={`min-h-[40px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   isSelected
-                    ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-glow-cyan'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] text-white border-[#08AFC1] font-bold shadow-[0_0_16px_rgba(8,175,193,0.45)]'
+                    : 'bg-[rgba(18,55,99,0.35)] text-[#C4D4EA] border-[rgba(190,225,255,0.20)] hover:text-white hover:bg-[rgba(18,55,99,0.55)]'
                 }`}
               >
                 {sys.label}
@@ -171,14 +173,14 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
         </div>
 
         {/* Search Input */}
-        <div className="relative w-full md:w-64">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+        <div className="relative w-full md:w-72">
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8EACCF]" />
           <input
             type="text"
             placeholder="Search topic or lesson..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+            className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-[rgba(10,36,74,0.60)] border border-[rgba(190,225,255,0.20)] text-[#F5F9FF] placeholder-[#8EACCF] text-xs sm:text-sm font-sans focus:outline-none focus:border-[#08AFC1] focus:ring-2 focus:ring-[#08AFC1]/30 transition-all"
           />
         </div>
       </div>
@@ -187,21 +189,21 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
+            <h2 className="text-lg sm:text-xl font-bold font-heading text-[#F5F9FF] flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#08AFC1]" />
               Verified Interactive 5-Stage Lessons in {currentPhaseShort}
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs sm:text-sm text-[#8EACCF] mt-0.5">
               Click on any lesson to open the 5-stage interactive reading, visual checkpoints, and clinical questions.
             </p>
           </div>
-          <span className="text-xs font-mono text-cyan-400 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30">
+          <span className="text-xs font-mono font-semibold text-[#08AFC1] bg-[#08AFC1]/15 px-3 py-1 rounded-full border border-[#08AFC1]/30">
             {filteredLessons.length} Lessons Available
           </span>
         </div>
 
         {filteredLessons.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredLessons.map((lesson) => {
               const isCompleted = completedLessonIds.includes(lesson.id);
               const isSaved = StorageService.isBookmarked(lesson.id);
@@ -210,48 +212,48 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
                 <div
                   key={lesson.id}
                   onClick={() => setActiveLesson(lesson)}
-                  className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 cursor-pointer transition-all flex flex-col justify-between space-y-4 group shadow-sm hover:shadow-glow-cyan/10"
+                  className="p-5 sm:p-6 rounded-2xl bg-[rgba(18,55,99,0.32)] border border-[rgba(190,225,255,0.20)] hover:border-[#08AFC1]/60 transition-all cursor-pointer group flex flex-col justify-between space-y-4 shadow-sm hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
                 >
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase bg-white/5 text-[#8EACCF] border border-white/10">
                         {lesson.subjectName}
                       </span>
                       <div className="flex items-center gap-2">
                         {isCompleted && (
-                          <span className="flex items-center gap-1 text-[10px] text-emerald-400 font-semibold bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                          <span className="flex items-center gap-1 text-xs text-[#10b981] font-semibold bg-[#10b981]/15 px-2 py-0.5 rounded-full border border-[#10b981]/30">
                             <CheckCircle2 className="w-3 h-3" />
                             Completed
                           </span>
                         )}
-                        <span className="text-[10px] text-slate-500 flex items-center gap-1">
+                        <span className="text-xs text-[#8EACCF] flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {lesson.estimatedMinutes}m
                         </span>
                       </div>
                     </div>
 
-                    <h3 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    <h3 className="text-base font-bold font-heading text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
                       {lesson.title}
                     </h3>
 
                     {lesson.titleBn && (
-                      <p className="text-xs text-slate-400 font-serif">
+                      <p className="text-xs text-[#8EACCF] font-bengali">
                         {lesson.titleBn}
                       </p>
                     )}
 
-                    <p className="text-xs text-slate-400 line-clamp-2">
+                    <p className="text-xs sm:text-sm text-[#C4D4EA] line-clamp-2 leading-relaxed">
                       {lesson.stages.learn.overviewEn}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                    <span className="text-[10px] text-slate-500 font-mono">
+                  <div className="pt-3 border-t border-[rgba(190,225,255,0.12)] flex items-center justify-between text-xs">
+                    <span className="text-xs text-[#8EACCF] font-mono">
                       {lesson.learningObjectives.length} Objectives • v{lesson.version}
                     </span>
 
-                    <span className="text-cyan-400 font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
+                    <span className="text-[#08AFC1] font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
                       Start Lesson
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -261,11 +263,13 @@ export const LearnSubjectLibrary: React.FC<LearnSubjectLibraryProps> = ({
             })}
           </div>
         ) : (
-          <div className="p-8 rounded-2xl bg-slate-900/50 border border-slate-800 text-center space-y-2">
-            <BookOpen className="w-8 h-8 text-slate-600 mx-auto" />
-            <div className="text-sm font-semibold text-slate-300">No published lessons match the selected filter</div>
-            <p className="text-xs text-slate-500">
-              Try selecting "All Body Systems" or check another professional phase.
+          <div className="medx-empty-state">
+            <div className="medx-empty-state-icon">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <div className="medx-empty-state-title">No lessons found</div>
+            <p className="medx-empty-state-desc">
+              No published lessons match the selected filter. Try selecting "All Body Systems" or check another professional phase.
             </p>
           </div>
         )}

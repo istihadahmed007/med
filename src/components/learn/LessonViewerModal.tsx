@@ -144,25 +144,26 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
             {/* Bangla / English Toggle */}
             <button
               onClick={() => setShowBangla(!showBangla)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border ${
+              className={`px-3.5 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 showBangla
-                  ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-glow-cyan'
+                  ? 'bg-[#08AFC1] text-slate-950 border-[#08AFC1] font-bold shadow-glow-cyan'
                   : 'bg-slate-900 text-slate-300 border-slate-700 hover:text-white'
               }`}
             >
-              <Globe className="w-3.5 h-3.5" />
-              {showBangla ? 'বাংলা (Bangla)' : 'English (EN)'}
+              <Globe className="w-4 h-4" />
+              <span>{showBangla ? 'বাংলা (Bangla)' : 'English (EN)'}</span>
             </button>
 
             {/* Bookmark Button */}
             <button
               onClick={handleToggleBookmark}
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-2 min-w-[40px] min-h-[40px] rounded-xl border transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isBookmarked
                   ? 'bg-amber-500/20 text-amber-400 border-amber-500/40'
                   : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-white'
               }`}
               title={isBookmarked ? 'Bookmarked' : 'Save Bookmark'}
+              aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark this lesson'}
             >
               <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
             </button>
@@ -170,7 +171,8 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+              aria-label="Close lesson viewer"
+              className="p-2 min-w-[40px] min-h-[40px] rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-700 transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -178,7 +180,7 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
         </div>
 
         {/* 5-Stage Stepper Navigation */}
-        <div className="bg-slate-900/90 border-b border-slate-800 px-4 py-2 flex items-center gap-2 overflow-x-auto">
+        <div className="bg-slate-900/90 border-b border-slate-800 px-4 py-2 flex items-center gap-2 overflow-x-auto scrollbar-thin">
           {STEPS.map((step) => {
             const Icon = step.icon;
             const isActive = currentStep === step.id;
@@ -186,14 +188,14 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
               <button
                 key={step.id}
                 onClick={() => setCurrentStep(step.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                className={`px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   isActive
-                    ? 'bg-cyan-500 text-slate-950 font-black shadow-glow-cyan'
+                    ? 'bg-[#08AFC1] text-slate-950 font-bold shadow-glow-cyan'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
-                {step.label}
+                <Icon className="w-4 h-4 shrink-0" />
+                <span>{step.label}</span>
               </button>
             );
           })}
@@ -520,13 +522,13 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
               if (idx > 0) setCurrentStep(STEPS[idx - 1].id);
             }}
             disabled={currentStep === 'learn'}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:hover:bg-slate-800 text-xs font-bold text-white transition-colors flex items-center gap-1.5"
+            className="px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:hover:bg-slate-800 text-xs sm:text-sm font-semibold text-white transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
           >
             <ChevronLeft className="w-4 h-4" />
-            Previous Step
+            <span>Previous Step</span>
           </button>
 
-          <div className="text-xs text-slate-400 font-mono hidden sm:block">
+          <div className="text-xs text-[#8EACCF] font-mono hidden sm:block">
             Step {STEPS.findIndex((s) => s.id === currentStep) + 1} of 5
           </div>
 
@@ -536,18 +538,18 @@ export const LessonViewerModal: React.FC<LessonViewerModalProps> = ({
                 const idx = STEPS.findIndex((s) => s.id === currentStep);
                 if (idx < STEPS.length - 1) setCurrentStep(STEPS[idx + 1].id);
               }}
-              className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all flex items-center gap-1.5 shadow-glow-cyan"
+              className="px-5 py-2.5 min-h-[44px] rounded-xl bg-[#08AFC1] hover:bg-cyan-400 text-slate-950 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 shadow-glow-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
-              Next Step
+              <span>Next Step</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           ) : (
             <button
               onClick={handleFinishLesson}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 text-xs font-black transition-all flex items-center gap-1.5 shadow-glow-cyan"
+              className="px-5 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 shadow-glow-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
               <CheckCircle2 className="w-4 h-4" />
-              Complete & Save Progress
+              <span>Complete & Save Progress</span>
             </button>
           )}
         </div>

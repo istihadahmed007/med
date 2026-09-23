@@ -59,10 +59,10 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
               onClick={() => onNavigate(tab.id)}
               aria-label={tab.label}
               aria-current={tab.isActive ? 'page' : undefined}
-              className={`min-h-[44px] flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+              className={`min-h-[48px] flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all duration-200 select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 tab.isActive
                   ? 'text-[#08AFC1] font-bold'
-                  : 'text-[#C4D4EA]/70 hover:text-white hover:bg-white/5'
+                  : 'text-[#C4D4EA]/80 hover:text-white hover:bg-white/5'
               }`}
             >
               <div className={`relative p-1 rounded-lg transition-transform ${tab.isActive ? 'scale-110 bg-[#08AFC1]/15 text-[#08AFC1]' : ''}`}>
@@ -71,7 +71,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                   <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#08AFC1] shadow-[0_0_8px_#08AFC1]" />
                 )}
               </div>
-              <span className={`text-[10px] tracking-wide ${tab.isActive ? 'font-bold text-[#F5F9FF]' : 'font-medium'}`}>
+              <span className={`text-[11px] font-sans tracking-tight ${tab.isActive ? 'font-bold text-[#F5F9FF]' : 'font-medium text-[#C4D4EA]'}`}>
                 {tab.label}
               </span>
             </button>

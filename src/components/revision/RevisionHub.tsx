@@ -68,66 +68,66 @@ export const RevisionHub: React.FC<RevisionHubProps> = ({ onNavigateToLesson, on
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-16">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest bg-blue-950/60 px-3 py-1 rounded-full border border-blue-500/30">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-[#08AFC1] uppercase tracking-widest bg-[rgba(8,175,193,0.12)] px-3 py-1 rounded-full border border-[rgba(8,175,193,0.3)]">
               Persistent Revision & Memory Hub
             </span>
             <span className="text-xs text-emerald-400 font-mono">SuperMemo-2 Spaced Recall</span>
           </div>
-          <h1 className="text-3xl font-black text-white mt-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
             Spaced Repetition & Mistake Notebook
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-[#C4D4EA] text-sm sm:text-base max-w-3xl leading-relaxed">
             Maintain high long-term retention through scientifically scheduled flashcard reviews and direct remediation of past mistakes.
           </p>
         </div>
       </div>
 
       {/* Revision Sub-Tabs */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 overflow-x-auto">
+      <div className="flex items-center gap-2 p-2 rounded-2xl bg-slate-900/90 border border-slate-800 overflow-x-auto scrollbar-thin">
         <button
           onClick={() => setActiveTab('spaced')}
-          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+          className={`px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2.5 whitespace-nowrap border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
             activeTab === 'spaced'
-              ? 'bg-blue-600 text-white border-blue-400 font-black shadow-glow-blue'
-              : 'bg-slate-950/70 text-slate-400 border-slate-800 hover:text-white'
+              ? 'bg-blue-600 text-white border-blue-400 font-bold shadow-glow-blue'
+              : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:text-white hover:bg-slate-850'
           }`}
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-4 h-4 shrink-0" />
           <span>Spaced Flashcards Queue</span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-500/30">
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-500/30 font-mono font-bold">
             {dueCards.length} Due
           </span>
         </button>
 
         <button
           onClick={() => setActiveTab('mistakes')}
-          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+          className={`px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2.5 whitespace-nowrap border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
             activeTab === 'mistakes'
-              ? 'bg-amber-600 text-slate-950 border-amber-400 font-black shadow-glow-cyan'
-              : 'bg-slate-950/70 text-slate-400 border-slate-800 hover:text-white'
+              ? 'bg-amber-600 text-slate-950 border-amber-400 font-bold shadow-glow-cyan'
+              : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:text-white hover:bg-slate-850'
           }`}
         >
-          <AlertTriangle className="w-4 h-4" />
+          <AlertTriangle className="w-4 h-4 shrink-0" />
           <span>Mistake Notebook</span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-500/30">
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-500/30 font-mono font-bold">
             {mistakes.filter(m => !m.reviewed).length} Active
           </span>
         </button>
 
         <button
           onClick={() => setActiveTab('bookmarks')}
-          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+          className={`px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2.5 whitespace-nowrap border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
             activeTab === 'bookmarks'
-              ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-glow-cyan'
-              : 'bg-slate-950/70 text-slate-400 border-slate-800 hover:text-white'
+              ? 'bg-[#08AFC1] text-slate-950 border-[#08AFC1] font-bold shadow-glow-cyan'
+              : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:text-white hover:bg-slate-850'
           }`}
         >
-          <Bookmark className="w-4 h-4" />
+          <Bookmark className="w-4 h-4 shrink-0" />
           <span>Saved Bookmarks & Resume</span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/30 font-mono font-bold">
             {bookmarks.length}
           </span>
         </button>
@@ -309,10 +309,10 @@ export const RevisionHub: React.FC<RevisionHubProps> = ({ onNavigateToLesson, on
               ))}
             </div>
           ) : (
-            <div className="p-12 rounded-3xl bg-slate-900/50 border border-slate-800 text-center space-y-3">
-              <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
-              <h3 className="text-base font-bold text-white">Mistake Notebook Empty!</h3>
-              <p className="text-xs text-slate-400 max-w-md mx-auto">
+            <div className="medx-empty-state">
+              <CheckCircle2 className="w-10 h-10 text-emerald-400 mb-2" />
+              <h3 className="text-base font-bold text-white">Mistake Notebook Empty</h3>
+              <p className="text-xs sm:text-sm text-[#C4D4EA] max-w-md mt-1">
                 Any questions answered incorrectly during practice or exams will be recorded here for targeted review.
               </p>
             </div>
@@ -325,10 +325,10 @@ export const RevisionHub: React.FC<RevisionHubProps> = ({ onNavigateToLesson, on
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Bookmark className="w-4 h-4 text-cyan-400" />
+              <Bookmark className="w-4 h-4 text-[#08AFC1]" />
               Saved Lesson Positions ({bookmarks.length})
             </h2>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-[#C4D4EA]">
               Resume your exact reading step across devices
             </span>
           </div>
@@ -338,11 +338,11 @@ export const RevisionHub: React.FC<RevisionHubProps> = ({ onNavigateToLesson, on
               {bookmarks.map((bm, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between space-y-4"
+                  className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-[#08AFC1]/40 transition-all flex flex-col justify-between space-y-4"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-cyan-950 text-[#08AFC1] border border-[rgba(8,175,193,0.3)]">
                         {bm.phase} • {bm.subject}
                       </span>
                       <span className="text-[10px] text-slate-500 font-mono">
@@ -350,12 +350,12 @@ export const RevisionHub: React.FC<RevisionHubProps> = ({ onNavigateToLesson, on
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-bold text-white">
+                    <h3 className="text-sm sm:text-base font-bold text-white">
                       {bm.title}
                     </h3>
 
-                    <div className="text-xs text-slate-400 flex items-center gap-1.5">
-                      <span className="text-cyan-400 font-mono font-bold uppercase">Last step:</span>
+                    <div className="text-xs text-[#C4D4EA] flex items-center gap-1.5">
+                      <span className="text-[#08AFC1] font-mono font-bold uppercase">Last step:</span>
                       <span className="capitalize">{bm.lastStep} stage</span>
                     </div>
                   </div>
@@ -366,21 +366,21 @@ export const RevisionHub: React.FC<RevisionHubProps> = ({ onNavigateToLesson, on
                         if (onNavigateToLesson) onNavigateToLesson(bm.lessonId);
                         else if (onNavigateView) onNavigateView('learn');
                       }}
-                      className="px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-colors flex items-center gap-1.5"
+                      className="px-4 py-2.5 min-h-[44px] rounded-xl bg-[#08AFC1] hover:bg-cyan-400 text-slate-950 text-xs sm:text-sm font-bold transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
                     >
-                      Resume Lesson
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span>Resume Lesson</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-12 rounded-3xl bg-slate-900/50 border border-slate-800 text-center space-y-3">
-              <Bookmark className="w-10 h-10 text-slate-600 mx-auto" />
-              <h3 className="text-base font-bold text-white">No Bookmarks Saved Yet</h3>
-              <p className="text-xs text-slate-400 max-w-md mx-auto">
-                Click the bookmark icon while studying any lesson to pin it here for rapid access.
+            <div className="medx-empty-state">
+              <Bookmark className="w-10 h-10 text-slate-600 mb-2" />
+              <h3 className="text-base font-bold text-white">No saved items yet</h3>
+              <p className="text-xs sm:text-sm text-[#C4D4EA] max-w-md mt-1">
+                Click the bookmark icon while studying any lesson to pin your progress here for rapid access.
               </p>
             </div>
           )}

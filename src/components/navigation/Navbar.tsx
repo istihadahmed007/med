@@ -65,7 +65,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Center-Left Navigation Links (Original 7 routes preserved) */}
-          <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-4 xl:gap-6">
+          {/* Center-Left Navigation Links (Original 7 routes preserved) */}
+          <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => {
               const isActive = currentView === link.id || 
                 (link.id === 'learn' && currentView === 'across-books') || 
@@ -75,7 +76,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   key={link.id}
                   onClick={() => onNavigate(link.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`min-h-[44px] px-2.5 py-1.5 rounded-lg text-xs xl:text-sm transition-all font-sans select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+                  className={`min-h-[44px] px-3 py-2 rounded-xl text-sm transition-all select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+                    currentLang === 'bn' ? 'font-bengali' : 'font-sans'
+                  } ${
                     isActive
                       ? 'text-[#F5F9FF] font-bold bg-white/10 shadow-sm'
                       : 'text-[#C4D4EA] hover:text-[#F5F9FF] hover:bg-white/5 font-medium'
@@ -93,15 +96,15 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Global Medical Search Trigger */}
           <button
             onClick={onOpenSearch}
-            className="min-h-[44px] flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-[#C4D4EA] hover:text-[#F5F9FF] transition-all select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+            className="min-h-[44px] flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs sm:text-sm text-[#C4D4EA] hover:text-[#F5F9FF] transition-all select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             title="Search medicines, study materials, topics (Ctrl + K)"
             aria-label="Open search dialog"
           >
-            <Search className="w-3.5 h-3.5 text-[#08AFC1]" aria-hidden="true" />
-            <span className="hidden sm:inline text-xs">
+            <Search className="w-4 h-4 text-[#08AFC1]" aria-hidden="true" />
+            <span className={`hidden sm:inline ${currentLang === 'bn' ? 'font-bengali text-sm' : 'font-sans text-xs sm:text-sm'}`}>
               {currentLang === 'bn' ? 'অনুসন্ধান...' : 'Search medicines, topics...'}
             </span>
-            <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-white/10 rounded text-slate-300">
+            <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[11px] font-mono bg-white/10 rounded text-[#C4D4EA]/80 ml-1">
               Ctrl+K
             </kbd>
           </button>
@@ -109,7 +112,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* EN / বাংলা Language Toggle */}
           <button
             onClick={() => setCurrentLang(currentLang === 'en' ? 'bn' : 'en')}
-            className="min-h-[44px] px-3 py-2 rounded-xl text-xs sm:text-sm font-sans text-[#C4D4EA] hover:text-[#F5F9FF] hover:bg-white/5 transition-colors select-none font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+            className="min-h-[44px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-sans text-[#C4D4EA] hover:text-[#F5F9FF] hover:bg-white/5 transition-colors select-none font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             title="Switch language (English / বাংলা)"
             aria-label="Switch interface language"
           >
@@ -128,16 +131,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="min-h-[44px] px-4 py-2 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-[#F5F9FF] text-xs sm:text-sm font-medium transition-all shadow-sm select-none flex items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
               <span>{role === 'student' ? 'Sign in' : role.charAt(0).toUpperCase() + role.slice(1)}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400" aria-hidden="true" />
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
             </button>
 
             {/* Role dropdown */}
             {showRoleMenu && (
               <div 
                 role="menu"
-                className="absolute right-0 top-full mt-2 w-44 bg-[rgba(10,36,74,0.95)] backdrop-blur-2xl rounded-2xl border border-[rgba(190,225,255,0.25)] p-1.5 shadow-2xl z-50 animate-fadeIn"
+                className="absolute right-0 top-full mt-2 w-48 bg-[rgba(10,36,74,0.95)] backdrop-blur-2xl rounded-2xl border border-[rgba(190,225,255,0.25)] p-1.5 shadow-2xl z-50 animate-fadeIn"
               >
-                <div className="px-3 py-1.5 text-[10px] font-mono text-[#C4D4EA]/60 uppercase tracking-wider">
+                <div className="px-3 py-1.5 text-[11px] font-mono text-[#C4D4EA]/70 uppercase tracking-wider">
                   Select Persona
                 </div>
                 {(['student', 'faculty', 'reviewer', 'admin'] as const).map((r) => (
@@ -148,14 +151,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                       onRoleChange(r);
                       setShowRoleMenu(false);
                     }}
-                    className={`w-full text-left px-3 py-1.5 rounded-xl text-xs capitalize transition-colors flex items-center justify-between cursor-pointer ${
+                    className={`w-full text-left px-3.5 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm capitalize transition-colors flex items-center justify-between cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                       role === r 
                         ? 'bg-[#08AFC1] text-[#06172E] font-bold' 
                         : 'text-[#C4D4EA] hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     <span>{r}</span>
-                    {role === r && <span className="text-[10px]" aria-hidden="true">✓</span>}
+                    {role === r && <span className="text-xs" aria-hidden="true">✓</span>}
                   </button>
                 ))}
               </div>

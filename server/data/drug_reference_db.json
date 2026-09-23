@@ -405529,6 +405529,30 @@
   ],
   "reportedCorrections": [
     {
+      "id": "report-1790183961676-o45dc",
+      "userId": "student-test-999",
+      "drugId": "furosemide",
+      "drugType": "generic",
+      "section": "dosing",
+      "description": "High-dose infusion rate should specify 4 mg/min ceiling for ototoxicity prevention.",
+      "evidenceSource": "https://bnf.nice.org.uk/drugs/furosemide/",
+      "proposedCorrection": "",
+      "status": "pending_review",
+      "createdAt": "2026-09-23T17:19:21.677Z"
+    },
+    {
+      "id": "report-1790182503187-tvxgy",
+      "userId": "student-test-999",
+      "drugId": "furosemide",
+      "drugType": "generic",
+      "section": "dosing",
+      "description": "High-dose infusion rate should specify 4 mg/min ceiling for ototoxicity prevention.",
+      "evidenceSource": "https://bnf.nice.org.uk/drugs/furosemide/",
+      "proposedCorrection": "",
+      "status": "pending_review",
+      "createdAt": "2026-09-23T16:55:03.187Z"
+    },
+    {
       "id": "report-1790164073410-vqidu",
       "userId": "student-test-999",
       "drugId": "furosemide",

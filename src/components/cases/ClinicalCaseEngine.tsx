@@ -106,14 +106,14 @@ export const ClinicalCaseEngine: React.FC = () => {
           </div>
 
           {/* Case Switcher */}
-          <div className="flex items-center gap-1.5 overflow-x-auto">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {CLINICAL_CASES.map((c, i) => (
               <button
                 key={c.id}
                 onClick={() => handleSelectCase(i)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all ${
+                className={`px-3.5 py-2 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   i === currentCaseIndex
-                    ? 'bg-cyan-500 text-black border-cyan-400 font-bold'
+                    ? 'bg-[#08AFC1] text-slate-950 border-[#08AFC1] font-bold shadow-glow-cyan'
                     : 'bg-slate-900/60 text-slate-300 border-slate-800 hover:bg-slate-800'
                 }`}
               >
@@ -124,69 +124,69 @@ export const ClinicalCaseEngine: React.FC = () => {
         </div>
 
         {/* Real-time Dynamic Vitals Monitor Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 pt-1">
-          <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5">
-            <Activity className="w-4 h-4 text-rose-400" />
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 pt-1">
+          <div className="p-3 min-h-[54px] rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+            <Activity className="w-4 h-4 text-rose-400 shrink-0" />
             <div>
               <span className="text-[10px] text-slate-400 block font-mono">BP</span>
-              <span className="text-xs font-bold text-white font-mono">{vitals.bp}</span>
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">{vitals.bp}</span>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5">
-            <Heart className="w-4 h-4 text-rose-500" />
+          <div className="p-3 min-h-[54px] rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+            <Heart className="w-4 h-4 text-rose-500 shrink-0" />
             <div>
               <span className="text-[10px] text-slate-400 block font-mono">HR</span>
-              <span className="text-xs font-bold text-white font-mono">{vitals.hr} bpm</span>
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">{vitals.hr} bpm</span>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5">
-            <Wind className="w-4 h-4 text-cyan-400" />
+          <div className="p-3 min-h-[54px] rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+            <Wind className="w-4 h-4 text-cyan-400 shrink-0" />
             <div>
               <span className="text-[10px] text-slate-400 block font-mono">RR</span>
-              <span className="text-xs font-bold text-white font-mono">{vitals.rr} /min</span>
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">{vitals.rr} /min</span>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5">
-            <Activity className="w-4 h-4 text-blue-400" />
+          <div className="p-3 min-h-[54px] rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+            <Activity className="w-4 h-4 text-blue-400 shrink-0" />
             <div>
               <span className="text-[10px] text-slate-400 block font-mono">SpO2</span>
-              <span className="text-xs font-bold text-white font-mono">{vitals.spo2}%</span>
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">{vitals.spo2}%</span>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5">
-            <Thermometer className="w-4 h-4 text-amber-400" />
+          <div className="p-3 min-h-[54px] rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+            <Thermometer className="w-4 h-4 text-amber-400 shrink-0" />
             <div>
               <span className="text-[10px] text-slate-400 block font-mono">TEMP</span>
-              <span className="text-xs font-bold text-white font-mono">{vitals.temp} °C</span>
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">{vitals.temp} °C</span>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-2.5">
-            <TrendingUp className="w-4 h-4 text-purple-400" />
+          <div className="p-3 min-h-[54px] rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+            <TrendingUp className="w-4 h-4 text-purple-400 shrink-0" />
             <div>
               <span className="text-[10px] text-slate-400 block font-mono">GCS</span>
-              <span className="text-xs font-bold text-white font-mono">{vitals.gcs}</span>
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">{vitals.gcs}</span>
             </div>
           </div>
         </div>
 
         {/* Chief Complaint Callout */}
-        <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/30">
-          <span className="text-xs font-bold text-rose-300 uppercase tracking-wider block mb-0.5">
+        <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30">
+          <span className="text-xs font-bold text-rose-300 uppercase tracking-wider block mb-1">
             Chief Complaint:
           </span>
-          <p className="text-xs text-rose-100 font-medium">
+          <p className="text-sm text-rose-100 font-medium">
             "{activeCase.chiefComplaint}"
           </p>
         </div>
       </div>
 
       {/* Clinical Workflow Navigation Tabs */}
-      <div className="flex items-center gap-1.5 p-1.5 rounded-2xl glass-panel border border-slate-800 overflow-x-auto">
+      <div className="flex items-center gap-2 p-2 rounded-2xl glass-panel border border-slate-800 overflow-x-auto scrollbar-thin">
         {[
           { id: 'history', label: '1. History Taking', icon: FileText },
           { id: 'exam', label: '2. Physical Exam', icon: Stethoscope },
@@ -201,13 +201,13 @@ export const ClinicalCaseEngine: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setCurrentTab(tab.id as any)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+              className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isActive
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-glow-cyan'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-gradient-to-r from-blue-600 to-[#08AFC1] text-white border-[#08AFC1] shadow-glow-cyan'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60 border-transparent'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-4 h-4 shrink-0" />
               <span>{tab.label}</span>
             </button>
           );

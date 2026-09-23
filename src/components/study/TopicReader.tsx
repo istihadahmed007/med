@@ -165,21 +165,21 @@ export const TopicReader: React.FC<TopicReaderProps> = ({
         {/* Back Button */}
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-sm text-[#94a3b8] hover:text-[#38bdf8] transition-colors mb-5 font-sans"
+          className="flex items-center gap-2 text-sm text-[#94a3b8] hover:text-[#08AFC1] transition-colors mb-5 font-sans min-h-[44px]"
         >
           <ArrowLeft className="w-4 h-4" />
-          {subject.name}
+          <span>Back to {subject.name}</span>
         </button>
 
         {/* Topic Header */}
         <header className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F5F9FF] tracking-tight font-sans leading-tight mb-3">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#F5F9FF] tracking-tight font-sans leading-tight mb-3">
             {topic.title}
           </h1>
 
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span
-              className="text-xs font-sans font-bold px-2.5 py-0.5 rounded-lg"
+              className="text-xs font-sans font-bold px-3 py-1 rounded-lg"
               style={{ background: `${subject.color}18`, color: subject.color }}
             >
               {subject.name}
@@ -188,49 +188,49 @@ export const TopicReader: React.FC<TopicReaderProps> = ({
               {topic.difficulty}
             </span>
             {topic.isHighYield && <span className="study-high-yield">High Yield</span>}
-            <span className="text-xs text-[#64748b] font-sans flex items-center gap-1">
-              <Clock className="w-3 h-3" />
+            <span className="text-xs text-[#8EACCF] font-sans flex items-center gap-1.5 font-medium">
+              <Clock className="w-3.5 h-3.5" />
               {topic.estimatedReadingMinutes} min read
             </span>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={handleBookmark}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-sans font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isBookmarked
                   ? 'bg-[#f59e0b]/15 text-[#fbbf24] border border-[#f59e0b]/30'
                   : 'bg-white/5 text-[#94a3b8] border border-[rgba(148,163,184,0.15)] hover:border-[#f59e0b]/30 hover:text-[#fbbf24]'
               }`}
             >
-              {isBookmarked ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
-              {isBookmarked ? 'Bookmarked' : 'Bookmark'}
+              {isBookmarked ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
+              <span>{isBookmarked ? 'Saved to Bookmarks' : 'Save Bookmark'}</span>
             </button>
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium bg-white/5 text-[#94a3b8] border border-[rgba(148,163,184,0.15)] hover:text-[#e2e8f0] transition-all"
+              className="flex items-center gap-2 px-4 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-sans font-semibold bg-white/5 text-[#94a3b8] border border-[rgba(148,163,184,0.15)] hover:text-[#e2e8f0] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
-              <Printer className="w-3.5 h-3.5" />
-              Print
+              <Printer className="w-4 h-4" />
+              <span>Print Topic</span>
             </button>
             <button
               onClick={handleShare}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium bg-white/5 text-[#94a3b8] border border-[rgba(148,163,184,0.15)] hover:text-[#e2e8f0] transition-all"
+              className="flex items-center gap-2 px-4 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-sans font-semibold bg-white/5 text-[#94a3b8] border border-[rgba(148,163,184,0.15)] hover:text-[#e2e8f0] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
-              <Share2 className="w-3.5 h-3.5" />
-              Share
+              <Share2 className="w-4 h-4" />
+              <span>Share Link</span>
             </button>
           </div>
 
           {/* Mobile TOC Toggle */}
           <button
             onClick={() => setShowMobileToc(!showMobileToc)}
-            className="mt-4 w-full lg:hidden flex items-center justify-between p-3 rounded-xl bg-[rgba(15,23,42,0.5)] border border-[rgba(148,163,184,0.1)] text-sm font-sans text-[#94a3b8]"
+            className="mt-4 w-full lg:hidden flex items-center justify-between p-3.5 min-h-[48px] rounded-xl bg-[rgba(15,23,42,0.5)] border border-[rgba(148,163,184,0.1)] text-sm font-sans text-[#94a3b8]"
           >
             <span className="flex items-center gap-2">
               <FileText className="w-4 h-4" />
-              Table of Contents
+              <span>Table of Contents</span>
             </span>
             <ChevronRight className={`w-4 h-4 transition-transform ${showMobileToc ? 'rotate-90' : ''}`} />
           </button>

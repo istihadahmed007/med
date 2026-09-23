@@ -91,7 +91,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-150">
       <div className="w-full max-w-2xl glass-panel-elevated rounded-3xl border border-cyan-500/40 shadow-glow-cyan overflow-hidden flex flex-col">
         {/* Search Input Bar */}
-        <div className="flex items-center px-4 py-3.5 border-b border-slate-800 gap-3">
+        <div className="flex items-center px-4 py-3 min-h-[48px] border-b border-slate-800 gap-3">
           <Search className="w-5 h-5 text-cyan-400 shrink-0" />
           <input
             ref={inputRef}
@@ -103,11 +103,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Search subjects, 3D organs, cases, ECG, OSPE, or viva (Ctrl + K)..."
-            className="w-full bg-transparent text-sm text-white placeholder-slate-500 outline-none"
+            className="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-500 outline-none"
           />
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white"
+            aria-label="Close command palette"
+            className="p-2 rounded-lg text-slate-400 hover:text-white min-w-[36px] min-h-[36px] flex items-center justify-center transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -116,7 +117,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         {/* Results List */}
         <div className="max-h-96 overflow-y-auto p-2 space-y-1">
           {filtered.length === 0 ? (
-            <div className="p-8 text-center text-slate-500 text-xs">
+            <div className="p-8 text-center text-slate-400 text-sm">
               No medical modules or topics matched "{query}".
             </div>
           ) : (
@@ -129,14 +130,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                     onSelectView(item.view);
                     onClose();
                   }}
-                  className={`px-4 py-3 rounded-2xl cursor-pointer text-xs font-medium transition-all flex items-center justify-between ${
+                  role="button"
+                  tabIndex={0}
+                  className={`px-4 py-3 min-h-[44px] rounded-2xl cursor-pointer text-xs sm:text-sm font-medium transition-all flex items-center justify-between ${
                     isSelected
                       ? 'bg-gradient-to-r from-blue-600/90 to-cyan-600/90 text-white shadow-glow-cyan'
                       : 'text-slate-300 hover:bg-slate-900'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase ${
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase shrink-0 ${
                       isSelected
                         ? 'bg-white/20 border-white/40 text-white'
                         : 'bg-slate-900 border-slate-800 text-cyan-400'
@@ -146,13 +149,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                     <span className="font-semibold text-white">{item.title}</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     {item.shortcut && (
                       <span className="text-[10px] font-mono text-slate-400 bg-slate-950/60 px-1.5 py-0.5 rounded border border-slate-800">
                         {item.shortcut}
                       </span>
                     )}
-                    <ArrowRight className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-slate-600'}`} />
+                    <ArrowRight className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-600'}`} />
                   </div>
                 </div>
               );

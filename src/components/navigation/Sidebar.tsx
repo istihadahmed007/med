@@ -169,7 +169,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onNavigate(hub.id);
                   onCloseMobile();
                 }}
-                className={`w-full flex items-center justify-between p-2.5 rounded-2xl text-xs transition-all group border ${
+                className={`w-full min-h-[44px] flex items-center justify-between p-2.5 rounded-2xl text-xs transition-all group border select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   isActive
                     ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] text-[#06172E] border-[#08AFC1] font-bold shadow-[0_0_20px_rgba(8,175,193,0.35)]'
                     : 'bg-transparent text-[#C4D4EA] border-transparent hover:bg-white/5 hover:text-white hover:border-[rgba(190,225,255,0.15)]'
@@ -185,7 +185,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className={`font-bold text-xs ${isActive ? 'text-[#06172E]' : 'text-[#F5F9FF]'}`}>
                       {hub.label}
                     </div>
-                    <div className={`text-[10px] truncate max-w-[120px] ${isActive ? 'text-[#06172E]/80' : 'text-[#C4D4EA]/60'}`}>
+                    <div className={`text-[11px] truncate max-w-[120px] ${isActive ? 'text-[#06172E]/80' : 'text-[#C4D4EA]/70'}`}>
                       {hub.description}
                     </div>
                   </div>
@@ -193,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                 {hub.badge && (
                   <span
-                    className={`text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
                       isActive
                         ? 'bg-[#06172E]/25 text-[#06172E]'
                         : 'bg-white/5 text-[#08AFC1] border border-[#08AFC1]/30'
@@ -206,7 +206,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             );
           })}
 
-          <div className="pt-4 px-3 pb-1 text-[10px] font-mono uppercase tracking-widest text-slate-500 font-bold border-t border-slate-800/80 mt-2">
+          <div className="pt-4 px-3 pb-1 text-[11px] font-mono uppercase tracking-widest text-[#C4D4EA]/60 font-bold border-t border-slate-800/80 mt-2">
             Intelligence & Faculty
           </div>
 
@@ -221,7 +221,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onNavigate(tool.id as NavigationView);
                   onCloseMobile();
                 }}
-                className={`w-full flex items-center justify-between p-2.5 rounded-2xl text-xs transition-all group border ${
+                className={`w-full min-h-[44px] flex items-center justify-between p-2.5 rounded-2xl text-xs transition-all group border cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   isActive
                     ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-400 font-bold shadow-glow-cyan'
                     : 'bg-transparent text-slate-400 border-transparent hover:bg-slate-900/90 hover:text-slate-100 hover:border-slate-800'
@@ -237,7 +237,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
 
                 {tool.badge && (
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30 font-bold">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30 font-bold">
                     {tool.badge}
                   </span>
                 )}

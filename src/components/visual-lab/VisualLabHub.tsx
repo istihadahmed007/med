@@ -68,25 +68,25 @@ export const VisualLabHub: React.FC<VisualLabHubProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-16">
       {/* Visual Lab Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-cyan-400 uppercase tracking-widest bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-[#08AFC1] uppercase tracking-widest bg-[rgba(8,175,193,0.12)] px-3 py-1 rounded-full border border-[rgba(8,175,193,0.3)]">
               Integrated Visual Medicine & Simulation Center
             </span>
-            <span className="text-xs text-purple-400 font-mono">10 Specialized Interactive Labs</span>
+            <span className="text-xs text-purple-300 font-mono">10 Specialized Interactive Labs</span>
           </div>
-          <h1 className="text-3xl font-black text-white mt-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
             Visual Medicine & Diagnostics Engine
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-[#C4D4EA] text-sm sm:text-base max-w-3xl leading-relaxed">
             Explore verified 3D anatomy, DICOM radiology with window/level presets, Wiggers hemodynamic diagrams, and virtual microscopy.
           </p>
         </div>
       </div>
 
       {/* Sub-Tab Navigation Bar */}
-      <div className="flex items-center gap-2 overflow-x-auto p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 scrollbar-thin">
+      <div className="flex items-center gap-2 overflow-x-auto p-2 rounded-2xl bg-slate-900/90 border border-slate-800 scrollbar-thin">
         {LAB_TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -94,17 +94,17 @@ export const VisualLabHub: React.FC<VisualLabHubProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap border ${
+              className={`px-4 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2.5 whitespace-nowrap border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isActive
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 border-cyan-400 font-black shadow-glow-cyan'
+                  ? 'bg-gradient-to-r from-[#08AFC1] to-blue-600 text-slate-950 border-[#08AFC1] font-bold shadow-glow-cyan'
                   : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:text-white hover:bg-slate-850'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-4 h-4 shrink-0" />
               <span>{tab.label}</span>
               {tab.badge && (
-                <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold ${
-                  isActive ? 'bg-slate-950 text-cyan-400' : 'bg-slate-800 text-slate-400'
+                <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${
+                  isActive ? 'bg-slate-950 text-[#08AFC1]' : 'bg-slate-800 text-slate-400'
                 }`}>
                   {tab.badge}
                 </span>

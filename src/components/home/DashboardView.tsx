@@ -202,7 +202,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
   };
 
   return (
-    <div className="w-full max-w-[1360px] mx-auto space-y-8 sm:space-y-10 px-2 sm:px-6 relative select-none">
+    <div className="w-full max-w-[1360px] mx-auto space-y-8 sm:space-y-10 px-3 sm:px-6 relative select-none">
       
       {/* Ambient Radial Lighting for Depth */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
@@ -238,16 +238,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
           
           {/* Real Lesson Resume Banner (Displayed ONLY when real unfinished study exists) */}
           {continueReading && (
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[rgba(8,175,193,0.15)] border border-[#08AFC1]/40 text-xs text-[#F5F9FF] shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(8,175,193,0.15)] border border-[#08AFC1]/40 text-xs text-[#F5F9FF] shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#08AFC1] animate-pulse" />
               <span className="font-semibold text-[#08AFC1]">Resume study:</span>
-              <span className="truncate max-w-[240px] text-[#C4D4EA]">{continueReading.title}</span>
-              <span className="text-[11px] font-mono text-[#8eaecf]">({continueReading.scrollPercentage}%)</span>
+              <span className="truncate max-w-[240px] text-[#C4D4EA] font-medium">{continueReading.title}</span>
+              <span className="text-xs font-mono text-[#8EACCF]">({continueReading.scrollPercentage}%)</span>
             </div>
           )}
 
           {/* Kicker */}
-          <div className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.18em] text-[#8eaecf] uppercase">
+          <div className="text-xs font-mono font-bold tracking-[0.16em] text-[#8EACCF] uppercase">
             YOUR MBBS LEARNING COMPANION
           </div>
 
@@ -257,8 +257,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             One concept at a time.
           </h1>
 
-          {/* Supporting Subtext */}
-          <p className="text-sm sm:text-base lg:text-[17px] text-[#C4D4EA] max-w-lg leading-relaxed font-sans font-normal">
+          {/* Supporting Subtext (>= 16px body) */}
+          <p className="text-base lg:text-[17px] text-[#C4D4EA] max-w-lg leading-relaxed font-sans font-normal">
             Explore concepts. Connect clinical cases. Practise with purpose.
           </p>
 
@@ -299,7 +299,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
           </div>
 
           {/* Editorial Tagline */}
-          <div className="pt-2 text-xs text-[#7e9ec8] font-sans tracking-wide space-y-0.5">
+          <div className="pt-2 text-xs sm:text-sm text-[#8EACCF] font-sans tracking-wide space-y-0.5">
             <p>Build knowledge today.</p>
             <p>For the doctors of tomorrow.</p>
           </div>
@@ -356,7 +356,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             </button>
 
             {/* Label: Anatomy preview */}
-            <span className="mt-1.5 text-[11px] font-sans font-medium text-[#C4D4EA] tracking-wide">
+            <span className="mt-1.5 text-xs font-sans font-medium text-[#C4D4EA] tracking-wide">
               Anatomy preview
             </span>
 
@@ -364,14 +364,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             <div 
               role="toolbar"
               aria-label="3D Anatomical Controls"
-              className="mt-2 bg-[rgba(10,36,74,0.85)] backdrop-blur-2xl border border-[rgba(190,225,255,0.25)] rounded-full px-2 sm:px-3 py-1 flex items-center gap-1.5 sm:gap-2 shadow-xl"
+              className="mt-2 bg-[rgba(10,36,74,0.85)] backdrop-blur-2xl border border-[rgba(190,225,255,0.25)] rounded-full px-2.5 sm:px-3 py-1 flex items-center gap-1.5 sm:gap-2 shadow-xl"
             >
               {/* Rotate button */}
               <button
                 onClick={() => setIsRotating(!isRotating)}
                 aria-label={isRotating ? 'Pause 3D rotation' : 'Rotate 3D anatomical view'}
                 aria-pressed={isRotating}
-                className={`min-h-[44px] px-2.5 rounded-full flex items-center gap-1 text-[11px] transition-colors font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+                className={`min-h-[44px] px-3 rounded-full flex items-center gap-1 text-xs transition-colors font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   isRotating ? 'text-[#08AFC1] font-bold' : 'text-[#C4D4EA] hover:text-white'
                 }`}
               >
@@ -386,7 +386,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
                 onClick={() => setIsIsolated(!isIsolated)}
                 aria-label={isIsolated ? 'Restore complete view' : 'Isolate cardiac view'}
                 aria-pressed={isIsolated}
-                className={`min-h-[44px] px-2.5 rounded-full flex items-center gap-1 text-[11px] transition-colors font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
+                className={`min-h-[44px] px-3 rounded-full flex items-center gap-1 text-xs transition-colors font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                   isIsolated ? 'text-[#08AFC1] font-bold' : 'text-[#C4D4EA] hover:text-white'
                 }`}
               >
@@ -404,7 +404,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
                   setRotationAngle(0);
                 }}
                 aria-label="Reset 3D view"
-                className="min-h-[44px] px-2.5 rounded-full flex items-center gap-1 text-[11px] text-[#C4D4EA] hover:text-white transition-colors font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+                className="min-h-[44px] px-3 rounded-full flex items-center gap-1 text-xs text-[#C4D4EA] hover:text-white transition-colors font-medium cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Reset</span>
@@ -413,7 +413,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
           </div>
 
           {/* Illustrative Concept Disclaimer in corner */}
-          <div className="absolute bottom-1 right-3 sm:right-6 text-[10px] font-sans text-[#7fa3d1]/60 italic pointer-events-none">
+          <div className="absolute bottom-1 right-3 sm:right-6 text-xs font-sans text-[#7fa3d1]/80 italic pointer-events-none">
             Illustrative concept
           </div>
         </div>
@@ -424,13 +424,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
       {/* ========================================================================= */}
       <section 
         aria-label="Curriculum Learning Pathway"
-        className="space-y-3 pt-1"
+        className="space-y-4 pt-1"
       >
-        <div className="text-center space-y-1">
-          <div className="text-[11px] font-mono uppercase tracking-widest text-[#08AFC1] font-semibold">
+        <div className="text-center space-y-1.5">
+          <div className="text-xs font-mono uppercase tracking-widest text-[#08AFC1] font-semibold">
             LEARNING PATHWAY
           </div>
-          <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#F5F9FF]">
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#F5F9FF]">
             Select your learning phase
           </h2>
         </div>
@@ -458,14 +458,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
                       setActivePhaseIndex(idx);
                       StorageService.setActivePhase(p.full);
                     }}
-                    className={`min-h-[44px] px-5 sm:px-7 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 select-none whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                    className={`min-h-[44px] px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 select-none whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                       isActive
                         ? 'bg-gradient-to-r from-[#08AFC1] to-[#0694a2] text-white font-bold shadow-[0_0_22px_rgba(8,175,193,0.50)]'
                         : 'text-[#C4D4EA] hover:text-white hover:bg-white/5'
                     }`}
                   >
                     <span>{p.label}</span>
-                    <span className="hidden md:inline text-[11px] opacity-80 font-normal ml-1.5">
+                    <span className="hidden md:inline text-xs opacity-80 font-normal ml-1.5">
                       ({p.years.split(' ')[0]})
                     </span>
                   </button>
@@ -480,28 +480,28 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
           id={`panel-${currentPhase.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${currentPhase.id}`}
-          className="rounded-2xl bg-[rgba(6,23,46,0.60)] border border-[rgba(190,225,255,0.15)] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+          className="rounded-2xl bg-[rgba(6,23,46,0.60)] border border-[rgba(190,225,255,0.15)] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm"
         >
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-[#F5F9FF] text-sm">
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-bold text-[#F5F9FF] text-base">
                 {currentPhase.label}: {currentPhase.years}
               </span>
-              <span className="text-[#08AFC1] font-mono font-medium">
+              <span className="text-[#08AFC1] font-mono font-medium text-xs sm:text-sm">
                 • {currentPhase.subjectsSummary}
               </span>
             </div>
-            <p className="text-[#C4D4EA] leading-relaxed max-w-2xl">
+            <p className="text-[#C4D4EA] leading-relaxed max-w-2xl text-sm sm:text-base">
               {currentPhase.description}
             </p>
           </div>
 
           <button
             onClick={() => onNavigate('learn')}
-            className="min-h-[40px] px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-[#08AFC1] hover:text-white border border-white/10 font-semibold text-xs flex items-center gap-1.5 self-start sm:self-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+            className="min-h-[44px] px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-[#08AFC1] hover:text-white border border-white/10 font-semibold text-xs sm:text-sm flex items-center gap-2 self-start sm:self-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] transition-colors"
           >
             <span>Curriculum Topics</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </section>
@@ -560,19 +560,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
 
               {/* Middle: Subject Title & Subtitle */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-xl sm:text-2xl font-bold text-[#F5F9FF] tracking-tight group-hover:text-[#08AFC1] transition-colors">
+                <h3 className="text-xl sm:text-2xl font-bold font-heading text-[#F5F9FF] tracking-tight group-hover:text-[#08AFC1] transition-colors">
                   {card.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-[#C4D4EA] font-normal leading-snug mt-1">
+                <p className="text-sm sm:text-base text-[#C4D4EA] font-normal leading-relaxed mt-1">
                   {card.subtitle}
                 </p>
-                <div className="mt-2 text-[11px] font-medium text-[#08AFC1] flex items-center gap-1">
+                <div className="mt-2.5 text-xs font-semibold text-[#08AFC1] flex items-center gap-1">
                   <span>Explore subject</span>
                 </div>
               </div>
 
-              {/* Right: Circular Arrow Button matching concept */}
-              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-white group-hover:bg-[#08AFC1] group-hover:border-[#08AFC1] group-hover:text-[#06172E] transition-all shrink-0 shadow-sm">
+              {/* Right: Circular Arrow Button matching concept (>=44px touch target) */}
+              <div className="w-11 h-11 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-white group-hover:bg-[#08AFC1] group-hover:border-[#08AFC1] group-hover:text-[#06172E] transition-all shrink-0 shadow-sm">
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 stroke-[2.5]" aria-hidden="true" />
               </div>
             </div>
@@ -585,7 +585,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
       {/* ========================================================================= */}
       <section 
         aria-label="Learning Modes"
-        className="rounded-2xl sm:rounded-3xl bg-[rgba(18,55,99,0.30)] border border-[rgba(190,225,255,0.20)] border-t-[rgba(255,255,255,0.30)] backdrop-blur-2xl p-4 sm:p-5 shadow-[0_12px_36px_rgba(0,0,0,0.35)]"
+        className="rounded-2xl sm:rounded-3xl bg-[rgba(18,55,99,0.30)] border border-[rgba(190,225,255,0.20)] border-t-[rgba(255,255,255,0.30)] backdrop-blur-2xl p-5 sm:p-6 shadow-[0_12px_36px_rgba(0,0,0,0.35)]"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-[rgba(190,225,255,0.14)]">
           
@@ -595,14 +595,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             aria-label="Learn a concept: Build strong foundations"
             className="min-h-[48px] flex items-start gap-3.5 p-2 rounded-xl text-left hover:bg-white/5 transition-colors group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
           >
-            <div className="w-8 h-8 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
+            <div className="w-9 h-9 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
               <BookOpen className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
+              <h4 className="text-base font-bold font-heading text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
                 Learn a concept
               </h4>
-              <p className="text-xs text-[#C4D4EA]/80 mt-0.5 font-normal">
+              <p className="text-xs sm:text-sm text-[#C4D4EA] mt-0.5 font-normal leading-snug">
                 Build strong foundations
               </p>
             </div>
@@ -614,14 +614,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             aria-label="Explore a case: See knowledge in context"
             className="min-h-[48px] flex items-start gap-3.5 p-2 sm:pl-6 rounded-xl text-left hover:bg-white/5 transition-colors group cursor-pointer pt-3 sm:pt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
           >
-            <div className="w-8 h-8 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
+            <div className="w-9 h-9 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
               <Stethoscope className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
+              <h4 className="text-base font-bold font-heading text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
                 Explore a case
               </h4>
-              <p className="text-xs text-[#C4D4EA]/80 mt-0.5 font-normal">
+              <p className="text-xs sm:text-sm text-[#C4D4EA] mt-0.5 font-normal leading-snug">
                 See knowledge in context
               </p>
             </div>
@@ -633,14 +633,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             aria-label="Test your understanding: Practise with purpose"
             className="min-h-[48px] flex items-start gap-3.5 p-2 sm:pl-6 rounded-xl text-left hover:bg-white/5 transition-colors group cursor-pointer pt-3 sm:pt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
           >
-            <div className="w-8 h-8 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
+            <div className="w-9 h-9 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
               <CheckSquare className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
+              <h4 className="text-base font-bold font-heading text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
                 Test your understanding
               </h4>
-              <p className="text-xs text-[#C4D4EA]/80 mt-0.5 font-normal">
+              <p className="text-xs sm:text-sm text-[#C4D4EA] mt-0.5 font-normal leading-snug">
                 Practise with purpose
               </p>
             </div>
@@ -652,14 +652,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
             aria-label="Revise with purpose: Make it stick"
             className="min-h-[48px] flex items-start gap-3.5 p-2 sm:pl-6 rounded-xl text-left hover:bg-white/5 transition-colors group cursor-pointer pt-3 sm:pt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
           >
-            <div className="w-8 h-8 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
+            <div className="w-9 h-9 flex items-center justify-center text-white shrink-0 group-hover:text-[#08AFC1] transition-colors">
               <BarChart3 className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
+              <h4 className="text-base font-bold font-heading text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors">
                 Revise with purpose
               </h4>
-              <p className="text-xs text-[#C4D4EA]/80 mt-0.5 font-normal">
+              <p className="text-xs sm:text-sm text-[#C4D4EA] mt-0.5 font-normal leading-snug">
                 Make it stick
               </p>
             </div>
@@ -673,35 +673,35 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
       {recentlyRead.length > 0 && (
         <section 
           aria-label="Recent Real Study Activity"
-          className="rounded-2xl bg-[rgba(10,36,74,0.40)] border border-[rgba(190,225,255,0.15)] p-4 sm:p-5 shadow-lg space-y-3"
+          className="rounded-2xl bg-[rgba(10,36,74,0.40)] border border-[rgba(190,225,255,0.15)] p-5 sm:p-6 shadow-lg space-y-4"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm font-bold text-[#F5F9FF]">
+            <div className="flex items-center gap-2 text-base font-bold font-heading text-[#F5F9FF]">
               <Clock className="w-4 h-4 text-[#08AFC1]" />
               <span>Recent Reading Activity</span>
             </div>
             <button
               onClick={() => onNavigate('study-materials')}
-              className="text-xs text-[#08AFC1] hover:text-white font-medium flex items-center gap-1 cursor-pointer"
+              className="text-xs sm:text-sm text-[#08AFC1] hover:text-white font-medium flex items-center gap-1 cursor-pointer transition-colors"
             >
               <span>View all study materials</span>
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
             {recentlyRead.map((item) => (
               <div
                 key={item.topicId}
                 onClick={() => handleResumeReading(item)}
-                className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[#08AFC1]/40 transition-all cursor-pointer group"
+                className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[#08AFC1]/40 transition-all cursor-pointer group"
               >
-                <div className="text-xs font-semibold text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors truncate">
+                <div className="text-sm font-semibold text-[#F5F9FF] group-hover:text-[#08AFC1] transition-colors truncate">
                   {item.title}
                 </div>
-                <div className="flex items-center justify-between mt-1 text-[11px] text-[#8eaecf]">
+                <div className="flex items-center justify-between mt-1.5 text-xs text-[#8EACCF]">
                   <span>{item.scrollPercentage}% read</span>
-                  <span className="text-[10px] text-slate-400">Resume →</span>
+                  <span className="text-xs text-[#08AFC1] font-medium">Resume →</span>
                 </div>
               </div>
             ))}
@@ -714,7 +714,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
       {/* ========================================================================= */}
       <footer 
         aria-label="Educational Disclaimer and Information"
-        className="mt-10 pt-6 pb-12 border-t border-[rgba(190,225,255,0.12)] text-xs text-[#8eaecf] space-y-4"
+        className="mt-12 pt-6 pb-14 border-t border-[rgba(190,225,255,0.12)] text-xs text-[#8EACCF] space-y-4"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start gap-2.5">
@@ -731,15 +731,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
           </div>
         </div>
 
-        <div className="pt-2 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-[#7fa3d1]">
+        <div className="pt-2 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#8EACCF]">
           <div className="flex items-center gap-3">
             <span>MEDX Bangladesh</span>
             <span>•</span>
-            <button onClick={() => onNavigate('learn')} className="hover:text-white transition-colors cursor-pointer">Curriculum</button>
+            <button onClick={() => onNavigate('learn')} className="hover:text-white transition-colors cursor-pointer min-h-[32px] inline-flex items-center">Curriculum</button>
             <span>•</span>
-            <button onClick={() => onNavigate('drug-reference')} className="hover:text-white transition-colors cursor-pointer">Drugs</button>
+            <button onClick={() => onNavigate('drug-reference')} className="hover:text-white transition-colors cursor-pointer min-h-[32px] inline-flex items-center">Drugs</button>
             <span>•</span>
-            <button onClick={() => onNavigate('textbook-library')} className="hover:text-white transition-colors cursor-pointer">Textbooks</button>
+            <button onClick={() => onNavigate('textbook-library')} className="hover:text-white transition-colors cursor-pointer min-h-[32px] inline-flex items-center">Textbooks</button>
           </div>
           <div>
             © {new Date().getFullYear()} MEDX • All rights reserved

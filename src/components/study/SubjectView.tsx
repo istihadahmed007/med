@@ -60,10 +60,10 @@ export const SubjectView: React.FC<SubjectViewProps> = ({
       <div className="mb-8">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-sm text-[#94a3b8] hover:text-[#38bdf8] transition-colors mb-4 font-sans"
+          className="flex items-center gap-2 text-sm text-[#94a3b8] hover:text-[#08AFC1] transition-colors mb-4 font-sans min-h-[44px]"
         >
           <ArrowLeft className="w-4 h-4" />
-          All Subjects
+          <span>All Subjects</span>
         </button>
 
         <div className="flex items-start gap-4 mb-4">
@@ -78,28 +78,28 @@ export const SubjectView: React.FC<SubjectViewProps> = ({
               {subject.name}
             </h1>
             {subject.nameBn && (
-              <p className="text-sm text-[#64748b] mt-0.5 font-sans">{subject.nameBn}</p>
+              <p className="text-sm text-[#C4D4EA] mt-0.5 font-sans">{subject.nameBn}</p>
             )}
-            <p className="text-sm text-[#94a3b8] mt-1 font-sans max-w-xl leading-relaxed">
+            <p className="text-sm text-[#C4D4EA] mt-1 font-sans max-w-xl leading-relaxed">
               {subject.description}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 text-xs text-[#94a3b8] font-sans mb-4">
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-[#C4D4EA] font-sans mb-4">
+          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5">
             <GraduationCap className="w-3.5 h-3.5 text-[#08AFC1]" />
             {subject.units.length} units
           </span>
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5">
+          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5">
             <BookOpen className="w-3.5 h-3.5 text-[#08AFC1]" />
             {subject.totalTopics} topics
           </span>
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5">
-            <span className="text-[10px] font-mono font-bold uppercase text-[#64748b]">{subject.phase}</span>
+          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5">
+            <span className="text-[10px] font-mono font-bold uppercase text-[#8EACCF]">{subject.phase}</span>
           </span>
           {totalCompleted > 0 && (
-            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#10b981]/10 text-[#10b981] font-bold">
+            <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#10b981]/10 text-[#10b981] font-bold">
               <CheckCircle2 className="w-3.5 h-3.5" />
               {totalCompleted}/{subject.totalTopics} completed
             </span>
@@ -108,13 +108,13 @@ export const SubjectView: React.FC<SubjectViewProps> = ({
 
         {/* Search within subject */}
         <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8EACCF]" />
           <input
             type="text"
             placeholder={`Search topics in ${subject.name}...`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-[rgba(15,23,42,0.6)] border border-[rgba(148,163,184,0.12)] text-[#e2e8f0] placeholder-[#64748b] font-sans text-sm focus:outline-none focus:border-[#08AFC1]/30 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl bg-[rgba(15,23,42,0.6)] border border-[rgba(148,163,184,0.18)] text-[#e2e8f0] placeholder-[#8EACCF] font-sans text-sm focus:outline-none focus:border-[#08AFC1] focus:ring-1 focus:ring-[#08AFC1] transition-all"
           />
         </div>
       </div>
@@ -122,9 +122,9 @@ export const SubjectView: React.FC<SubjectViewProps> = ({
       {/* Units & Topics */}
       <div className="space-y-3">
         {filteredUnits.length === 0 ? (
-          <div className="study-no-content">
-            <div className="icon">🔍</div>
-            <p>No topics match your search in {subject.name}.</p>
+          <div className="medx-empty-state">
+            <Search className="w-8 h-8 text-[#8EACCF] mb-2" />
+            <p className="font-semibold text-white">No topics match your search in {subject.name}.</p>
           </div>
         ) : (
           filteredUnits.map(unit => {
@@ -134,23 +134,23 @@ export const SubjectView: React.FC<SubjectViewProps> = ({
             return (
               <div
                 key={unit.id}
-                className="rounded-2xl border border-[rgba(148,163,184,0.1)] bg-[rgba(15,23,42,0.4)] overflow-hidden"
+                className="rounded-2xl border border-[rgba(148,163,184,0.12)] bg-[rgba(15,23,42,0.4)] overflow-hidden"
               >
                 {/* Unit Header */}
                 <button
                   onClick={() => setExpandedUnit(isExpanded ? null : unit.id)}
-                  className="w-full flex items-center justify-between p-4 hover:bg-white/[0.02] transition-colors"
+                  className="w-full flex items-center justify-between p-4 min-h-[52px] hover:bg-white/[0.03] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
                 >
                   <div className="flex items-center gap-3">
                     <ChevronRight
-                      className={`w-4 h-4 text-[#64748b] transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                      className={`w-4 h-4 text-[#8EACCF] transition-transform ${isExpanded ? 'rotate-90' : ''}`}
                     />
                     <div className="text-left">
                       <h3 className="text-sm font-bold text-[#F5F9FF] font-sans">{unit.title}</h3>
-                      <p className="text-xs text-[#64748b] font-sans mt-0.5">
+                      <p className="text-xs text-[#8EACCF] font-sans mt-0.5">
                         {unit.topics.length} topic{unit.topics.length !== 1 ? 's' : ''}
                         {unitCompleted > 0 && (
-                          <span className="text-[#10b981] ml-2">· {unitCompleted} completed</span>
+                          <span className="text-[#10b981] ml-2 font-medium">· {unitCompleted} completed</span>
                         )}
                       </p>
                     </div>

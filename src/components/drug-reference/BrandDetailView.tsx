@@ -107,19 +107,19 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
   return (
     <div className="space-y-6 max-w-5xl mx-auto pb-12 animate-fadeIn" id="brand-detail-page">
       {/* Top Breadcrumb & Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs font-semibold text-slate-300 hover:text-white transition"
+          className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
         >
           <span>←</span> Back to Directory
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {/* Copy Share Link */}
           <button
             onClick={handleCopyShareLink}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs font-semibold text-slate-300 hover:text-white transition"
+            className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             title="Copy shareable link to this drug"
           >
             <span>🔗</span> {copySuccess ? 'Link Copied!' : 'Share Link'}
@@ -128,7 +128,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
           {/* Bookmark Button */}
           <button
             onClick={onToggleBookmark}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition ${
+            className={`inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl border text-xs sm:text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
               isBookmarked
                 ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
                 : 'bg-slate-900/80 text-slate-300 border-slate-700/60 hover:text-white'
@@ -234,10 +234,10 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
             </div>
 
             {/* Action Buttons: Cross Book Study & Practice MCQs */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               <button
                 onClick={() => onOpenAcrossBooksTopic && onOpenAcrossBooksTopic(generic.name)}
-                className="w-full px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 transition"
+                className="w-full px-4 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <span>📖</span>
                 <span>Study {generic.name} Across Books</span>
@@ -247,7 +247,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 onClick={() => {
                   window.location.hash = '#study-materials/pharmacology';
                 }}
-                className="w-full px-3.5 py-2 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20 transition"
+                className="w-full px-4 py-2.5 min-h-[44px] rounded-xl bg-gradient-to-r from-teal-600 to-[#08AFC1] hover:from-teal-500 hover:to-cyan-400 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <span>📚</span>
                 <span>Open Pharmacology Study Materials</span>
@@ -255,7 +255,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
 
               <button
                 onClick={() => onOpenPracticeQuestions && onOpenPracticeQuestions(generic.therapeuticClass || 'Pharmacology')}
-                className="w-full px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center justify-center gap-2 transition"
+                className="w-full px-4 py-2.5 min-h-[44px] rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <span>🎯</span>
                 <span>Practice Pharmacology MCQs</span>
@@ -267,15 +267,15 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
 
       {/* Alternative Formulations & Strengths Banner */}
       {availableStrengths && availableStrengths.length > 1 && (
-        <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs flex flex-wrap items-center gap-2">
-          <span className="text-slate-400 font-semibold">Available Formulations for {generic.name}:</span>
-          <div className="flex flex-wrap gap-1.5">
+        <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs sm:text-sm flex flex-wrap items-center gap-2">
+          <span className="text-[#C4D4EA] font-semibold">Available Formulations for {generic.name}:</span>
+          <div className="flex flex-wrap gap-2">
             {availableStrengths.map((str, i) => (
               <span
                 key={i}
-                className={`px-2 py-0.5 rounded border text-[11px] ${
+                className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-medium ${
                   str.toLowerCase().includes(brand.strength.toLowerCase()) && str.toLowerCase().includes(brand.dosageForm.toLowerCase())
-                    ? 'bg-blue-500/20 text-blue-300 border-blue-500/40 font-bold'
+                    ? 'bg-[#08AFC1]/20 text-cyan-300 border-[#08AFC1]/40 font-bold'
                     : 'bg-slate-800/60 text-slate-300 border-slate-700'
                 }`}
               >
@@ -287,7 +287,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
       )}
 
       {/* Clinical Sections Tabs Navigation */}
-      <div className="flex flex-wrap gap-1 border-b border-slate-800 pb-2">
+      <div className="flex flex-wrap gap-1.5 border-b border-slate-800 pb-3">
         {[
           { id: 'overview', label: 'Overview' },
           { id: 'indications', label: 'Indications' },
@@ -305,10 +305,10 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+            className={`px-3.5 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm font-semibold transition-all border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
               activeTab === tab.id
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                ? 'bg-[#08AFC1] text-slate-950 border-[#08AFC1] font-bold shadow-glow-cyan'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/80 border-transparent'
             }`}
           >
             {tab.label}

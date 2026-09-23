@@ -148,7 +148,7 @@ export const TextbookLibraryHub: React.FC<Props> = ({ onNavigateAcrossBooks }) =
       <div className="tb-hero-banner">
         <div className="tb-hero-pattern" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
+          <div className="space-y-2.5 max-w-2xl">
             <div className="flex items-center gap-2">
               <span className="tb-badge">
                 <GraduationCap className="w-3.5 h-3.5" /> BM&DC Curriculum Reference Library
@@ -158,19 +158,19 @@ export const TextbookLibraryHub: React.FC<Props> = ({ onNavigateAcrossBooks }) =
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-white tracking-tight leading-tight">
               MBBS Textbook Library <br />
               <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
                 & Multi-Perspective Study Hub
               </span>
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-[#C4D4EA] leading-relaxed font-sans">
               Authoritative medical textbook families across Phase 1 to Phase 4. Verified titles, confirmed ISBN-13s, and direct integration with <strong>Across books</strong> for cohesive clinical learning.
             </p>
 
             {/* Quick Metrics */}
-            <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-slate-400">
+            <div className="flex flex-wrap items-center gap-3.5 pt-2 text-xs sm:text-sm text-[#8EACCF]">
               <span className="flex items-center gap-1.5 font-semibold text-slate-200">
                 <BookOpen className="w-4 h-4 text-cyan-400" /> {stats.total} Verified Textbooks
               </span>
@@ -190,10 +190,10 @@ export const TextbookLibraryHub: React.FC<Props> = ({ onNavigateAcrossBooks }) =
           </div>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0">
+          <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
             <button
               onClick={() => onNavigateAcrossBooks()}
-              className="tb-btn-primary !py-2.5 !px-4 text-xs font-bold"
+              className="tb-btn-primary min-h-[44px] !py-2.5 !px-5 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
               <Layers className="w-4 h-4" />
               Study Across Books
@@ -201,7 +201,7 @@ export const TextbookLibraryHub: React.FC<Props> = ({ onNavigateAcrossBooks }) =
 
             <button
               onClick={() => setIsImportModalOpen(true)}
-              className="tb-btn-secondary !py-2.5 !px-4 text-xs font-semibold"
+              className="tb-btn-secondary min-h-[44px] !py-2.5 !px-5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
             >
               <Upload className="w-4 h-4 text-cyan-400" />
               Import & Verify Material
@@ -211,7 +211,7 @@ export const TextbookLibraryHub: React.FC<Props> = ({ onNavigateAcrossBooks }) =
       </div>
 
       {/* 2. Search & Toolbar */}
-      <div className="tb-glass-card p-4 space-y-4">
+      <div className="tb-glass-card p-4 sm:p-5 space-y-4">
         <div className="flex flex-col md:flex-row items-center gap-3">
           {/* Search Box */}
           <div className="tb-search-box flex-1">
@@ -221,17 +221,17 @@ export const TextbookLibraryHub: React.FC<Props> = ({ onNavigateAcrossBooks }) =
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search by title, author, subject, topic, or ISBN (e.g., Guyton, Robbins, Abdullah, 978-0323...)"
-              className="tb-search-input text-xs"
+              className="tb-search-input min-h-[44px] text-xs sm:text-sm"
             />
           </div>
 
           {/* Saved Filter Pill */}
           <button
             onClick={() => setSavedOnly(!savedOnly)}
-            className={`tb-pill-tab shrink-0 flex items-center gap-1.5 ${savedOnly ? 'active' : ''}`}
+            className={`tb-pill-tab min-h-[44px] shrink-0 flex items-center gap-2 px-4 py-2 cursor-pointer ${savedOnly ? 'active' : ''}`}
           >
             <Bookmark className="w-3.5 h-3.5" fill={savedOnly ? 'currentColor' : 'none'} />
-            <span>Bookmarked ({bookmarks.length})</span>
+            <span className="text-xs sm:text-sm font-semibold">Bookmarked ({bookmarks.length})</span>
           </button>
         </div>
 

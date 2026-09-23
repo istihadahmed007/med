@@ -4,11 +4,92 @@
 
 :root {
   color-scheme: dark;
+
+  /* 4px-Based Spacing Scale Tokens */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Typography Font Stacks */
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Bengali", sans-serif;
   --font-heading: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
   --font-bengali: 'Hind Siliguri', 'Noto Sans Bengali', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Theme Color Tokens */
+  --medx-bg-deep: #03142b;
+  --medx-bg-mid: #073b72;
+  --medx-surface-base: #040D21;
+  --medx-surface-card: rgba(18, 55, 99, 0.32);
+  --medx-surface-elevated: rgba(18, 55, 99, 0.48);
+  --medx-surface-glass: rgba(10, 36, 74, 0.65);
+
+  /* Primary Accent & Cyan Medical Palette */
   --medx-cyan: #08AFC1;
+  --medx-cyan-hover: #09C2D6;
+  --medx-cyan-bright: #20e6f2;
+  --medx-cyan-glow: rgba(8, 175, 193, 0.35);
+  --medx-royal: #1748A0;
+  --medx-teal: #14b8a6;
+
+  /* WCAG AA Compliant Text Tokens */
+  --medx-text-primary: #F5F9FF;
+  --medx-text-secondary: #C4D4EA;
+  --medx-text-muted: #8EACCF;
+  --medx-text-subtle: #627D98;
+
+  /* Semantic Feedback Colors */
+  --medx-error: #f43f5e;
+  --medx-error-bg: rgba(244, 63, 94, 0.12);
+  --medx-warning: #f59e0b;
+  --medx-warning-bg: rgba(245, 158, 11, 0.12);
+  --medx-success: #10b981;
+  --medx-success-bg: rgba(16, 185, 129, 0.12);
+  --medx-info: #38bdf8;
+  --medx-info-bg: rgba(56, 189, 248, 0.12);
+
+  /* Border & Glass Material Tokens */
+  --medx-line: rgba(132, 220, 255, 0.25);
+  --medx-border: rgba(190, 225, 255, 0.20);
+  --medx-border-highlight: rgba(255, 255, 255, 0.28);
+  --medx-border-hover: rgba(8, 175, 193, 0.55);
+  --medx-highlight: rgba(255, 255, 255, 0.18);
+  --medx-glass: rgba(8, 51, 96, 0.42);
+  --medx-glass-strong: rgba(5, 35, 72, 0.72);
+  --medx-glass-soft: rgba(22, 91, 148, 0.20);
+
+  /* Border Radius Tokens */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows & Depth */
+  --medx-shadow: 0 20px 55px rgba(0, 9, 30, 0.34);
+  --medx-shadow-card: 0 12px 32px 0 rgba(0, 0, 0, 0.35);
+  --medx-shadow-elevated: 0 16px 40px 0 rgba(0, 0, 0, 0.45);
+  --medx-shadow-glow: 0 0 25px -3px rgba(8, 175, 193, 0.35);
+
+  /* Layout Max Widths */
+  --container-max: 1440px;
+  --reading-max: 820px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -215,18 +296,6 @@ h1, h2, h3, h4, .font-heading, .font-display {
    MEDX immersive glass atmosphere
    Centralized so every route shares one coherent visual language.
    -------------------------------------------------------------------------- */
-:root {
-  --medx-bg-deep: #03142b;
-  --medx-bg-mid: #073b72;
-  --medx-cyan: #20e6f2;
-  --medx-glass: rgba(8, 51, 96, 0.42);
-  --medx-glass-strong: rgba(5, 35, 72, 0.72);
-  --medx-glass-soft: rgba(22, 91, 148, 0.20);
-  --medx-line: rgba(132, 220, 255, 0.30);
-  --medx-highlight: rgba(255, 255, 255, 0.18);
-  --medx-shadow: 0 20px 55px rgba(0, 9, 30, 0.34);
-}
-
 html {
   background: var(--medx-bg-deep);
 }
@@ -395,3 +464,336 @@ textarea:focus-visible {
     background: rgba(4, 32, 70, 0.94);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MEDX UNIFIED TYPOGRAPHY SYSTEM
+   Ensures WCAG AA contrast, clear hierarchy, and body text >= 16px.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Editorial Hero Heading in Source Serif 4 */
+.medx-hero-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--medx-text-primary);
+}
+
+/* Primary Page Heading in Plus Jakarta Sans */
+.medx-page-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  color: var(--medx-text-primary);
+}
+
+/* Section Heading in Plus Jakarta Sans */
+.medx-section-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--medx-text-primary);
+}
+
+/* Card Heading */
+.medx-card-heading {
+  font-family: var(--font-heading);
+  font-size: 1.125rem; /* 18px */
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--medx-text-primary);
+}
+
+/* Standard Body Text (16px / 1rem for optimal readability) */
+.medx-body {
+  font-family: var(--font-sans);
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--medx-text-secondary);
+}
+
+/* Compact Body Text (14px) */
+.medx-body-sm {
+  font-family: var(--font-sans);
+  font-size: 0.875rem; /* 14px */
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--medx-text-secondary);
+}
+
+/* Small Metadata & Badge Label (>= 12px, never unnecessarily tiny) */
+.medx-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem; /* 12px */
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--medx-text-muted);
+}
+
+/* Navigation Links */
+.medx-nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--medx-text-secondary);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+.medx-nav-link:hover {
+  color: var(--medx-text-primary);
+}
+
+/* Form Label */
+.medx-form-label {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  color: var(--medx-text-primary);
+  margin-bottom: var(--space-1);
+  display: block;
+}
+
+/* Helper & Explainer Text */
+.medx-helper-text {
+  font-family: var(--font-sans);
+  font-size: 0.75rem; /* 12px */
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--medx-text-muted);
+}
+
+/* Error Message Text */
+.medx-error-text {
+  font-family: var(--font-sans);
+  font-size: 0.75rem; /* 12px */
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--medx-error);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   STANDARDIZED UI COMPONENTS (Buttons, Cards, Inputs, Empty States)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Primary Button (>= 44px touch target) */
+.medx-btn-primary {
+  min-height: 44px;
+  padding: 0.625rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #08AFC1 0%, #0694a2 100%);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(8, 175, 193, 0.35);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+.medx-btn-primary:hover {
+  background: linear-gradient(135deg, #09c2d6 0%, #08AFC1 100%);
+  box-shadow: 0 6px 22px rgba(8, 175, 193, 0.55);
+  transform: translateY(-1px);
+}
+.medx-btn-primary:active {
+  transform: translateY(0);
+}
+.medx-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Secondary Button (Glass Outline, >= 44px) */
+.medx-btn-secondary {
+  min-height: 44px;
+  padding: 0.625rem 1.35rem;
+  border-radius: var(--radius-md);
+  background: rgba(18, 55, 99, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--medx-text-primary);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--medx-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+.medx-btn-secondary:hover {
+  background: rgba(18, 55, 99, 0.55);
+  border-color: rgba(190, 225, 255, 0.45);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.medx-btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Ghost & Icon Button (>= 44px touch target) */
+.medx-btn-ghost {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--medx-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+.medx-btn-ghost:hover {
+  color: var(--medx-text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.medx-btn-icon {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--medx-text-secondary);
+  background: transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+.medx-btn-icon:hover {
+  color: var(--medx-text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Standard Input Control */
+.medx-input {
+  min-height: 44px;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(10, 36, 74, 0.55);
+  border: 1px solid var(--medx-border);
+  color: var(--medx-text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.medx-input::placeholder {
+  color: var(--medx-text-subtle);
+}
+.medx-input:focus {
+  outline: none;
+  border-color: var(--medx-cyan);
+  box-shadow: 0 0 0 3px rgba(8, 175, 193, 0.25);
+}
+
+/* Standard Glass Card */
+.medx-card {
+  background: linear-gradient(135deg, rgba(18, 55, 99, 0.32) 0%, rgba(6, 23, 46, 0.55) 100%);
+  border: 1px solid var(--medx-border);
+  border-top-color: var(--medx-border-highlight);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  box-shadow: var(--medx-shadow-card);
+  transition: all var(--transition-normal);
+}
+
+/* Standard Pill Filter Tabs */
+.medx-pill-tab {
+  min-height: 40px;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  color: var(--medx-text-secondary);
+  background: rgba(18, 55, 99, 0.35);
+  border: 1px solid var(--medx-border);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  user-select: none;
+}
+.medx-pill-tab:hover {
+  color: #ffffff;
+  background: rgba(18, 55, 99, 0.55);
+  border-color: rgba(190, 225, 255, 0.35);
+}
+.medx-pill-tab.active,
+.medx-pill-tab-active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #08AFC1 0%, #0694a2 100%);
+  border-color: #08AFC1;
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(8, 175, 193, 0.45);
+}
+
+/* Honest Empty State Container */
+.medx-empty-state {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border-radius: var(--radius-xl);
+  background: rgba(10, 36, 74, 0.30);
+  border: 1px dashed rgba(190, 225, 255, 0.20);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+.medx-empty-state-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: rgba(8, 175, 193, 0.12);
+  border: 1px solid rgba(8, 175, 193, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--medx-cyan);
+  margin-bottom: var(--space-2);
+}
+.medx-empty-state-title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--medx-text-primary);
+}
+.medx-empty-state-desc {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--medx-text-muted);
+  max-width: 420px;
+  line-height: 1.5;
+}
+
