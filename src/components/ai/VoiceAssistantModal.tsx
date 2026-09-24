@@ -27,7 +27,12 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
 
     // Auto-start listening on open
-    startVoiceListener();
+    const stop = startVoiceListener();
+    return () => {
+      if (stop) {
+        stop();
+      }
+    };
   }, [isOpen]);
 
   const startVoiceListener = () => {

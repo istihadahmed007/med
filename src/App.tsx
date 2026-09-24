@@ -31,26 +31,62 @@ const TextbookLibraryHub = lazy(() => import('./components/textbook/TextbookLibr
 const DrugReferenceHub = lazy(() => import('./components/drug-reference/DrugReferenceHub').then(module => ({ default: module.DrugReferenceHub })));
 const StudyMaterialsHub = lazy(() => import('./components/study/StudyMaterialsHub').then(module => ({ default: module.StudyMaterialsHub })));
 
+const normalizeView = (rawHashOrView: string): NavigationView => {
+  if (!rawHashOrView) return 'dashboard';
+  const rawClean = rawHashOrView.replace(/^#/, '');
+  const parts = rawClean.split('?')[0].split('/');
+  const hash = parts[0].toLowerCase();
+
+  if (hash === 'drugs' || hash === 'drug-reference') {
+    if (parts[1] === 'brand' && parts[2]) {
+      const newUrl = `#drug-reference?brand=${encodeURIComponent(parts[2])}`;
+      window.history.replaceState(null, '', newUrl);
+    }
+    return 'drug-reference';
+  }
+  if (hash === 'library' || hash === 'textbook' || hash === 'textbook-library') {
+    return 'textbook-library';
+  }
+  if (hash === 'study' || hash === 'study-materials') {
+    return 'study-materials';
+  }
+  if (hash === 'clinical-cases' || hash === 'cases') {
+    return 'cases';
+  }
+  if (hash === 'saved' || hash === 'saved-items' || hash === 'bookmarks' || hash === 'revision') {
+    return 'revision';
+  }
+  if (hash === 'profile' || hash === 'account' || hash === 'progress') {
+    return 'progress';
+  }
+  if (hash === 'home' || hash === 'dashboard' || !hash) {
+    return 'dashboard';
+  }
+
+  const validViews: NavigationView[] = [
+    'dashboard', 'study-materials', 'learn', 'across-books', 'textbook-library',
+    'visual-lab', 'cases', 'practice', 'revision', 'progress', 'faculty-admin',
+    'video-studio', 'drug-reference', 'drugs', 'home', '3d-anatomy', 'physiology',
+    'pathology', 'pharmacology', 'clinical-exam', 'ospe', 'osce', 'procedures',
+    'investigations', 'treatment', 'questions', 'ai-viva', 'ai-tutor', 'histology',
+    'surgery', 'diagrams', 'textbook', 'comparison', 'visual-engine'
+  ];
+
+  if (validViews.includes(hash as NavigationView)) {
+    return hash as NavigationView;
+  }
+
+  return 'dashboard';
+};
+
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavigationView>(() => {
     if (typeof window !== 'undefined') {
-      const rawHash = window.location.hash.replace('#', '');
-      const parts = rawHash.split('?')[0].split('/');
-      const hash = parts[0];
-      if (hash === 'drugs' || hash === 'drug-reference') {
-        if (parts[1] === 'brand' && parts[2]) {
-          // deep link support: #drugs/brand/:slug -> query param brand
-          const newUrl = `#drug-reference?brand=${encodeURIComponent(parts[2])}`;
-          window.history.replaceState(null, '', newUrl);
-        }
-        return 'drug-reference';
-      }
-      if (hash === 'study-materials') return 'study-materials';
-      if (hash) return hash as NavigationView;
+      const rawHash = window.location.hash;
+      if (rawHash) return normalizeView(rawHash);
       const params = new URLSearchParams(window.location.search);
       const view = params.get('view');
-      if (view === 'drugs' || view === 'drug-reference') return 'drug-reference';
-      if (view) return view as NavigationView;
+      if (view) return normalizeView(view);
     }
     return 'dashboard';
   });
@@ -67,18 +103,9 @@ export const App: React.FC = () => {
   // Hash links support shareable topic URLs and browser back/forward navigation.
   useEffect(() => {
     const syncView = () => {
-      const rawHash = window.location.hash.slice(1);
-      const parts = rawHash.split('?')[0].split('/');
-      let hash = parts[0];
-      if (hash === 'drugs' || hash === 'drug-reference') {
-        if (parts[1] === 'brand' && parts[2]) {
-          const newUrl = `#drug-reference?brand=${encodeURIComponent(parts[2])}`;
-          window.history.replaceState(null, '', newUrl);
-        }
-        hash = 'drug-reference';
-      }
-      if (hash === 'study-materials') hash = 'study-materials';
-      setCurrentView((hash || 'dashboard') as NavigationView);
+      const rawHash = window.location.hash;
+      const normalized = normalizeView(rawHash);
+      setCurrentView(normalized);
       setMobileMenuOpen(false);
     };
     window.addEventListener('hashchange', syncView);
@@ -321,6 +348,53 @@ export const App: React.FC = () => {
               <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Video Studio…</p>}>
                 <VideoStudioHub />
               </Suspense>
+            )}
+
+            {/* Unrecognized Section Fallback (instead of empty blank screen) */}
+            {!isHomepage &&
+              currentView !== 'study-materials' &&
+              currentView !== 'learn' &&
+              currentView !== 'across-books' &&
+              currentView !== 'textbook-library' &&
+              currentView !== 'textbook' &&
+              currentView !== 'drug-reference' &&
+              currentView !== 'drugs' &&
+              currentView !== 'visual-lab' &&
+              currentView !== 'visual-engine' &&
+              currentView !== '3d-anatomy' &&
+              currentView !== 'physiology' &&
+              currentView !== 'pathology' &&
+              currentView !== 'histology' &&
+              currentView !== 'comparison' &&
+              currentView !== 'diagrams' &&
+              currentView !== 'surgery' &&
+              currentView !== 'pharmacology' &&
+              currentView !== 'investigations' &&
+              currentView !== 'treatment' &&
+              currentView !== 'cases' &&
+              currentView !== 'practice' &&
+              currentView !== 'questions' &&
+              currentView !== 'ospe' &&
+              currentView !== 'osce' &&
+              currentView !== 'ai-viva' &&
+              currentView !== 'clinical-exam' &&
+              currentView !== 'revision' &&
+              currentView !== 'progress' &&
+              currentView !== 'ai-tutor' &&
+              currentView !== 'faculty-admin' &&
+              currentView !== 'video-studio' && (
+                <div className="medx-empty-state max-w-lg mx-auto my-12 p-8">
+                  <div className="medx-empty-state-title">Section Not Found</div>
+                  <p className="medx-empty-state-desc">
+                    The requested medical section could not be located. Choose one of the hubs from the navigation menu.
+                  </p>
+                  <button
+                    onClick={() => handleNavigate('dashboard')}
+                    className="mt-4 px-5 py-2.5 rounded-xl bg-[#08AFC1] text-slate-950 font-bold text-xs sm:text-sm hover:bg-[#09c2d6] transition-colors cursor-pointer"
+                  >
+                    Return to Dashboard
+                  </button>
+                </div>
             )}
           </ErrorBoundary>
         </main>

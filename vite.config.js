@@ -33,6 +33,52 @@ const devApiFallbackPlugin = () => ({
           return;
         }
 
+        if (url.startsWith('/api/auth/me')) {
+          res.statusCode = 200;
+          try {
+            const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
+            if (fs.existsSync(dbPath)) {
+              const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+              if (data.users && data.users[0]) {
+                res.end(JSON.stringify(data.users[0]));
+                return;
+              }
+            }
+          } catch (e) {}
+          res.end(JSON.stringify({
+            id: 'usr-student-01',
+            name: 'Tarek Rahman',
+            email: 'tarek.rahman@dmc.edu.bd',
+            institution: 'Dhaka Medical College',
+            bmdcReg: 'A-89421',
+            yearOfStudy: '4th Year MBBS (Phase 3)',
+            role: 'student'
+          }));
+          return;
+        }
+
+        if (url.startsWith('/api/auth/role') && req.method === 'POST') {
+          let bodyStr = '';
+          req.on('data', chunk => { bodyStr += chunk; });
+          req.on('end', () => {
+            try {
+              const body = JSON.parse(bodyStr || '{}');
+              const role = body.role;
+              if (['student', 'faculty', 'author', 'reviewer', 'admin'].includes(role)) {
+                res.statusCode = 200;
+                res.end(JSON.stringify({ success: true, role }));
+              } else {
+                res.statusCode = 400;
+                res.end(JSON.stringify({ error: 'Invalid role' }));
+              }
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: 'Bad Request' }));
+            }
+          });
+          return;
+        }
+
         if (url.startsWith('/api/video-studio/taxonomy')) {
           res.statusCode = 200;
           try {

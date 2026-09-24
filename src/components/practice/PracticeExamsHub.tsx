@@ -35,6 +35,12 @@ const PRACTICE_TABS: { id: PracticeTab; label: string; icon: any; badge?: string
 export const PracticeExamsHub: React.FC<PracticeExamsHubProps> = ({ initialSubTab = 'questions' }) => {
   const [activeTab, setActiveTab] = useState<PracticeTab>(initialSubTab);
 
+  React.useEffect(() => {
+    if (initialSubTab) {
+      setActiveTab(initialSubTab);
+    }
+  }, [initialSubTab]);
+
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-16">
       {/* Header */}

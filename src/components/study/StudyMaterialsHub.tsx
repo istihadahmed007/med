@@ -44,15 +44,15 @@ const PHASE_LABELS: Record<string, string> = {
 
 export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate }) => {
   // Parse sub-route from hash
-  const getInitialRoute = () => {
+  const parseRouteFromHash = () => {
     if (typeof window === 'undefined') return { mode: 'hub' as ViewMode, subjectSlug: '', topicId: '', tab: 'subjects' as HubTab };
-    const hash = window.location.hash.replace('#study-materials', '').replace(/^\//, '');
+    const hash = window.location.hash.replace(/^#study-materials/, '').replace(/^\//, '');
     const parts = hash.split('/').filter(Boolean);
     if (parts.length >= 2) {
       const subject = STUDY_SUBJECTS.find(s => s.slug === parts[0]);
       if (subject) {
         for (const unit of subject.units) {
-          const topic = unit.topics.find(t => t.slug === parts[1]);
+          const topic = unit.topics.find(t => t.slug === parts[1] || t.id === parts[1]);
           if (topic) return { mode: 'topic-reader' as ViewMode, subjectSlug: parts[0], topicId: topic.id, tab: 'subjects' as HubTab };
         }
         return { mode: 'subject-detail' as ViewMode, subjectSlug: parts[0], topicId: '', tab: 'subjects' as HubTab };
@@ -63,18 +63,43 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
       if (parts[0] === 'revision') return { mode: 'hub' as ViewMode, subjectSlug: '', topicId: '', tab: 'revision' as HubTab };
       if (parts[0] === 'documents') return { mode: 'hub' as ViewMode, subjectSlug: '', topicId: '', tab: 'documents' as HubTab };
       if (parts[0] === 'cms') return { mode: 'hub' as ViewMode, subjectSlug: '', topicId: '', tab: 'cms' as HubTab };
-      return { mode: 'subject-detail' as ViewMode, subjectSlug: parts[0], topicId: '', tab: 'subjects' as HubTab };
+
+      const subject = STUDY_SUBJECTS.find(s => s.slug === parts[0]);
+      if (subject) {
+        return { mode: 'subject-detail' as ViewMode, subjectSlug: parts[0], topicId: '', tab: 'subjects' as HubTab };
+      }
+
+      // Check if parts[0] is directly a topic ID
+      const directTopic = getTopicById(parts[0]);
+      if (directTopic) {
+        return { mode: 'topic-reader' as ViewMode, subjectSlug: directTopic.subject.slug, topicId: directTopic.topic.id, tab: 'subjects' as HubTab };
+      }
     }
     return { mode: 'hub' as ViewMode, subjectSlug: '', topicId: '', tab: 'subjects' as HubTab };
   };
 
-  const initial = getInitialRoute();
+  const initial = parseRouteFromHash();
   const [viewMode, setViewMode] = useState<ViewMode>(initial.mode);
   const [activeTab, setActiveTab] = useState<HubTab>(initial.tab);
   const [selectedSubjectSlug, setSelectedSubjectSlug] = useState(initial.subjectSlug);
   const [selectedTopicId, setSelectedTopicId] = useState(initial.topicId);
   const [searchQuery, setSearchQuery] = useState('');
   const [phaseFilter, setPhaseFilter] = useState<string>('all');
+
+  // Sync internal state when URL hash changes (browser back/forward or external link)
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      if (!window.location.hash.startsWith('#study-materials')) return;
+      const route = parseRouteFromHash();
+      setViewMode(route.mode);
+      setActiveTab(route.tab);
+      setSelectedSubjectSlug(route.subjectSlug);
+      setSelectedTopicId(route.topicId);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const currentRole = StorageService.getRole();
   const completedIds = useMemo(() => StudyService.getCompletedTopicIds(), []);
@@ -101,7 +126,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
   const handleSelectSubject = (subject: StudySubject) => {
     setSelectedSubjectSlug(subject.slug);
     setViewMode('subject-detail');
-    window.history.replaceState(null, '', `#study-materials/${subject.slug}`);
+    window.location.hash = `#study-materials/${subject.slug}`;
     document.title = `${subject.name} — MEDX Study Materials`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -110,7 +135,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
     setSelectedTopicId(topicId);
     setSelectedSubjectSlug(subjectSlug);
     setViewMode('topic-reader');
-    window.history.replaceState(null, '', `#study-materials/${subjectSlug}/${topicSlug}`);
+    window.location.hash = `#study-materials/${subjectSlug}/${topicSlug}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -120,7 +145,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
       setSelectedTopicId(topicId);
       setSelectedSubjectSlug(found.subject.slug);
       setViewMode('topic-reader');
-      window.history.replaceState(null, '', `#study-materials/${found.subject.slug}/${found.topic.slug}`);
+      window.location.hash = `#study-materials/${found.subject.slug}/${found.topic.slug}`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -129,16 +154,20 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
     setViewMode('hub');
     setSelectedSubjectSlug('');
     setSelectedTopicId('');
-    window.history.replaceState(null, '', '#study-materials');
+    window.location.hash = '#study-materials';
     document.title = 'Study Materials — MEDX';
   };
 
   const handleBackToSubject = () => {
     setViewMode('subject-detail');
     setSelectedTopicId('');
-    window.history.replaceState(null, '', `#study-materials/${selectedSubjectSlug}`);
-    const subject = STUDY_SUBJECTS.find(s => s.slug === selectedSubjectSlug);
-    if (subject) document.title = `${subject.name} — MEDX Study Materials`;
+    if (selectedSubjectSlug) {
+      window.location.hash = `#study-materials/${selectedSubjectSlug}`;
+      const subject = STUDY_SUBJECTS.find(s => s.slug === selectedSubjectSlug);
+      if (subject) document.title = `${subject.name} — MEDX Study Materials`;
+    } else {
+      window.location.hash = '#study-materials';
+    }
   };
 
   // ──────────────────────────────────────────
@@ -216,7 +245,7 @@ export const StudyMaterialsHub: React.FC<StudyMaterialsHubProps> = ({ onNavigate
               key={tab.id}
               onClick={() => {
                 setActiveTab(tab.id as HubTab);
-                window.history.replaceState(null, '', `#study-materials/${tab.id === 'subjects' ? '' : tab.id}`);
+                window.location.hash = tab.id === 'subjects' ? '#study-materials' : `#study-materials/${tab.id}`;
               }}
               className={`min-h-[44px] flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
                 isActive

@@ -433,9 +433,32 @@ textarea:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body::before {
-    animation: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+  body::before {
+    animation: none !important;
+  }
+}
+
+/* Accessible keyboard focus states (WCAG 2.4.7 Focus Visible) */
+:focus-visible {
+  outline: 2px solid var(--medx-cyan);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--medx-cyan);
+  outline-offset: 2px;
 }
 
 @media (max-width: 767px) {

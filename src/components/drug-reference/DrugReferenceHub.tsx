@@ -127,7 +127,7 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
   const [importPayloadInput, setImportPayloadInput] = useState('');
   const [restEndpointInput, setRestEndpointInput] = useState('');
   const [restAuthTokenInput, setRestAuthTokenInput] = useState('');
-  const [adminKeyInput, setAdminKeyInput] = useState('medx-admin-secret-2025');
+  const [adminKeyInput, setAdminKeyInput] = useState('');
   const [importStatusMessage, setImportStatusMessage] = useState<{ text: string; isError: boolean } | null>(null);
   const [isImportRunning, setIsImportRunning] = useState(false);
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
@@ -184,6 +184,25 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
   useEffect(() => {
     syncToUrl();
   }, [syncToUrl]);
+
+  // Synchronize state when URL hash changes (browser back/forward navigation)
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (!window.location.hash.startsWith('#drug-reference')) return;
+      const params = getUrlParams();
+      setQuery(params.query);
+      setSelectedLetter(params.letter);
+      setActiveCategory(params.category);
+      setSelectedClass(params.selectedClass);
+      setSelectedManufacturer(params.selectedManufacturer);
+      setSelectedDosageForm(params.selectedForm);
+      setSelectedPrescriptionStatus(params.prescriptionStatus);
+      setActiveBrandSlug(params.brand || null);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Initial load
   useEffect(() => {

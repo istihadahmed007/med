@@ -97,13 +97,31 @@ export const QuestionBankView: React.FC = () => {
 
       {/* Questions List */}
       <div className="space-y-4">
-        {filteredQuestions.map((q, qIndex) => {
-          const isAnswered = selectedAnswers[q.id] !== undefined;
-          const userOption = selectedAnswers[q.id];
-          const isCorrect = userOption === q.correctOptionIndex;
+        {filteredQuestions.length === 0 ? (
+          <div className="medx-empty-state p-8 rounded-2xl bg-slate-900/40 border border-slate-800 text-center space-y-3">
+            <HelpCircle className="w-10 h-10 text-cyan-500/50 mx-auto" />
+            <h4 className="text-base font-semibold text-slate-200">No questions found</h4>
+            <p className="text-sm text-slate-400 max-w-md mx-auto">
+              No questions match the current filter criteria for "{selectedSubject}". Try selecting "All" or resetting filters.
+            </p>
+            <button
+              onClick={() => {
+                setSelectedSubject('All');
+                setSelectedType('MCQ');
+              }}
+              className="mt-2 px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-semibold cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          filteredQuestions.map((q, qIndex) => {
+            const isAnswered = selectedAnswers[q.id] !== undefined;
+            const userOption = selectedAnswers[q.id];
+            const isCorrect = userOption === q.correctOptionIndex;
 
-          return (
-            <div key={q.id} className="glass-panel-elevated p-6 rounded-2xl border border-slate-800 space-y-4">
+            return (
+              <div key={q.id} className="glass-panel-elevated p-6 rounded-2xl border border-slate-800 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest bg-cyan-950/60 px-2.5 py-0.5 rounded border border-cyan-500/30">
                   {q.subject} • {q.phase}
@@ -187,7 +205,8 @@ export const QuestionBankView: React.FC = () => {
               )}
             </div>
           );
-        })}
+        })
+      )}
       </div>
     </div>
   );

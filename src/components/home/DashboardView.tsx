@@ -19,6 +19,7 @@ import { NavigationView } from '../../types';
 import { StorageService } from '../../services/storageService';
 import { StudyService } from '../../services/studyService';
 import { StudyReadingProgress } from '../../types/study';
+import { getTopicById } from '../../data/studyMaterialsData';
 
 interface DashboardViewProps {
   onNavigate: (view: NavigationView) => void;
@@ -198,7 +199,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onOpen
   };
 
   const handleResumeReading = (item: StudyReadingProgress) => {
-    window.location.hash = `study-materials/${item.topicId}`;
+    const topicData = getTopicById(item.topicId);
+    if (topicData) {
+      window.location.hash = `#study-materials/${topicData.subject.slug}/${topicData.topic.slug}`;
+    } else {
+      window.location.hash = `#study-materials/${item.topicId}`;
+    }
   };
 
   return (

@@ -65,6 +65,12 @@ export const VisualLabHub: React.FC<VisualLabHubProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<VisualLabTab>(initialSubTab);
 
+  React.useEffect(() => {
+    if (initialSubTab) {
+      setActiveTab(initialSubTab);
+    }
+  }, [initialSubTab]);
+
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-16">
       {/* Visual Lab Header */}
