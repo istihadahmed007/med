@@ -126,24 +126,37 @@ export const OspeEngine: React.FC = () => {
           {/* Visual representation */}
           <div className="w-full h-56 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center p-4 relative overflow-hidden text-center">
             {station.specimenType === '3d-heart' ? (
-              <div className="relative flex flex-col items-center">
-                <div className="w-28 h-32 rounded-full bg-gradient-to-b from-rose-600 to-red-900 relative shadow-glow-rose flex items-center justify-center">
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 absolute top-8 left-12 animate-ping" />
-                  <span className="text-[10px] font-mono text-cyan-300 bg-slate-950/80 px-1.5 py-0.5 rounded border border-cyan-400/50 absolute top-4 left-10">
-                    Marker #1
-                  </span>
+              <div className="relative flex flex-col items-center w-full h-full justify-center">
+                <div className="relative w-36 h-36 rounded-2xl overflow-hidden bg-slate-950 border border-slate-700 shadow-glass flex items-center justify-center">
+                  <img
+                    src="/anatomy/heart/organ.webp"
+                    alt="Gross Human Cardiac Specimen"
+                    className="w-full h-full object-contain filter drop-shadow-md"
+                  />
+                  <div className="absolute top-12 left-16 flex items-center gap-1">
+                    <span className="w-3 h-3 rounded-full bg-cyan-400 border border-white animate-ping" />
+                    <span className="text-[10px] font-mono font-bold text-cyan-300 bg-slate-950/90 px-1.5 py-0.5 rounded border border-cyan-400 shadow-glow-cyan">
+                      Pointer (A)
+                    </span>
+                  </div>
                 </div>
-                <span className="text-xs font-bold text-white mt-3">Gross Cardiac Specimen</span>
-                <span className="text-[11px] text-slate-400">Pointer placed on anterior ventricular wall</span>
+                <span className="text-xs font-bold text-white mt-2">Gross Cardiac Specimen</span>
+                <span className="text-[11px] text-slate-400">Pointer placed in anterior interventricular sulcus</span>
               </div>
             ) : station.specimenType === 'histology-slide' ? (
-              <div className="relative flex flex-col items-center">
-                <div className="w-28 h-28 rounded-full border-4 border-slate-700 bg-gradient-to-br from-indigo-950 via-slate-900 to-rose-950 flex items-center justify-center relative">
-                  <div className="w-16 h-8 rounded-full bg-amber-500/40 border border-amber-300/60" />
-                  <span className="text-[10px] text-amber-300 font-mono absolute bottom-2">Atheroma</span>
+              <div className="relative flex flex-col items-center w-full h-full justify-center">
+                <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-slate-700 bg-slate-950 shadow-glass flex items-center justify-center">
+                  <img
+                    src="/anatomy/heart/microscopic.webp"
+                    alt="Histopathology Specimen"
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="text-[10px] text-amber-300 font-mono bg-slate-950/80 px-2 py-0.5 rounded border border-amber-400/50 absolute bottom-2">
+                    40x High-Power
+                  </span>
                 </div>
-                <span className="text-xs font-bold text-white mt-3">H&E Histopathology Section</span>
-                <span className="text-[11px] text-slate-400">Arterial cross-section with lumen stenosis</span>
+                <span className="text-xs font-bold text-white mt-2">Histopathology Slide</span>
+                <span className="text-[11px] text-slate-400">Striated myocardium with intercalated discs</span>
               </div>
             ) : (
               <div className="relative flex flex-col items-center">

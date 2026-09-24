@@ -455,7 +455,7 @@ export const ANATOMY_MODELS: AnatomyModel[] = [
     model: "/models/human_body.glb",
     scientificName: "Corpus Humanum",
     poetic: "The architectural synthesis",
-    thumbnail: "/anatomy/regional_male.webp",
+    thumbnail: "/anatomy/torso_hero.png",
     description: "Complete systemic framework demonstrating spatial relationships between skeletal, muscular, visceral, and nervous architecture.",
     size: "Standard anatomical proportion (175 cm)",
     weight: "Full anatomical scale",
@@ -479,6 +479,11 @@ export const ANATOMY_MODELS: AnatomyModel[] = [
     ],
     accent: "#6366f1",
     available: true,
+    illustrations: {
+      organ: "/anatomy/torso_hero.png",
+      thumb: "/anatomy/torso_hero.png",
+      location: "/anatomy/torso_hero.png"
+    },
     hotspots: [
       { id: "cranium", ta: "Cranium", label: "Cranium & Encephalon", detail: "Protects cerebral hemispheres and sensory organs", position: [0, 1.6, 0.1], color: "#a855f7" },
       { id: "thorax", ta: "Thorax", label: "Thoracic Cage", detail: "Houses cardiopulmonary apparatus within protective ribs", position: [0, 0.8, 0.2], color: "#f43f5e" },

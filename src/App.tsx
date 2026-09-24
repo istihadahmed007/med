@@ -278,6 +278,11 @@ export const App: React.FC = () => {
                     currentView === 'investigations' ? 'radiology-dicom' :
                     '3d-anatomy'
                   }
+                  initialOrgan={
+                    typeof window !== 'undefined'
+                      ? (new URLSearchParams(window.location.hash.split('?')[1] || window.location.search).get('organ') || undefined)
+                      : undefined
+                  }
                   onNavigateToCase={() => handleNavigate('cases')}
                   onStartViva={() => handleNavigate('ai-viva')}
                 />

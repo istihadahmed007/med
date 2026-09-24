@@ -29,6 +29,7 @@ import { XrayViewer } from '../investigation/XrayViewer';
 
 interface VisualLabHubProps {
   initialSubTab?: VisualLabTab;
+  initialOrgan?: string;
   onNavigateToCase?: (caseId: string) => void;
   onStartViva?: (structureId: string) => void;
 }
@@ -60,6 +61,7 @@ const LAB_TABS: { id: VisualLabTab; label: string; icon: any; category: string; 
 
 export const VisualLabHub: React.FC<VisualLabHubProps> = ({
   initialSubTab = '3d-anatomy',
+  initialOrgan,
   onNavigateToCase,
   onStartViva
 }) => {
@@ -124,6 +126,7 @@ export const VisualLabHub: React.FC<VisualLabHubProps> = ({
       <div className="w-full min-h-[600px] rounded-3xl bg-slate-950 border border-slate-800/80 p-3 sm:p-6 shadow-glass">
         {activeTab === '3d-anatomy' && (
           <AnatomyCanvas
+            initialOrgan={initialOrgan}
             onNavigateToCase={onNavigateToCase}
             onStartViva={onStartViva}
           />

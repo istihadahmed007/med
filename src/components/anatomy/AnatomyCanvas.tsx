@@ -47,6 +47,20 @@ export const AnatomyCanvas: React.FC<AnatomyCanvasProps> = ({
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
   const [isAttributionOpen, setIsAttributionOpen] = useState(false);
 
+  // Sync when initialOrgan changes from navigation
+  useEffect(() => {
+    if (initialOrgan) {
+      const found = ANATOMY_MODELS.find(
+        (m) => m.id.toLowerCase() === initialOrgan.toLowerCase()
+      );
+      if (found) {
+        setSelectedModel(found);
+        setSelectedHotspot(null);
+        setActiveTab("3d");
+      }
+    }
+  }, [initialOrgan]);
+
   // Queue idle prefetching of adjacent models after initial render
   useEffect(() => {
     const urlsToWarm = ANATOMY_MODELS.filter((m) => m.id !== selectedModel.id).map(
@@ -137,7 +151,7 @@ export const AnatomyCanvas: React.FC<AnatomyCanvasProps> = ({
 
       {/* 2. Main Visual Canvas Section */}
       <div className="w-full">
-        {activeTab === "3d" && (
+        <div className={activeTab === "3d" ? "block" : "hidden"}>
           <AnatomyViewer
             model={selectedModel}
             onSelectHotspot={setSelectedHotspot}
@@ -145,7 +159,7 @@ export const AnatomyCanvas: React.FC<AnatomyCanvasProps> = ({
             onOpenHistology={() => setActiveTab("histology")}
             onOpenPathology={() => setActiveTab("pathology")}
           />
-        )}
+        </div>
 
         {/* Histology Specimen Microscopy View */}
         {activeTab === "histology" && selectedModel.illustrations?.microscopic && (

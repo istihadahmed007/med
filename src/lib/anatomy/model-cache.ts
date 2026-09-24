@@ -52,13 +52,15 @@ class ModelCacheManager {
   }
 
   public resetMaterials(organ: LoadedOrgan) {
-    organ.pivot.rotation.set(0.05, -0.28, 0);
+    organ.pivot.rotation.set(0, 0, 0);
     organ.pivot.position.set(0, 0, 0);
     organ.meshes.forEach((mesh) => {
       this.forEachMaterial(mesh, (material) => {
         material.transparent = false;
         material.opacity = 1;
         material.depthWrite = true;
+        material.depthTest = true;
+        material.side = THREE.DoubleSide;
         material.clippingPlanes = null;
         if (material instanceof THREE.MeshStandardMaterial) {
           material.wireframe = false;

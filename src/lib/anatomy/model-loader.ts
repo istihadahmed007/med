@@ -100,7 +100,7 @@ export class AnatomyModelLoader {
     const pivot = new THREE.Group();
     pivot.name = `organ-pivot-${id}`;
     pivot.add(model);
-    pivot.rotation.set(0.05, -0.28, 0);
+    pivot.rotation.set(0, 0, 0);
 
     const meshes: THREE.Mesh[] = [];
 
@@ -117,12 +117,12 @@ export class AnatomyModelLoader {
         material.opacity = 1;
         material.depthWrite = true;
         material.depthTest = true;
-        material.side = THREE.FrontSide;
+        material.side = THREE.DoubleSide;
 
         if (material instanceof THREE.MeshStandardMaterial) {
-          material.roughness = THREE.MathUtils.clamp(material.roughness ?? 0.5, 0.42, 0.62);
-          material.metalness = 0;
-          material.envMapIntensity = 0.35;
+          material.roughness = THREE.MathUtils.clamp(material.roughness ?? 0.5, 0.40, 0.65);
+          material.metalness = THREE.MathUtils.clamp(material.metalness ?? 0, 0, 0.1);
+          material.envMapIntensity = 0.65;
           material.emissive.set(0x000000);
           material.emissiveIntensity = 0;
 
@@ -138,11 +138,14 @@ export class AnatomyModelLoader {
             material.aoMap,
           ]) {
             if (!map) continue;
-            map.anisotropy = this.maxAnisotropy;
-            map.generateMipmaps = true;
-            map.minFilter = THREE.LinearMipmapLinearFilter;
-            map.magFilter = THREE.LinearFilter;
-            map.needsUpdate = true;
+            try {
+              map.anisotropy = this.maxAnisotropy;
+              map.minFilter = THREE.LinearMipmapLinearFilter;
+              map.magFilter = THREE.LinearFilter;
+              map.needsUpdate = true;
+            } catch {
+              // Ignore texture sampler adjustment errors on non-standard maps
+            }
           }
         }
         material.needsUpdate = true;
