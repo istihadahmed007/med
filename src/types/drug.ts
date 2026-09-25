@@ -13,10 +13,12 @@ export type PrescriptionStatus =
   | 'Controlled';       // Narcotics / Controlled substances
 
 export type MedicalReviewStatus = 
-  | 'draft' 
+  | 'imported' 
+  | 'source_matched' 
   | 'clinical_review' 
   | 'approved' 
   | 'published' 
+  | 'draft' 
   | 'superseded' 
   | 'archived';
 
@@ -547,4 +549,42 @@ export interface DrugSearchParams {
   activeStatus?: string;
   page?: number;
   limit?: number;
+}
+
+export interface IncompleteMedicineRecord {
+  id: string;
+  name: string;
+  status: MedicalReviewStatus | string;
+  missingFields: string[];
+  brandCount: number;
+}
+
+export interface ClinicalCoverageReport {
+  totalGenerics: number;
+  byStatus: {
+    imported: number;
+    source_matched: number;
+    clinical_review: number;
+    published: number;
+    other: number;
+  };
+  fieldCompleteness: {
+    atcCode: number;
+    indications: number;
+    dosageGuidance: number;
+    contraindications: number;
+    adverseEffects: number;
+    seriousWarnings: number;
+    mechanismOfAction: number;
+    pharmacokinetics: number;
+    pregnancyInfo: number;
+    renalHepatic: number;
+    sources: number;
+  };
+  totalBrands: number;
+  verifiedBrands: number;
+  pendingBrands: number;
+  incompleteGenericsCount: number;
+  incompleteGenerics: IncompleteMedicineRecord[];
+  generatedAt: string;
 }

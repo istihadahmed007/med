@@ -579,6 +579,29 @@ const devApiFallbackPlugin = () => ({
           return;
         }
 
+        if (url.startsWith('/api/drugs/governance/coverage-report') && req.method === 'GET') {
+          res.statusCode = 200;
+          res.end(JSON.stringify(DrugService.getCoverageReport()));
+          return;
+        }
+
+        if (url.startsWith('/api/drugs/governance/review-status') && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const payload = JSON.parse(body || '{}');
+              const generic = DrugService.updateClinicalReviewStatus(payload.genericId, payload);
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true, generic }));
+            } catch (err) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+          });
+          return;
+        }
+
         if (url.startsWith('/api/drugs/governance/audit-logs') && req.method === 'GET') {
           res.statusCode = 200;
           res.end(JSON.stringify(DrugService.getAuditLogs()));

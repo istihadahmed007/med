@@ -739,76 +739,71 @@ export class DrugService {
       }
     }
 
-    if (!generic || !generic.indications || generic.indications.length === 0) {
+    if (!generic) {
       const genName = brand.genericId.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
       generic = {
-        ...(generic || {}),
         id: brand.genericId,
-        name: generic?.name || genName,
-        nameBn: generic?.nameBn || '',
+        name: genName,
+        nameBn: '',
         normalizedName: brand.genericId.toLowerCase(),
-        pharmacologicalClass: generic?.pharmacologicalClass || 'Pharmaceutical Active Substance (DGDA Registered)',
-        therapeuticClass: generic?.therapeuticClass || 'General Medicine & Therapeutics',
-        therapeuticClassId: generic?.therapeuticClassId || 'general',
-        atcCode: generic?.atcCode && generic.atcCode !== 'N/A' ? generic.atcCode : 'VAR01',
-        prescriptionStatus: generic?.prescriptionStatus || 'POM',
-        bmdcCurriculumPhase: 'Pharmacology Phase II',
-        mechanismOfAction: generic?.mechanismOfAction || 'Functions per official pharmacological class mechanism. Interacts with specific cellular receptors and enzymatic targets to produce therapeutic modulation per approved clinical indication.',
-        receptorOrTarget: generic?.receptorOrTarget || 'Cellular Target Under Clinical Review',
-        indications: generic?.indications?.length ? generic.indications : [{
-          id: 'ind-default',
-          name: `Approved Clinical Indications (${genName})`,
-          isPrimary: true,
-          guidelineRecommendation: 'Prescribed according to DGDA registered indications and clinical diagnosis.'
-        }],
-        contraindications: generic?.contraindications?.length ? generic.contraindications : [{
-          condition: 'Known hypersensitivity to active substance or formulation excipients',
-          type: 'absolute',
-          reason: 'Risk of acute allergic or anaphylactoid reaction'
-        }],
-        dosageGuidance: generic?.dosageGuidance?.adult ? generic.dosageGuidance : {
-          adult: 'Dosage must be individualized according to patient clinical condition, severity of illness, and specific DGDA-approved commercial formulation. Refer to prescribing information.',
+        pharmacologicalClass: 'Pharmaceutical Active Substance (Pending Monograph)',
+        therapeuticClass: 'General Medicine & Therapeutics',
+        therapeuticClassId: 'general',
+        atcCode: '',
+        prescriptionStatus: 'POM',
+        bmdcCurriculumPhase: '',
+        mechanismOfAction: '',
+        receptorOrTarget: '',
+        indications: [],
+        contraindications: [],
+        dosageGuidance: {
+          adult: '',
           routes: [brand.route || 'Oral']
         },
-        doseAdjustment: generic?.doseAdjustment || {
-          renal: 'Evaluate renal function (eGFR); adjust dosage according to clinical protocols if renally cleared.',
-          hepatic: 'Exercise clinical caution in patients with hepatic impairment.'
+        doseAdjustment: {
+          renal: '',
+          hepatic: ''
         },
-        adverseEffects: generic?.adverseEffects?.common?.length ? generic.adverseEffects : {
-          common: ['Class-typical adverse effects may include gastrointestinal intolerance, headache, or mild hypersensitivity.'],
+        adverseEffects: {
+          common: [],
           uncommon: [],
           rare: [],
-          seriousWarnings: ['Prescription medicine: evaluate patient history, renal/hepatic function, and concomitant therapies prior to prescribing.']
+          seriousWarnings: []
         },
-        precautions: generic?.precautions?.length ? generic.precautions : [
-          'Confirm diagnosis and rule out contraindications before initiating therapy.',
-          'Check for concurrent medications to prevent potential pharmacokinetic drug interactions.'
-        ],
-        monitoringRequirements: generic?.monitoringRequirements || [],
-        foodInteractions: generic?.foodInteractions || 'Standard administration: take as directed with water.',
-        pregnancyInfo: generic?.pregnancyInfo || {
-          category: 'C',
-          details: 'Weigh clinical maternal benefit against potential fetal risk prior to prescribing.'
+        precautions: [],
+        monitoringRequirements: [],
+        foodInteractions: '',
+        pregnancyInfo: {
+          category: '',
+          details: ''
         },
-        breastfeedingInfo: generic?.breastfeedingInfo || {
-          safety: 'caution',
-          details: 'Assess infant safety profile before initiating medication during lactation.'
+        breastfeedingInfo: {
+          safety: 'insufficient_data',
+          details: ''
         },
-        paediatricConsiderations: generic?.paediatricConsiderations || 'Dose according to verified pediatric weight protocols.',
-        geriatricConsiderations: generic?.geriatricConsiderations || 'Initiate at lower dose range; monitor renal clearance.',
-        overdoseInformation: generic?.overdoseInformation || {
-          symptoms: 'Exaggerated pharmacological response or gastrointestinal upset.',
-          management: 'Supportive and symptomatic management.'
+        paediatricConsiderations: '',
+        geriatricConsiderations: '',
+        overdoseInformation: {
+          symptoms: '',
+          management: ''
         },
-        storageInformation: generic?.storageInformation || 'Store in a cool, dry place away from direct sunlight.',
-        sources: generic?.sources || [],
-        medicalReview: generic?.medicalReview || {
-          status: 'draft',
+        storageInformation: '',
+        sources: brand.source ? [{
+          organization: brand.source,
+          title: 'Catalog Ingestion Record',
+          url: '',
+          publicationDate: brand.lastVerifiedDate || '',
+          jurisdiction: 'Bangladesh',
+          fetchedDate: brand.lastVerifiedDate || '',
+          version: '1.0-catalog'
+        }] : [],
+        medicalReview: {
+          status: 'imported',
           reviewerName: '',
-          reviewerCredentials: 'MBBS Curriculum Pharmacology Review',
-          reviewDate: '2026-09-25',
-          lastUpdated: '2026-09-25',
-          contentVersion: '1.0-catalog'
+          reviewerCredentials: '',
+          reviewDate: '',
+          lastUpdated: '',
+          contentVersion: '1.0-unreviewed'
         }
       };
     }
@@ -1010,5 +1005,175 @@ export class DrugService {
   static getAuditLogs() {
     const db = this.loadDb();
     return db.auditLogs || [];
+  }
+
+  /**
+   * Medical Governance: Clinical Coverage Report
+   * Summarizes verified vs unverified/draft generics, field completeness, and brand statuses
+   */
+  static getCoverageReport() {
+    const db = this.loadDb();
+    const generics = db.generics || [];
+    const brands = db.brands || [];
+
+    const statusCounts = {
+      imported: 0,
+      source_matched: 0,
+      clinical_review: 0,
+      published: 0,
+      other: 0
+    };
+
+    const fieldCompleteness = {
+      atcCode: 0,
+      indications: 0,
+      dosageGuidance: 0,
+      contraindications: 0,
+      adverseEffects: 0,
+      seriousWarnings: 0,
+      mechanismOfAction: 0,
+      pharmacokinetics: 0,
+      pregnancyInfo: 0,
+      renalHepatic: 0,
+      sources: 0
+    };
+
+    const incompleteGenerics = [];
+
+    for (const g of generics) {
+      const status = (g.medicalReview?.status || 'imported').toLowerCase();
+      if (status === 'published' || status === 'approved') statusCounts.published++;
+      else if (status === 'clinical_review') statusCounts.clinical_review++;
+      else if (status === 'source_matched') statusCounts.source_matched++;
+      else if (status === 'imported' || status === 'draft') statusCounts.imported++;
+      else statusCounts.other++;
+
+      const hasAtc = !!g.atcCode && g.atcCode !== 'VAR01' && g.atcCode.trim().length >= 5;
+      const hasIndications = Array.isArray(g.indications) && g.indications.length > 0 && !g.indications.some(i => i.id === 'ind-default');
+      const hasDosage = !!g.dosageGuidance?.adult && g.dosageGuidance.adult.trim().length > 0 && !g.dosageGuidance.adult.includes('As directed by physician');
+      const hasContra = Array.isArray(g.contraindications) && g.contraindications.length > 0;
+      const hasAdverse = (Array.isArray(g.adverseEffects?.common) && g.adverseEffects.common.length > 0) || (Array.isArray(g.adverseEffects?.seriousWarnings) && g.adverseEffects.seriousWarnings.length > 0);
+      const hasSeriousWarnings = Array.isArray(g.adverseEffects?.seriousWarnings) && g.adverseEffects.seriousWarnings.length > 0;
+      const hasMoa = !!g.mechanismOfAction && g.mechanismOfAction.trim().length > 0 && !g.mechanismOfAction.includes('Functions per official pharmacological class mechanism');
+      const hasPk = !!g.pharmacokinetics && (!!g.pharmacokinetics.bioavailability || !!g.pharmacokinetics.halfLife);
+      const hasPreg = !!g.pregnancyInfo?.details && g.pregnancyInfo.details.trim().length > 0 && !g.pregnancyInfo.details.includes('Evaluate risk-benefit');
+      const hasRenalHepatic = (!!g.doseAdjustment?.renal && g.doseAdjustment.renal.trim().length > 0 && !g.doseAdjustment.renal.includes('None noted')) ||
+                              (!!g.doseAdjustment?.hepatic && g.doseAdjustment.hepatic.trim().length > 0 && !g.doseAdjustment.hepatic.includes('None noted'));
+      const hasSources = Array.isArray(g.sources) && g.sources.length > 0 && g.sources.some(s => s.organization && !s.organization.includes('CSV Import'));
+
+      if (hasAtc) fieldCompleteness.atcCode++;
+      if (hasIndications) fieldCompleteness.indications++;
+      if (hasDosage) fieldCompleteness.dosageGuidance++;
+      if (hasContra) fieldCompleteness.contraindications++;
+      if (hasAdverse) fieldCompleteness.adverseEffects++;
+      if (hasSeriousWarnings) fieldCompleteness.seriousWarnings++;
+      if (hasMoa) fieldCompleteness.mechanismOfAction++;
+      if (hasPk) fieldCompleteness.pharmacokinetics++;
+      if (hasPreg) fieldCompleteness.pregnancyInfo++;
+      if (hasRenalHepatic) fieldCompleteness.renalHepatic++;
+      if (hasSources) fieldCompleteness.sources++;
+
+      const missingFields = [];
+      if (!hasAtc) missingFields.push('ATC Code');
+      if (!hasIndications) missingFields.push('Indications');
+      if (!hasDosage) missingFields.push('Dosage');
+      if (!hasContra) missingFields.push('Contraindications');
+      if (!hasAdverse) missingFields.push('Adverse Effects');
+      if (!hasMoa) missingFields.push('Mechanism');
+      if (!hasPk) missingFields.push('Pharmacokinetics');
+      if (!hasPreg) missingFields.push('Pregnancy/Lactation');
+      if (!hasRenalHepatic) missingFields.push('Renal/Hepatic');
+      if (!hasSources) missingFields.push('Sources');
+
+      if (missingFields.length > 0 || status !== 'published') {
+        incompleteGenerics.push({
+          id: g.id,
+          name: g.name,
+          status,
+          missingFields,
+          brandCount: brands.filter(b => b.genericId.toLowerCase() === g.id.toLowerCase()).length
+        });
+      }
+    }
+
+    const verifiedBrands = brands.filter(b => b.registrationStatus && !b.registrationStatus.includes('Pending') && !b.registrationStatus.includes('Imported') && b.verifiedPrice?.amount).length;
+    const pendingBrands = brands.length - verifiedBrands;
+
+    return {
+      totalGenerics: generics.length,
+      byStatus: statusCounts,
+      fieldCompleteness,
+      totalBrands: brands.length,
+      verifiedBrands,
+      pendingBrands,
+      incompleteGenericsCount: incompleteGenerics.length,
+      incompleteGenerics: incompleteGenerics.slice(0, 100),
+      generatedAt: new Date().toISOString()
+    };
+  }
+
+  /**
+   * Medical Governance: Update Clinical Review Status (Admin Workflow)
+   * imported -> source_matched -> clinical_review -> published
+   */
+  static updateClinicalReviewStatus(genericIdOrPayload, maybePayload = {}) {
+    let genericId;
+    let reviewPayload;
+    if (typeof genericIdOrPayload === 'object' && genericIdOrPayload !== null && genericIdOrPayload.genericId) {
+      genericId = genericIdOrPayload.genericId;
+      reviewPayload = genericIdOrPayload;
+    } else {
+      genericId = genericIdOrPayload;
+      reviewPayload = maybePayload;
+    }
+
+    const { status, reviewerName, reviewerCredentials, reviewNotes, jurisdiction = 'Bangladesh' } = reviewPayload;
+    if (!genericId) return { success: false, error: 'genericId is required' };
+    const validStatuses = ['imported', 'source_matched', 'clinical_review', 'approved', 'published', 'archived'];
+    if (!validStatuses.includes(status)) {
+      return { success: false, error: `Invalid review status: ${status}. Must be one of: ${validStatuses.join(', ')}` };
+    }
+
+    if ((status === 'clinical_review' || status === 'published' || status === 'approved') && (!reviewerName || !reviewerCredentials)) {
+      return { success: false, error: 'Qualified reviewer name and credentials are mandatory for clinical review or published status.' };
+    }
+
+    const db = this.loadDb();
+    const generic = (db.generics || []).find(g => g.id.toLowerCase() === genericId.toLowerCase());
+    if (!generic) return { success: false, error: `Generic with ID "${genericId}" not found` };
+
+    const oldStatus = generic.medicalReview?.status || 'imported';
+    generic.medicalReview = {
+      status,
+      reviewerName: reviewerName || generic.medicalReview?.reviewerName || '',
+      reviewerCredentials: reviewerCredentials || generic.medicalReview?.reviewerCredentials || '',
+      reviewDate: new Date().toISOString().split('T')[0],
+      lastUpdated: new Date().toISOString().split('T')[0],
+      contentVersion: status === 'published' ? '2.1-reviewed' : (generic.medicalReview?.contentVersion || '1.0-draft')
+    };
+
+    if (reviewNotes && !generic.provenanceNote) {
+      generic.provenanceNote = reviewNotes;
+    }
+
+    // Record in auditLogs
+    if (!db.auditLogs) db.auditLogs = [];
+    db.auditLogs.unshift({
+      id: `audit-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      entityType: 'generic',
+      entityId: genericId,
+      editorName: reviewerName || 'Admin Reviewer',
+      editorRole: reviewerCredentials || 'Clinical Reviewer',
+      timestamp: new Date().toISOString(),
+      action: 'review',
+      changedFields: {
+        status: { old: oldStatus, new: status }
+      },
+      reason: reviewNotes || `Transitioned status from ${oldStatus} to ${status}`,
+      reviewerDecision: status
+    });
+
+    this.saveDb(db);
+    return { success: true, generic };
   }
 }

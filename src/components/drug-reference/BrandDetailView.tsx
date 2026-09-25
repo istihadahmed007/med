@@ -13,16 +13,16 @@ interface BrandDetailViewProps {
   onToggleBookmark: () => void;
 }
 
-const ClinicalInfoUnavailable: React.FC<{ message?: string; subtext?: string }> = ({
-  message = 'Monograph details undergoing DGDA / BMDC clinical review.',
-  subtext
+const ClinicalInfoPendingVerification: React.FC<{ message?: string; subtext?: string }> = ({
+  message = 'Clinical information pending verification.',
+  subtext = 'Official product label and clinical evidence verification in progress. Unverified clinical claims are withheld.'
 }) => (
   <div className="drug-info-unavailable" role="status">
-    <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
     </svg>
     <div className="flex flex-col">
-      <span className="font-medium text-slate-700">{message}</span>
+      <span className="font-semibold text-slate-800">{message}</span>
       {subtext && <span className="text-[11px] text-slate-500 mt-0.5">{subtext}</span>}
     </div>
   </div>
@@ -326,7 +326,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
               ) : (
                 <>
                   <div className="text-base font-bold text-slate-500 mt-1">
-                    Price Pending Verification
+                    Price unavailable
                   </div>
                   <p className="text-[11px] text-slate-400 mt-0.5">
                     DGDA price gazette verification in progress
@@ -596,7 +596,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 )}
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <ClinicalInfoPendingVerification message="Approved clinical indications pending verification." />
             )}
           </div>
         </div>
@@ -658,7 +658,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 )}
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <ClinicalInfoPendingVerification message="Formulation-specific dosage guidance pending verification." />
             )}
           </div>
         </div>
@@ -712,7 +712,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 )}
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <ClinicalInfoPendingVerification message="Adverse reactions profile undergoing clinical verification." />
             )}
           </div>
         </div>
@@ -777,10 +777,10 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1.5">
                 <div className="flex items-center gap-1.5 font-semibold text-slate-800">
                   <span className="text-amber-500">ℹ</span>
-                  <span>Class Interaction Advisory</span>
+                  <span>Interaction Check Pending</span>
                 </div>
                 <p>
-                  No compound-specific interaction warnings cataloged in this draft entry. Exercise standard vigilance with narrow therapeutic index medications (e.g., Warfarin, Digoxin, Lithium, Antiepileptics). Use the <strong>Multi-Drug Interaction Checker</strong> above to evaluate combinations.
+                  Interaction check pending verified clinical dataset. Specific compound interactions have not yet undergone clinical source verification for this entry.
                 </p>
               </div>
             )}
@@ -821,7 +821,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 ))}
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <ClinicalInfoPendingVerification message="Contraindications profile undergoing clinical verification." />
             )}
 
             {generic.precautions && generic.precautions.length > 0 && (
@@ -863,7 +863,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 {generic.mechanismOfAction}
               </p>
             ) : (
-              <ClinicalInfoUnavailable />
+              <ClinicalInfoPendingVerification message="Mechanism of action undergoing clinical verification." />
             )}
 
             {generic.receptorOrTarget && (
@@ -874,7 +874,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
             )}
 
             <div className="pt-2 border-t border-slate-100 flex justify-between text-xs text-slate-500">
-              <span>ATC Code: <strong className="text-slate-800">{generic.atcCode || 'Unassigned'}</strong></span>
+              <span>ATC Code: <strong className="text-slate-800">{generic.atcCode || 'Pending Assignment'}</strong></span>
             </div>
           </div>
         </div>
@@ -905,35 +905,33 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
                   <strong className="text-slate-500 block">Bioavailability</strong>
                   <span className="text-slate-900 font-semibold mt-0.5 block">
-                    {generic.pharmacokinetics.bioavailability || 'Standard'}
+                    {generic.pharmacokinetics.bioavailability || 'Pending verification'}
                   </span>
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
                   <strong className="text-slate-500 block">Half-life</strong>
                   <span className="text-slate-900 font-semibold mt-0.5 block">
-                    {generic.pharmacokinetics.halfLife || 'Monograph noted'}
+                    {generic.pharmacokinetics.halfLife || 'Pending verification'}
                   </span>
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
                   <strong className="text-slate-500 block">Metabolism</strong>
                   <span className="text-slate-900 font-semibold mt-0.5 block">
-                    {generic.pharmacokinetics.metabolism || 'Hepatic'}
+                    {generic.pharmacokinetics.metabolism || 'Pending verification'}
                   </span>
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
                   <strong className="text-slate-500 block">Excretion</strong>
                   <span className="text-slate-900 font-semibold mt-0.5 block">
-                    {generic.pharmacokinetics.excretion || 'Renal'}
+                    {generic.pharmacokinetics.excretion || 'Pending verification'}
                   </span>
                 </div>
               </div>
             ) : (
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
-                <strong className="text-slate-800 font-semibold block">Pharmacokinetic Profile:</strong>
-                <p>
-                  Absorption, bioavailability, and hepatic/renal clearance parameters follow standard pharmacological class kinetics. Full quantitative PK parameters are under ongoing clinical verification.
-                </p>
-              </div>
+              <ClinicalInfoPendingVerification
+                message="Pharmacokinetic parameters pending clinical verification."
+                subtext="Bioavailability, half-life, metabolic pathways, and clearance values undergoing label verification."
+              />
             )}
           </div>
         </div>
@@ -981,12 +979,10 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 </div>
               </div>
             ) : (
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
-                <strong className="text-slate-800 font-semibold block">Pregnancy & Lactation Advisory:</strong>
-                <p>
-                  Weigh clinical maternal benefit against potential fetal risk prior to prescribing. As a general clinical rule, elective pharmacological therapy should be avoided during the first trimester unless deemed strictly necessary by a physician.
-                </p>
-              </div>
+              <ClinicalInfoPendingVerification
+                message="Pregnancy and lactation risk data pending verification."
+                subtext="Specific teratogenicity and neonatal EPS/withdrawal risk data undergoing physician review against official product labels."
+              />
             )}
           </div>
         </div>
@@ -1017,18 +1013,18 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
                   <strong className="text-slate-800 font-bold block">Renal Impairment:</strong>
                   <p className="text-slate-600 mt-1">
-                    {generic.doseAdjustment.renal || 'No specific dose adjustment needed unless severe GFR reduction.'}
+                    {generic.doseAdjustment.renal || 'Renal dosing guidance undergoing clinical verification against official product labels.'}
                   </p>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
                   <strong className="text-slate-800 font-bold block">Hepatic Impairment:</strong>
                   <p className="text-slate-600 mt-1">
-                    {generic.doseAdjustment.hepatic || 'Caution advised in acute or decompensated liver disease.'}
+                    {generic.doseAdjustment.hepatic || 'Hepatic dosing guidance undergoing clinical verification against official product labels.'}
                   </p>
                 </div>
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <ClinicalInfoPendingVerification message="Renal and hepatic impairment guidance pending verification." />
             )}
           </div>
         </div>
@@ -1045,7 +1041,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
               <div>
                 <h3 className="drug-card-heading">Available Brands in Bangladesh</h3>
                 <span className="text-xs text-slate-500 font-medium">
-                  {otherBrandsWithSameGeneric.length} registered formulations containing {generic.name}
+                  {otherBrandsWithSameGeneric.length} formulations cataloged ({otherBrandsWithSameGeneric.filter(b => b.registrationNumber && !b.registrationStatus?.toLowerCase().includes('pending')).length} DGDA verified)
                 </span>
               </div>
             </div>
@@ -1092,7 +1088,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                           {altBrand.manufacturerName}
                         </td>
                         <td className="py-2.5 px-3 text-right font-bold text-emerald-700">
-                          {altBrand.verifiedPrice?.amount ? `৳ ${altBrand.verifiedPrice.amount.toFixed(2)}` : '—'}
+                          {altBrand.verifiedPrice?.amount ? `৳ ${altBrand.verifiedPrice.amount.toFixed(2)}` : <span className="text-slate-400 font-normal">Price unavailable</span>}
                         </td>
                         <td className="py-2.5 px-3 text-center">
                           <button
@@ -1147,18 +1143,37 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
           </div>
 
           <div className={`space-y-2.5 text-xs text-slate-600 ${mobileOpenCards.references ? 'block' : 'hidden md:block'}`}>
-            <p><strong>Primary Source:</strong> {brand.source || 'Directorate General of Drug Administration (DGDA)'}</p>
-            <p><strong>Registration Code:</strong> {brand.registrationNumber || 'Gazetted DGDA Registration'}</p>
-            {generic.medicalReview && (
+            <p><strong>Brand Registration Status:</strong> {brand.registrationNumber ? `DGDA #${brand.registrationNumber}` : (brand.registrationStatus || 'DGDA Verification Pending')}</p>
+            <p><strong>Brand Catalog Source:</strong> {brand.source || 'Directorate General of Drug Administration (DGDA) Catalog'}</p>
+            {generic.medicalReview && generic.medicalReview.reviewerName ? (
               <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
-                <p><strong>Reviewer:</strong> {generic.medicalReview.reviewerName}</p>
+                <p><strong>Clinical Review Status:</strong> <span className="font-semibold uppercase text-emerald-700">{generic.medicalReview.status}</span></p>
+                <p><strong>Qualified Reviewer:</strong> {generic.medicalReview.reviewerName}</p>
                 <p><strong>Credentials:</strong> {generic.medicalReview.reviewerCredentials}</p>
-                <p><strong>Content Version:</strong> v{generic.medicalReview.contentVersion}</p>
+                {generic.medicalReview.reviewDate && <p><strong>Review Date:</strong> {generic.medicalReview.reviewDate}</p>}
+                <p><strong>Content Version:</strong> v{generic.medicalReview.contentVersion || '1.0'}</p>
+              </div>
+            ) : (
+              <div className="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200 text-amber-900 space-y-1">
+                <p><strong>Clinical Review Status:</strong> Monograph claims pending qualification and sign-off by a registered pharmacist or physician.</p>
               </div>
             )}
-            <p className="text-[11px] text-slate-400 italic pt-1">
-              Data synchronized from verified DGDA, British National Formulary (BNF), and DGHS guidelines.
-            </p>
+            {generic.sources && generic.sources.length > 0 ? (
+              <div className="pt-2 border-t border-slate-100 space-y-1.5">
+                <strong className="text-slate-800 block">Traceable Compendium & Label Sources:</strong>
+                {generic.sources.map((s, idx) => (
+                  <div key={idx} className="p-2 rounded bg-slate-50 border border-slate-200 text-[11px]">
+                    <div className="font-semibold text-slate-800">{s.title}</div>
+                    <div className="text-slate-500">{s.organization} ({s.jurisdiction}) • {s.publicationDate}</div>
+                    {s.url && (
+                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-[#08AFC1] hover:underline block truncate mt-0.5">
+                        {s.url}
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

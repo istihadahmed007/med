@@ -431,40 +431,46 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
           {/* TAB 6: ADVERSE EFFECTS */}
           {activeTab === 'adverse' && (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <div className="text-xs font-bold text-amber-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-                    <span>●</span> Common (&gt; 1/100)
+              {generic.adverseEffects && (generic.adverseEffects.common?.length || generic.adverseEffects.uncommon?.length || generic.adverseEffects.rare?.length) ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                    <div className="text-xs font-bold text-amber-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                      <span>●</span> Common (&gt; 1/100)
+                    </div>
+                    <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                      {(generic.adverseEffects.common || []).map((eff, i) => (
+                        <li key={i}>{eff}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-                    {generic.adverseEffects.common.map((eff, i) => (
-                      <li key={i}>{eff}</li>
-                    ))}
-                  </ul>
-                </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <div className="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-                    <span>●</span> Uncommon (1/1000 - 1/100)
+                  <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                    <div className="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                      <span>●</span> Uncommon (1/1000 - 1/100)
+                    </div>
+                    <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                      {(generic.adverseEffects.uncommon || []).map((eff, i) => (
+                        <li key={i}>{eff}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-                    {generic.adverseEffects.uncommon?.map((eff, i) => (
-                      <li key={i}>{eff}</li>
-                    ))}
-                  </ul>
-                </div>
 
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <div className="text-xs font-bold text-rose-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-                    <span>●</span> Rare / Serious (&lt; 1/1000)
+                  <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                    <div className="text-xs font-bold text-rose-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                      <span>●</span> Rare / Serious (&lt; 1/1000)
+                    </div>
+                    <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                      {(generic.adverseEffects.rare || []).map((eff, i) => (
+                        <li key={i}>{eff}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-                    {generic.adverseEffects.rare?.map((eff, i) => (
-                      <li key={i}>{eff}</li>
-                    ))}
-                  </ul>
                 </div>
-              </div>
+              ) : (
+                <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                  Adverse effect profile undergoing clinician review against official product labels.
+                </div>
+              )}
 
               {generic.overdoseInformation && (
                 <div className="clinical-section-card bg-rose-950/15 border-rose-500/30">
@@ -483,14 +489,18 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
             <div className="space-y-4">
               <div className="clinical-section-card">
                 <h3 className="clinical-section-title">Clinical Precautions</h3>
-                <ul className="list-disc list-inside text-sm text-slate-200 space-y-1.5">
-                  {generic.precautions.map((p, i) => (
-                    <li key={i}>{p}</li>
-                  ))}
-                </ul>
+                {generic.precautions && generic.precautions.length > 0 ? (
+                  <ul className="list-disc list-inside text-sm text-slate-200 space-y-1.5">
+                    {generic.precautions.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-slate-400">Clinical precautions undergoing formal source verification.</p>
+                )}
               </div>
 
-              {generic.monitoringRequirements && (
+              {generic.monitoringRequirements && generic.monitoringRequirements.length > 0 && (
                 <div className="clinical-section-card">
                   <h3 className="clinical-section-title">Mandatory Laboratory & Vital Monitoring</h3>
                   <div className="space-y-2.5">
@@ -516,9 +526,9 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
                 <h3 className="clinical-section-title">Pregnancy Safety</h3>
                 <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 mb-2">
                   <span className="text-xs font-bold text-amber-400 uppercase tracking-wide">Category / Rating:</span>
-                  <div className="text-base font-bold text-white mt-0.5">{generic.pregnancyInfo.category}</div>
+                  <div className="text-base font-bold text-white mt-0.5">{generic.pregnancyInfo?.category || 'Category Under Review'}</div>
                 </div>
-                <p className="text-sm text-slate-200 leading-relaxed">{generic.pregnancyInfo.details}</p>
+                <p className="text-sm text-slate-200 leading-relaxed">{generic.pregnancyInfo?.details || 'Clinical pregnancy risk data undergoing physician review against official product labels.'}</p>
               </div>
 
               <div className="clinical-section-card">
@@ -526,10 +536,10 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
                 <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 mb-2">
                   <span className="text-xs font-bold text-sky-400 uppercase tracking-wide">Safety Level:</span>
                   <div className="text-base font-bold text-white capitalize mt-0.5">
-                    {generic.breastfeedingInfo.safety}
+                    {generic.breastfeedingInfo?.safety || 'Under Review'}
                   </div>
                 </div>
-                <p className="text-sm text-slate-200 leading-relaxed">{generic.breastfeedingInfo.details}</p>
+                <p className="text-sm text-slate-200 leading-relaxed">{generic.breastfeedingInfo?.details || 'Lactation safety profile undergoing verification against official product literature.'}</p>
               </div>
             </div>
           )}
@@ -540,14 +550,14 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
               <div className="clinical-section-card">
                 <h3 className="clinical-section-title">Renal Impairment Dosing (eGFR cutoffs)</h3>
                 <p className="text-sm text-slate-200 leading-relaxed">
-                  {generic.doseAdjustment.renal || 'No specific renal adjustment cataloged. Refer to full monograph.'}
+                  {generic.doseAdjustment?.renal || 'Renal dosing guidance undergoing clinical verification against official product labels.'}
                 </p>
               </div>
 
               <div className="clinical-section-card">
                 <h3 className="clinical-section-title">Hepatic Impairment / Cirrhosis</h3>
                 <p className="text-sm text-slate-200 leading-relaxed">
-                  {generic.doseAdjustment.hepatic || 'Use caution in advanced hepatic impairment.'}
+                  {generic.doseAdjustment?.hepatic || 'Hepatic dosing guidance undergoing clinical verification against official product labels.'}
                 </p>
               </div>
             </div>

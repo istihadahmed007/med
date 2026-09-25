@@ -18,7 +18,9 @@ import {
   BrandDetailResponse,
   DrugImportJob,
   DrugImportError,
-  ImportAdapterType
+  ImportAdapterType,
+  ClinicalCoverageReport,
+  MedicalReviewStatus
 } from '../types/drug';
 
 import {
@@ -521,6 +523,48 @@ export class DrugClientService {
       }
     } catch (e) {}
     return { success: true };
+  }
+
+  /**
+   * Medical Governance: Fetch Coverage Report
+   */
+  static async getCoverageReport(): Promise<ClinicalCoverageReport> {
+    try {
+      const res = await fetch('/api/drugs/governance/coverage-report', {
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch (e) {}
+    return StaticDrugDbService.getCoverageReport();
+  }
+
+  /**
+   * Medical Governance: Update Clinical Review Status
+   * imported -> source_matched -> clinical_review -> published
+   */
+  static async updateClinicalReviewStatus(payload: {
+    genericId: string;
+    status: MedicalReviewStatus;
+    reviewerName?: string;
+    reviewerCredentials?: string;
+    reviewNotes?: string;
+    jurisdiction?: string;
+  }): Promise<{ success: boolean; generic?: DrugGeneric; error?: string }> {
+    try {
+      const res = await fetch('/api/drugs/governance/review-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      const errJson = await res.json().catch(() => ({}));
+      return { success: false, error: errJson.error || 'Server rejected review update' };
+    } catch (e) {}
+    return StaticDrugDbService.updateClinicalReviewStatus(payload.genericId, payload);
   }
 
   // ==========================================================================

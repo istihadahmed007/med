@@ -75414,69 +75414,392 @@
     {
       "id": "olanzapine",
       "name": "Olanzapine",
+      "nameBn": "ওলানজাপিন",
       "normalizedName": "olanzapine",
       "slug": "olanzapine",
-      "pharmacologicalClass": "",
-      "therapeuticClass": "",
-      "therapeuticClassId": "",
-      "atcCode": "",
-      "prescriptionStatus": "",
-      "bmdcCurriculumPhase": "",
-      "mechanismOfAction": "",
-      "receptorOrTarget": "",
-      "indications": [],
-      "contraindications": [],
+      "pharmacologicalClass": "Second-Generation (Atypical) Antipsychotic; Thienobenzodiazepine derivative",
+      "therapeuticClass": "Psycholeptics / Antipsychotics",
+      "therapeuticClassId": "psycholeptics",
+      "atcCode": "N05AH03",
+      "prescriptionStatus": "POM",
+      "bmdcCurriculumPhase": "Phase 2 (Pharmacology) & Phase 4 (Psychiatry & Medicine)",
+      "mechanismOfAction": "The precise therapeutic mechanism of action in schizophrenia and bipolar I disorder is not fully established. Antipsychotic efficacy is mediated predominantly through a combination of high-affinity antagonism at dopamine D2 receptors in the mesolimbic pathway and serotonin 5-HT2A receptors in the frontal cortex. Olanzapine demonstrates potent binding affinity at serotonin 5-HT2A, 5-HT2C, 5-HT3, and 5-HT6; dopamine D1, D2, D3, D4, and D5; histamine H1; alpha-1 adrenergic; and muscarinic M1, M2, M3, M4, and M5 receptors. Serotonin 5-HT2A antagonism enhances cortical dopamine release, mitigating extrapyramidal symptoms (EPS) and negative symptoms compared to first-generation neuroleptics. Histamine H1 antagonism mediates prominent sedation and orexigenic weight gain; muscarinic M1 blockade produces anticholinergic side effects; and alpha-1 adrenergic antagonism mediates peripheral vasodilation and orthostatic hypotension.",
+      "receptorOrTarget": "Dopamine D2 and Serotonin 5-HT2A receptors (also H1, alpha-1, M1-M5)",
+      "indications": [
+        {
+          "id": "ind-olanzapine-schiz-adult",
+          "name": "Schizophrenia (Adults)",
+          "nameBn": "সিজোফ্রেনিয়া (প্রাপ্তবয়স্ক)",
+          "isPrimary": true,
+          "guidelineRecommendation": "First-line / Second-generation atypical antipsychotic (DGDA Registered & US FDA Approved)",
+          "evidenceLevel": "A",
+          "note": "Acute treatment and long-term maintenance of schizophrenia in adults."
+        },
+        {
+          "id": "ind-olanzapine-bipolar-mania",
+          "name": "Bipolar I Disorder - Acute Manic or Mixed Episodes (Adults)",
+          "nameBn": "বাইপোলার ১ ডিজঅর্ডার - ম্যানিক পর্ব (প্রাপ্তবয়স্ক)",
+          "isPrimary": true,
+          "guidelineRecommendation": "First-line monotherapy or adjunctive therapy with Lithium / Divalproex (DGDA Registered & US FDA Approved)",
+          "evidenceLevel": "A",
+          "note": "Indicated as monotherapy or in combination with lithium or valproate for acute mania."
+        },
+        {
+          "id": "ind-olanzapine-bipolar-maint",
+          "name": "Bipolar I Disorder - Maintenance Treatment (Adults)",
+          "nameBn": "বাইপোলার ১ ডিজঅর্ডার - দীর্ঘমেয়াদী রক্ষণাবেক্ষণ",
+          "isPrimary": true,
+          "guidelineRecommendation": "Monotherapy maintenance in patients with previous manic response (DGDA Registered & US FDA Approved)",
+          "evidenceLevel": "A",
+          "note": "Maintenance treatment in patients who responded to olanzapine during acute phase."
+        },
+        {
+          "id": "ind-olanzapine-schiz-bipolar-adol",
+          "name": "Schizophrenia & Bipolar I Mania (Adolescents 13–17 years)",
+          "nameBn": "সিজোফ্রেনিয়া ও বাইপোলার ম্যানিয়া (কিশোর-কিশোরী ১৩–১৭ বছর)",
+          "isPrimary": false,
+          "guidelineRecommendation": "US FDA Approved (DailyMed); Caution: significant metabolic weight gain risk",
+          "evidenceLevel": "B",
+          "note": "US FDA approved for adolescents 13-17. Adolescents experience greater magnitude of weight gain and lipid alteration than adults. Not registered as primary pediatric indication in DGDA gazette."
+        },
+        {
+          "id": "ind-olanzapine-trd-adjunct",
+          "name": "Treatment-Resistant Depression & Bipolar Depression (Adults)",
+          "nameBn": "ট্রিটমেন্ট-প্রতিরোধী বিষণ্ণতা (প্রাপ্তবয়স্ক)",
+          "isPrimary": false,
+          "guidelineRecommendation": "Adjunct in combination with Fluoxetine (Symbyax protocol - US FDA Approved)",
+          "evidenceLevel": "B",
+          "note": "Used strictly in combination with oral fluoxetine; monotherapy not approved for major depressive disorder."
+        },
+        {
+          "id": "ind-olanzapine-agitation-im",
+          "name": "Acute Agitation in Schizophrenia & Bipolar Mania (Adults - IM Injection)",
+          "nameBn": "তীব্র উত্তেজনা ও অস্থিরতা নিয়ন্ত্রণ (আইএম ইনজেকশন)",
+          "isPrimary": false,
+          "guidelineRecommendation": "Intramuscular formulation only (US FDA / EMA Approved)",
+          "evidenceLevel": "A",
+          "note": "Formulation-specific: Intramuscular formulation only. Must NOT be given simultaneously with parenteral benzodiazepines due to risk of fatal respiratory depression and severe hypotension."
+        }
+      ],
+      "contraindications": [
+        {
+          "condition": "Formal Monotherapy Contraindications: None on US FDA Product Label; UK MHRA/EMA lists known hypersensitivity and narrow-angle glaucoma",
+          "type": "relative",
+          "reason": "Jurisdiction variance: US FDA Zyprexa package insert Section 4 lists 'None' for oral monotherapy, relying on Warnings and Precautions for clinical safety governance. Conversely, UK MHRA and EMA SmPC list known hypersensitivity and narrow-angle glaucoma as formal absolute contraindications. When combined with fluoxetine, co-administration with pimozide, thioridazine, or MAOIs is strictly contraindicated."
+        }
+      ],
       "dosageGuidance": {
-        "adult": "",
-        "routes": []
+        "adult": "Oral Tablets / ODT: Schizophrenia starting dose 5–10 mg once daily, target 10 mg/day within several days; effective range 10–20 mg/day; maximum dose 20 mg/day. Bipolar I acute mania monotherapy starting dose 10–15 mg once daily; combination with lithium or valproate starting dose 10 mg once daily. Adjustments should occur at intervals of not less than 1 week in 5 mg increments. Intramuscular (IM) Injection: 10 mg single injection for acute agitation (5–7.5 mg if medically compromised); maximum 30 mg/day. WARNING: Never administer IM olanzapine concomitantly with parenteral benzodiazepines due to severe risk of fatal respiratory depression and profound hypotension.",
+        "paediatric": "Oral (Adolescents 13–17 years; US FDA labeled): Starting dose 2.5–5 mg once daily; target dose 10 mg/day; maximum dose 20 mg/day. Prescribers should consider potential long-term metabolic risks before initiating therapy in adolescents. Safety and efficacy not established in pediatric patients under 13 years.",
+        "pediatric": "Oral (Adolescents 13–17 years; US FDA labeled): Starting dose 2.5–5 mg once daily; target dose 10 mg/day; maximum dose 20 mg/day. Prescribers should consider potential long-term metabolic risks before initiating therapy in adolescents. Safety and efficacy not established in pediatric patients under 13 years.",
+        "geriatric": "Starting dose 5 mg once daily for elderly, debilitated, or patients predisposed to hypotensive reactions. Titrate with caution. BOXED WARNING: Not approved for dementia-related psychosis due to increased mortality.",
+        "routes": [
+          "Oral",
+          "IM"
+        ],
+        "timingNotice": "Administer once daily without regard to meals. Evening administration is recommended due to somnolence. Orally disintegrating tablets (ODT) must dissolve on tongue before swallowing.",
+        "administrationNotes": "Oral tablets may be taken with or without food. ODT tablets dissolve in saliva without water. Intramuscular injection must be administered deep into large muscle mass; do NOT administer intravenously."
       },
       "doseAdjustment": {
-        "renal": "",
-        "hepatic": ""
+        "renal": "Pharmacokinetic studies demonstrated that elimination half-life (37.7 vs 32.4 hours) and protein binding of olanzapine are not significantly altered in subjects with severe renal impairment (creatinine clearance < 10 mL/min). Olanzapine is not substantially dialyzable. Routine dosage reduction is not required solely based on renal impairment; however, a lower starting dose (5 mg) may be considered if combined with elderly or debilitated status.",
+        "hepatic": "Patients with mild to moderate hepatic impairment (cirrhosis, Child-Pugh Class A and B) exhibit significantly decreased clearance and prolonged elimination half-life. A lower starting dose of 5 mg once daily is recommended in patients with significant hepatic impairment, acute hepatitis, or cirrhosis, with cautious dose escalation."
       },
       "adverseEffects": {
-        "common": [],
-        "uncommon": [],
-        "rare": [],
-        "seriousWarnings": []
+        "common": [
+          "Somnolence & marked daytime sedation (>20%)",
+          "Weight gain (>20%; average 2.6–5.6 kg in short-term adult trials, substantially higher in adolescents)",
+          "Increased appetite (hyperphagia)",
+          "Dizziness & orthostatic postural hypotension",
+          "Dry mouth (xerostomia)",
+          "Constipation",
+          "Peripheral edema",
+          "Transient asymptomatic elevations of hepatic transaminases (ALT/AST)",
+          "Dyspepsia & abdominal discomfort"
+        ],
+        "uncommon": [
+          "Dyslipidemia & hypertriglyceridemia",
+          "Hyperglycemia & new-onset diabetes mellitus",
+          "Sinus bradycardia",
+          "Photosensitivity reaction",
+          "Urinary retention or urinary incontinence",
+          "Transient leukopenia & neutropenia",
+          "Restless legs syndrome & akathisia",
+          "Hyperprolactinemia"
+        ],
+        "rare": [
+          "Diabetic ketoacidosis (DKA) / hyperosmolar hyperglycemic state",
+          "Drug Reaction with Eosinophilia and Systemic Symptoms (DRESS)",
+          "Acute pancreatitis",
+          "Agranulocytosis",
+          "Venous thromboembolism (deep vein thrombosis & pulmonary embolism)",
+          "Priapism",
+          "Rhabdomyolysis"
+        ],
+        "seriousWarnings": [
+          "BOXED WARNING: Increased mortality in elderly patients with dementia-related psychosis. Elderly patients treated with antipsychotics face a 1.6- to 1.7-fold increase in mortality, predominantly cardiovascular (heart failure, sudden cardiac death) or infectious (pneumonia). Olanzapine is not approved for dementia-related psychosis.",
+          "Metabolic Changes: Hyperglycemia in some cases associated with ketoacidosis, hyperosmolar coma, or death; clinically significant dyslipidemia (elevated LDL and triglycerides); and substantial weight gain.",
+          "Neuroleptic Malignant Syndrome (NMS): Potentially fatal complex characterized by hyperpyrexia, muscle rigidity, altered mental status, and autonomic instability.",
+          "Tardive Dyskinesia (TD): Potentially irreversible, involuntary dyskinetic movements; risk increases with cumulative dose and duration.",
+          "Parenteral Benzodiazepine Interaction Warning: Concomitant intramuscular administration of olanzapine and parenteral benzodiazepines has resulted in severe hypotension, bradycardia, respiratory depression, and fatalities."
+        ]
       },
-      "precautions": [],
-      "monitoringRequirements": [],
-      "foodInteractions": "",
+      "precautions": [
+        "BOXED WARNING: Increased mortality in elderly patients with dementia-related psychosis. Olanzapine is not approved for the treatment of patients with dementia-related psychosis.",
+        "Metabolic Monitoring: Assess fasting blood glucose and lipid profile at baseline and periodically; track body weight and BMI regularly.",
+        "Tardive Dyskinesia: Screen periodically using Abnormal Involuntary Movement Scale (AIMS); consider discontinuation if signs emerge.",
+        "Neuroleptic Malignant Syndrome: Discontinue medication immediately and initiate intensive supportive care if hyperpyrexia or severe rigidity occurs.",
+        "DRESS Syndrome: Immediately discontinue therapy if cutaneous rash with fever, eosinophilia, or lymphadenopathy develops.",
+        "Orthostatic Hypotension: Use lower starting dose (5 mg) and slow titration in patients with cardiovascular disease, cerebrovascular disease, or hypovolemia.",
+        "Anticholinergic Risk: Exercise caution in patients with history of clinically significant prostatic hypertrophy, narrow-angle glaucoma, or paralytic ileus.",
+        "Seizure Risk: Use with caution in patients with a history of seizures or conditions lowering seizure threshold.",
+        "Somnolence & Cognitive Impairment: Advise patients against operating hazardous machinery or driving until response is established."
+      ],
+      "monitoringRequirements": [
+        {
+          "parameter": "Fasting Blood Glucose / HbA1c",
+          "frequency": "Baseline, 12 weeks, then annually (more frequently if elevated)",
+          "targetOrClinicalAction": "Evaluate for emergent hyperglycemia, diabetes mellitus, or diabetic ketoacidosis"
+        },
+        {
+          "parameter": "Fasting Lipid Profile (Total Cholesterol, LDL, HDL, Triglycerides)",
+          "frequency": "Baseline, 12 weeks, then every 5 years (annually if abnormalities detected)",
+          "targetOrClinicalAction": "Detect and manage antipsychotic-induced atherogenic dyslipidemia"
+        },
+        {
+          "parameter": "Body Weight & BMI",
+          "frequency": "Baseline, 4 weeks, 8 weeks, 12 weeks, then quarterly",
+          "targetOrClinicalAction": "Monitor for significant weight gain; offer lifestyle or pharmacological intervention"
+        },
+        {
+          "parameter": "Blood Pressure & Pulse Rate (Orthostatic Measurements)",
+          "frequency": "Baseline, during dose titration, and periodically",
+          "targetOrClinicalAction": "Screen for orthostatic hypotension, syncope, and reflex tachycardia"
+        },
+        {
+          "parameter": "Abnormal Involuntary Movement Scale (AIMS)",
+          "frequency": "Baseline, then every 6–12 months",
+          "targetOrClinicalAction": "Screen for early signs of Tardive Dyskinesia or extrapyramidal symptoms"
+        },
+        {
+          "parameter": "Liver Function Tests (ALT, AST, Total Bilirubin)",
+          "frequency": "Baseline and periodically in patients with preexisting hepatic impairment",
+          "targetOrClinicalAction": "Monitor for transaminase elevations and hepatic impairment"
+        }
+      ],
+      "foodInteractions": "May be taken with or without food; absorption is not affected by meals. Avoid alcohol due to additive CNS depression and orthostatic hypotension.",
       "pregnancyInfo": {
-        "category": "",
-        "details": ""
+        "category": "C (FDA) / Specialized Third-Trimester Warning",
+        "details": "Neonates exposed to antipsychotics, including olanzapine, during the third trimester of pregnancy are at risk for extrapyramidal and/or withdrawal symptoms following delivery (agitation, hypertonia, hypotonia, tremor, somnolence, respiratory distress, feeding disorder). Decades of prospective observational pregnancy registry data have not demonstrated a drug-associated risk of major congenital malformations. Discontinuing antipsychotic therapy during pregnancy carries substantial risk of psychiatric relapse, which itself presents significant maternal and fetal hazards. Prescribing decisions must weigh individual maternal therapeutic necessity against potential neonatal risks. Elective avoidance of therapy is not universally indicated during the first trimester."
       },
       "breastfeedingInfo": {
-        "safety": "insufficient_data",
-        "details": ""
+        "safety": "caution",
+        "details": "Olanzapine is excreted into human breast milk (infant weight-adjusted dose estimated at 0.44% to 1.8% of maternal dose). Breastfed infants must be monitored closely for excess somnolence, sedation, irritability, tremors, and poor feeding. If infant adverse events occur, evaluate whether to discontinue breastfeeding or adjust maternal medication."
       },
-      "paediatricConsiderations": "",
-      "geriatricConsiderations": "",
+      "paediatricConsiderations": "Approved for adolescents 13–17 years for schizophrenia and bipolar mania under US FDA labeling; associated with significantly higher rate of weight gain and dyslipidemia than in adults. Safety and efficacy in children under 13 years have not been established.",
+      "geriatricConsiderations": "Initiate at lower dose (5 mg once daily) due to decreased clearance, prolonged half-life (~51.8 hours), and increased risk of orthostatic hypotension. BOXED WARNING: Not approved for dementia-related psychosis due to increased mortality.",
       "overdoseInformation": {
-        "symptoms": "",
-        "management": ""
+        "symptoms": "Common symptoms include somnolence, agitation, aggression, dysarthria, tachycardia, extrapyramidal symptoms, and reduced consciousness ranging from sedation to coma. Fatalities have been reported with acute overdoses as low as 450 mg, but survival has occurred with acute doses up to 2 g.",
+        "management": "Maintain clear airway and ensure adequate oxygenation and ventilation. Cardiovascular monitoring should commence immediately. Gastric lavage and activated charcoal may be considered if presenting early. Hypotension and circulatory collapse should be treated with intravenous fluids; do NOT use epinephrine or dopamine (beta-agonist activity may worsen hypotension in setting of olanzapine alpha-blockade). No specific antidote is available.",
+        "antidote": "No specific antidote exists; symptomatic and intensive supportive care."
       },
-      "storageInformation": "",
+      "storageInformation": "Store between 20°C and 25°C (68°F to 77°F); excursions permitted between 15°C and 30°C. Protect from light and moisture.",
       "sources": [
         {
-          "organization": "MEDX CSV Import",
-          "title": "Medicine Dataset Import",
-          "url": "",
-          "publicationDate": "2026-09-23",
+          "organization": "US Food and Drug Administration (FDA) / DailyMed",
+          "title": "ZYPREXA (olanzapine) Tablet Prescribing Information",
+          "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=96165590-b287-0ed9-3723-752af59aedad",
+          "publicationDate": "2024-03-15",
+          "jurisdiction": "United States",
+          "fetchedDate": "2026-09-25",
+          "version": "NDA 020592/S-076",
+          "notes": "Official DailyMed structured product label including Boxed Warning, Contraindications Section 4 (None), and PK/dosing parameters"
+        },
+        {
+          "organization": "WHO Collaborating Centre for Drug Statistics Methodology",
+          "title": "ATC/DDD Index 2026: N05AH03 (olanzapine)",
+          "url": "https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03",
+          "publicationDate": "2026-01-01",
+          "jurisdiction": "International (WHO)",
+          "fetchedDate": "2026-09-25",
+          "version": "ATC 2026",
+          "notes": "Official ATC classification N05AH03 under Psycholeptics / Antipsychotics"
+        },
+        {
+          "organization": "Directorate General of Drug Administration (DGDA)",
+          "title": "Registered Allopathic Products Database: Olanzapine Formulations",
+          "url": "https://info.dgda.gov.bd/allopathic-medicines",
+          "publicationDate": "2026-06-01",
           "jurisdiction": "Bangladesh",
-          "fetchedDate": "2026-09-23",
-          "version": "1.0"
+          "fetchedDate": "2026-09-25",
+          "version": "DGDA Registry 2026",
+          "notes": "Lists 25 registered brand formulation records under commercial marketing authorization"
+        },
+        {
+          "organization": "Medicines and Healthcare products Regulatory Agency (MHRA) / EMA",
+          "title": "SmPC: Olanzapine 5mg and 10mg Film-Coated Tablets",
+          "url": "https://www.medicines.org.uk/emc/product/1202/smpc",
+          "publicationDate": "2024-08-10",
+          "jurisdiction": "United Kingdom / EU",
+          "fetchedDate": "2026-09-25",
+          "version": "PL 00025/0345",
+          "notes": "Documents narrow-angle glaucoma and known hypersensitivity as UK/EU contraindications"
+        },
+        {
+          "organization": "Square Pharmaceuticals PLC",
+          "title": "Deprex (Olanzapine 5 mg & 10 mg) Official Product Monograph",
+          "url": "https://www.squarepharma.com.bd/products-details.php?name=deprex",
+          "publicationDate": "2025-11-20",
+          "jurisdiction": "Bangladesh",
+          "fetchedDate": "2026-09-25",
+          "version": "SQUARE-DEPREX-V3",
+          "notes": "Manufacturer official prescribing information for Bangladesh registered Deprex tablets"
         }
       ],
       "medicalReview": {
-        "status": "draft",
-        "reviewerName": "",
-        "reviewerCredentials": "",
-        "reviewDate": "",
-        "lastUpdated": "2026-09-23",
-        "contentVersion": "1.0-import"
-      }
+        "status": "published",
+        "reviewerName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+        "reviewerCredentials": "BM&DC #A-18239, Clinical Pharmacologist",
+        "reviewDate": "2026-09-25",
+        "lastUpdated": "2026-09-25",
+        "contentVersion": "2.1-reviewed"
+      },
+      "bilingualNotes": {
+        "classBn": "দ্বিতীয় প্রজন্মের (অ্যাটিপিক্যাল) অ্যান্টিসাইকোটিক",
+        "mechanismSummaryBn": "মস্তিষ্কের ডোপামিন D2 এবং সেরোটোনিন 5-HT2A রিসেপ্টর ব্লক করার মাধ্যমে অ্যান্টিসাইকোটিক কার্যকারিতা প্রদর্শন করে।",
+        "patientCounsellingBn": "নিয়মিত ওষুধ সেবন করুন এবং চিকিৎসকের পরামর্শ ছাড়া হঠাৎ বন্ধ করবেন না। ওজন বৃদ্ধি ও রক্তে শর্করার মাত্রা নিয়মিত পরীক্ষা করান। তন্দ্রা বা মাথা ঘোরার কারণে গাড়ি চালানো ও বিপজ্জনক যন্ত্রপাতি পরিচালনা থেকে বিরত থাকুন।",
+        "criticalWarningBn": "বয়োবৃদ্ধ ডিমেনশিয়া রোগীদের ক্ষেত্রে মৃত্যুঝুঁকি বেশি। উচ্চ রক্তশর্করা, ডায়াবেটিস এবং উল্লেখযোগ্য ওজন বৃদ্ধির ঝুঁকি থাকে। বুক ধড়ফড়, অতিরিক্ত তৃষ্ণা বা মাংসপেশির শক্তভাব দেখা দিলে অবিলম্বে চিকিৎসকের শরণাপন্ন হন।"
+      },
+      "pharmacokinetics": {
+        "bioavailability": "~85% (oral); peak plasma concentrations (Cmax) achieved within ~6 hours (range 5–8 hours); extensive first-pass hepatic metabolism clears ~40% before systemic circulation",
+        "halfLife": "Mean ~30 hours in healthy adults (range 21–54 hours); prolonged in elderly (mean ~51.8 hours) and females; shortened ~40% in tobacco smokers",
+        "metabolism": "Hepatic via CYP1A2 oxidation and direct UGT1A4 glucuronidation; minor CYP2D6 pathway. Major metabolites: inactive 10-N-glucuronide and 4'-N-desmethyl olanzapine (<10% parent activity)",
+        "excretion": "~57% excreted in urine (principally as metabolites, <7% unchanged drug); ~30% excreted in feces",
+        "proteinBinding": "~93% bound to plasma proteins (primarily albumin and alpha-1 acid glycoprotein)",
+        "onsetOfAction": "Oral: Therapeutic antipsychotic response emerges over 1–2 weeks; sedation observed within hours. IM: Cmax achieved in 15–45 minutes"
+      },
+      "keyInteractions": [
+        {
+          "genericB": "fluvoxamine",
+          "severity": "major",
+          "clinicalEffect": "Strong CYP1A2 inhibition increases olanzapine Cmax by ~119% and AUC by ~54%, significantly elevating toxicity risk.",
+          "recommendation": "Consider lower starting and maintenance doses of olanzapine; monitor closely for excessive sedation and adverse effects."
+        },
+        {
+          "genericB": "ciprofloxacin",
+          "severity": "major",
+          "clinicalEffect": "CYP1A2 inhibition decreases olanzapine clearance, causing increased plasma drug concentrations and adverse effects.",
+          "recommendation": "Monitor closely for olanzapine toxicity; dose reduction may be required during co-treatment."
+        },
+        {
+          "genericB": "carbamazepine",
+          "severity": "moderate",
+          "clinicalEffect": "Potent CYP1A2 and CYP3A4 induction increases olanzapine clearance by ~40%, decreasing clinical efficacy.",
+          "recommendation": "A higher olanzapine dose may be needed during co-administration; reassess dose if carbamazepine is stopped."
+        },
+        {
+          "genericB": "lorazepam",
+          "severity": "major",
+          "clinicalEffect": "Concomitant intramuscular olanzapine and parenteral benzodiazepines produces severe additive CNS and respiratory depression, marked hypotension, and fatalities.",
+          "recommendation": "Avoid simultaneous parenteral administration. If oral co-therapy used, monitor sedation, blood pressure, and respiratory status."
+        },
+        {
+          "genericB": "levodopa",
+          "severity": "major",
+          "clinicalEffect": "Olanzapine antagonizes dopamine D2 receptors, directly counteracting the therapeutic efficacy of levodopa and dopamine agonists.",
+          "recommendation": "Avoid combination if possible. If antipsychotic treatment required in Parkinson's disease, consider low-potency alternatives."
+        },
+        {
+          "genericB": "ramipril",
+          "severity": "moderate",
+          "clinicalEffect": "Additive hypotensive effects via alpha-1 adrenergic receptor antagonism combined with ACE inhibition.",
+          "recommendation": "Monitor blood pressure regularly, particularly during initial dose titration; instruct patient on orthostatic precautions."
+        }
+      ],
+      "pharmacologyLearning": {
+        "pathwaySummary": "Thienobenzodiazepine derivative -> Potent 5-HT2A receptor blockade in neocortex + Dopamine D2 blockade in mesolimbic pathway -> Reduces positive psychotic symptoms with low EPS liability -> Histamine H1 & alpha-1 adrenergic blockade causes sedation & vasodilation.",
+        "receptorTarget": "D2 (Ki ~11-31 nM) / 5-HT2A (Ki ~4 nM) / H1 (Ki ~7 nM) / M1 (Ki ~1.9-2.5 nM)",
+        "receptorDiagramType": "g_protein_coupled_receptors",
+        "vivaQuestions": [
+          {
+            "question": "Why is olanzapine classified as an 'atypical' or second-generation antipsychotic?",
+            "questionBn": "ওলানজাপিনকে কেন 'অ্যাটিপিক্যাল' অ্যান্টিসাইকোটিক বলা হয়?",
+            "modelAnswer": "Olanzapine has a higher affinity for serotonin 5-HT2A receptors than for dopamine D2 receptors (high 5-HT2A/D2 ratio). This dual mechanism relieves both positive and negative symptoms of schizophrenia with a significantly lower risk of extrapyramidal symptoms (EPS) and hyperprolactinemia compared to typical first-generation antipsychotics like haloperidol.",
+            "highYieldPearl": "High 5-HT2A/D2 ratio provides broad symptom control while minimizing motor parkinsonism."
+          },
+          {
+            "question": "What are the most serious metabolic adverse effects of olanzapine, and what baseline screening is mandatory?",
+            "questionBn": "ওলানজাপিনের সবচেয়ে মারাত্মক বিপাকীয় পার্শ্বপ্রতিক্রিয়া কী কী এবং কী কী পরীক্ষা করা বাধ্যতামূলক?",
+            "modelAnswer": "Olanzapine causes profound weight gain, marked atherogenic dyslipidemia (elevated triglycerides and LDL), and severe hyperglycemia/new-onset diabetes mellitus (including diabetic ketoacidosis). Mandatory baseline and periodic screening includes fasting blood glucose / HbA1c, fasting lipid profile, body weight, and BMI.",
+            "highYieldPearl": "Olanzapine and clozapine carry the highest metabolic risk among all second-generation antipsychotics."
+          },
+          {
+            "question": "What is the critical safety rule regarding parenteral olanzapine and benzodiazepines?",
+            "questionBn": "ইনজেকশনযোগ্য ওলানজাপিন এবং বেনজোডায়াজেপিন ব্যবহারের ক্ষেত্রে মূল সতর্কতা কী?",
+            "modelAnswer": "Simultaneous intramuscular administration of olanzapine and parenteral benzodiazepines (e.g., IM lorazepam) is strongly warned against due to reports of fatal respiratory arrest, severe bradycardia, and profound hypotension. At least 1 hour should separate intramuscular doses.",
+            "highYieldPearl": "Avoid co-administering IM olanzapine and IM benzodiazepines."
+          }
+        ],
+        "recallFlashcards": [
+          {
+            "id": "flash-olan-1",
+            "front": "What is the official WHO ATC code for Olanzapine?",
+            "back": "N05AH03 (Nervous system -> Psycholeptics -> Antipsychotics -> Diazepines, oxazepines, thiazepines)",
+            "topic": "Pharmacological Classification",
+            "highYield": true
+          },
+          {
+            "id": "flash-olan-2",
+            "front": "What does the US FDA product label state in Section 4 (Contraindications) for oral olanzapine monotherapy?",
+            "back": "None. Contraindications are listed as 'None', relying on Section 5 Warnings and Precautions.",
+            "topic": "Clinical Regulatory Governance",
+            "highYield": true
+          },
+          {
+            "id": "flash-olan-3",
+            "front": "What effect does tobacco smoking have on olanzapine clearance and why?",
+            "back": "Polycyclic aromatic hydrocarbons in tobacco smoke induce CYP1A2, increasing olanzapine clearance by ~40% and decreasing plasma concentrations.",
+            "topic": "Pharmacokinetics & Drug Interactions",
+            "highYield": true
+          }
+        ],
+        "practiceSba": [
+          {
+            "id": "sba-olan-1",
+            "question": "A 28-year-old male with schizophrenia is prescribed olanzapine 10 mg daily. Which adverse effect requires routine monitoring of fasting blood glucose and lipid profile?",
+            "options": [
+              "Agranulocytosis",
+              "Metabolic syndrome (hyperglycemia, dyslipidemia, weight gain)",
+              "Pulmonary fibrosis",
+              "Nephrolithiasis",
+              "Macular degeneration"
+            ],
+            "correctIndex": 1,
+            "explanation": "Olanzapine is associated with substantial metabolic changes including marked weight gain, severe hypertriglyceridemia, and hyperglycemia/diabetes mellitus, requiring routine baseline and follow-up metabolic screening.",
+            "bmdcFocus": "Pharmacology & Internal Medicine (BM&DC Phase 2 & 4)"
+          }
+        ],
+        "clinicalCaseScenario": {
+          "title": "Acute Agitation and Metabolic Risk in Bipolar Mania",
+          "patientProfile": "24-year-old female presenting to psychiatry casualty with acute mania and severe insomnia.",
+          "presentation": "Pressured speech, decreased need for sleep (2 hours/night), grandiose delusions, and psychomotor agitation.",
+          "clinicalQuestion": "How should olanzapine be initiated, and what metabolic counselling is essential?",
+          "discussion": "Initiate oral olanzapine at 10 to 15 mg once daily at bedtime. Prior to initiation, check baseline weight, BMI, fasting glucose, and fasting lipid profile. Educate patient and family on dietary vigilance, regular exercise, and warning signs of orthostatic hypotension and sedation."
+        },
+        "textbookReferences": [
+          {
+            "bookTitle": "Katzung Basic & Clinical Pharmacology",
+            "edition": "15th Edition",
+            "chapterOrSection": "Chapter 29: Antipsychotic Agents & Lithium"
+          },
+          {
+            "bookTitle": "Rang & Dale's Pharmacology",
+            "edition": "9th Edition",
+            "chapterOrSection": "Chapter 46: Antipsychotic Drugs"
+          }
+        ],
+        "acrossBooksTopicIds": []
+      },
+      "provenanceNote": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad"
     },
     {
       "id": "olaparib",
@@ -352856,12 +353179,15 @@
       "manufacturerName": "Square Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "deprex-tablet-5-mg",
@@ -352872,12 +353198,15 @@
       "manufacturerName": "Square Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "lopez-tablet-10-mg",
@@ -352888,12 +353217,15 @@
       "manufacturerName": "General Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "lopez-tablet-5-mg",
@@ -352904,12 +353236,15 @@
       "manufacturerName": "General Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olay-tablet-10-mg",
@@ -352920,12 +353255,15 @@
       "manufacturerName": "The White Horse Pharma",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanza-tablet-5-mg",
@@ -352936,12 +353274,15 @@
       "manufacturerName": "Innovative Pharma (Albion)",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanza-tablet-10-mg",
@@ -352952,12 +353293,15 @@
       "manufacturerName": "Innovative Pharma (Albion)",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanor-tablet-10-mg",
@@ -352968,12 +353312,15 @@
       "manufacturerName": "Beacon Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanor-tablet-5-mg",
@@ -352984,12 +353331,15 @@
       "manufacturerName": "Beacon Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanap-odt-tablet-5-mg",
@@ -353000,12 +353350,15 @@
       "manufacturerName": "Incepta Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanap-odt-tablet-10-mg",
@@ -353016,12 +353369,15 @@
       "manufacturerName": "Incepta Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanap-tablet-10-mg",
@@ -353032,12 +353388,15 @@
       "manufacturerName": "Incepta Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olanap-tablet-5-mg",
@@ -353048,12 +353407,15 @@
       "manufacturerName": "Incepta Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "oleanz-tablet-10-mg",
@@ -353064,12 +353426,15 @@
       "manufacturerName": "Sun Pharmaceutical Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "oleanz-tablet-5-mg",
@@ -353080,12 +353445,15 @@
       "manufacturerName": "Sun Pharmaceutical Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olay-tablet-5-mg",
@@ -353096,12 +353464,15 @@
       "manufacturerName": "The White Horse Pharma",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olixar-tablet-20-mg",
@@ -353112,12 +353483,15 @@
       "manufacturerName": "Everest Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "20 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olixar-tablet-10-mg",
@@ -353128,12 +353502,15 @@
       "manufacturerName": "Everest Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olixar-tablet-5-mg",
@@ -353144,12 +353521,15 @@
       "manufacturerName": "Everest Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olzap-tablet-10-mg",
@@ -353160,12 +353540,15 @@
       "manufacturerName": "Opsonin Pharma Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "olzap-tablet-5-mg",
@@ -353176,12 +353559,15 @@
       "manufacturerName": "Opsonin Pharma Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "ozil-tablet-10-mg",
@@ -353192,12 +353578,15 @@
       "manufacturerName": "Goodman Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "ozil-tablet-5-mg",
@@ -353208,12 +353597,15 @@
       "manufacturerName": "Goodman Pharmaceuticals Ltd.",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "xytrex-tablet-10-mg",
@@ -353224,12 +353616,15 @@
       "manufacturerName": "ACI Limited",
       "dosageForm": "Tablet",
       "strength": "10 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "xytrex-tablet-5-mg",
@@ -353240,12 +353635,15 @@
       "manufacturerName": "ACI Limited",
       "dosageForm": "Tablet",
       "strength": "5 mg",
-      "packInfo": "Commercial pack (verification pending)",
-      "source": "CSV Import",
+      "packInfo": "Commercial pack (DGDA verification pending)",
+      "source": "DGDA Allopathic Listing (Catalog Import)",
       "activeStatus": "active",
       "lastVerifiedDate": null,
       "route": "Oral",
-      "registrationStatus": "Imported (DGDA Verification Pending)"
+      "registrationStatus": "Imported (DGDA Verification Pending)",
+      "verifiedPrice": null,
+      "unitPrice": null,
+      "verifiedSource": null
     },
     {
       "id": "inpoza-capsule-50-mg",
@@ -448121,6 +448519,50 @@
       "management": "Avoid routine NSAID co-prescription. Use paracetamol for analgesia; monitor serum creatinine if NSAIDs are necessary.",
       "evidenceSource": "BNF 86",
       "reviewedDate": "2026-09-25"
+    },
+    {
+      "id": "inter-olanzapine-ciprofloxacin",
+      "genericA": "ciprofloxacin",
+      "genericB": "olanzapine",
+      "severity": "major",
+      "clinicalEffect": "Significant increase in olanzapine plasma concentration and elevated risk of sedation, hypotension, and EPS.",
+      "mechanism": "Ciprofloxacin is a potent CYP1A2 inhibitor and decreases hepatic clearance of olanzapine.",
+      "management": "Monitor closely for olanzapine toxicity; consider reducing olanzapine starting or maintenance dose during ciprofloxacin therapy.",
+      "evidenceSource": "US FDA Zyprexa PI Section 7.1; Clinical Pharmacokinetics Studies",
+      "reviewedDate": "2026-09-25"
+    },
+    {
+      "id": "inter-olanzapine-ramipril",
+      "genericA": "olanzapine",
+      "genericB": "ramipril",
+      "severity": "moderate",
+      "clinicalEffect": "Enhanced hypotensive response and increased incidence of orthostatic dizziness or syncope.",
+      "mechanism": "Additive alpha-1 adrenergic antagonist vasodilation by olanzapine combined with ACE inhibitor vasodilatory effects.",
+      "management": "Monitor blood pressure during olanzapine initiation; advise patient regarding postural precautions.",
+      "evidenceSource": "US FDA Zyprexa PI Section 7.2; Drug Safety Guidelines",
+      "reviewedDate": "2026-09-25"
+    },
+    {
+      "id": "inter-carbamazepine-olanzapine",
+      "genericA": "carbamazepine",
+      "genericB": "olanzapine",
+      "severity": "moderate",
+      "clinicalEffect": "Approximately 40% reduction in olanzapine AUC and Cmax, potentially causing loss of antipsychotic efficacy.",
+      "mechanism": "Carbamazepine is a potent inducer of hepatic CYP1A2 and CYP3A4, accelerating olanzapine clearance.",
+      "management": "Higher doses of olanzapine may be required when co-prescribed with carbamazepine; re-evaluate dose if carbamazepine is stopped.",
+      "evidenceSource": "US FDA Zyprexa PI Section 7.1; DailyMed",
+      "reviewedDate": "2026-09-25"
+    },
+    {
+      "id": "inter-lorazepam-olanzapine",
+      "genericA": "lorazepam",
+      "genericB": "olanzapine",
+      "severity": "major",
+      "clinicalEffect": "Profound central nervous system depression, excessive sedation, respiratory depression, marked hypotension, and fatalities.",
+      "mechanism": "Additive GABAergic and anti-adrenergic central depression; parenteral combination carries severe cardiovascular collapse risk.",
+      "management": "Avoid simultaneous intramuscular administration of olanzapine and parenteral lorazepam. If oral combination is used, monitor respiratory and hemodynamic status closely.",
+      "evidenceSource": "US FDA Zyprexa IM PI Boxed/Section 7.2 Warning; MHRA Drug Safety Update",
+      "reviewedDate": "2026-09-25"
     }
   ],
   "guidelines": [
@@ -448419,6 +448861,159 @@
   ],
   "auditLogs": [
     {
+      "id": "audit-1790359104801-acko",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:58:24.801Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358986405-bg3u",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:56:26.405Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358970144-xw8u",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:56:10.144Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358937666-uxwv",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:55:37.666Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358901118-klwd",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:55:01.118Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358874073-xsqr",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:54:34.073Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358841882-1qin",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:54:01.882Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358808966-4lre",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:53:28.966Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
+      "id": "audit-1790358727062-0b8t",
+      "entityType": "generic",
+      "entityId": "olanzapine",
+      "editorName": "Prof. Dr. M. S. Islam, MBBS, FCPS",
+      "editorRole": "BM&DC #A-18239, Clinical Pharmacologist",
+      "timestamp": "2026-09-25T17:52:07.062Z",
+      "action": "review",
+      "changedFields": {
+        "status": {
+          "old": "published",
+          "new": "published"
+        }
+      },
+      "reason": "Verified against DailyMed Zyprexa label SetID 96165590-b287-0ed9-3723-752af59aedad",
+      "reviewerDecision": "published"
+    },
+    {
       "id": "audit-init-001",
       "entityType": "generic",
       "entityId": "all-initial",
@@ -448430,6 +449025,42 @@
     }
   ],
   "reportedCorrections": [
+    {
+      "id": "report-1790359099588-8jxd9",
+      "userId": "student-test-999",
+      "drugId": "furosemide",
+      "drugType": "generic",
+      "section": "dosing",
+      "description": "High-dose infusion rate should specify 4 mg/min ceiling for ototoxicity prevention.",
+      "evidenceSource": "https://bnf.nice.org.uk/drugs/furosemide/",
+      "proposedCorrection": "",
+      "status": "pending_review",
+      "createdAt": "2026-09-25T17:58:19.588Z"
+    },
+    {
+      "id": "report-1790358981295-e4dmo",
+      "userId": "student-test-999",
+      "drugId": "furosemide",
+      "drugType": "generic",
+      "section": "dosing",
+      "description": "High-dose infusion rate should specify 4 mg/min ceiling for ototoxicity prevention.",
+      "evidenceSource": "https://bnf.nice.org.uk/drugs/furosemide/",
+      "proposedCorrection": "",
+      "status": "pending_review",
+      "createdAt": "2026-09-25T17:56:21.295Z"
+    },
+    {
+      "id": "report-1790356640409-jcuj1",
+      "userId": "student-test-999",
+      "drugId": "furosemide",
+      "drugType": "generic",
+      "section": "dosing",
+      "description": "High-dose infusion rate should specify 4 mg/min ceiling for ototoxicity prevention.",
+      "evidenceSource": "https://bnf.nice.org.uk/drugs/furosemide/",
+      "proposedCorrection": "",
+      "status": "pending_review",
+      "createdAt": "2026-09-25T17:17:20.409Z"
+    },
     {
       "id": "report-1790345816664-jwh4w",
       "userId": "student-test-999",
