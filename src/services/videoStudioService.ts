@@ -13,10 +13,18 @@ import { UserRole } from '../types';
 import { StorageService } from './storageService';
 import { safeFetchJson } from './videoStudioHttp';
 import { MEDICAL_VIDEO_LIBRARY } from '../data/medicalVideoLibraryData';
+import { AuthService } from './authService';
 
 const API_BASE = '/api/video-studio';
 
 export class VideoStudioService {
+  private static getAuthHeaders(): Record<string, string> {
+    const session = AuthService.getSession();
+    if (session?.access_token) {
+      return { Authorization: `Bearer ${session.access_token}` };
+    }
+    return {};
+  }
   /**
    * Fetch verified self-hosted medical videos.
    * Verifies HTTP status, requires JSON content-type, rejects HTML responses,
@@ -102,12 +110,12 @@ export class VideoStudioService {
   /**
    * Submit new draft video (Faculty / Admin only).
    */
-  static async createVideo(payload: Partial<SelfHostedMedicalVideo>, role: UserRole = 'faculty'): Promise<SelfHostedMedicalVideo> {
+  static async createVideo(payload: Partial<SelfHostedMedicalVideo>, _role?: UserRole): Promise<SelfHostedMedicalVideo> {
     const res = await safeFetchJson<{ success: boolean; video: SelfHostedMedicalVideo }>(`${API_BASE}/videos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       },
       body: JSON.stringify(payload)
     });
@@ -121,12 +129,12 @@ export class VideoStudioService {
   /**
    * Update video metadata.
    */
-  static async updateVideo(id: string, payload: Partial<SelfHostedMedicalVideo>, role: UserRole = 'faculty'): Promise<SelfHostedMedicalVideo> {
+  static async updateVideo(id: string, payload: Partial<SelfHostedMedicalVideo>, _role?: UserRole): Promise<SelfHostedMedicalVideo> {
     const res = await safeFetchJson<{ success: boolean; video: SelfHostedMedicalVideo }>(`${API_BASE}/videos/${encodeURIComponent(id)}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       },
       body: JSON.stringify(payload)
     });
@@ -143,13 +151,13 @@ export class VideoStudioService {
   static async submitVideoReview(
     id: string,
     review: { decision: 'approved' | 'revision_requested' | 'rejected'; comments?: string; checklist?: any },
-    role: UserRole = 'faculty'
+    _role?: UserRole
   ): Promise<any> {
     const res = await safeFetchJson(`${API_BASE}/videos/${encodeURIComponent(id)}/review`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       },
       body: JSON.stringify(review)
     });
@@ -163,11 +171,11 @@ export class VideoStudioService {
   /**
    * Publish an approved video.
    */
-  static async publishVideo(id: string, role: UserRole = 'faculty'): Promise<void> {
+  static async publishVideo(id: string, _role?: UserRole): Promise<void> {
     const res = await safeFetchJson(`${API_BASE}/videos/${encodeURIComponent(id)}/publish`, {
       method: 'POST',
       headers: {
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       }
     });
 
@@ -179,11 +187,11 @@ export class VideoStudioService {
   /**
    * Archive a video.
    */
-  static async archiveVideo(id: string, role: UserRole = 'admin'): Promise<void> {
+  static async archiveVideo(id: string, _role?: UserRole): Promise<void> {
     const res = await safeFetchJson(`${API_BASE}/videos/${encodeURIComponent(id)}/archive`, {
       method: 'POST',
       headers: {
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       }
     });
 
@@ -216,10 +224,12 @@ export class VideoStudioService {
   /**
    * Retry a failed video job.
    */
-  static async retryJob(jobId: string, role: UserRole = 'author'): Promise<void> {
+  static async retryJob(jobId: string, _role?: UserRole): Promise<void> {
     const res = await safeFetchJson(`${API_BASE}/jobs/${jobId}/retry`, {
       method: 'POST',
-      headers: { 'x-medx-role': role === 'student' ? 'author' : role }
+      headers: {
+        ...this.getAuthHeaders()
+      }
     });
 
     if (!res.ok) {
@@ -237,10 +247,12 @@ export class VideoStudioService {
   /**
    * Cancel an in-flight or queued job.
    */
-  static async cancelJob(jobId: string, role: UserRole = 'author'): Promise<void> {
+  static async cancelJob(jobId: string, _role?: UserRole): Promise<void> {
     const res = await safeFetchJson(`${API_BASE}/jobs/${jobId}/cancel`, {
       method: 'POST',
-      headers: { 'x-medx-role': role === 'student' ? 'author' : role }
+      headers: {
+        ...this.getAuthHeaders()
+      }
     });
 
     if (!res.ok) {
@@ -303,12 +315,14 @@ export class VideoStudioService {
   /**
    * Trigger server-side synchronization with official VOKA YouTube channel (@vokaio).
    */
-  static async syncVokaChannel(role: UserRole = 'faculty'): Promise<{ success: boolean; report: VokaSyncReport; candidates: VokaCandidateVideo[] }> {
+  static async syncVokaChannel(_role?: UserRole): Promise<{ success: boolean; report: VokaSyncReport; candidates: VokaCandidateVideo[] }> {
     const res = await safeFetchJson<{ success: boolean; report: VokaSyncReport; candidates: VokaCandidateVideo[] }>(
       `${API_BASE}/sources/voka/sync`,
       {
         method: 'GET',
-        headers: { 'x-medx-role': role }
+        headers: {
+          ...this.getAuthHeaders()
+        }
       }
     );
 
@@ -321,10 +335,10 @@ export class VideoStudioService {
   /**
    * Fetch unreviewed VOKA candidates pending editorial review.
    */
-  static async getVokaCandidates(role: UserRole = 'faculty'): Promise<VokaCandidateVideo[]> {
+  static async getVokaCandidates(_role?: UserRole): Promise<VokaCandidateVideo[]> {
     const res = await safeFetchJson<VokaCandidateVideo[]>(`${API_BASE}/sources/voka/candidates`, {
       headers: {
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       }
     });
     if (res.ok && Array.isArray(res.data)) {
@@ -338,17 +352,19 @@ export class VideoStudioService {
    */
   static async publishVokaCandidate(
     payload: VokaPublishPayload, 
-    role: UserRole = 'faculty',
-    reviewerName = 'Prof. Dr. Tariqul Islam, MBBS, PhD'
+    _role?: UserRole,
+    reviewerName?: string
   ): Promise<SelfHostedMedicalVideo> {
+    const user = AuthService.getCurrentUser();
+    const resolvedReviewerName = reviewerName || user?.user_metadata?.full_name || 'Faculty Reviewer';
     const res = await safeFetchJson<{ success: boolean; video: SelfHostedMedicalVideo }>(
       `${API_BASE}/sources/voka/publish`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-medx-role': role,
-          'x-reviewer-name': reviewerName
+          'x-reviewer-name': resolvedReviewerName,
+          ...this.getAuthHeaders()
         },
         body: JSON.stringify(payload)
       }
@@ -363,12 +379,12 @@ export class VideoStudioService {
   /**
    * Reject a candidate video.
    */
-  static async rejectVokaCandidate(payload: { id?: string; youtubeVideoId: string }, role: UserRole = 'faculty'): Promise<void> {
+  static async rejectVokaCandidate(payload: { id?: string; youtubeVideoId: string }, _role?: UserRole): Promise<void> {
     const res = await safeFetchJson(`${API_BASE}/sources/voka/reject`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-medx-role': role
+        ...this.getAuthHeaders()
       },
       body: JSON.stringify(payload)
     });
@@ -381,12 +397,12 @@ export class VideoStudioService {
   /**
    * Execute video health check audit.
    */
-  static async runVokaHealthCheck(role: UserRole = 'faculty'): Promise<{ totalAudited: number; archivedCount: number; verifiedCount?: number }> {
+  static async runVokaHealthCheck(_role?: UserRole): Promise<{ totalAudited: number; archivedCount: number; verifiedCount?: number }> {
     const res = await safeFetchJson<{ totalAudited: number; archivedCount: number; verifiedCount?: number }>(
       `${API_BASE}/sources/voka/health-check`,
       {
         headers: {
-          'x-medx-role': role
+          ...this.getAuthHeaders()
         }
       }
     );

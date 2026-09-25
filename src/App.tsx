@@ -8,6 +8,9 @@ import { CommandPalette } from './components/navigation/CommandPalette';
 import { GlobalSearch } from './components/navigation/GlobalSearch';
 import { VoiceAssistantModal } from './components/ai/VoiceAssistantModal';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { AuthService } from './services/authService';
+import { AuthModal, AuthModalMode } from './components/navigation/AuthModal';
+import { ShieldAlert } from 'lucide-react';
 
 // Core Navigation Hubs
 import { DashboardView } from './components/home/DashboardView';
@@ -34,6 +37,14 @@ const StudyMaterialsHub = lazy(() => import('./components/study/StudyMaterialsHu
 const normalizeView = (rawHashOrView: string): NavigationView => {
   if (!rawHashOrView) return 'dashboard';
   const rawClean = rawHashOrView.replace(/^#/, '');
+  if (
+    rawClean.startsWith('access_token=') || 
+    rawClean.startsWith('error_description=') || 
+    rawClean.includes('type=recovery') || 
+    rawClean.startsWith('refresh_token=')
+  ) {
+    return 'dashboard';
+  }
   const parts = rawClean.split('?')[0].split('/');
   const hash = parts[0].toLowerCase();
 
@@ -92,6 +103,9 @@ export const App: React.FC = () => {
   });
 
   const [role, setRole] = useState<UserRole>(StorageService.getRole());
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AuthService.isAuthenticated());
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const [authModalMode, setAuthModalMode] = useState<AuthModalMode>('login');
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
   const [isVoiceOpen, setIsVoiceOpen] = useState<boolean>(false);
@@ -99,6 +113,41 @@ export const App: React.FC = () => {
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
 
   const isHomepage = currentView === 'dashboard' || currentView === 'home';
+
+  // Synchronize authenticated role and session state in real time
+  useEffect(() => {
+    const unsubscribe = AuthService.subscribe((event, session, profile) => {
+      setIsAuthenticated(Boolean(session?.user));
+      if (profile?.role) {
+        setRole(profile.role);
+      }
+      if (event === 'PASSWORD_RECOVERY') {
+        setAuthModalMode('reset-password');
+        setAuthModalOpen(true);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Handle OAuth / Email confirmation / Recovery redirects cleanly without hash conflicts
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash;
+      const search = window.location.search;
+      if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+        setAuthModalMode('reset-password');
+        setAuthModalOpen(true);
+      }
+      if (hash.includes('access_token=') || search.includes('code=')) {
+        setTimeout(() => {
+          if (window.location.hash.includes('access_token=')) {
+            window.history.replaceState(null, '', window.location.pathname + '#dashboard');
+            setCurrentView('dashboard');
+          }
+        }, 750);
+      }
+    }
+  }, []);
 
   // Hash links support shareable topic URLs and browser back/forward navigation.
   useEffect(() => {
@@ -329,10 +378,42 @@ export const App: React.FC = () => {
             {/* 7. Progress Radar */}
             {currentView === 'progress' && (
               <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Student Progress Radar…</p>}>
-                <PersonalizedProgress
-                  onNavigateToView={handleNavigate}
-                  onNavigateToTopic={() => handleNavigate('learn')}
-                />
+                {!isAuthenticated ? (
+                  <div className="max-w-2xl mx-auto my-12 p-8 rounded-3xl bg-[#06172E] border border-[rgba(190,225,255,0.22)] text-center space-y-4 shadow-2xl">
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-[#08AFC1]/15 border border-[#08AFC1]/30 flex items-center justify-center text-[#08AFC1]">
+                      <ShieldAlert className="w-7 h-7" />
+                    </div>
+                    <h2 className="text-xl font-extrabold text-white">Sign In to Track Your Personal MBBS Progress</h2>
+                    <p className="text-xs sm:text-sm text-[#8EACCF] leading-relaxed max-w-lg mx-auto">
+                      Personalized readiness scores, mistake notebooks, Spaced Repetition flashcards, and completed lesson histories are securely saved to your account.
+                    </p>
+                    <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                      <button
+                        onClick={() => {
+                          setAuthModalMode('login');
+                          setAuthModalOpen(true);
+                        }}
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#08AFC1] to-[#0694a2] hover:from-[#09c2d6] hover:to-[#08AFC1] text-[#06172E] text-xs font-bold transition-all cursor-pointer shadow-[0_0_15px_rgba(8,175,193,0.35)]"
+                      >
+                        Sign In
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAuthModalMode('signup');
+                          setAuthModalOpen(true);
+                        }}
+                        className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        Create Free Account
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <PersonalizedProgress
+                    onNavigateToView={handleNavigate}
+                    onNavigateToTopic={() => handleNavigate('learn')}
+                  />
+                )}
               </Suspense>
             )}
 
@@ -345,7 +426,48 @@ export const App: React.FC = () => {
 
             {currentView === 'faculty-admin' && (
               <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Faculty Portal…</p>}>
-                <FacultyAdminPortal />
+                {role === 'faculty' || role === 'reviewer' || role === 'admin' ? (
+                  <FacultyAdminPortal />
+                ) : (
+                  <div className="max-w-2xl mx-auto my-12 p-8 rounded-3xl bg-[#06172E] border border-purple-500/30 text-center space-y-4 shadow-2xl">
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-purple-950/80 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                      <ShieldAlert className="w-7 h-7" />
+                    </div>
+                    <h2 className="text-xl font-extrabold text-white">Faculty Access Restricted</h2>
+                    <p className="text-xs sm:text-sm text-[#8EACCF] leading-relaxed max-w-lg mx-auto">
+                      The Faculty & Curriculum Governance Portal is reserved for verified medical faculty members, external reviewers, and system administrators. Access cannot be gained by browser role changes or direct hash navigation.
+                    </p>
+                    <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                      <button
+                        onClick={() => handleNavigate('dashboard')}
+                        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        Return to Dashboard
+                      </button>
+                      {isAuthenticated ? (
+                        <button
+                          onClick={() => {
+                            setAuthModalMode('account-details');
+                            setAuthModalOpen(true);
+                          }}
+                          className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          Request Faculty Status
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setAuthModalMode('login');
+                            setAuthModalOpen(true);
+                          }}
+                          className="px-5 py-2.5 rounded-xl bg-[#08AFC1] hover:bg-[#09c2d6] text-[#06172E] text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          Sign In to Request Access
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
               </Suspense>
             )}
 
@@ -432,6 +554,14 @@ export const App: React.FC = () => {
         currentView={currentView}
         onNavigate={handleNavigate}
         onOpenSearch={() => setIsSearchOpen(true)}
+      />
+
+      {/* Global Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authModalMode}
+        onAuthStateChanged={(newRole) => setRole(newRole)}
       />
     </div>
   );

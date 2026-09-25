@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Menu, 
   X, 
   Search,
-  ChevronDown
+  ChevronDown,
+  User,
+  GraduationCap,
+  ShieldCheck,
+  LogOut,
+  LineChart,
+  UserPlus
 } from 'lucide-react';
 import { NavigationView, UserRole } from '../../types';
-import { AuthModal } from './AuthModal';
+import { AuthModal, AuthModalMode } from './AuthModal';
+import { AuthService } from '../../services/authService';
+import { UserProfile } from '../../services/supabaseClient';
 
 interface NavbarProps {
   currentView: NavigationView;
@@ -29,9 +37,24 @@ export const Navbar: React.FC<NavbarProps> = ({
   onRoleChange,
 }) => {
   const [currentLang, setCurrentLang] = useState<'en' | 'bn'>('en');
-  const [showRoleMenu, setShowRoleMenu] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<AuthModalMode>('login');
+
+  const [profile, setProfile] = useState<UserProfile | null>(AuthService.getProfile());
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(AuthService.isAuthenticated());
+
+  useEffect(() => {
+    const unsubscribe = AuthService.subscribe((_event, session, userProfile) => {
+      const authenticated = Boolean(session?.user);
+      setIsSignedIn(authenticated);
+      setProfile(userProfile);
+      if (userProfile?.role) {
+        onRoleChange(userProfile.role);
+      }
+    });
+    return () => unsubscribe();
+  }, [onRoleChange]);
 
   const navLinks: { id: NavigationView; label: string; labelBn: string }[] = [
     { id: 'study-materials', label: 'Study Materials', labelBn: 'পাঠ্য উপকরণ' },
@@ -42,6 +65,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'cases', label: 'Clinical Cases', labelBn: 'ক্লিনিক্যাল কেস' },
     { id: 'practice', label: 'Practice', labelBn: 'অনুশীলন' },
   ];
+
+  const displayName = profile?.full_name || AuthService.getCurrentUser()?.email?.split('@')[0] || 'User';
 
   return (
     <header className="w-full px-4 sm:px-8 pt-4 sm:pt-6 pb-2 max-w-[1440px] mx-auto z-40 relative">
@@ -67,8 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          {/* Center-Left Navigation Links (Original 7 routes preserved) */}
-          {/* Center-Left Navigation Links (Original 7 routes preserved) */}
+          {/* Center-Left Navigation Links */}
           <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => {
               const isActive = currentView === link.id || 
@@ -94,7 +118,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
         </div>
 
-        {/* Right Controls: Search, EN / বাংলা, separator, Sign in */}
+        {/* Right Controls: Search, EN / বাংলা, separator, Real Account Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Global Medical Search Trigger */}
           <button
@@ -125,95 +149,145 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Thin Vertical Divider */}
           <span className="hidden sm:inline w-px h-5 bg-white/20" aria-hidden="true" />
 
-          {/* Sign in / Role Persona Selector */}
+          {/* Real User Profile / Account Trigger */}
           <div className="relative">
             {isSignedIn ? (
               <button
-                onClick={() => setShowRoleMenu(!showRoleMenu)}
-                aria-expanded={showRoleMenu}
-                aria-label="Select role persona"
-                className="min-h-[44px] px-3.5 sm:px-4 py-2 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-[#F5F9FF] text-xs sm:text-sm font-medium transition-all shadow-sm select-none flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+                onClick={() => setShowAccountMenu(!showAccountMenu)}
+                aria-expanded={showAccountMenu}
+                aria-label="Open user account menu"
+                className="min-h-[44px] px-3 sm:px-3.5 py-2 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-[#F5F9FF] text-xs sm:text-sm font-medium transition-all shadow-sm select-none flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
               >
                 <div className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]" aria-hidden="true" />
-                <span className="capitalize">{role}</span>
+                <span className="max-w-[110px] sm:max-w-[140px] truncate text-xs font-semibold">{displayName}</span>
+                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold uppercase ${
+                  role === 'admin' 
+                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' 
+                    : role === 'faculty' || role === 'reviewer'
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                    : 'bg-[#08AFC1]/20 text-[#08AFC1] border border-[#08AFC1]/40'
+                }`}>
+                  {role}
+                </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
               </button>
             ) : (
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
-                aria-label="Sign in to MEDX"
-                className="min-h-[44px] px-4 py-2 rounded-xl border border-[#08AFC1]/40 bg-[#08AFC1]/15 hover:bg-[#08AFC1]/25 text-[#08AFC1] hover:text-white text-xs sm:text-sm font-semibold transition-all shadow-sm select-none flex items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
-              >
-                <span>Sign in</span>
-              </button>
-            )}
-
-            {/* Role dropdown */}
-            {showRoleMenu && isSignedIn && (
-              <div 
-                role="menu"
-                className="absolute right-0 top-full mt-2 w-52 bg-[rgba(10,36,74,0.95)] backdrop-blur-2xl rounded-2xl border border-[rgba(190,225,255,0.25)] p-1.5 shadow-2xl z-50 animate-fadeIn"
-              >
-                <div className="px-3 py-1.5 text-[11px] font-mono text-[#C4D4EA]/70 uppercase tracking-wider">
-                  Active Persona
-                </div>
-                {(['student', 'faculty', 'reviewer', 'admin'] as const).map((r) => (
-                  <button
-                    key={r}
-                    role="menuitem"
-                    onClick={() => {
-                      onRoleChange(r);
-                      setShowRoleMenu(false);
-                    }}
-                    className={`w-full text-left px-3.5 py-2.5 min-h-[44px] rounded-xl text-xs sm:text-sm capitalize transition-colors flex items-center justify-between cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1] ${
-                      role === r 
-                        ? 'bg-[#08AFC1] text-[#06172E] font-bold' 
-                        : 'text-[#C4D4EA] hover:bg-white/10 hover:text-white'
-                    }`}
-                  >
-                    <span>{r}</span>
-                    {role === r && <span className="text-xs" aria-hidden="true">✓</span>}
-                  </button>
-                ))}
-                
-                <div className="my-1 border-t border-white/10" />
-
+              <div className="flex items-center gap-1.5">
                 <button
-                  role="menuitem"
                   onClick={() => {
-                    setShowRoleMenu(false);
+                    setAuthModalMode('login');
                     setIsAuthModalOpen(true);
                   }}
-                  className="w-full text-left px-3.5 py-2 rounded-xl text-xs text-[#08AFC1] hover:bg-white/10 transition-colors flex items-center justify-between cursor-pointer"
+                  aria-label="Sign in to MEDX"
+                  className="min-h-[44px] px-3.5 sm:px-4 py-2 rounded-xl border border-[#08AFC1]/40 bg-[#08AFC1]/15 hover:bg-[#08AFC1]/25 text-[#08AFC1] hover:text-white text-xs sm:text-sm font-semibold transition-all shadow-sm select-none flex items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
                 >
-                  <span>Account details...</span>
+                  <User className="w-3.5 h-3.5" />
+                  <span>Sign in</span>
                 </button>
 
                 <button
+                  onClick={() => {
+                    setAuthModalMode('signup');
+                    setIsAuthModalOpen(true);
+                  }}
+                  aria-label="Create MEDX account"
+                  className="hidden sm:flex min-h-[44px] px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs sm:text-sm font-semibold transition-all select-none items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08AFC1]"
+                >
+                  <UserPlus className="w-3.5 h-3.5 text-[#08AFC1]" />
+                  <span>Register</span>
+                </button>
+              </div>
+            )}
+
+            {/* Authenticated User Dropdown Menu */}
+            {showAccountMenu && isSignedIn && (
+              <div 
+                role="menu"
+                className="absolute right-0 top-full mt-2 w-64 bg-[#06172E] backdrop-blur-2xl rounded-2xl border border-[rgba(190,225,255,0.25)] p-2 shadow-2xl z-50 animate-fadeIn space-y-1"
+              >
+                <div className="px-3 py-2 border-b border-white/10">
+                  <p className="text-xs font-bold text-white truncate">{profile?.full_name || displayName}</p>
+                  <p className="text-[11px] text-[#8EACCF] truncate">{AuthService.getCurrentUser()?.email}</p>
+                  <div className="mt-1 flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white/10 text-[#08AFC1] font-bold">
+                      {role}
+                    </span>
+                    {profile?.faculty_status === 'pending' && (
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">
+                        Faculty Pending
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Personal Progress */}
+                <button
                   role="menuitem"
                   onClick={() => {
-                    setIsSignedIn(false);
-                    setShowRoleMenu(false);
+                    setShowAccountMenu(false);
+                    onNavigate('progress');
                   }}
-                  className="w-full text-left px-3.5 py-2 rounded-xl text-xs text-rose-300 hover:bg-rose-500/15 transition-colors flex items-center justify-between cursor-pointer"
+                  className="w-full text-left px-3 py-2 rounded-xl text-xs text-[#C4D4EA] hover:bg-white/10 hover:text-white transition-colors flex items-center gap-2.5 cursor-pointer"
                 >
+                  <LineChart className="w-4 h-4 text-[#08AFC1]" />
+                  <span>My Learning Progress</span>
+                </button>
+
+                {/* Faculty/Admin Portal link if authorized */}
+                {(role === 'faculty' || role === 'reviewer' || role === 'admin') && (
+                  <button
+                    role="menuitem"
+                    onClick={() => {
+                      setShowAccountMenu(false);
+                      onNavigate('faculty-admin');
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl text-xs text-purple-300 hover:bg-purple-500/15 transition-colors flex items-center gap-2.5 cursor-pointer"
+                  >
+                    <GraduationCap className="w-4 h-4 text-purple-400" />
+                    <span>Faculty & Governance Portal</span>
+                  </button>
+                )}
+
+                <div className="my-1 border-t border-white/10" />
+
+                {/* Account Details Modal Trigger */}
+                <button
+                  role="menuitem"
+                  onClick={() => {
+                    setShowAccountMenu(false);
+                    setAuthModalMode('account-details');
+                    setIsAuthModalOpen(true);
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-xl text-xs text-[#08AFC1] hover:bg-white/10 transition-colors flex items-center gap-2.5 cursor-pointer"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Account Details & Settings</span>
+                </button>
+
+                {/* Sign Out */}
+                <button
+                  role="menuitem"
+                  onClick={async () => {
+                    setShowAccountMenu(false);
+                    await AuthService.signOut();
+                    onRoleChange('student');
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-xl text-xs text-rose-300 hover:bg-rose-500/15 transition-colors flex items-center gap-2.5 cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
                   <span>Sign out</span>
                 </button>
               </div>
             )}
           </div>
 
-          {/* Auth Modal */}
+          {/* Real Auth Modal */}
           <AuthModal
             isOpen={isAuthModalOpen}
             onClose={() => setIsAuthModalOpen(false)}
-            currentRole={role}
-            onRoleChange={(newRole) => {
+            initialMode={authModalMode}
+            onAuthStateChanged={(newRole) => {
               onRoleChange(newRole);
-              setIsSignedIn(true);
-            }}
-            onSignOut={() => {
-              setIsSignedIn(false);
             }}
           />
 

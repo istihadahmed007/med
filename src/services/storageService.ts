@@ -6,6 +6,8 @@ import {
   LessonBookmark,
   BmdcLesson
 } from '../types';
+import { AuthService } from './authService';
+import { UserDataService, createEmptyProgress } from './userDataService';
 import { 
   VideoGenerationJob, 
   LessonVideo, 
@@ -183,26 +185,54 @@ export const INITIAL_MISTAKES: MistakeEntry[] = [
 ];
 
 export class StorageService {
-  // Student Progress
+  // Student Progress (strictly tied to verified authenticated user ID)
   static getProgress(): StudentProgress {
-    try {
-      const data = localStorage.getItem(PROGRESS_STORAGE_KEY);
-      if (!data) {
-        this.saveProgress(INITIAL_STUDENT_PROGRESS);
-        return INITIAL_STUDENT_PROGRESS;
-      }
-      return JSON.parse(data);
-    } catch (e) {
-      console.warn('StorageService: Failed to read progress', e);
-      return INITIAL_STUDENT_PROGRESS;
+    const user = AuthService.getCurrentUser();
+    const profile = AuthService.getProfile();
+
+    if (user) {
+      const userKey = `medx_progress_${user.id}`;
+      try {
+        const data = localStorage.getItem(userKey);
+        if (data) return JSON.parse(data);
+      } catch {}
+
+      // Fresh authenticated user: clean initial progress (never copy sample student profile)
+      const fresh = createEmptyProgress({
+        id: user.id,
+        name: profile?.full_name || user.email?.split('@')[0] || 'Medical Student',
+        email: user.email || '',
+        institution: profile?.institution,
+        phase: profile?.mbbs_phase
+      });
+      try {
+        localStorage.setItem(userKey, JSON.stringify(fresh));
+      } catch {}
+
+      // Trigger asynchronous background database sync
+      UserDataService.getProgress().catch(() => {});
+      return fresh;
     }
+
+    // Visitor state: clean empty progress
+    return createEmptyProgress({
+      id: 'visitor',
+      name: 'Medical Visitor',
+      email: ''
+    });
   }
 
   static saveProgress(progress: StudentProgress): void {
-    try {
-      localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
-    } catch (e) {
-      console.error('StorageService: Failed to save progress', e);
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      try {
+        localStorage.setItem(`medx_progress_${user.id}`, JSON.stringify(progress));
+      } catch {}
+      UserDataService.saveProgress(progress).catch(() => {});
+    } else {
+      try {
+        localStorage.setItem('medx_visitor_progress', JSON.stringify(progress));
+      } catch {}
     }
   }
 
@@ -226,67 +256,39 @@ export class StorageService {
     }
   }
 
-  // User Role (Client helper; server validates actual role)
+  // User Role (Derived strictly from verified authentication session)
   static getRole(): UserRole {
-    try {
-      const role = localStorage.getItem(ROLE_STORAGE_KEY) as UserRole | null;
-      return role || 'student';
-    } catch {
-      return 'student';
-    }
+    return AuthService.getRole();
   }
 
   static setRole(role: UserRole): void {
-    try {
-      localStorage.setItem(ROLE_STORAGE_KEY, role);
-    } catch (e) {
-      console.error('StorageService: Failed to save role', e);
-    }
+    // Prohibit browser-side role manipulation.
+    // Client code and localStorage cannot escalate roles.
   }
 
-  // Bookmarks & Lesson Resume
+  // Bookmarks & Lesson Resume (Isolated per authenticated user ID)
   static getBookmarks(): LessonBookmark[] {
+    const user = AuthService.getCurrentUser();
+    const key = user ? `medx_bookmarks_${user.id}` : 'medx_visitor_bookmarks';
     try {
-      const data = localStorage.getItem(BOOKMARKS_STORAGE_KEY);
-      if (!data) {
-        const defaults: LessonBookmark[] = [
-          {
-            lessonId: 'cvs-anat-heart-morphology',
-            title: 'Heart: External & Internal Features and Coronary Circulation',
-            subject: 'Anatomy',
-            phase: 'Phase 1',
-            lastStep: 'explore',
-            scrollPercentage: 45,
-            savedAt: Date.now() - 3600000
-          },
-          {
-            lessonId: 'cvs-med-acute-coronary-syndrome',
-            title: 'Acute Coronary Syndromes & 12-Lead ECG Interpretation',
-            subject: 'Medicine',
-            phase: 'Phase 4',
-            lastStep: 'learn',
-            scrollPercentage: 70,
-            savedAt: Date.now() - 7200000
-          }
-        ];
-        this.saveBookmarks(defaults);
-        return defaults;
-      }
-      return JSON.parse(data);
-    } catch {
-      return [];
-    }
+      const data = localStorage.getItem(key);
+      if (data) return JSON.parse(data);
+    } catch {}
+    return [];
   }
 
   static saveBookmarks(bookmarks: LessonBookmark[]): void {
+    const user = AuthService.getCurrentUser();
+    const key = user ? `medx_bookmarks_${user.id}` : 'medx_visitor_bookmarks';
     try {
-      localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarks));
+      localStorage.setItem(key, JSON.stringify(bookmarks));
     } catch (e) {
       console.error('StorageService: Bookmark save failed', e);
     }
   }
 
   static toggleBookmark(lesson: BmdcLesson, currentStep: any = 'learn'): boolean {
+    const user = AuthService.getCurrentUser();
     const bookmarks = this.getBookmarks();
     const existingIndex = bookmarks.findIndex((b) => b.lessonId === lesson.id);
     let isBookmarked = false;
@@ -306,7 +308,11 @@ export class StorageService {
       });
       isBookmarked = true;
     }
+
     this.saveBookmarks(bookmarks);
+    if (user) {
+      UserDataService.toggleBookmark(lesson, currentStep).catch(() => {});
+    }
     return isBookmarked;
   }
 
@@ -314,29 +320,29 @@ export class StorageService {
     return this.getBookmarks().some((b) => b.lessonId === lessonId);
   }
 
-  // Mistake Notebook
+  // Mistake Notebook (Isolated per authenticated user ID)
   static getMistakes(): MistakeEntry[] {
+    const user = AuthService.getCurrentUser();
+    const key = user ? `medx_mistakes_${user.id}` : 'medx_visitor_mistakes';
     try {
-      const data = localStorage.getItem(MISTAKES_STORAGE_KEY);
-      if (!data) {
-        this.saveMistakes(INITIAL_MISTAKES);
-        return INITIAL_MISTAKES;
-      }
-      return JSON.parse(data);
-    } catch {
-      return INITIAL_MISTAKES;
-    }
+      const data = localStorage.getItem(key);
+      if (data) return JSON.parse(data);
+    } catch {}
+    return [];
   }
 
   static saveMistakes(mistakes: MistakeEntry[]): void {
+    const user = AuthService.getCurrentUser();
+    const key = user ? `medx_mistakes_${user.id}` : 'medx_visitor_mistakes';
     try {
-      localStorage.setItem(MISTAKES_STORAGE_KEY, JSON.stringify(mistakes));
+      localStorage.setItem(key, JSON.stringify(mistakes));
     } catch (e) {
       console.error('StorageService: Failed to save mistakes', e);
     }
   }
 
   static recordMistake(mistake: Omit<MistakeEntry, 'id' | 'timestamp' | 'reviewed' | 'reviewCount'>): void {
+    const user = AuthService.getCurrentUser();
     const mistakes = this.getMistakes();
     const existing = mistakes.find((m) => m.questionId === mistake.questionId);
     if (!existing) {
@@ -349,6 +355,9 @@ export class StorageService {
       };
       mistakes.unshift(newEntry);
       this.saveMistakes(mistakes);
+      if (user) {
+        UserDataService.recordMistake(mistake).catch(() => {});
+      }
     }
   }
 
@@ -360,23 +369,22 @@ export class StorageService {
     this.saveMistakes(updated);
   }
 
-  // Spaced Repetition Flashcards
+  // Spaced Repetition Flashcards (Isolated per user)
   static getSpacedCards(): SpacedRepetitionCard[] {
+    const user = AuthService.getCurrentUser();
+    const key = user ? `medx_spaced_cards_${user.id}` : 'medx_visitor_spaced_cards';
     try {
-      const data = localStorage.getItem(SPACED_CARDS_STORAGE_KEY);
-      if (!data) {
-        this.saveSpacedCards(INITIAL_SPACED_CARDS);
-        return INITIAL_SPACED_CARDS;
-      }
-      return JSON.parse(data);
-    } catch {
-      return INITIAL_SPACED_CARDS;
-    }
+      const data = localStorage.getItem(key);
+      if (data) return JSON.parse(data);
+    } catch {}
+    return [];
   }
 
   static saveSpacedCards(cards: SpacedRepetitionCard[]): void {
+    const user = AuthService.getCurrentUser();
+    const key = user ? `medx_spaced_cards_${user.id}` : 'medx_visitor_spaced_cards';
     try {
-      localStorage.setItem(SPACED_CARDS_STORAGE_KEY, JSON.stringify(cards));
+      localStorage.setItem(key, JSON.stringify(cards));
     } catch (e) {
       console.error('StorageService: Failed to save spaced cards', e);
     }
@@ -441,11 +449,19 @@ export class StorageService {
 
   // Get active user credentials
   static getUser(): { id: string; name: string; email: string } {
-    const p = this.getProgress();
+    const user = AuthService.getCurrentUser();
+    const profile = AuthService.getProfile();
+    if (user) {
+      return {
+        id: user.id,
+        name: profile?.full_name || user.email?.split('@')[0] || 'Medical Learner',
+        email: user.email || ''
+      };
+    }
     return {
-      id: p.userId || 'std-istihad-dmc',
-      name: p.name || 'Dr. Istihad Ahmed',
-      email: p.email || 'istihad.ahmed@student.dmc.edu.bd'
+      id: 'visitor',
+      name: 'Medical Visitor',
+      email: ''
     };
   }
 

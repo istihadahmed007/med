@@ -8,18 +8,19 @@ import { VokaSyncService } from './server/services/vokaSyncService.js';
 import { TextbookService } from './server/services/textbookService.js';
 import { DrugService } from './server/services/drugService.js';
 import { DrugImportService } from './server/services/drugImportService.js';
+import { verifySessionUser, requireAuth, requireRole } from './server/services/authVerifier.js';
 
 // Dev API plugin ensures that Vite SPA server never serves index.html (<!DOCTYPE) for /api requests
 const devApiFallbackPlugin = () => ({
   name: 'dev-api-fallback',
   configureServer(server) {
-    server.middlewares.use((req, res, next) => {
+    server.middlewares.use(async (req, res, next) => {
       const url = req.url || '';
       if (url.startsWith('/api/') || url === '/api') {
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-medx-role');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, apikey');
 
         if (req.method === 'OPTIONS') {
           res.statusCode = 204;
@@ -34,48 +35,20 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/auth/me')) {
+          const user = await verifySessionUser(req);
+          if (!user) {
+            res.statusCode = 401;
+            res.end(JSON.stringify({ error: 'Unauthorized: Valid authenticated session token required.' }));
+            return;
+          }
           res.statusCode = 200;
-          try {
-            const dbPath = path.resolve(process.cwd(), 'server', 'data', 'medx_db.json');
-            if (fs.existsSync(dbPath)) {
-              const data = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-              if (data.users && data.users[0]) {
-                res.end(JSON.stringify(data.users[0]));
-                return;
-              }
-            }
-          } catch (e) {}
-          res.end(JSON.stringify({
-            id: 'usr-student-01',
-            name: 'Tarek Rahman',
-            email: 'tarek.rahman@dmc.edu.bd',
-            institution: 'Dhaka Medical College',
-            bmdcReg: 'A-89421',
-            yearOfStudy: '4th Year MBBS (Phase 3)',
-            role: 'student'
-          }));
+          res.end(JSON.stringify(user));
           return;
         }
 
-        if (url.startsWith('/api/auth/role') && req.method === 'POST') {
-          let bodyStr = '';
-          req.on('data', chunk => { bodyStr += chunk; });
-          req.on('end', () => {
-            try {
-              const body = JSON.parse(bodyStr || '{}');
-              const role = body.role;
-              if (['student', 'faculty', 'author', 'reviewer', 'admin'].includes(role)) {
-                res.statusCode = 200;
-                res.end(JSON.stringify({ success: true, role }));
-              } else {
-                res.statusCode = 400;
-                res.end(JSON.stringify({ error: 'Invalid role' }));
-              }
-            } catch (err) {
-              res.statusCode = 400;
-              res.end(JSON.stringify({ error: 'Bad Request' }));
-            }
-          });
+        if (url.startsWith('/api/auth/role')) {
+          res.statusCode = 403;
+          res.end(JSON.stringify({ error: 'Forbidden: Browser-controlled role switching is prohibited. Roles are enforced strictly by session tokens and database Row Level Security.' }));
           return;
         }
 
@@ -167,12 +140,8 @@ const devApiFallbackPlugin = () => ({
 
         // VOKA YouTube Official Channel Endpoints
         if (url.startsWith('/api/video-studio/sources/voka/sync')) {
-          const role = req.headers['x-medx-role'] || 'faculty';
-          if (role !== 'faculty' && role !== 'admin' && role !== 'reviewer') {
-            res.statusCode = 403;
-            res.end(JSON.stringify({ error: 'Unauthorized. Only faculty or admin can trigger synchronization.' }));
-            return;
-          }
+          const user = await requireRole(req, res, ['faculty', 'admin', 'reviewer']);
+          if (!user) return;
           VokaSyncService.syncChannel(process.env.YOUTUBE_API_KEY)
             .then(result => {
               res.statusCode = 200;
@@ -192,18 +161,14 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/video-studio/sources/voka/publish') && req.method === 'POST') {
-          const role = req.headers['x-medx-role'] || 'faculty';
-          if (role !== 'faculty' && role !== 'admin' && role !== 'reviewer') {
-            res.statusCode = 403;
-            res.end(JSON.stringify({ error: 'Unauthorized. Only faculty or admin can publish videos.' }));
-            return;
-          }
+          const user = await requireRole(req, res, ['faculty', 'admin', 'reviewer']);
+          if (!user) return;
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const reviewerName = req.headers['x-reviewer-name'] || 'Prof. Dr. Tariqul Islam, MBBS, PhD';
+              const reviewerName = user.name || 'Verified Faculty Reviewer';
               const record = VokaSyncService.publishCandidate(payload, { name: reviewerName, role: 'Senior Faculty Reviewer' });
               res.statusCode = 200;
               res.end(JSON.stringify({ success: true, video: record }));
@@ -250,16 +215,17 @@ const devApiFallbackPlugin = () => ({
 
         // Textbook Library Endpoints
         if (url.startsWith('/api/textbooks/user-uploads')) {
-          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           res.statusCode = 200;
-          res.end(JSON.stringify(TextbookService.getUserUploads(userId)));
+          res.end(JSON.stringify(TextbookService.getUserUploads(user.id)));
           return;
         }
 
         if (url.startsWith('/api/textbooks/') && req.method === 'GET') {
           const id = url.split('?')[0].replace('/api/textbooks/', '');
-          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
-          const book = TextbookService.getTextbookById(id, userId);
+          const user = await verifySessionUser(req);
+          const book = TextbookService.getTextbookById(id, user?.id);
           if (book) {
             res.statusCode = 200;
             res.end(JSON.stringify(book));
@@ -277,15 +243,15 @@ const devApiFallbackPlugin = () => ({
           const subject = parsed.searchParams.get('subject') || 'all';
           const accessType = parsed.searchParams.get('accessType') || 'all';
           const includePrivate = parsed.searchParams.get('includePrivate') === 'true';
-          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
+          const user = await verifySessionUser(req);
 
           const results = TextbookService.getTextbooks({
             query,
             phase,
             subject,
             accessType,
-            userId,
-            includePrivate
+            userId: user?.id,
+            includePrivate: Boolean(includePrivate && user)
           });
           res.statusCode = 200;
           res.end(JSON.stringify(results));
@@ -311,17 +277,17 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/textbook-import/submit-job') && req.method === 'POST') {
+          const user = await requireAuth(req, res);
+          if (!user) return;
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
-              const role = req.headers['x-medx-role'] || 'student';
               const job = TextbookService.submitJob({
                 ...payload,
-                ownerId: userId,
-                ownerRole: role
+                ownerId: user.id,
+                ownerRole: user.role
               });
               res.statusCode = 201;
               res.end(JSON.stringify({ success: true, job }));
@@ -334,9 +300,9 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/textbook-import/jobs') && req.method === 'GET') {
-          const userId = req.headers['x-medx-user-id'] || 'std-bmdc-2026-0891';
-          const role = req.headers['x-medx-role'] || 'student';
-          const jobs = TextbookService.getJobs({ ownerId: userId, role });
+          const user = await requireAuth(req, res);
+          if (!user) return;
+          const jobs = TextbookService.getJobs({ ownerId: user.id, role: user.role });
           res.statusCode = 200;
           res.end(JSON.stringify(jobs));
           return;
@@ -357,20 +323,16 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.includes('/review') && url.startsWith('/api/textbook-import/jobs/') && req.method === 'POST') {
+          const user = await requireRole(req, res, ['faculty', 'admin', 'reviewer']);
+          if (!user) return;
           const parts = url.split('/');
           const jobId = parts[4];
-          const role = req.headers['x-medx-role'] || 'student';
-          if (role !== 'faculty' && role !== 'admin' && role !== 'reviewer') {
-            res.statusCode = 403;
-            res.end(JSON.stringify({ error: 'Unauthorized: Only faculty reviewers can approve or reject library jobs.' }));
-            return;
-          }
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const reviewerName = req.headers['x-reviewer-name'] || 'Prof. Dr. Tariqul Islam';
+              const reviewerName = user.name || 'Verified Faculty Reviewer';
               const reviewed = TextbookService.reviewJob(jobId, payload.action, payload.reviewNotes, { name: reviewerName });
               res.statusCode = 200;
               res.end(JSON.stringify({ success: true, job: reviewed }));
@@ -383,8 +345,6 @@ const devApiFallbackPlugin = () => ({
         }
 
         // Drug Reference & Pharmacology Study Centre Endpoints
-        const clientId = req.headers['x-medx-user-id'] || 'dev-user';
-
         if (url === '/api/drugs/stats' && req.method === 'GET') {
           res.statusCode = 200;
           res.end(JSON.stringify(DrugService.getDatabaseStats()));
@@ -539,20 +499,22 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/me/drug-bookmarks') && req.method === 'GET') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           res.statusCode = 200;
-          res.end(JSON.stringify(DrugService.getUserBookmarks(userId)));
+          res.end(JSON.stringify(DrugService.getUserBookmarks(user.id)));
           return;
         }
 
         if (url.startsWith('/api/me/drug-bookmarks') && req.method === 'POST') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const result = DrugService.toggleUserBookmark(userId, payload);
+              const result = DrugService.toggleUserBookmark(user.id, payload);
               res.statusCode = 200;
               res.end(JSON.stringify(result));
             } catch (err) {
@@ -564,20 +526,22 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/me/drug-notes') && req.method === 'GET') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           res.statusCode = 200;
-          res.end(JSON.stringify(DrugService.getUserNotes(userId)));
+          res.end(JSON.stringify(DrugService.getUserNotes(user.id)));
           return;
         }
 
         if (url.startsWith('/api/me/drug-notes') && req.method === 'POST') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const saved = DrugService.saveUserNote(userId, payload.drugId, payload.note);
+              const saved = DrugService.saveUserNote(user.id, payload.drugId, payload.note);
               res.statusCode = 200;
               res.end(JSON.stringify(saved));
             } catch (err) {
@@ -589,20 +553,22 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/me/recent-drugs') && req.method === 'GET') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           res.statusCode = 200;
-          res.end(JSON.stringify(DrugService.getRecentDrugs(userId)));
+          res.end(JSON.stringify(DrugService.getRecentDrugs(user.id)));
           return;
         }
 
         if (url.startsWith('/api/me/recent-drugs') && req.method === 'POST') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const list = DrugService.trackRecentDrug(userId, payload);
+              const list = DrugService.trackRecentDrug(user.id, payload);
               res.statusCode = 200;
               res.end(JSON.stringify(list));
             } catch (err) {
@@ -620,13 +586,14 @@ const devApiFallbackPlugin = () => ({
         }
 
         if (url.startsWith('/api/drugs/governance/report-correction') && req.method === 'POST') {
-          const userId = req.headers['x-medx-user-id'] || 'default-student';
+          const user = await requireAuth(req, res);
+          if (!user) return;
           let body = '';
           req.on('data', chunk => { body += chunk; });
           req.on('end', () => {
             try {
               const payload = JSON.parse(body || '{}');
-              const report = DrugService.reportCorrection(userId, payload);
+              const report = DrugService.reportCorrection(user.id, payload);
               res.statusCode = 201;
               res.end(JSON.stringify({ success: true, report }));
             } catch (err) {

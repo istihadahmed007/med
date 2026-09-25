@@ -9,6 +9,7 @@ import {
   SpacedRepetitionCard
 } from '../types';
 import { StorageService } from './storageService';
+import { AuthService } from './authService';
 import { 
   CARDIOVASCULAR_PILOT_LESSONS, 
   CARDIOVASCULAR_PILOT_QUESTIONS, 
@@ -54,33 +55,34 @@ export class ApiService {
 
   // Authentication & Role
   static async getCurrentUser(): Promise<UserAccount> {
-    const data = await safeJsonFetch<UserAccount>(`${API_BASE}/auth/me`);
-    if (data) return data;
+    const session = AuthService.getSession();
+    const token = session?.access_token;
 
-    const role = StorageService.getRole();
+    if (token) {
+      const data = await safeJsonFetch<UserAccount>(`${API_BASE}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (data) return data;
+    }
+
+    const authUser = AuthService.getCurrentUser();
+    const profile = AuthService.getProfile();
+    const role = AuthService.getRole();
     const progress = StorageService.getProgress();
+
     return {
-      id: progress.userId,
-      name: progress.name,
-      email: progress.email,
+      id: authUser?.id || progress.userId,
+      name: profile?.full_name || authUser?.email?.split('@')[0] || progress.name,
+      email: authUser?.email || progress.email,
       role: role,
-      currentPhase: progress.currentPhase,
-      institution: progress.university
+      currentPhase: profile?.mbbs_phase || progress.currentPhase,
+      institution: profile?.institution || progress.university
     };
   }
 
   static async setRole(role: UserRole): Promise<UserRole> {
-    StorageService.setRole(role);
-    try {
-      await fetch(`${API_BASE}/auth/role`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role })
-      });
-    } catch {
-      // Handled in local storage
-    }
-    return role;
+    // Browser role switching is prohibited. Role is derived from verified Supabase session.
+    return AuthService.getRole();
   }
 
   // Lessons & Curriculum

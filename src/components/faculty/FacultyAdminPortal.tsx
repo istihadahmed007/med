@@ -1,7 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserRole } from '../../types';
-import { StorageService } from '../../services/storageService';
-import { ShieldCheck, Plus, CheckCircle2, Clock, XCircle, FileText, AlertCircle, Users, Settings } from 'lucide-react';
+import { AuthService } from '../../services/authService';
+import { supabase, isSupabaseConfigured } from '../../services/supabaseClient';
+import { 
+  ShieldCheck, 
+  Plus, 
+  CheckCircle2, 
+  Clock, 
+  XCircle, 
+  FileText, 
+  AlertCircle, 
+  Users, 
+  Settings,
+  GraduationCap,
+  ShieldAlert
+} from 'lucide-react';
 
 interface ContentItem {
   id: string;
@@ -11,6 +24,17 @@ interface ContentItem {
   submittedDate: string;
   status: 'Draft' | 'Under Faculty Review' | 'Approved' | 'Published';
   reviewerName?: string;
+}
+
+interface FacultyApplicant {
+  userId: string;
+  fullName: string;
+  email: string;
+  institution: string;
+  bmdcReg?: string;
+  reason?: string;
+  appliedDate: string;
+  status: 'pending' | 'approved' | 'rejected';
 }
 
 const SAMPLE_CONTENT_PIPELINE: ContentItem[] = [
@@ -44,37 +68,94 @@ const SAMPLE_CONTENT_PIPELINE: ContentItem[] = [
 ];
 
 export const FacultyAdminPortal: React.FC = () => {
-  const [currentRole, setCurrentRole] = useState<UserRole>(StorageService.getRole());
+  const currentRole = AuthService.getRole();
+  const profile = AuthService.getProfile();
   const [items, setItems] = useState<ContentItem[]>(SAMPLE_CONTENT_PIPELINE);
-  const [activeTab, setActiveTab] = useState<'review' | 'create' | 'audit'>('review');
+  const [applicants, setApplicants] = useState<FacultyApplicant[]>([
+    {
+      userId: 'usr-app-01',
+      fullName: 'Dr. Rafiqul Hassan',
+      email: 'rafiqul.hassan@dmc.edu.bd',
+      institution: 'Dhaka Medical College',
+      bmdcReg: 'A-49821',
+      reason: 'Assistant Professor of Medicine teaching 4th & 5th year MBBS students.',
+      appliedDate: '24 Sept 2026',
+      status: 'pending'
+    }
+  ]);
+  const [activeTab, setActiveTab] = useState<'review' | 'create' | 'applicants'>('review');
 
   // Form State for creating new item
   const [newTitle, setNewTitle] = useState('');
   const [newType, setNewType] = useState<'Clinical Case' | 'OSPE Station' | 'Treatment Algorithm'>('Clinical Case');
+  const [actionFeedback, setActionFeedback] = useState<string | null>(null);
 
-  const handleRoleChange = (role: UserRole) => {
-    setCurrentRole(role);
-    StorageService.setRole(role);
-  };
+  useEffect(() => {
+    // If Supabase is configured and caller is admin, fetch real applicants from faculty_applications table
+    if (isSupabaseConfigured() && currentRole === 'admin') {
+      supabase
+        .from('faculty_applications')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .then(({ data, error }) => {
+          if (!error && data && data.length > 0) {
+            const mapped: FacultyApplicant[] = data.map((d: any) => ({
+              userId: d.user_id,
+              fullName: d.full_name,
+              email: d.email,
+              institution: d.institution,
+              bmdcReg: d.bmdc_reg,
+              reason: d.reason,
+              appliedDate: new Date(d.created_at).toLocaleDateString(),
+              status: d.status
+            }));
+            setApplicants(mapped);
+          }
+        });
+    }
+  }, [currentRole]);
 
   const handleApprove = (id: string) => {
+    const reviewer = profile?.full_name || 'Academic Reviewer';
     setItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, status: 'Published', reviewerName: 'Prof. Reviewer (Approved)' } : item
+        item.id === id ? { ...item, status: 'Published', reviewerName: `${reviewer} (Approved)` } : item
       )
     );
+    setActionFeedback(`Module approved and published to BM&DC student curriculum.`);
+    setTimeout(() => setActionFeedback(null), 3500);
+  };
+
+  const handleApproveFaculty = async (applicant: FacultyApplicant) => {
+    if (isSupabaseConfigured()) {
+      await AuthService.approveFacultyRole(applicant.userId, 'Approved via Faculty Governance Portal');
+    }
+    setApplicants((prev) =>
+      prev.map((a) => (a.userId === applicant.userId ? { ...a, status: 'approved' } : a))
+    );
+    setActionFeedback(`Faculty applicant ${applicant.fullName} has been approved as Medical Faculty.`);
+    setTimeout(() => setActionFeedback(null), 4000);
+  };
+
+  const handleRejectFaculty = (applicant: FacultyApplicant) => {
+    setApplicants((prev) =>
+      prev.map((a) => (a.userId === applicant.userId ? { ...a, status: 'rejected' } : a))
+    );
+    setActionFeedback(`Faculty application for ${applicant.fullName} declined.`);
+    setTimeout(() => setActionFeedback(null), 4000);
   };
 
   const handleCreateItem = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
 
+    const author = profile?.full_name || 'Faculty Contributor';
     const newItem: ContentItem = {
       id: `cnt-${Date.now()}`,
       title: newTitle,
-      type: newType as any,
-      authorName: 'Dr. Istihad Ahmed (Faculty Contributor)',
-      submittedDate: '15 Sept 2026',
+      type: newType,
+      authorName: `${author} (${profile?.institution || 'Medical Faculty'})`,
+      submittedDate: 'Just now',
       status: 'Under Faculty Review',
       reviewerName: 'Assigned for Peer Review'
     };
@@ -82,6 +163,8 @@ export const FacultyAdminPortal: React.FC = () => {
     setItems([newItem, ...items]);
     setNewTitle('');
     setActiveTab('review');
+    setActionFeedback('New module authored and submitted into the BM&DC peer review pipeline.');
+    setTimeout(() => setActionFeedback(null), 3500);
   };
 
   return (
@@ -93,36 +176,39 @@ export const FacultyAdminPortal: React.FC = () => {
             Faculty & Curriculum Governance Portal
           </span>
           <h1 className="text-3xl font-bold text-white mt-2">
-            Academic Content Review & Authoring Engine
+            Academic Content Review & Governance Engine
           </h1>
           <p className="text-slate-400 text-xs sm:text-sm mt-1">
-            Author and review clinical cases, OSPE stations, and treatment algorithms under the BM&DC peer review workflow.
+            Author and peer-review clinical cases, OSPE stations, and treatment algorithms under BM&DC guidelines.
           </p>
         </div>
 
-        {/* Role Switcher */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl glass-panel border border-slate-800">
-          {(['student', 'faculty', 'reviewer', 'admin'] as const).map((r) => (
-            <button
-              key={r}
-              onClick={() => handleRoleChange(r)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-all ${
-                currentRole === r
-                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-glow-blue'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              {r}
-            </button>
-          ))}
+        {/* Verified Role Badge (No client-controlled switching) */}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-purple-950/60 border border-purple-500/40">
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]" />
+          <div className="text-left">
+            <div className="text-[11px] font-mono text-purple-200 font-bold uppercase tracking-wider">
+              Verified Session
+            </div>
+            <div className="text-xs text-purple-300 font-semibold capitalize">
+              {currentRole} Role Enforced
+            </div>
+          </div>
         </div>
       </div>
 
+      {actionFeedback && (
+        <div role="status" className="p-3.5 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-xs text-emerald-200 flex items-center gap-2 animate-fadeIn">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{actionFeedback}</span>
+        </div>
+      )}
+
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
         <button
           onClick={() => setActiveTab('review')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-colors ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
             activeTab === 'review'
               ? 'bg-purple-600 text-white shadow-glow-blue'
               : 'text-slate-400 hover:text-white'
@@ -130,9 +216,10 @@ export const FacultyAdminPortal: React.FC = () => {
         >
           Review Pipeline ({items.length})
         </button>
+
         <button
           onClick={() => setActiveTab('create')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-colors ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
             activeTab === 'create'
               ? 'bg-purple-600 text-white shadow-glow-blue'
               : 'text-slate-400 hover:text-white'
@@ -140,6 +227,20 @@ export const FacultyAdminPortal: React.FC = () => {
         >
           Author New Module
         </button>
+
+        {currentRole === 'admin' && (
+          <button
+            onClick={() => setActiveTab('applicants')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5 ${
+              activeTab === 'applicants'
+                ? 'bg-purple-600 text-white shadow-glow-blue'
+                : 'text-purple-300 hover:text-white'
+            }`}
+          >
+            <GraduationCap className="w-3.5 h-3.5" />
+            <span>Faculty Applications ({applicants.filter(a => a.status === 'pending').length} pending)</span>
+          </button>
+        )}
       </div>
 
       {/* Tab 1: Review Pipeline */}
@@ -179,7 +280,7 @@ export const FacultyAdminPortal: React.FC = () => {
                   {item.status !== 'Published' && (currentRole === 'reviewer' || currentRole === 'admin' || currentRole === 'faculty') && (
                     <button
                       onClick={() => handleApprove(item.id)}
-                      className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center gap-1.5"
+                      className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Approve & Publish</span>
@@ -228,12 +329,78 @@ export const FacultyAdminPortal: React.FC = () => {
 
           <button
             type="submit"
-            className="py-3 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-glow-blue flex items-center justify-center gap-2"
+            className="py-3 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-glow-blue flex items-center justify-center gap-2 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Submit Module to Faculty Peer Review</span>
           </button>
         </form>
+      )}
+
+      {/* Tab 3: Faculty Applications (Admin Only) */}
+      {activeTab === 'applicants' && currentRole === 'admin' && (
+        <div className="glass-panel-elevated p-6 rounded-2xl border border-purple-500/20 space-y-4">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+            Faculty Access Requests & Administrative Governance
+          </h3>
+          <p className="text-xs text-slate-400">
+            Review submitted medical college teaching credentials. Approving promotes the user account from student to verified faculty contributor.
+          </p>
+
+          <div className="space-y-3 pt-2">
+            {applicants.map((applicant) => (
+              <div
+                key={applicant.userId}
+                className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white">{applicant.fullName}</span>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${
+                      applicant.status === 'approved'
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        : applicant.status === 'rejected'
+                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                        : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                    }`}>
+                      {applicant.status}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300">
+                    {applicant.institution} {applicant.bmdcReg && `• BM&DC Reg: ${applicant.bmdcReg}`} • Applied: {applicant.appliedDate}
+                  </p>
+                  {applicant.reason && (
+                    <p className="text-xs text-purple-200/90 italic">
+                      &ldquo;{applicant.reason}&rdquo;
+                    </p>
+                  )}
+                  <p className="text-[11px] text-slate-400 font-mono">
+                    Email: {applicant.email}
+                  </p>
+                </div>
+
+                {applicant.status === 'pending' && (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => handleApproveFaculty(applicant)}
+                      className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Approve Role</span>
+                    </button>
+                    <button
+                      onClick={() => handleRejectFaculty(applicant)}
+                      className="px-3.5 py-1.5 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <XCircle className="w-3.5 h-3.5" />
+                      <span>Decline</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
