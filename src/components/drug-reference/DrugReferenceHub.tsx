@@ -1708,19 +1708,22 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                               : 'badge-schedule-g'
                           }`}
                         >
-                          {gen.prescriptionStatus}
+                          {gen.prescriptionStatus || 'Under Review'}
                         </span>
                       </div>
 
-                      <div className="generic-card-class text-xs text-slate-600 font-medium mb-2">{gen.pharmacologicalClass}</div>
+                      <div className="generic-card-class text-xs text-slate-600 font-medium mb-2">{gen.pharmacologicalClass || 'Active pharmaceutical generic'}</div>
 
                       <div className="generic-card-indications text-xs text-slate-700 leading-relaxed mb-3">
-                        <strong className="text-slate-900 font-semibold">Indications:</strong> {gen.indications.map(i => i.name).join(', ')}
+                        <strong className="text-slate-900 font-semibold">Indications:</strong>{' '}
+                        {gen.indications && gen.indications.length > 0
+                          ? gen.indications.map(i => i.name).join(', ')
+                          : 'Pending clinical monograph verification'}
                       </div>
                     </div>
 
                     <div className="generic-card-footer pt-2 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
-                      <span>ATC: <strong className="text-slate-700">{gen.atcCode || 'N/A'}</strong></span>
+                      <span>ATC: <strong className="text-slate-700">{gen.atcCode || 'Pending Assignment'}</strong></span>
                       <span className="text-[#08AFC1] font-bold flex items-center gap-1 hover:underline">
                         Read Monograph →
                       </span>

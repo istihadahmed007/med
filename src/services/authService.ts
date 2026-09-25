@@ -295,6 +295,12 @@ class AuthServiceClass {
       });
 
       if (error) {
+        if (error.message.toLowerCase().includes('provider is not enabled') || error.message.toLowerCase().includes('unsupported provider')) {
+          return {
+            success: false,
+            error: 'Google Sign-In is not enabled yet in your Supabase project. Please enable Google in Supabase Dashboard > Authentication > Providers, or register/sign in with Email & Password below.'
+          };
+        }
         return { success: false, error: error.message };
       }
 

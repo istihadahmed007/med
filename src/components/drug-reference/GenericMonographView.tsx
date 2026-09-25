@@ -77,13 +77,15 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
                     : 'badge-schedule-g'
                 }`}
               >
-                {generic.prescriptionStatus} • {generic.prescriptionStatus === 'POM' ? 'Prescription Only' : 'Over the Counter'}
+                {generic.prescriptionStatus === 'POM'
+                  ? 'POM • Prescription Only'
+                  : generic.prescriptionStatus === 'OTC'
+                  ? 'OTC • Over the Counter'
+                  : 'Prescription Status Under Review'}
               </span>
-              {generic.atcCode && (
-                <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono">
-                  ATC: {generic.atcCode}
-                </span>
-              )}
+              <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono">
+                {generic.atcCode ? `ATC: ${generic.atcCode}` : 'ATC: Pending Assignment'}
+              </span>
               {generic.bmdcCurriculumPhase && (
                 <span className="text-xs px-2 py-0.5 rounded bg-indigo-950/60 text-indigo-300 border border-indigo-700/40">
                   BM&DC: {generic.bmdcCurriculumPhase}
@@ -99,12 +101,14 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
             </h2>
 
             <div className="monograph-meta-row">
-              <span className="text-sky-300 font-medium">{generic.pharmacologicalClass}</span>
+              <span className="text-sky-300 font-medium">{generic.pharmacologicalClass || 'Pharmacological entity'}</span>
               <span>•</span>
-              <span>{generic.therapeuticClass}</span>
+              <span>{generic.therapeuticClass || 'Therapeutic category'}</span>
               <span>•</span>
               <span className="text-xs text-slate-400">
-                Reviewed: {generic.medicalReview?.reviewDate || '2026-09-15'} (v{generic.medicalReview?.contentVersion || '2.4'})
+                {generic.medicalReview?.reviewerName
+                  ? `Reviewed: ${generic.medicalReview.reviewDate} (v${generic.medicalReview.contentVersion || '1.0'})`
+                  : 'Status: Draft Record (Clinical Review Pending)'}
               </span>
             </div>
           </div>
@@ -220,22 +224,24 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
                   )}
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Molecular Target:</span>
-                    <span className="clinical-data-value text-sky-300">{generic.receptorOrTarget}</span>
+                    <span className="clinical-data-value text-sky-300">{generic.receptorOrTarget || 'Target monograph under clinical review'}</span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Primary Indications:</span>
                     <span className="clinical-data-value">
-                      {generic.indications.filter(i => i.isPrimary).map(i => i.name).join(', ')}
+                      {generic.indications && generic.indications.length > 0
+                        ? (generic.indications.filter(i => i.isPrimary).map(i => i.name).join(', ') || generic.indications.map(i => i.name).join(', '))
+                        : 'Approved indications awaiting clinical verification'}
                     </span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Adult Dosing Summary:</span>
-                    <span className="clinical-data-value">{generic.dosageGuidance.adult}</span>
+                    <span className="clinical-data-value">{generic.dosageGuidance?.adult || 'Standard adult dosage monograph pending clinical validation'}</span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Available BD Brands:</span>
                     <span className="clinical-data-value font-semibold text-emerald-400">
-                      {brands.length} Verified Formulations (Square, Beximco, Incepta, Renata, etc.)
+                      {brands.length} Registered Formulation{brands.length === 1 ? '' : 's'} in Bangladesh
                     </span>
                   </div>
                 </div>
@@ -291,39 +297,45 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
               <div className="text-xs text-slate-400 mb-2">
                 Indications categorized according to Bangladesh National Formulary (BDNF) & WHO Treatment Guidelines.
               </div>
-              {generic.indications.map((ind, idx) => (
-                <div
-                  key={ind.id || idx}
-                  className={`p-3.5 rounded-xl border ${
-                    ind.isPrimary
-                      ? 'bg-blue-950/20 border-blue-500/30'
-                      : 'bg-slate-900/60 border-slate-800'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-sm">{ind.name}</span>
-                    <span
-                      className={`text-[11px] px-2 py-0.5 rounded font-semibold ${
-                        ind.isPrimary
-                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                          : 'bg-slate-800 text-slate-400'
-                      }`}
-                    >
-                      {ind.isPrimary ? 'Primary Indication' : 'Secondary / Adjunctive'}
-                    </span>
+              {generic.indications && generic.indications.length > 0 ? (
+                generic.indications.map((ind, idx) => (
+                  <div
+                    key={ind.id || idx}
+                    className={`p-3.5 rounded-xl border ${
+                      ind.isPrimary
+                        ? 'bg-blue-950/20 border-blue-500/30'
+                        : 'bg-slate-900/60 border-slate-800'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-white text-sm">{ind.name}</span>
+                      <span
+                        className={`text-[11px] px-2 py-0.5 rounded font-semibold ${
+                          ind.isPrimary
+                            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                            : 'bg-slate-800 text-slate-400'
+                        }`}
+                      >
+                        {ind.isPrimary ? 'Primary Indication' : 'Secondary / Adjunctive'}
+                      </span>
+                    </div>
+                    {ind.guidelineRecommendation && (
+                      <div className="mt-1.5 text-xs text-emerald-300 flex items-center gap-1 font-medium">
+                        <span>✓</span> Guideline: {ind.guidelineRecommendation}
+                      </div>
+                    )}
+                    {ind.note && (
+                      <div className="mt-1 text-xs text-slate-400">
+                        Clinical Note: {ind.note}
+                      </div>
+                    )}
                   </div>
-                  {ind.guidelineRecommendation && (
-                    <div className="mt-1.5 text-xs text-emerald-300 flex items-center gap-1 font-medium">
-                      <span>✓</span> Guideline: {ind.guidelineRecommendation}
-                    </div>
-                  )}
-                  {ind.note && (
-                    <div className="mt-1 text-xs text-slate-400">
-                      Clinical Note: {ind.note}
-                    </div>
-                  )}
+                ))
+              ) : (
+                <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                  Clinical indications for this draft imported generic are undergoing formal editorial verification. Consult official DGDA / BDNF gazette.
                 </div>
-              ))}
+              )}
             </div>
           )}
 
@@ -332,35 +344,43 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
             <div className="space-y-4">
               <div className="clinical-section-card">
                 <h3 className="clinical-section-title">Dosage Guidance</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                    <div className="text-xs font-bold text-sky-400 uppercase tracking-wide">Adult Dosage</div>
-                    <div className="text-white mt-1 leading-relaxed">{generic.dosageGuidance.adult}</div>
-                  </div>
-                  {generic.dosageGuidance.paediatric && (
+                {generic.dosageGuidance?.adult ? (
+                  <div className="space-y-3 text-sm">
                     <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                      <div className="text-xs font-bold text-indigo-400 uppercase tracking-wide">Paediatric Dosage</div>
-                      <div className="text-white mt-1 leading-relaxed">{generic.dosageGuidance.paediatric}</div>
+                      <div className="text-xs font-bold text-sky-400 uppercase tracking-wide">Adult Dosage</div>
+                      <div className="text-white mt-1 leading-relaxed">{generic.dosageGuidance.adult}</div>
                     </div>
-                  )}
-                  {generic.dosageGuidance.geriatric && (
-                    <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-                      <div className="text-xs font-bold text-amber-400 uppercase tracking-wide">Geriatric Considerations</div>
-                      <div className="text-white mt-1 leading-relaxed">{generic.dosageGuidance.geriatric}</div>
+                    {generic.dosageGuidance.paediatric && (
+                      <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                        <div className="text-xs font-bold text-indigo-400 uppercase tracking-wide">Paediatric Dosage</div>
+                        <div className="text-white mt-1 leading-relaxed">{generic.dosageGuidance.paediatric}</div>
+                      </div>
+                    )}
+                    {generic.dosageGuidance.geriatric && (
+                      <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                        <div className="text-xs font-bold text-amber-400 uppercase tracking-wide">Geriatric Considerations</div>
+                        <div className="text-white mt-1 leading-relaxed">{generic.dosageGuidance.geriatric}</div>
+                      </div>
+                    )}
+                    <div className="clinical-data-row">
+                      <span className="clinical-data-label">Permitted Routes:</span>
+                      <span className="clinical-data-value font-semibold text-emerald-300">
+                        {generic.dosageGuidance.routes && generic.dosageGuidance.routes.length > 0
+                          ? generic.dosageGuidance.routes.join(', ')
+                          : 'Not specified'}
+                      </span>
                     </div>
-                  )}
-                  <div className="clinical-data-row">
-                    <span className="clinical-data-label">Permitted Routes:</span>
-                    <span className="clinical-data-value font-semibold text-emerald-300">
-                      {generic.dosageGuidance.routes.join(', ')}
-                    </span>
+                    {generic.dosageGuidance.timingNotice && (
+                      <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 text-xs text-amber-300">
+                        <strong>Timing & Administration Notice:</strong> {generic.dosageGuidance.timingNotice}
+                      </div>
+                    )}
                   </div>
-                  {generic.dosageGuidance.timingNotice && (
-                    <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 text-xs text-amber-300">
-                      <strong>Timing & Administration Notice:</strong> {generic.dosageGuidance.timingNotice}
-                    </div>
-                  )}
-                </div>
+                ) : (
+                  <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                    Dosage and administration guidance for this draft record is undergoing clinical review and verification. Always confirm dosing with official prescribing information.
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -371,34 +391,40 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
               <div className="text-xs text-slate-400 mb-2">
                 Absolute contraindications pose fatal or irreversible risk; relative contraindications require risk-benefit evaluation.
               </div>
-              {generic.contraindications.map((c, idx) => (
-                <div
-                  key={idx}
-                  className={`p-3.5 rounded-xl border ${
-                    c.type === 'absolute'
-                      ? 'bg-rose-950/20 border-rose-500/40'
-                      : 'bg-amber-950/20 border-amber-500/30'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-sm">{c.condition}</span>
-                    <span
-                      className={`text-[11px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${
-                        c.type === 'absolute'
-                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                          : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                      }`}
-                    >
-                      {c.type === 'absolute' ? 'Strictly Absolute' : 'Relative Caution'}
-                    </span>
-                  </div>
-                  {c.reason && (
-                    <div className="mt-1.5 text-xs text-slate-300 leading-relaxed">
-                      Pathophysiological Rationale: {c.reason}
+              {generic.contraindications && generic.contraindications.length > 0 ? (
+                generic.contraindications.map((c, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-3.5 rounded-xl border ${
+                      c.type === 'absolute'
+                        ? 'bg-rose-950/20 border-rose-500/40'
+                        : 'bg-amber-950/20 border-amber-500/30'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-white text-sm">{c.condition}</span>
+                      <span
+                        className={`text-[11px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${
+                          c.type === 'absolute'
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                        }`}
+                      >
+                        {c.type === 'absolute' ? 'Strictly Absolute' : 'Relative Caution'}
+                      </span>
                     </div>
-                  )}
+                    {c.reason && (
+                      <div className="mt-1.5 text-xs text-slate-300 leading-relaxed">
+                        Pathophysiological Rationale: {c.reason}
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                  Contraindication profile undergoing editorial review. Check product literature for specific patient safety warnings.
                 </div>
-              ))}
+              )}
             </div>
           )}
 
@@ -638,44 +664,62 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
                 <div className="space-y-2 text-sm">
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Review Status:</span>
-                    <span className="clinical-data-value text-emerald-400 font-bold uppercase tracking-wider">
-                      ● {generic.medicalReview.status}
+                    <span className={`clinical-data-value font-bold uppercase tracking-wider ${
+                      generic.medicalReview?.status === 'published' ? 'text-emerald-400' : 'text-amber-400'
+                    }`}>
+                      ● {generic.medicalReview?.status || 'Draft (Pending Editorial Review)'}
                     </span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Lead Reviewer:</span>
-                    <span className="clinical-data-value font-semibold text-white">{generic.medicalReview.reviewerName}</span>
+                    <span className="clinical-data-value font-semibold text-white">
+                      {generic.medicalReview?.reviewerName || 'Awaiting Clinical Editorial Assignment'}
+                    </span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Credentials:</span>
-                    <span className="clinical-data-value text-slate-300">{generic.medicalReview.reviewerCredentials}</span>
+                    <span className="clinical-data-value text-slate-300">
+                      {generic.medicalReview?.reviewerCredentials || 'Faculty Editorial Board'}
+                    </span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Review Date:</span>
-                    <span className="clinical-data-value text-slate-300">{generic.medicalReview.reviewDate}</span>
+                    <span className="clinical-data-value text-slate-300">
+                      {generic.medicalReview?.reviewDate || 'Pending Final Verification'}
+                    </span>
                   </div>
                   <div className="clinical-data-row">
                     <span className="clinical-data-label">Content Version:</span>
-                    <span className="clinical-data-value font-mono text-sky-400">{generic.medicalReview.contentVersion}</span>
+                    <span className="clinical-data-value font-mono text-sky-400">
+                      {generic.medicalReview?.contentVersion ? `v${generic.medicalReview.contentVersion}` : 'Draft 0.1'}
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="clinical-section-card">
                 <h3 className="clinical-section-title">Traceable Evidence Citations</h3>
-                <div className="space-y-2.5 text-xs">
-                  {generic.sources.map((src, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
-                      <div className="font-bold text-white text-sm">{src.title}</div>
-                      <div className="text-slate-400 mt-0.5">
-                        Issuing Organization: {src.organization} • Jurisdiction: {src.jurisdiction} • Date: {src.publicationDate}
+                {generic.sources && generic.sources.length > 0 ? (
+                  <div className="space-y-2.5 text-xs">
+                    {generic.sources.map((src, i) => (
+                      <div key={i} className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
+                        <div className="font-bold text-white text-sm">{src.title}</div>
+                        <div className="text-slate-400 mt-0.5">
+                          Issuing Organization: {src.organization} • Jurisdiction: {src.jurisdiction} • Date: {src.publicationDate}
+                        </div>
+                        {src.url && (
+                          <div className="text-slate-500 mt-1 truncate">
+                            URL / DOI: <a href={src.url} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">{src.url}</a>
+                          </div>
+                        )}
                       </div>
-                      <div className="text-slate-500 mt-1 truncate">
-                        URL / DOI: <a href={src.url} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">{src.url}</a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+                    Official primary compendium citations and DGDA gazette notices under verification for this draft record.
+                  </div>
+                )}
               </div>
 
               <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex justify-between items-center">

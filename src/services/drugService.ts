@@ -175,6 +175,8 @@ export class DrugClientService {
       hasDuplicateTherapy: false,
       duplicateBrandWarnings: [],
       interactions: local.interactions,
+      dataStatus: local.dataStatus,
+      unreviewedGenerics: local.unreviewedGenerics,
       disclaimer: local.safeNotice,
       checkedAt: new Date().toISOString()
     };

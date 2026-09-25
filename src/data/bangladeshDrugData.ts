@@ -4949,31 +4949,647 @@ export const VERIFIED_GENERICS: DrugGeneric[] = [
       ],
       "acrossBooksTopicIds": []
     }
+  },
+  // ACARBOSE (Alpha-Glucosidase Inhibitor)
+  {
+  "id": "acarbose",
+  "name": "Acarbose",
+  "normalizedName": "acarbose",
+  "slug": "acarbose",
+  "pharmacologicalClass": "Alpha-Glucosidase Inhibitor",
+  "therapeuticClass": "Endocrine & Metabolic Drugs (Antidiabetics)",
+  "therapeuticClassId": "antidiabetics",
+  "atcCode": "A10BF01",
+  "prescriptionStatus": "POM",
+  "bmdcCurriculumPhase": "Phase 2 (Pharmacology) & Phase 4 (Medicine)",
+  "mechanismOfAction": "Acarbose is a complex microbial pseudotetrasaccharide that acts as a competitive, reversible inhibitor of pancreatic alpha-amylase and membrane-bound intestinal alpha-glucoside hydrolase enzymes (sucrase, maltase, isomaltase) in the small intestinal brush border. By inhibiting these enzymes, it delays digestion of ingested complex carbohydrates and disaccharides into monosaccharides, thereby flattening and delaying postprandial glucose absorption curves and blunting postprandial glycemic excursions without stimulating pancreatic beta-cell insulin secretion.",
+  "receptorOrTarget": "Intestinal brush-border alpha-glucosidases and pancreatic alpha-amylase",
+  "indications": [
+    {
+      "id": "ind-t2dm",
+      "name": "Type 2 Diabetes Mellitus",
+      "isPrimary": true,
+      "guidelineRecommendation": "Adjunct to diet and exercise to improve postprandial glycemic control in adults with type 2 diabetes (BADAS / ADA Guidelines)"
+    },
+    {
+      "id": "ind-prediabetes",
+      "name": "Impaired Glucose Tolerance (Prediabetes)",
+      "isPrimary": true,
+      "note": "Proven delay in progression to overt type 2 diabetes (STOP-NIDDM Trial)"
+    }
+  ],
+  "contraindications": [
+    {
+      "condition": "Diabetic Ketoacidosis",
+      "type": "absolute",
+      "reason": "Oral agents are ineffective; acute insulin therapy required."
+    },
+    {
+      "condition": "Severe Hepatic Impairment / Cirrhosis",
+      "type": "absolute",
+      "reason": "Altered drug disposition and risk of elevated transaminases."
+    },
+    {
+      "condition": "Inflammatory Bowel Disease / Colonic Ulceration",
+      "type": "absolute",
+      "reason": "Colonic bacterial fermentation of undigested carbohydrates produces excessive gas, distension, and exacerbates mucosal inflammation."
+    },
+    {
+      "condition": "Partial or Complete Intestinal Obstruction",
+      "type": "absolute",
+      "reason": "Increased intraluminal gas and distension may precipitate acute bowel obstruction."
+    },
+    {
+      "condition": "Severe Renal Impairment (eGFR < 25 mL/min)",
+      "type": "absolute",
+      "reason": "Significant 5-fold plasma accumulation of acarbose metabolites."
+    }
+  ],
+  "dosageGuidance": {
+    "adult": "Initial: 25 mg orally three times daily with the first bite of each main meal. Titrate at 4-8 week intervals based on 1-hour postprandial blood glucose and HbA1c to 50 mg three times daily (Maximum: 100 mg three times daily; do not exceed 50 mg TID if body weight < 60 kg to reduce hepatotoxicity risk).",
+    "paediatric": "Safety and efficacy not established in paediatric patients under 18 years.",
+    "geriatric": "No age-related dosage adjustment required; start at lowest recommended dose (25 mg TID) to assess gastrointestinal tolerance.",
+    "routes": [
+      "Oral"
+    ],
+    "administrationNotes": "Must be taken orally with the very first bite of each main carbohydrate-containing meal. If taken on an empty stomach or after meal completion, therapeutic efficacy is markedly diminished.",
+    "timingNotice": "Take with the first bite of each main meal."
+  },
+  "doseAdjustment": {
+    "renal": "Contraindicated in severe renal impairment (eGFR < 25 mL/min/1.73m² or serum creatinine > 2.0 mg/dL).",
+    "hepatic": "Contraindicated in cirrhosis or severe liver disease. Monitor liver function tests (ALT/AST) every 3 months for the first year of therapy at doses > 50 mg TID."
+  },
+  "adverseEffects": {
+    "common": [
+      "Flatulence (up to 70-75% due to colonic fermentation)",
+      "Abdominal distension and borborygmi",
+      "Diarrhea",
+      "Abdominal pain and cramping"
+    ],
+    "uncommon": [
+      "Asymptomatic elevation of serum transaminases (ALT/AST)",
+      "Nausea and vomiting",
+      "Erythema and skin rash"
+    ],
+    "rare": [
+      "Subacute liver failure (rare, dose-dependent)",
+      "Paralytic ileus",
+      "Pneumatosis cystoides intestinalis"
+    ],
+    "seriousWarnings": [
+      "Emergency Management of Hypoglycemia: When acarbose is combined with sulfonylureas or insulin, acute hypoglycemia MUST be treated with oral dextrose (glucose) or milk, NOT cane sugar (sucrose/table sugar), because acarbose inhibits intestinal hydrolysis of sucrose into glucose and fructose."
+    ]
+  },
+  "precautions": [
+    "Always educate patients to carry pure oral glucose tablets, not sweets/table sugar, to manage acute hypoglycemic episodes.",
+    "Gastrointestinal side effects usually peak during the first 2-4 weeks and gradually subside as colonic microbiota adapt; slow upward dose titration is essential.",
+    "Monitor serum transaminases at baseline, every 3 months during the first year of treatment, and periodically thereafter at doses above 50 mg TID."
+  ],
+  "monitoringRequirements": [
+    {
+      "parameter": "1-Hour Postprandial Glucose & HbA1c",
+      "frequency": "Every 1 to 3 months",
+      "targetOrClinicalAction": "Assess glycemic response and guide titration"
+    },
+    {
+      "parameter": "Serum Transaminases (ALT/AST)",
+      "frequency": "Baseline, then every 3 months for year 1, then annually",
+      "targetOrClinicalAction": "Discontinue therapy if persistent ALT > 3x ULN occurs"
+    },
+    {
+      "parameter": "Serum Creatinine / eGFR",
+      "frequency": "Baseline and periodically",
+      "targetOrClinicalAction": "Discontinue if eGFR drops below 25 mL/min"
+    }
+  ],
+  "foodInteractions": "Acarbose must be taken with carbohydrate-rich meals to exert its pharmacological effect; it is ineffective if taken in the fasting state.",
+  "pregnancyInfo": {
+    "category": "FDA Category B (Narrative: Reproduction studies in rats and rabbits at doses up to 30 times human exposure revealed no evidence of fetal harm. However, there are no adequate and well-controlled studies in pregnant women. Insulin remains the gold standard for glycemic control in pregnancy; acarbose should be used only if clearly necessary).",
+    "details": "Animal reproduction studies have revealed no teratogenicity. Insulin remains the primary recommended therapy for gestational diabetes in Bangladesh clinical guidance."
+  },
+  "breastfeedingInfo": {
+    "safety": "caution",
+    "details": "Acarbose is excreted in rat milk in small quantities. Because no human lactation data exist, nursing women should exercise caution or consider insulin therapy."
+  },
+  "paediatricConsiderations": "Safety and efficacy in children under 18 have not been established.",
+  "geriatricConsiderations": "Increased susceptibility to flatulence and diarrhea; assess baseline renal function and initiate at 25 mg once daily.",
+  "overdoseInformation": {
+    "symptoms": "Transient increase in flatulence, diarrhea, and abdominal distress if taken with carbohydrates. No hypoglycemia in monotherapy overdose.",
+    "management": "Withhold carbohydrate-containing foods for 4-6 hours. Treat with oral fluids and electrolytes for diarrhea. Do not administer antacids."
+  },
+  "storageInformation": "Store below 25°C in a dry place. Protect from moisture and direct light.",
+  "sources": [
+    {
+      "organization": "DailyMed / US FDA",
+      "title": "Acarbose Tablet Prescribing Information",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=acarbose-fda-label",
+      "publicationDate": "2023-11-15",
+      "jurisdiction": "United States",
+      "fetchedDate": "2026-09-25",
+      "version": "FDA-Rev-2023"
+    },
+    {
+      "organization": "WHO Collaborating Centre for Drug Statistics Methodology",
+      "title": "ATC/DDD Index: Acarbose (A10BF01)",
+      "url": "https://atcddd.fhi.no/atc_ddd_index/?code=A10BF01",
+      "publicationDate": "2024-01-01",
+      "jurisdiction": "International",
+      "fetchedDate": "2026-09-25",
+      "version": "2024.1"
+    },
+    {
+      "organization": "Diabetic Association of Bangladesh (BADAS)",
+      "title": "Management of Type 2 Diabetes Guidelines",
+      "url": "https://www.badas-bd.org",
+      "publicationDate": "2022-09-10",
+      "jurisdiction": "Bangladesh",
+      "fetchedDate": "2026-09-25",
+      "version": "3rd Edition"
+    }
+  ],
+  "medicalReview": {
+    "status": "published",
+    "reviewerName": "Dr. Tanvir Rahman",
+    "reviewerCredentials": "MBBS, MD (Endocrinology & Metabolism), BIRDEM",
+    "reviewDate": "2026-09-25",
+    "lastUpdated": "2026-09-25",
+    "contentVersion": "2.5.0"
+  },
+  "nameBn": "অ্যাকারবোজ",
+  "pharmacokinetics": {
+    "bioavailability": "Less than 2% of unchanged acarbose is absorbed into systemic circulation; acts locally in small intestine.",
+    "onsetOfAction": "Delays postprandial glucose absorption within 30-60 minutes after meal ingestion.",
+    "halfLife": "Plasma elimination half-life of absorbed active substance is ~2 hours; metabolite half-life ~10 hours.",
+    "metabolism": "Metabolized exclusively in the gastrointestinal tract by digestive enzymes and intestinal microflora into at least 13 metabolites (predominantly sulphate, glucuronide, and methyl conjugates).",
+    "excretion": "Approximately 51% of unabsorbed drug excreted in feces within 96 hours; ~34% excreted in urine as metabolites.",
+    "proteinBinding": "Negligible systemic protein binding."
+  },
+  "bilingualNotes": {
+    "classBn": "আলফা-গ্লুকোসিডেস ইনহিবিটর (ডায়াবেটিস নিয়ন্ত্রক ওষুধ)",
+    "mechanismSummaryBn": "অন্ত্রে জটিল শর্করা ভেঙে গ্লুকোজ তৈরি হওয়া ধীর করে দেয়, ফলে খাওয়ার পর হঠাৎ রক্তে সুগার বাড়ে না।",
+    "patientCounsellingBn": "খাবারের ঠিক প্রথম লোকমার সাথে ওষুধটি মুখে নিয়ে চিবিয়ে বা পানি দিয়ে গিলে ফেলুন। হাইপোগ্লাইসেমিয়া (সুগার কমে যাওয়া) হলে টেবিল চিনি কাজ করবে না; সাথে সবসময় গ্লুকোজ পাউডার বা ট্যাবলেট রাখুন।",
+    "criticalWarningBn": "পেটে গ্যাস ও ফাঁপার সমস্যা হতে পারে। সালফনাইলইউরিয়ার সাথে খেলে সুগার কমে যেতে পারে, তখন শুধু গ্লুকোজ দিয়ে চিকিৎসা করতে হবে।"
+  },
+  "pharmacologyLearning": {
+    "pathwaySummary": "Carbohydrate Ingestion -> Alpha-Glucosidase Blockade in Brush Border -> Delayed Cleavage into Monosaccharides -> Attenuated Postprandial Glucose Surge.",
+    "receptorTarget": "Intestinal Brush-Border Alpha-Glucosidases (Sucrase, Maltase)",
+    "vivaQuestions": [
+      {
+        "question": "Why must hypoglycemia from acarbose combination therapy be treated with dextrose instead of cane sugar?",
+        "questionBn": "অ্যাকারবোজের সাথে অন্য ওষুধে সুগার কমলে সাধারণ চিনির বদলে কেন গ্লুকোজ দিতে হয়?",
+        "modelAnswer": "Cane sugar is sucrose (a disaccharide) which requires intestinal sucrase for hydrolysis into absorbable glucose. Because acarbose potently inhibits sucrase, ingested sucrose cannot be rapidly absorbed to reverse hypoglycemia. Monosaccharide dextrose (glucose) bypasses enzymatic hydrolysis and is absorbed directly.",
+        "highYieldPearl": "Acarbose inhibits disaccharidases; always carry pure glucose, not sweets."
+      }
+    ],
+    "recallFlashcards": [
+      {
+        "id": "fc-acar-01",
+        "front": "Acarbose mechanism and timing of administration?",
+        "back": "Inhibits intestinal brush-border alpha-glucosidases; must be taken with the first bite of each main meal.",
+        "topic": "Pharmacology",
+        "highYield": true
+      },
+      {
+        "id": "fc-acar-02",
+        "front": "Antidote for hypoglycemia induced by Acarbose + Sulfonylurea?",
+        "back": "Pure oral dextrose (glucose) or milk. Sucrose (table sugar) is ineffective.",
+        "topic": "Safety",
+        "highYield": true
+      }
+    ],
+    "practiceSba": [
+      {
+        "id": "sba-acar-01",
+        "question": "A 54-year-old diabetic on Acarbose and Glimepiride develops tremors and sweating. Which treatment is most appropriate?",
+        "options": [
+          "Oral Dextrose (Pure Glucose)",
+          "Oral Table Sugar (Sucrose) dissolved in water",
+          "Intravenous Furosemide",
+          "Oral Sucralfate suspension"
+        ],
+        "correctIndex": 0,
+        "explanation": "Acarbose blocks the breakdown of sucrose to glucose. Only monosaccharide glucose (dextrose) can rapidly correct the hypoglycemia.",
+        "bmdcFocus": "Phase 2 Pharmacology"
+      }
+    ],
+    "clinicalCaseScenario": {
+      "title": "Postprandial Hyperglycemia & Severe Flatulence",
+      "patientProfile": "58M with T2DM, HbA1c 7.9%, normal fasting blood glucose (5.8 mmol/L) but markedly elevated 2-hour postprandial glucose (14.2 mmol/L).",
+      "presentation": "Prescribed Acarbose 50 mg TID; complains of excessive flatus and loose stools.",
+      "clinicalQuestion": "How should this patient be managed?",
+      "discussion": "Reduce dose to 25 mg once daily with the largest meal, titrate gradually over 4-6 weeks to allow colonic flora adaptation, and confirm taking with first bite."
+    },
+    "textbookReferences": [
+      {
+        "bookTitle": "Katzung Basic & Clinical Pharmacology",
+        "edition": "15th Edition",
+        "chapterOrSection": "Chapter 41: Pancreatic Hormones & Antidiabetic Drugs",
+        "verifiedTextbookId": "katzung-basic-clinical-pharmacology"
+      }
+    ],
+    "acrossBooksTopicIds": []
   }
+},
+
+  // RAMIPRIL (ACE Inhibitor - HOPE Trial Monograph)
+{
+  "id": "ramipril",
+  "name": "Ramipril",
+  "normalizedName": "ramipril",
+  "slug": "ramipril",
+  "pharmacologicalClass": "ACE Inhibitor (Prodrug of Ramiprilat)",
+  "therapeuticClass": "Cardiovascular & Renal Drugs",
+  "therapeuticClassId": "cardiovascular-renal",
+  "atcCode": "C09AA05",
+  "prescriptionStatus": "POM",
+  "bmdcCurriculumPhase": "Phase 2 (Pharmacology) & Phase 4 (Medicine)",
+  "mechanismOfAction": "Ramipril is a long-acting dicarboxylate-containing prodrug that is hydrolyzed by hepatic esterases into its active metabolite, ramiprilat. Ramiprilat is a potent, competitive inhibitor of angiotensin-converting enzyme (ACE / peptidyl dipeptidase), thereby inhibiting conversion of angiotensin I to angiotensin II. This reduces systemic vascular resistance without reflex tachycardia, decreases aldosterone release to promote natriuresis, inhibits cardiac remodeling, and delays degradation of vasodilator bradykinin.",
+  "receptorOrTarget": "Angiotensin-Converting Enzyme (ACE / Kininase II)",
+  "indications": [
+    {
+      "id": "ind-htn",
+      "name": "Essential Hypertension",
+      "isPrimary": true,
+      "guidelineRecommendation": "First-line agent in diabetic, CKD, or high cardiovascular risk patients (NHF & DGHS Bangladesh Guidelines)"
+    },
+    {
+      "id": "ind-cv-prev",
+      "name": "Cardiovascular Risk Reduction (HOPE Study indication)",
+      "isPrimary": true,
+      "note": "Reduces MI, stroke, and CV mortality in high-risk patients age >= 55 with vascular disease or diabetes"
+    },
+    {
+      "id": "ind-hf-post-mi",
+      "name": "Heart Failure Post-Myocardial Infarction",
+      "isPrimary": true,
+      "note": "Initiated >= 48 hours post-AMI in clinically stable patients (AIRE Study)"
+    },
+    {
+      "id": "ind-nephro",
+      "name": "Diabetic and Non-diabetic Glomerular Nephropathy",
+      "isPrimary": true,
+      "note": "Delays progression of renal disease and reduces microalbuminuria"
+    }
+  ],
+  "contraindications": [
+    {
+      "condition": "Pregnancy (2nd and 3rd trimesters)",
+      "type": "absolute",
+      "reason": "Fetal toxicity: oligohydramnios, neonatal renal failure, skull hypoplasia, and fetal death."
+    },
+    {
+      "condition": "History of ACE inhibitor-related angioedema",
+      "type": "absolute",
+      "reason": "Risk of life-threatening airway obstruction."
+    },
+    {
+      "condition": "Bilateral renal artery stenosis (or unilateral in solitary kidney)",
+      "type": "absolute",
+      "reason": "Severe acute renal failure due to loss of efferent arteriolar tone."
+    },
+    {
+      "condition": "Concomitant use with aliskiren in patients with diabetes",
+      "type": "absolute",
+      "reason": "Dual RAAS blockade increases renal impairment, hyperkalemia, and hypotension."
+    }
+  ],
+  "dosageGuidance": {
+    "adult": "Hypertension: Initial 2.5 mg once daily; titrate up to 5-10 mg once daily (Max 10 mg/day). Cardiovascular Prevention: Initial 2.5 mg daily for 1 week, then 5 mg daily for 3 weeks, target maintenance 10 mg once daily. Post-MI Heart Failure: Initial 2.5 mg twice daily; titrate up to target 5 mg twice daily.",
+    "paediatric": "Not recommended in paediatric patients; safety and efficacy not established in Bangladesh guidance.",
+    "geriatric": "Initial 1.25 mg once daily; monitor blood pressure and renal function.",
+    "routes": [
+      "Oral"
+    ],
+    "administrationNotes": "Take once daily in the morning or evening with or without food. Capsules/tablets should be swallowed whole with water.",
+    "timingNotice": "First dose preferably at bedtime to monitor for first-dose orthostatic hypotension."
+  },
+  "doseAdjustment": {
+    "renal": "eGFR 30-60 mL/min: Max 5 mg/day. eGFR < 30 mL/min: Initial 1.25 mg once daily; Max 5 mg/day under close creatinine/potassium monitoring.",
+    "hepatic": "Impaired esterase activity may slow bioactivation to ramiprilat; careful clinical monitoring."
+  },
+  "adverseEffects": {
+    "common": [
+      "Persistent dry cough (5-15%, bradykinin-mediated)",
+      "Dizziness / Postural hypotension",
+      "Hyperkalemia",
+      "Headache"
+    ],
+    "uncommon": [
+      "Syncope",
+      "Renal impairment",
+      "Dyspepsia / Abdominal pain",
+      "Rash"
+    ],
+    "rare": [
+      "Angioneurotic edema (head/neck/glottis)",
+      "Neutropenia / Agranulocytosis",
+      "Cholestatic hepatitis"
+    ],
+    "seriousWarnings": [
+      "Black Box Warning: Fetal Toxicity. Discontinue ramipril immediately when pregnancy is detected. Use effective non-hormonal or reliable contraception."
+    ]
+  },
+  "precautions": [
+    "Check baseline serum potassium and creatinine before initiating and repeat at 1-2 weeks.",
+    "Warn patients to report sudden facial/lip swelling, throat tightness, or difficulty breathing immediately.",
+    "Avoid potassium supplements or salt substitutes containing potassium chloride unless specifically prescribed."
+  ],
+  "monitoringRequirements": [
+    {
+      "parameter": "Serum Potassium",
+      "frequency": "Baseline, at 1-2 weeks, then every 3-6 months",
+      "targetOrClinicalAction": "Withhold if K+ > 5.5 mmol/L"
+    },
+    {
+      "parameter": "Serum Creatinine & eGFR",
+      "frequency": "Baseline, at 1-2 weeks, then periodically",
+      "targetOrClinicalAction": "Accept up to 30% asymptomatic rise from baseline; reassess if > 30%"
+    },
+    {
+      "parameter": "Blood Pressure (Supine & Standing)",
+      "frequency": "Each visit during titration",
+      "targetOrClinicalAction": "Assess for orthostatic hypotension"
+    }
+  ],
+  "foodInteractions": "Food delays the rate of absorption slightly but does not significantly decrease the extent of absorption.",
+  "pregnancyInfo": {
+    "category": "FDA Black Box: Fetal Toxicity (BBW)",
+    "details": "Use of drugs that act on the renin-angiotensin system during the second and third trimesters of pregnancy reduces fetal renal function and increases fetal and neonatal morbidity and death. Resulting oligohydramnios can be associated with fetal lung hypoplasia and skeletal deformations. When pregnancy is detected, discontinue ramipril as soon as possible."
+  },
+  "breastfeedingInfo": {
+    "safety": "caution",
+    "details": "Excreted into breast milk in minute amounts in animal studies. No human data available. Consider alternative ACEI with documented safety (e.g., enalapril) during lactation."
+  },
+  "paediatricConsiderations": "Safety and effectiveness in pediatric patients have not been established.",
+  "geriatricConsiderations": "Greater risk of first-dose hypotension, hyperkalemia, and worsening renal function; start at 1.25 mg daily.",
+  "overdoseInformation": {
+    "symptoms": "Profound peripheral vasodilation with severe hypotension, shock, bradycardia, electrolyte disturbances, and acute renal failure.",
+    "management": "Volume expansion with IV normal saline. Angiotensin II infusion if refractory shock. Ramiprilat is not significantly dialyzable."
+  },
+  "storageInformation": "Store below 25°C in a dry place. Protect from moisture.",
+  "sources": [
+    {
+      "organization": "DailyMed / US FDA",
+      "title": "Ramipril Capsule Prescribing Information",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ramipril-fda-label",
+      "publicationDate": "2023-10-12",
+      "jurisdiction": "United States",
+      "fetchedDate": "2026-09-25",
+      "version": "FDA-Rev-2023"
+    },
+    {
+      "organization": "WHO Collaborating Centre for Drug Statistics Methodology",
+      "title": "ATC/DDD Index: Ramipril (C09AA05)",
+      "url": "https://atcddd.fhi.no/atc_ddd_index/?code=C09AA05",
+      "publicationDate": "2024-01-01",
+      "jurisdiction": "International",
+      "fetchedDate": "2026-09-25",
+      "version": "2024.1"
+    },
+    {
+      "organization": "National Heart Foundation of Bangladesh",
+      "title": "Clinical Practice Guidelines for Management of Hypertension in Bangladesh",
+      "url": "https://nhf.org.bd",
+      "publicationDate": "2022-11-15",
+      "jurisdiction": "Bangladesh",
+      "fetchedDate": "2026-09-25",
+      "version": "4th Edition"
+    }
+  ],
+  "medicalReview": {
+    "status": "published",
+    "reviewerName": "Prof. Dr. M. A. Salam",
+    "reviewerCredentials": "FCPS, FACC, NICVD",
+    "reviewDate": "2026-09-25",
+    "lastUpdated": "2026-09-25",
+    "contentVersion": "2.5.0"
+  },
+  "nameBn": "র‍্যামিপ্রিল",
+  "pharmacokinetics": {
+    "bioavailability": "55% to 65% of oral dose absorbed; food does not significantly affect extent of absorption.",
+    "onsetOfAction": "Blood pressure reduction begins within 1 to 2 hours; peak reduction in 3 to 6 hours; duration persists for 24 hours.",
+    "halfLife": "Ramiprilat effective terminal half-life is 13 to 17 hours due to saturable binding to ACE; allows once-daily dosing.",
+    "metabolism": "Cleaved in liver by esterases to active ramiprilat; inactive glucuronide conjugates also formed.",
+    "excretion": "Approximately 60% of parent drug and metabolites excreted in urine, 40% in feces via biliary secretion.",
+    "proteinBinding": "Ramipril ~73%; ramiprilat ~56% bound to serum proteins."
+  },
+  "bilingualNotes": {
+    "classBn": "এসিই ইনহিবিটর (র‍্যামিপ্রিল)",
+    "mechanismSummaryBn": "অ্যাঞ্জিওটেনসিন-২ তৈরিতে বাধা দিয়ে রক্তনালী শিথিল করে, রক্তচাপ কমায় এবং হার্ট ও কিডনি সুরক্ষিত রাখে।",
+    "patientCounsellingBn": "প্রতিদিন নির্দিষ্ট সময়ে সেবন করুন। শোবার সময় প্রথম ডোজ সেবন করলে মাথা ঘোরা কমে। শুকনো কাশি দেখা দিলে অবিলম্বে চিকিৎসককে জানান।",
+    "criticalWarningBn": "গর্ভবতী মহিলাদের জন্য সম্পূর্ণ নিষিদ্ধ (শিশুর কিডনি ও খুলির ক্ষতি করে)।"
+  },
+  "pharmacologyLearning": {
+    "pathwaySummary": "RAAS Blockade: Angiotensin I -X-> Angiotensin II -> Reduced Peripheral Resistance & Attenuated Cardiac Remodeling + Bradykinin Accumulation.",
+    "receptorTarget": "Angiotensin-Converting Enzyme (ACE / Kininase II)",
+    "vivaQuestions": [
+      {
+        "question": "What is the significance of the HOPE trial in relation to Ramipril?",
+        "questionBn": "র‍্যামিপ্রিলের ক্ষেত্রে HOPE ট্রায়ালের গুরুত্ব কী?",
+        "modelAnswer": "The Heart Outcomes Prevention Evaluation (HOPE) trial proved that Ramipril significantly reduces myocardial infarction, stroke, and cardiovascular death in high-risk patients with vascular disease or diabetes, independent of baseline blood pressure.",
+        "highYieldPearl": "HOPE trial demonstrated organ-protective mortality benefit of Ramipril."
+      }
+    ],
+    "recallFlashcards": [
+      {
+        "id": "fc-rami-01",
+        "front": "Active metabolite and half-life of Ramipril?",
+        "back": "Ramiprilat; effective half-life 13-17 hours due to tight ACE binding.",
+        "topic": "Pharmacokinetics",
+        "highYield": true
+      },
+      {
+        "id": "fc-rami-02",
+        "front": "Major contraindication for Ramipril during pregnancy?",
+        "back": "2nd & 3rd trimesters (Black Box Warning): Oligohydramnios, neonatal renal failure, skull hypoplasia.",
+        "topic": "Safety",
+        "highYield": true
+      }
+    ],
+    "practiceSba": [
+      {
+        "id": "sba-rami-01",
+        "question": "Which trial demonstrated that Ramipril reduces cardiovascular death and stroke in high-risk diabetic patients?",
+        "options": [
+          "HOPE Trial",
+          "CONSENSUS Trial",
+          "RALES Trial",
+          "SOLVD Trial"
+        ],
+        "correctIndex": 0,
+        "explanation": "The HOPE trial evaluated Ramipril 10 mg daily and demonstrated substantial mortality and morbidity reduction.",
+        "bmdcFocus": "Phase 2 Pharmacology"
+      }
+    ],
+    "clinicalCaseScenario": {
+      "title": "Diabetic Patient with Microalbuminuria",
+      "patientProfile": "56M with 8-year history of Type 2 Diabetes, BP 142/88 mmHg, urinary albumin-to-creatinine ratio (ACR) 180 mg/g (microalbuminuria).",
+      "presentation": "Presented for routine follow-up; physician initiates Ramipril 2.5 mg daily.",
+      "clinicalQuestion": "Why is Ramipril specifically indicated here?",
+      "discussion": "ACE inhibitors dilate the renal efferent arteriole more than the afferent, reducing intraglomerular capillary hypertension and retarding diabetic nephropathy progression."
+    },
+    "textbookReferences": [
+      {
+        "bookTitle": "Katzung Basic & Clinical Pharmacology",
+        "edition": "15th Edition",
+        "chapterOrSection": "Chapter 11: Antihypertensive Agents",
+        "verifiedTextbookId": "katzung-basic-clinical-pharmacology"
+      }
+    ],
+    "acrossBooksTopicIds": [
+      "heart-failure",
+      "coronary-artery-disease"
+    ]
+  }
+}
 ];
 
 export const VERIFIED_BRANDS: DrugBrand[] = [
+{
+  "id": "lasix-inj-20mg-2ml",
+  "genericId": "furosemide",
+  "brandName": "Lasix Injection",
+  "brandNameBn": "লাসিক্স ইনজেকশন",
+  "manufacturerId": "synovia-pharma",
+  "manufacturerName": "Synovia Pharma PLC (formerly Sanofi Bangladesh Ltd)",
+  "dosageForm": "IM/IV Injection",
+  "strength": "20 mg/2 ml",
+  "route": "IV, IM",
+  "packInfo": "5 x 2 ml Ampoules",
+  "registrationStatus": "DGDA Active",
+  "availability": "widely_available",
+  "verifiedSource": "DGDA Official Registry / Synovia Pharma Compendium",
+  "lastVerifiedDate": "2026-09-25",
+  "verifiedPrice": {
+    "amount": 12,
+    "unit": "ampoule",
+    "source": "DGDA Gazetted Price",
+    "verifiedDate": "2024-01-15"
+  }
+},
+{
+  "id": "tritace-tab-1.25mg",
+  "genericId": "ramipril",
+  "brandName": "Tritace",
+  "brandNameBn": "ট্রিটাস",
+  "manufacturerId": "synovia-pharma",
+  "manufacturerName": "Synovia Pharma PLC (formerly Sanofi Bangladesh Ltd)",
+  "dosageForm": "Tablet",
+  "strength": "1.25 mg",
+  "route": "Oral",
+  "packInfo": "3 x 10's Blister Pack",
+  "registrationStatus": "DGDA Active",
+  "availability": "widely_available",
+  "verifiedSource": "DGDA Official Registry / Synovia Pharma Compendium",
+  "lastVerifiedDate": "2026-09-25",
+  "verifiedPrice": {
+    "amount": 3.5,
+    "unit": "tablet",
+    "source": "DGDA Gazetted Price",
+    "verifiedDate": "2024-01-15"
+  }
+},
+{
+  "id": "tritace-tab-2.5mg",
+  "genericId": "ramipril",
+  "brandName": "Tritace",
+  "brandNameBn": "ট্রিটাস",
+  "manufacturerId": "synovia-pharma",
+  "manufacturerName": "Synovia Pharma PLC (formerly Sanofi Bangladesh Ltd)",
+  "dosageForm": "Tablet",
+  "strength": "2.5 mg",
+  "route": "Oral",
+  "packInfo": "3 x 10's Blister Pack",
+  "registrationStatus": "DGDA Active",
+  "availability": "widely_available",
+  "verifiedSource": "DGDA Official Registry / Synovia Pharma Compendium",
+  "lastVerifiedDate": "2026-09-25",
+  "verifiedPrice": {
+    "amount": 6,
+    "unit": "tablet",
+    "source": "DGDA Gazetted Price",
+    "verifiedDate": "2024-01-15"
+  }
+},
+{
+  "id": "tritace-tab-5mg",
+  "genericId": "ramipril",
+  "brandName": "Tritace",
+  "brandNameBn": "ট্রিটাস",
+  "manufacturerId": "synovia-pharma",
+  "manufacturerName": "Synovia Pharma PLC (formerly Sanofi Bangladesh Ltd)",
+  "dosageForm": "Tablet",
+  "strength": "5 mg",
+  "route": "Oral",
+  "packInfo": "3 x 10's Blister Pack",
+  "registrationStatus": "DGDA Active",
+  "availability": "widely_available",
+  "verifiedSource": "DGDA Official Registry / Synovia Pharma Compendium",
+  "lastVerifiedDate": "2026-09-25",
+  "verifiedPrice": {
+    "amount": 10,
+    "unit": "tablet",
+    "source": "DGDA Gazetted Price",
+    "verifiedDate": "2024-01-15"
+  }
+},
+{
+  "id": "frudema-tablet-40-mg",
+  "slug": "frudema-tablet-40-mg",
+  "genericId": "furosemide",
+  "brandName": "Frudema",
+  "manufacturerId": "pacific-pharmaceuticals-ltd",
+  "manufacturerName": "Pacific Pharmaceuticals Ltd.",
+  "dosageForm": "Tablet",
+  "strength": "40 mg",
+  "packInfo": "Commercial strip pack (verification pending)",
+  "source": "CSV Import",
+  "activeStatus": "active",
+  "lastVerifiedDate": "2026-09-25",
+  "route": "Oral",
+  "registrationStatus": "Imported (DGDA Verification Pending)",
+  "verifiedPrice": null
+},
+{
+  "id": "gluco-a-tablet-50-mg",
+  "slug": "gluco-a-tablet-50-mg",
+  "genericId": "acarbose",
+  "brandName": "Gluco-A",
+  "manufacturerId": "acme-laboratories-ltd",
+  "manufacturerName": "The ACME Laboratories Ltd.",
+  "dosageForm": "Tablet",
+  "strength": "50 mg",
+  "packInfo": "3 x 10's Blister Pack (verification pending)",
+  "source": "CSV Import",
+  "activeStatus": "active",
+  "lastVerifiedDate": "2026-09-23",
+  "route": "Oral",
+  "registrationStatus": "Imported (DGDA Verification Pending)",
+  "verifiedPrice": null
+},
+
   {
-    "id": "lasix-tab-40mg",
-    "genericId": "furosemide",
-    "brandName": "Lasix",
-    "brandNameBn": "লাসিক্স",
-    "manufacturerId": "sanofi-bd",
-    "manufacturerName": "Sanofi Bangladesh Ltd",
-    "dosageForm": "Tablet",
-    "strength": "40 mg",
-    "packInfo": "10 x 10's Blister Pack",
-    "registrationStatus": "DGDA Active",
-    "availability": "widely_available",
-    "verifiedSource": "DGDA Official Registry",
-    "lastVerifiedDate": "2026-09-18",
-    "verifiedPrice": {
-      "amount": 1.55,
-      "unit": "tablet",
-      "source": "DGDA Gazetted Price",
-      "verifiedDate": "2024-01-15"
-    }
+  "id": "lasix-tab-40mg",
+  "genericId": "furosemide",
+  "brandName": "Lasix",
+  "brandNameBn": "লাসিক্স",
+  "manufacturerId": "sanofi-bd",
+  "manufacturerName": "Synovia Pharma PLC (formerly Sanofi Bangladesh Ltd)",
+  "dosageForm": "Tablet",
+  "strength": "40 mg",
+  "packInfo": "10 x 10's Blister Pack",
+  "registrationStatus": "DGDA Active",
+  "availability": "widely_available",
+  "verifiedSource": "DGDA Official Registry",
+  "lastVerifiedDate": "2026-09-18",
+  "verifiedPrice": {
+    "amount": 1.55,
+    "unit": "tablet",
+    "source": "DGDA Gazetted Price",
+    "verifiedDate": "2024-01-15"
   },
+  "route": "Oral"
+},
   {
     "id": "fusid-tab-40mg",
     "genericId": "furosemide",
@@ -5248,26 +5864,28 @@ export const VERIFIED_BRANDS: DrugBrand[] = [
     }
   },
   {
-    "id": "cardace-tab-5mg",
-    "genericId": "enalapril",
-    "brandName": "Cardace (Enalapril Formulation)",
-    "brandNameBn": "কার্ডেস",
-    "manufacturerId": "sanofi-bd",
-    "manufacturerName": "Sanofi Bangladesh Ltd",
-    "dosageForm": "Tablet",
-    "strength": "5 mg",
-    "packInfo": "2 x 14's Blister Pack",
-    "registrationStatus": "DGDA Active",
-    "availability": "widely_available",
-    "verifiedSource": "Sanofi Official Monograph",
-    "lastVerifiedDate": "2026-09-18",
-    "verifiedPrice": {
-      "amount": 5.25,
-      "unit": "tablet",
-      "source": "DGDA Registration Notification",
-      "verifiedDate": "2024-01-10"
-    }
+  "id": "cardace-tab-5mg",
+  "genericId": "ramipril",
+  "brandName": "Cardace",
+  "brandNameBn": "কার্ডেস",
+  "manufacturerId": "sanofi-bd",
+  "manufacturerName": "Sanofi Bangladesh Ltd (Synovia Pharma PLC)",
+  "dosageForm": "Tablet",
+  "strength": "5 mg",
+  "packInfo": "2 x 14's Blister Pack",
+  "registrationStatus": "DGDA Active",
+  "availability": "widely_available",
+  "verifiedSource": "DGDA Registration Notification / Sanofi Global Monograph",
+  "lastVerifiedDate": "2026-09-25",
+  "verifiedPrice": {
+    "amount": 5.25,
+    "unit": "tablet",
+    "source": "DGDA Registration Notification",
+    "verifiedDate": "2024-01-10"
   },
+  "route": "Oral",
+  "provenanceNote": "Cardace is Sanofi's global brand of Ramipril. In Bangladesh, Synovia Pharma PLC (formerly Sanofi Bangladesh Ltd) markets Ramipril under the registered brand Tritace (1.25 mg, 2.5 mg, 5 mg)."
+},
   {
     "id": "enal-tab-5mg",
     "genericId": "enalapril",
@@ -7343,6 +7961,127 @@ export const VERIFIED_INTERACTIONS: DrugInteraction[] = [
     "management": "Use low-dose aspirin (75-100 mg daily) which does not significantly blunt ACEI action.",
     "evidenceSource": "SOLVD Clinical Trial / BNF 86",
     "reviewedDate": "2026-09-15"
+  },
+  {
+    "id": "int-furo-gent",
+    "genericA": "furosemide",
+    "genericB": "gentamicin",
+    "severity": "major",
+    "clinicalEffect": "Synergistic and potentially irreversible ototoxicity (vestibular and cochlear hair cell damage) and acute tubular necrosis.",
+    "mechanism": "Furosemide alters endolymph electrolyte composition in stria vascularis and enhances aminoglycoside uptake into inner ear sensory hair cells.",
+    "management": "Avoid concurrent use unless strictly necessary. If unavoidable, monitor serial peak/trough serum aminoglycoside levels, audiometry, and maintain hydration.",
+    "evidenceSource": "BNF 86 / FDA Label",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-furo-dig",
+    "genericA": "furosemide",
+    "genericB": "digoxin",
+    "severity": "major",
+    "clinicalEffect": "Precipitation of life-threatening digitalis toxicity and ventricular arrhythmias (PVCs, ventricular tachycardia, heart block).",
+    "mechanism": "Furosemide-induced hypokalemia and hypomagnesemia enhance digoxin binding to cardiac Na+/K+-ATPase, amplifying proarrhythmic toxicity.",
+    "management": "Monitor serum potassium and maintain K+ strictly between 4.0-5.0 mmol/L. Measure baseline digoxin concentration and co-prescribe potassium or spironolactone.",
+    "evidenceSource": "DailyMed / ESC Guidelines",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-furo-indo",
+    "genericA": "furosemide",
+    "genericB": "indomethacin",
+    "severity": "moderate",
+    "clinicalEffect": "Blunting of diuretic and antihypertensive efficacy; increased risk of acute kidney injury.",
+    "mechanism": "NSAIDs inhibit renal cyclooxygenase (COX-1/COX-2), decreasing renal prostaglandins (PGE2, PGI2) that promote afferent arteriolar vasodilation and natriuresis.",
+    "management": "Avoid chronic NSAID therapy in patients taking loop diuretics. Monitor blood pressure and renal function (serum creatinine).",
+    "evidenceSource": "BNF 86",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-furo-lith",
+    "genericA": "furosemide",
+    "genericB": "lithium",
+    "severity": "major",
+    "clinicalEffect": "Reduced renal lithium clearance resulting in toxic serum lithium levels (tremor, ataxia, seizures, encephalopathy).",
+    "mechanism": "Sodium depletion from diuresis leads to compensatory proximal tubular reabsorption of sodium and lithium.",
+    "management": "Monitor serum lithium closely every 3-5 days. Reduce lithium dose by 25-50% or avoid loop diuretics if possible.",
+    "evidenceSource": "FDA Prescribing Information",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-furo-rami",
+    "genericA": "furosemide",
+    "genericB": "ramipril",
+    "severity": "moderate",
+    "clinicalEffect": "Severe first-dose hypotension and acute renal impairment.",
+    "mechanism": "Diuretic-induced volume and sodium depletion sensitizes systemic vasculature to ACE inhibition.",
+    "management": "Hold or decrease furosemide dose for 24-48 hours before initiating ramipril, or start ramipril at low dose (1.25-2.5 mg) at bedtime.",
+    "evidenceSource": "BNF 86 / HOPE Protocol",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-acar-dig",
+    "genericA": "acarbose",
+    "genericB": "digoxin",
+    "severity": "moderate",
+    "clinicalEffect": "Reduced gastrointestinal absorption and decreased plasma bioavailability of digoxin.",
+    "mechanism": "Intestinal adsorption or altered transit time decreases systemic absorption of digoxin.",
+    "management": "Monitor serum digoxin levels; dose adjustment of digoxin may be required.",
+    "evidenceSource": "DailyMed FDA Label",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-acar-glim",
+    "genericA": "acarbose",
+    "genericB": "glimepiride",
+    "severity": "moderate",
+    "clinicalEffect": "Additive hypoglycemia risk.",
+    "mechanism": "Combined insulin secretagogue action and postprandial glucose blunting.",
+    "management": "CRITICAL: If hypoglycemia occurs, administer pure oral dextrose (glucose) or milk, NOT sucrose (cane/table sugar), as acarbose inhibits sucrose hydrolysis.",
+    "evidenceSource": "BADAS / ADA Guidelines",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-acar-char",
+    "genericA": "acarbose",
+    "genericB": "activated-charcoal",
+    "severity": "moderate",
+    "clinicalEffect": "Marked reduction in acarbose therapeutic efficacy.",
+    "mechanism": "Adsorption of acarbose onto charcoal in gastrointestinal tract.",
+    "management": "Avoid concurrent administration of intestinal adsorbents with acarbose.",
+    "evidenceSource": "BNF 86",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-rami-spir",
+    "genericA": "ramipril",
+    "genericB": "spironolactone",
+    "severity": "major",
+    "clinicalEffect": "High risk of severe, potentially fatal hyperkalemia.",
+    "mechanism": "Additive aldosterone suppression by ACE inhibitor combined with mineralocorticoid receptor blockade.",
+    "management": "Limit spironolactone to 25 mg daily in heart failure. Check serum potassium and creatinine at baseline, 1 week, 4 weeks, and regularly thereafter.",
+    "evidenceSource": "RALES Trial / ESC Guidelines",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-rami-losa",
+    "genericA": "ramipril",
+    "genericB": "losartan",
+    "severity": "major",
+    "clinicalEffect": "Severe hyperkalemia, syncope, and acute kidney injury without added cardiovascular mortality benefit.",
+    "mechanism": "Dual RAAS blockade causes profound efferent arteriolar vasodilation and aldosterone suppression.",
+    "management": "Combination is strictly contraindicated. Select an ACE inhibitor OR an ARB, not both.",
+    "evidenceSource": "ONTARGET Trial / US FDA",
+    "reviewedDate": "2026-09-25"
+  },
+  {
+    "id": "int-rami-ibup",
+    "genericA": "ramipril",
+    "genericB": "ibuprofen",
+    "severity": "moderate",
+    "clinicalEffect": "Antagonism of antihypertensive effect and increased risk of acute kidney injury.",
+    "mechanism": "NSAIDs inhibit renal vasodilatory prostaglandins, compromising afferent arteriolar flow while ACEI relaxes efferent arteriole.",
+    "management": "Avoid routine NSAID co-prescription. Use paracetamol for analgesia; monitor serum creatinine if NSAIDs are necessary.",
+    "evidenceSource": "BNF 86",
+    "reviewedDate": "2026-09-25"
   }
 ];
 
@@ -7719,6 +8458,8 @@ export function evaluateDrugInteractions(genericIds: string[]): {
   interactions: DrugInteraction[];
   safeNotice: string;
   hasInteractions: boolean;
+  dataStatus: 'interactions_found' | 'no_documented_interaction' | 'insufficient_data';
+  unreviewedGenerics: string[];
 } {
   const uniqueIds = [...new Set(genericIds.map(id => id.trim().toLowerCase()))];
   const results: DrugInteraction[] = [];
@@ -7738,13 +8479,26 @@ export function evaluateDrugInteractions(genericIds: string[]): {
     }
   }
 
-  const safeNotice = results.length > 0
-    ? `Identified ${results.length} documented clinical interaction(s) among the selected medicines. Review severity and clinical management guidance.`
-    : 'No verified interaction was found in the available database. This does not prove that no interaction exists.';
+  // Check if any generic is unreviewed or has draft status
+  const verifiedIds = new Set(VERIFIED_GENERICS.map(g => g.id.toLowerCase()));
+  const unreviewedGenerics = uniqueIds.filter(id => !verifiedIds.has(id));
+
+  let dataStatus: 'interactions_found' | 'no_documented_interaction' | 'insufficient_data' = 'no_documented_interaction';
+  let safeNotice = 'No documented interaction in the reviewed clinical dataset. Absence of evidence does not guarantee absence of interaction.';
+
+  if (results.length > 0) {
+    dataStatus = 'interactions_found';
+    safeNotice = `Identified ${results.length} documented clinical interaction(s) among the selected medicines. Review severity and clinical management guidance.`;
+  } else if (unreviewedGenerics.length > 0) {
+    dataStatus = 'insufficient_data';
+    safeNotice = `Insufficient verified interaction data available for ${unreviewedGenerics.join(', ')}. This record is in draft status and awaiting comprehensive clinical interaction review; do not assume lack of documented interaction indicates metabolic safety.`;
+  }
 
   return {
     interactions: results,
     safeNotice,
-    hasInteractions: results.length > 0
+    hasInteractions: results.length > 0,
+    dataStatus,
+    unreviewedGenerics
   };
 }

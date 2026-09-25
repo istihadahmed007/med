@@ -235,10 +235,25 @@ export const InteractionCheckerModal: React.FC<InteractionCheckerModalProps> = (
                     </div>
                   ))}
                 </div>
+              ) : checkResult.dataStatus === 'insufficient_data' ? (
+                <div className="p-4 rounded-xl bg-amber-950/25 border border-amber-500/40 text-left">
+                  <div className="text-amber-300 font-bold text-sm mb-1.5 flex items-center gap-2">
+                    <span className="text-base">⚠️</span> Insufficient Interaction Data for Evaluated Selection
+                  </div>
+                  <p className="text-xs text-amber-200/90 leading-relaxed mb-2.5">
+                    {checkResult.disclaimer || 'One or more of the selected medicines are draft catalog records awaiting formal clinical monograph review. Absence of documented interactions in this unreviewed dataset does NOT confirm safety.'}
+                  </p>
+                  {checkResult.unreviewedGenerics && checkResult.unreviewedGenerics.length > 0 && (
+                    <div className="text-xs text-slate-300 bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                      <strong className="text-amber-400">Records Awaiting Review:</strong>{' '}
+                      <span className="capitalize">{checkResult.unreviewedGenerics.join(', ')}</span>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
                   <div className="text-emerald-400 font-bold text-sm mb-1">
-                    ✓ No Verified Interaction Found
+                    ✓ No Documented Interaction in Reviewed Dataset
                   </div>
                   <p className="text-xs text-slate-300 leading-relaxed max-w-lg mx-auto">
                     {checkResult.disclaimer}

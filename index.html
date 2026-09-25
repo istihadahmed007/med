@@ -36,7 +36,10 @@
                text.indexOf('unexpected token <') !== -1 || 
                text.indexOf('is not valid json') !== -1 ||
                text.indexOf('failed to fetch') !== -1 ||
-               text.indexOf('networkerror') !== -1;
+               text.indexOf('networkerror') !== -1 ||
+               text.indexOf('refreshruntime') !== -1 ||
+               text.indexOf('fast refresh') !== -1 ||
+               text.indexOf('resizeobserver') !== -1;
       }
 
       window.addEventListener('error', function(e) {

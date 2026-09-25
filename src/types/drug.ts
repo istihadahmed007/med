@@ -204,6 +204,8 @@ export interface DrugGeneric {
     halfLife?: string;
     metabolism?: string;
     excretion?: string;
+    onsetOfAction?: string;
+    proteinBinding?: string;
   };
   overdoseInfo?: {
     symptoms?: string;
@@ -252,6 +254,8 @@ export interface DrugBrand {
   registrationNumber?: string;
   unitPrice?: number;
   verifiedPrice?: VerifiedPrice;
+  provenanceNote?: string;
+  notes?: string;
 }
 
 export interface Manufacturer {
@@ -354,6 +358,8 @@ export interface InteractionCheckResponse {
     message: string;
   }>;
   interactions: DrugInteraction[];
+  dataStatus?: 'interactions_found' | 'no_documented_interaction' | 'insufficient_data';
+  unreviewedGenerics?: string[];
   disclaimer: string;
   checkedAt: string;
 }

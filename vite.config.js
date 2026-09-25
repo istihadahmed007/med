@@ -754,8 +754,8 @@ const devApiFallbackPlugin = () => ({
   }
 });
 
-export default defineConfig({
-  base: './',
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? './' : '/',
   plugins: [react(), devApiFallbackPlugin()],
   css: {
     postcss: {
@@ -805,4 +805,4 @@ export default defineConfig({
       ignored: ['**/server/data/**', '**/public/data/**', '**/scratch/**']
     }
   }
-});
+}));

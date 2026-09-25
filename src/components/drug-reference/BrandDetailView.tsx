@@ -219,7 +219,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 {brand.prescriptionStatus === 'OTC' ? 'OTC (Over-The-Counter)' : 'Prescription Only (Rx)'}
               </span>
               <span className="text-xs text-slate-500 font-medium">
-                Registration: <strong className="text-slate-800">{brand.registrationNumber || 'DGDA Verified'}</strong>
+                Registration: <strong className="text-slate-800">{brand.registrationNumber || brand.registrationStatus || 'Verification Pending'}</strong>
               </span>
             </div>
 
@@ -262,12 +262,12 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
                 <span className="text-slate-500 block font-medium">Route</span>
                 <span className="text-slate-900 text-sm font-bold mt-0.5 block">
-                  {brand.route || (generic.dosageGuidance?.routes?.join(', ') || 'Oral')}
+                  {brand.route || (brand.dosageForm && /injection|infusion|inj\b/i.test(brand.dosageForm) ? 'IV, IM' : /tablet|capsule|syrup|suspension|tab\b|cap\b/i.test(brand.dosageForm) ? 'Oral' : 'Specific to formulation')}
                 </span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
                 <span className="text-slate-500 block font-medium">Pack Info</span>
-                <span className="text-slate-900 text-sm font-bold mt-0.5 block">{brand.packInfo || 'Strip / Blister'}</span>
+                <span className="text-slate-900 text-sm font-bold mt-0.5 block">{brand.packInfo || 'Standard commercial pack'}</span>
               </div>
             </div>
 
@@ -291,27 +291,44 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
 
             {/* Regulatory provenance & last reviewed date */}
             <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
-              <span><strong>Source:</strong> {brand.source || 'Bangladesh DGDA / National Formulary'}</span>
+              <span><strong>Source:</strong> {brand.source || (brand.registrationNumber ? 'Bangladesh DGDA Registered Formulary' : 'Imported Catalog (DGDA Alignment Pending)')}</span>
               <span>•</span>
-              <span><strong>Last Reviewed:</strong> {brand.lastVerifiedDate || 'Recent clinical review'}</span>
+              <span><strong>Last Reviewed:</strong> {brand.lastVerifiedDate || 'Pending verification'}</span>
             </div>
           </div>
 
           {/* Pricing Box & Action CTAs */}
           <div className="flex flex-col gap-3 min-w-[220px] lg:w-64 shrink-0">
             {/* Price Box */}
-            <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-50/80 to-teal-50/60 border border-emerald-200 text-right">
-              <span className="text-xs text-emerald-800 font-bold uppercase tracking-wider block">
+            <div className={`p-4 rounded-xl text-right border ${
+              brand.verifiedPrice?.amount
+                ? 'bg-gradient-to-br from-emerald-50/80 to-teal-50/60 border-emerald-200'
+                : 'bg-slate-50 border-slate-200'
+            }`}>
+              <span className={`text-xs font-bold uppercase tracking-wider block ${
+                brand.verifiedPrice?.amount ? 'text-emerald-800' : 'text-slate-500'
+              }`}>
                 Verified Retail Price (MRP)
               </span>
-              <div className="text-2xl font-black text-emerald-700 mt-1">
-                {brand.verifiedPrice?.amount
-                  ? `৳ ${brand.verifiedPrice.amount.toFixed(2)}`
-                  : 'Gazette Regulated'}
-              </div>
-              <p className="text-[11px] text-emerald-800/80 mt-0.5">
-                {brand.verifiedPrice?.unit ? `Per ${brand.verifiedPrice.unit}` : 'Per commercial unit'}
-              </p>
+              {brand.verifiedPrice?.amount ? (
+                <>
+                  <div className="text-2xl font-black text-emerald-700 mt-1">
+                    ৳ {brand.verifiedPrice.amount.toFixed(2)}
+                  </div>
+                  <p className="text-[11px] text-emerald-800/80 mt-0.5">
+                    {brand.verifiedPrice.unit ? `Per ${brand.verifiedPrice.unit}` : 'Per commercial unit'}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="text-base font-bold text-slate-500 mt-1">
+                    Price Pending Verification
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-0.5">
+                    DGDA price gazette verification in progress
+                  </p>
+                </>
+              )}
             </div>
 
             {/* Action Buttons: Study Across Books & Practice Questions */}
@@ -340,7 +357,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
           <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
             <span className="text-slate-600 font-semibold">Available Formulations:</span>
             <div className="flex flex-wrap gap-1.5">
-              {availableStrengths.map((str, i) => (
+              {Array.from(new Set(availableStrengths.map(s => s.trim()))).map((str, i) => (
                 <span
                   key={i}
                   className={`px-2.5 py-0.5 rounded-lg border text-xs font-mono font-medium ${

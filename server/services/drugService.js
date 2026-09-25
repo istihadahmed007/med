@@ -518,7 +518,25 @@ export class DrugService {
       }
     }
 
-    const mandatoryDisclaimer = 'No verified interaction was found in the available database. This does NOT prove that no interaction exists.';
+    // Check if any evaluated generic is unreviewed or has draft status
+    const unreviewedGenerics = [];
+    uniqueGenericIds.forEach(id => {
+      const g = genericsList.find(item => item.id.toLowerCase() === id.toLowerCase() || item.normalizedName?.toLowerCase() === id.toLowerCase());
+      if (!g || g.medicalReview?.status !== 'published') {
+        unreviewedGenerics.push(g ? g.name : id);
+      }
+    });
+
+    let dataStatus = 'no_documented_interaction';
+    let disclaimer = 'No verified interaction was found in the available database. This does NOT prove that no interaction exists. No documented interaction in the reviewed clinical dataset.';
+
+    if (matchedInteractions.length > 0) {
+      dataStatus = 'interactions_found';
+      disclaimer = `Identified ${matchedInteractions.length} documented clinical interaction(s) among the selected medicines. Review severity and clinical management guidance.`;
+    } else if (unreviewedGenerics.length > 0) {
+      dataStatus = 'insufficient_data';
+      disclaimer = `Insufficient verified interaction data available for ${unreviewedGenerics.join(', ')}. This record is in draft status and awaiting comprehensive clinical interaction review; absence of interaction cannot be confirmed.`;
+    }
 
     return {
       evaluatedGenericsCount: uniqueGenericIds.length,
@@ -527,7 +545,9 @@ export class DrugService {
       hasDuplicateTherapy: duplicateBrandWarnings.length > 0,
       duplicateBrandWarnings,
       interactions: matchedInteractions,
-      disclaimer: mandatoryDisclaimer,
+      dataStatus,
+      unreviewedGenerics,
+      disclaimer,
       checkedAt: new Date().toISOString()
     };
   }
@@ -637,18 +657,18 @@ export class DrugService {
     const manufacturers = db.manufacturers || [];
     const classes = db.therapeuticClasses || [];
 
-    // Calculate records updated this month based on real timestamps
+    // Calculate records updated this month based on real clinically verified timestamps
     const now = new Date();
     const currentMonth = now.toISOString().slice(0, 7); // 'YYYY-MM'
-    const updatedThisMonth = brands.filter(b => (b.lastVerifiedDate || '').startsWith(currentMonth)).length +
-      generics.filter(g => (g.medicalReview?.lastUpdated || g.medicalReview?.reviewDate || '').startsWith(currentMonth)).length;
+    const updatedBrands = brands.filter(b => b.registrationStatus !== 'Imported (DGDA Verification Pending)' && (b.lastVerifiedDate || '').startsWith(currentMonth)).length;
+    const updatedGenerics = generics.filter(g => g.medicalReview?.status === 'published' && (g.medicalReview?.reviewDate || g.medicalReview?.lastUpdated || '').startsWith(currentMonth)).length;
 
     return {
       totalBrands: brands.length,
       totalGenerics: generics.length,
       totalManufacturers: manufacturers.length,
       totalClasses: classes.length,
-      updatedThisMonth: Math.max(updatedThisMonth, 12)
+      updatedThisMonth: updatedGenerics + updatedBrands
     };
   }
 
@@ -711,11 +731,32 @@ export class DrugService {
                    b.brandName.toLowerCase().startsWith(brand.brandName.toLowerCase().split(' ')[0]) &&
                    b.id !== brand.id);
 
-    const availableStrengths = Array.from(new Set(
-      (db.brands || [])
-        .filter(b => b.genericId.toLowerCase() === brand.genericId.toLowerCase())
-        .map(b => `${b.dosageForm} ${b.strength}`.trim())
-    ));
+    let enrichedGeneric = generic ? { ...generic } : null;
+    if (enrichedGeneric) {
+      const gId = (enrichedGeneric.id || '').toLowerCase();
+      const directInteractions = (db.interactions || []).filter(i =>
+        i.genericA.toLowerCase() === gId || i.genericB.toLowerCase() === gId
+      ).map(i => ({
+        ...i,
+        genericB: i.genericA.toLowerCase() === gId ? i.genericB : i.genericA
+      }));
+      enrichedGeneric.keyInteractions = directInteractions;
+    }
+
+    // Canonical deduplication of available strengths and formulations
+    const brandStrengths = (db.brands || []).filter(b => b.genericId.toLowerCase() === brand.genericId.toLowerCase());
+    const seenForms = new Map();
+    for (const b of brandStrengths) {
+      if (!b.dosageForm && !b.strength) continue;
+      let s = (b.strength || '').trim().replace(/(\d+)\s*(mg|mcg|g|ml|iu|%)/gi, '$1 $2').replace(/(\d+)-mg/gi, '$1 mg');
+      let df = (b.dosageForm || '').trim();
+      let label = `${df} ${s}`.trim();
+      let key = label.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!seenForms.has(key)) {
+        seenForms.set(key, label);
+      }
+    }
+    const availableStrengths = Array.from(seenForms.values()).sort((a, b) => a.localeCompare(b));
 
     const relatedClasses = therapeuticClass ? [{
       id: therapeuticClass.id,
@@ -723,9 +764,15 @@ export class DrugService {
       slug: therapeuticClass.id
     }] : [];
 
+    // Ensure formulation-specific route
+    const resolvedBrand = {
+      ...brand,
+      route: brand.route || (brand.dosageForm?.toLowerCase().includes('inj') ? 'IV, IM' : 'Oral')
+    };
+
     return {
-      brand,
-      generic: generic || null,
+      brand: resolvedBrand,
+      generic: enrichedGeneric || null,
       manufacturer: manufacturer || null,
       therapeuticClass: therapeuticClass || null,
       alternativeBrands,
