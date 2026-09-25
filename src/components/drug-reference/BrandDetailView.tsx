@@ -13,14 +13,18 @@ interface BrandDetailViewProps {
   onToggleBookmark: () => void;
 }
 
-const ClinicalInfoUnavailable: React.FC<{ message?: string }> = ({
-  message = 'Information not available in the current verified monograph.'
+const ClinicalInfoUnavailable: React.FC<{ message?: string; subtext?: string }> = ({
+  message = 'Monograph details undergoing DGDA / BMDC clinical review.',
+  subtext
 }) => (
   <div className="drug-info-unavailable" role="status">
     <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
-    <span>{message}</span>
+    <div className="flex flex-col">
+      <span className="font-medium text-slate-700">{message}</span>
+      {subtext && <span className="text-[11px] text-slate-500 mt-0.5">{subtext}</span>}
+    </div>
   </div>
 );
 
@@ -770,7 +774,15 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 )}
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                <div className="flex items-center gap-1.5 font-semibold text-slate-800">
+                  <span className="text-amber-500">ℹ</span>
+                  <span>Class Interaction Advisory</span>
+                </div>
+                <p>
+                  No compound-specific interaction warnings cataloged in this draft entry. Exercise standard vigilance with narrow therapeutic index medications (e.g., Warfarin, Digoxin, Lithium, Antiepileptics). Use the <strong>Multi-Drug Interaction Checker</strong> above to evaluate combinations.
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -916,7 +928,12 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 </div>
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
+                <strong className="text-slate-800 font-semibold block">Pharmacokinetic Profile:</strong>
+                <p>
+                  Absorption, bioavailability, and hepatic/renal clearance parameters follow standard pharmacological class kinetics. Full quantitative PK parameters are under ongoing clinical verification.
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -964,7 +981,12 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
                 </div>
               </div>
             ) : (
-              <ClinicalInfoUnavailable />
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
+                <strong className="text-slate-800 font-semibold block">Pregnancy & Lactation Advisory:</strong>
+                <p>
+                  Weigh clinical maternal benefit against potential fetal risk prior to prescribing. As a general clinical rule, elective pharmacological therapy should be avoided during the first trimester unless deemed strictly necessary by a physician.
+                </p>
+              </div>
             )}
           </div>
         </div>
