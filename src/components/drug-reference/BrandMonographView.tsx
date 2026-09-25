@@ -22,12 +22,15 @@ export const BrandMonographView: React.FC<BrandMonographViewProps> = ({
         {/* Header Bar */}
         <div className="monograph-header-bar">
           <div className="monograph-title-group">
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-semibold border border-blue-500/30">
-                Bangladesh Registered Product
+              <span className={`text-xs px-2 py-0.5 rounded font-semibold border ${
+                brand.registrationStatus === 'DGDA Active'
+                  ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                  : 'bg-slate-800 text-slate-400 border-slate-700'
+              }`}>
+                {brand.registrationStatus === 'DGDA Active'
+                  ? 'DGDA Active Registration'
+                  : (brand.registrationStatus || 'Registration Verification Pending')}
               </span>
-              <span className="text-xs text-slate-400">DGDA Verified</span>
-            </div>
             <h2 id="brand-title" className="mt-1">{brand.brandName}</h2>
             {brand.brandNameBn && (
               <div className="title-bn">{brand.brandNameBn}</div>

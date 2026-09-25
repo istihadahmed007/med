@@ -312,7 +312,7 @@ export const BrandDetailView: React.FC<BrandDetailViewProps> = ({
               <span className={`text-xs font-bold uppercase tracking-wider block ${
                 brand.verifiedPrice?.amount ? 'text-emerald-800' : 'text-slate-500'
               }`}>
-                Verified Retail Price (MRP)
+                {brand.verifiedPrice?.amount ? 'Verified Retail Price (MRP)' : 'Retail Price Information'}
               </span>
               {brand.verifiedPrice?.amount ? (
                 <>

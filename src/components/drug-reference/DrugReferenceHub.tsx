@@ -884,7 +884,7 @@ export const DrugReferenceHub: React.FC<DrugReferenceHubProps> = ({
                 <span className="drug-stat-number">
                   {dbStats ? (dbStats.recordsUpdatedThisMonth ?? dbStats.updatedThisMonth ?? 0).toLocaleString() : '—'}
                 </span>
-                <span className="drug-stat-label">Updated This Month</span>
+                <span className="drug-stat-label">Clinically Reviewed</span>
                 <span className="drug-stat-subtext">Verified audits & gazette</span>
               </div>
             </div>

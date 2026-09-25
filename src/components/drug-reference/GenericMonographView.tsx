@@ -264,21 +264,29 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
           {/* TAB 2: MECHANISM */}
           {activeTab === 'mechanism' && (
             <div className="space-y-4">
-              <div className="clinical-section-card">
-                <h3 className="clinical-section-title">Mechanism of Action</h3>
-                <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                  {generic.mechanismOfAction}
-                </p>
-                {generic.bilingualNotes?.mechanismSummaryBn && (
-                  <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-500/20 text-xs text-sky-300 mb-4">
-                    <strong>কার্যপদ্ধতি সারসংক্ষেপ:</strong> {generic.bilingualNotes.mechanismSummaryBn}
-                  </div>
-                )}
-                <div className="p-3 rounded-lg bg-slate-900/90 border border-slate-800 text-sm">
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Target Receptor / Enzyme:</span>
-                  <div className="text-white font-bold mt-0.5">{generic.receptorOrTarget}</div>
+              {generic.mechanismOfAction ? (
+                <div className="clinical-section-card">
+                  <h3 className="clinical-section-title">Mechanism of Action</h3>
+                  <p className="text-slate-200 text-sm leading-relaxed mb-4">
+                    {generic.mechanismOfAction}
+                  </p>
+                  {generic.bilingualNotes?.mechanismSummaryBn && (
+                    <div className="p-3 rounded-lg bg-blue-950/40 border border-blue-500/20 text-xs text-sky-300 mb-4">
+                      <strong>কার্যপদ্ধতি সারসংক্ষেপ:</strong> {generic.bilingualNotes.mechanismSummaryBn}
+                    </div>
+                  )}
+                  {generic.receptorOrTarget && (
+                    <div className="p-3 rounded-lg bg-slate-900/90 border border-slate-800 text-sm">
+                      <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Target Receptor / Enzyme:</span>
+                      <div className="text-white font-bold mt-0.5">{generic.receptorOrTarget}</div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                  Detailed molecular mechanism of action and receptor target monograph undergoing clinical review against official product labels.
+                </div>
+              )}
 
               {generic.pharmacologyLearning && (
                 <div className="clinical-section-card bg-indigo-950/20 border-indigo-500/30">
@@ -342,9 +350,9 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
           {/* TAB 4: DOSAGE & ADMINISTRATION */}
           {activeTab === 'dosage' && (
             <div className="space-y-4">
-              <div className="clinical-section-card">
-                <h3 className="clinical-section-title">Dosage Guidance</h3>
-                {generic.dosageGuidance?.adult ? (
+              {generic.dosageGuidance?.adult ? (
+                <div className="clinical-section-card">
+                  <h3 className="clinical-section-title">Dosage Guidance</h3>
                   <div className="space-y-3 text-sm">
                     <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
                       <div className="text-xs font-bold text-sky-400 uppercase tracking-wide">Adult Dosage</div>
@@ -376,12 +384,12 @@ export const GenericMonographView: React.FC<GenericMonographViewProps> = ({
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
-                    Dosage and administration guidance for this draft record is undergoing clinical review and verification. Always confirm dosing with official prescribing information.
-                  </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                  Dosage and administration guidance for this draft record is undergoing clinical review and verification. Always confirm dosing with official prescribing information.
+                </div>
+              )}
             </div>
           )}
 

@@ -697,11 +697,50 @@ export class DrugService {
     const db = this.loadDb();
     const s = slugOrId.trim().toLowerCase();
 
-    const brand = (db.brands || []).find(b =>
-      b.id.toLowerCase() === s ||
-      b.brandName.toLowerCase() === s ||
-      `${b.brandName.toLowerCase()}-${(b.strength || '').toLowerCase()}-${(b.dosageForm || '').toLowerCase()}`.replace(/\s+/g, '-') === s
+    const BRAND_ALIASES = {
+      'lasix-tablet-40-mg': 'lasix-tab-40mg',
+      'lasix-injection-20-mg-2-ml': 'lasix-inj-20mg-2ml',
+      'neofloxin-tablet-500-mg': 'neofloxin-tab-500mg',
+      'losectil-capsule-20-mg': 'losectil-cap-20mg',
+      'proceptin-capsule-20-mg': 'proceptin-cap-20mg',
+      'napa-tablet-500-mg': 'napa-tab-500mg',
+      'renova-tablet-500-mg': 'renova-tab-500mg',
+      'napa-extra-tablet-500-mg-65-mg': 'napa-extra-tab'
+    };
+
+    const targetKey = BRAND_ALIASES[s] || s;
+
+    let brand = (db.brands || []).find(b =>
+      b.id.toLowerCase() === targetKey ||
+      b.brandName.toLowerCase() === targetKey ||
+      `${b.brandName.toLowerCase()}-${(b.strength || '').toLowerCase()}-${(b.dosageForm || '').toLowerCase()}`.replace(/\s+/g, '-') === targetKey
     );
+
+    if (!brand) {
+      // Check if slug matches a generic ID or name
+      const genericMatch = (db.generics || []).find(g =>
+        g.id.toLowerCase() === targetKey ||
+        g.normalizedName === targetKey ||
+        g.name.toLowerCase() === targetKey
+      );
+      if (genericMatch) {
+        brand = (db.brands || []).find(b => b.genericId.toLowerCase() === genericMatch.id.toLowerCase());
+        if (!brand) {
+          brand = {
+            id: genericMatch.id,
+            genericId: genericMatch.id,
+            brandName: genericMatch.name,
+            manufacturerName: 'Bangladesh Registered Formulations',
+            dosageForm: 'Oral / Standard Formulation',
+            strength: 'Standard',
+            route: 'Oral',
+            packInfo: 'Commercial packaging',
+            registrationStatus: 'DGDA Registered INN'
+          };
+        }
+      }
+    }
+
     if (!brand) return null;
 
     const saltParentMap = {

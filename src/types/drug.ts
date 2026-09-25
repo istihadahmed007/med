@@ -221,6 +221,15 @@ export interface DrugGeneric {
     clinicalEffect: string;
     recommendation: string;
   }>;
+  fieldProvenance?: Record<string, {
+    value?: any;
+    source?: string;
+    sourceUrl?: string | null;
+    dateChecked?: string;
+    reviewStatus?: string;
+    notes?: string;
+    status?: string;
+  }>;
 }
 
 export interface VerifiedPrice {
@@ -258,6 +267,14 @@ export interface DrugBrand {
   verifiedPrice?: VerifiedPrice;
   provenanceNote?: string;
   notes?: string;
+  fieldProvenance?: Record<string, {
+    value?: any;
+    source?: string;
+    sourceUrl?: string | null;
+    dateChecked?: string;
+    reviewStatus?: string;
+    notes?: string;
+  }>;
 }
 
 export interface Manufacturer {
