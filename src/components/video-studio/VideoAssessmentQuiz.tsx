@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CheckCircle2, XCircle, HelpCircle, Award, RotateCcw } from 'lucide-react';
 import { VideoQuizQuestion } from '../../types/videoStudio';
 import { VideoStudioService } from '../../services/videoStudioService';
+import { AuthService } from '../../services/authService';
 
 interface VideoAssessmentQuizProps {
   videoId: string;
@@ -13,9 +14,10 @@ interface VideoAssessmentQuizProps {
 export const VideoAssessmentQuiz: React.FC<VideoAssessmentQuizProps> = ({
   videoId,
   questions = [],
-  studentId = 'std-bmdc-2026-0891',
+  studentId,
   onQuizCompleted
 }) => {
+  const effectiveStudentId = studentId || AuthService.getCurrentUser()?.id;
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -48,12 +50,14 @@ export const VideoAssessmentQuiz: React.FC<VideoAssessmentQuizProps> = ({
     const score = calculateScore();
     onQuizCompleted?.(score, questions.length);
 
-    VideoStudioService.saveProgress({
-      videoId,
-      studentId,
-      demonstratedUnderstanding: score >= Math.ceil(questions.length * 0.6),
-      answeredQuestionIds: Object.keys(selectedAnswers)
-    }).catch(() => {});
+    if (effectiveStudentId) {
+      VideoStudioService.saveProgress({
+        videoId,
+        studentId: effectiveStudentId,
+        demonstratedUnderstanding: score >= Math.ceil(questions.length * 0.6),
+        answeredQuestionIds: Object.keys(selectedAnswers)
+      }).catch(() => {});
+    }
   };
 
   const handleRetry = () => {

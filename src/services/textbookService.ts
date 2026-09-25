@@ -1,10 +1,23 @@
 import { TextbookRecord, TextbookBookmark, TextbookStudentNote, ImportJob, TextbookFilterOptions } from '../types/textbook';
 import { VERIFIED_TEXTBOOKS, searchVerifiedTextbooks, getVerifiedTextbookById } from '../data/verifiedTextbooksData';
+import { AuthService } from './authService';
 
-const BOOKMARKS_KEY = 'medx_textbook_bookmarks_v1';
-const NOTES_KEY = 'medx_textbook_notes_v1';
 const READER_PREFS_KEY = 'medx_textbook_reader_prefs_v1';
-const LOCAL_JOBS_KEY = 'medx_local_textbook_jobs_v1';
+
+function getUserBookmarksKey(): string {
+  const user = AuthService.getCurrentUser();
+  return user ? `medx_textbook_bookmarks_${user.id}` : 'medx_textbook_bookmarks_visitor';
+}
+
+function getUserNotesKey(): string {
+  const user = AuthService.getCurrentUser();
+  return user ? `medx_textbook_notes_${user.id}` : 'medx_textbook_notes_visitor';
+}
+
+function getUserJobsKey(): string {
+  const user = AuthService.getCurrentUser();
+  return user ? `medx_local_textbook_jobs_${user.id}` : 'medx_local_textbook_jobs_visitor';
+}
 
 export interface ReaderPreferences {
   fontSize: number; // 14 - 24
@@ -121,7 +134,7 @@ export class FrontendTextbookService {
   // =========================================================================
   static getBookmarks(): TextbookBookmark[] {
     try {
-      const raw = localStorage.getItem(BOOKMARKS_KEY);
+      const raw = localStorage.getItem(getUserBookmarksKey());
       if (!raw) return [];
       return JSON.parse(raw);
     } catch {
@@ -153,7 +166,7 @@ export class FrontendTextbookService {
         isNowSaved = true;
       }
 
-      localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+      localStorage.setItem(getUserBookmarksKey(), JSON.stringify(bookmarks));
       return isNowSaved;
     } catch {
       return false;
@@ -165,7 +178,7 @@ export class FrontendTextbookService {
   // =========================================================================
   static getNotes(bookId?: string, sectionId?: string): TextbookStudentNote[] {
     try {
-      const raw = localStorage.getItem(NOTES_KEY);
+      const raw = localStorage.getItem(getUserNotesKey());
       if (!raw) return [];
       const notes: TextbookStudentNote[] = JSON.parse(raw);
 
@@ -198,7 +211,7 @@ export class FrontendTextbookService {
     }
 
     try {
-      localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+      localStorage.setItem(getUserNotesKey(), JSON.stringify(notes));
     } catch (e) {
       console.error('Failed to save student note to localStorage', e);
     }
@@ -209,7 +222,7 @@ export class FrontendTextbookService {
   static deleteNote(noteId: string): boolean {
     try {
       const notes = this.getNotes().filter(n => n.id !== noteId);
-      localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+      localStorage.setItem(getUserNotesKey(), JSON.stringify(notes));
       return true;
     } catch {
       return false;
@@ -293,16 +306,27 @@ export class FrontendTextbookService {
     isPrivateUpload?: boolean;
     extractedMetadata?: any;
   }): Promise<{ success: boolean; job: ImportJob }> {
+    const user = AuthService.getCurrentUser();
+    if (!user) {
+      throw new Error('Authentication required to upload or import textbooks. Please sign in to your MEDX account.');
+    }
+
+    const session = AuthService.getSession();
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+
     try {
       const res = await fetch('/api/textbook-import/submit-job', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(payload)
       });
       if (res.ok) {
         return await res.json();
       }
-      const err = await res.json();
+      const err = await res.json().catch(() => ({}));
       throw new Error(err.error || 'Import submission failed.');
     } catch (err: any) {
       if (err.message && !err.message.includes('fetch')) {
@@ -310,16 +334,17 @@ export class FrontendTextbookService {
       }
     }
 
-    // Offline simulation fallback
+    // Offline simulation fallback strictly for this authenticated user
     const jobId = `local-job-${Date.now()}`;
+    const role = AuthService.getRole();
     const job: ImportJob = {
       id: jobId,
       type: payload.type,
       status: 'processing',
       targetTitle: payload.targetTitle,
       targetIsbn: payload.targetIsbn,
-      ownerId: 'std-bmdc-2026-0891',
-      ownerRole: 'student',
+      ownerId: user.id,
+      ownerRole: role,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       retryCount: 0,
@@ -348,8 +373,13 @@ export class FrontendTextbookService {
   }
 
   static async getImportJobs(): Promise<ImportJob[]> {
+    const session = AuthService.getSession();
+    const headers: Record<string, string> = {};
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
     try {
-      const res = await fetch('/api/textbook-import/jobs');
+      const res = await fetch('/api/textbook-import/jobs', { headers });
       if (res.ok) {
         const jobs = await res.json();
         if (Array.isArray(jobs) && jobs.length > 0) return jobs;
@@ -360,13 +390,18 @@ export class FrontendTextbookService {
   }
 
   static async retryImportJob(jobId: string): Promise<ImportJob> {
+    const session = AuthService.getSession();
+    const headers: Record<string, string> = {};
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
     try {
-      const res = await fetch(`/api/textbook-import/jobs/${jobId}/retry`, { method: 'POST' });
+      const res = await fetch(`/api/textbook-import/jobs/${jobId}/retry`, { method: 'POST', headers });
       if (res.ok) {
         const data = await res.json();
         return data.job;
       }
-      const err = await res.json();
+      const err = await res.json().catch(() => ({}));
       throw new Error(err.error || 'Retry failed');
     } catch (err: any) {
       if (!err.message.includes('fetch')) throw err;
@@ -384,7 +419,7 @@ export class FrontendTextbookService {
 
   private static getLocalJobs(): ImportJob[] {
     try {
-      const raw = localStorage.getItem(LOCAL_JOBS_KEY);
+      const raw = localStorage.getItem(getUserJobsKey());
       if (!raw) return [];
       return JSON.parse(raw);
     } catch {
@@ -394,7 +429,7 @@ export class FrontendTextbookService {
 
   private static saveLocalJobs(jobs: ImportJob[]) {
     try {
-      localStorage.setItem(LOCAL_JOBS_KEY, JSON.stringify(jobs));
+      localStorage.setItem(getUserJobsKey(), JSON.stringify(jobs));
     } catch (e) {}
   }
 }

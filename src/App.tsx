@@ -368,10 +368,42 @@ export const App: React.FC = () => {
             {/* 6. Revision Hub (Spaced Flashcards & Mistakes) */}
             {currentView === 'revision' && (
               <Suspense fallback={<p role="status" className="p-8 text-center text-slate-300 font-mono text-xs">Loading Revision Deck…</p>}>
-                <RevisionHub
-                  onNavigateToLesson={handleOpenLesson}
-                  onNavigateView={handleNavigate}
-                />
+                {!isAuthenticated ? (
+                  <div className="max-w-2xl mx-auto my-12 p-8 rounded-3xl bg-[#06172E] border border-[rgba(190,225,255,0.22)] text-center space-y-4 shadow-2xl">
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-[#08AFC1]/15 border border-[#08AFC1]/30 flex items-center justify-center text-[#08AFC1]">
+                      <ShieldAlert className="w-7 h-7" />
+                    </div>
+                    <h2 className="text-xl font-extrabold text-white">Sign In to Access Your Personal Revision Deck</h2>
+                    <p className="text-xs sm:text-sm text-[#8EACCF] leading-relaxed max-w-lg mx-auto">
+                      Spaced Repetition flashcards, Mistake Notebooks, and Bookmarked lessons are synced across your devices and saved strictly to your account.
+                    </p>
+                    <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                      <button
+                        onClick={() => {
+                          setAuthModalMode('login');
+                          setAuthModalOpen(true);
+                        }}
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#08AFC1] to-[#0694a2] hover:from-[#09c2d6] hover:to-[#08AFC1] text-[#06172E] text-xs font-bold transition-all cursor-pointer shadow-[0_0_15px_rgba(8,175,193,0.35)]"
+                      >
+                        Sign In
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAuthModalMode('signup');
+                          setAuthModalOpen(true);
+                        }}
+                        className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        Create Free Account
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <RevisionHub
+                    onNavigateToLesson={handleOpenLesson}
+                    onNavigateView={handleNavigate}
+                  />
+                )}
               </Suspense>
             )}
 

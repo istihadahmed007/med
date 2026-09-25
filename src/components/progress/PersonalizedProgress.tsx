@@ -117,32 +117,49 @@ export const PersonalizedProgress: React.FC<PersonalizedProgressProps> = ({
         </div>
 
         <div className="space-y-3">
-          {progress.weakAreas.map((weak, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-white">{weak.topic}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
-                    {weak.subject}
-                  </span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-rose-950/60 text-rose-300 border border-rose-500/30 font-bold">
-                    {weak.accuracyPercent}% Accuracy
-                  </span>
+          {progress.weakAreas && progress.weakAreas.length > 0 ? (
+            progress.weakAreas.map((weak, idx) => (
+              <div key={idx} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white">{weak.topic}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                      {weak.subject}
+                    </span>
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-rose-950/60 text-rose-300 border border-rose-500/30 font-bold">
+                      {weak.accuracyPercent}% Accuracy
+                    </span>
+                  </div>
+                  <p className="text-xs text-cyan-300/90 mt-1">
+                    <strong>Prescribed Action: </strong>
+                    {weak.recommendedAction}
+                  </p>
                 </div>
-                <p className="text-xs text-cyan-300/90 mt-1">
-                  <strong>Prescribed Action: </strong>
-                  {weak.recommendedAction}
-                </p>
-              </div>
 
+                <button
+                  onClick={() => onNavigateToView && onNavigateToView('learn')}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white text-xs font-bold shrink-0 shadow-glow-cyan"
+                >
+                  Start Remedial Session
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
+              <h4 className="text-sm font-bold text-white">No Weak Areas Identified Yet</h4>
+              <p className="text-xs text-slate-400 max-w-md mx-auto">
+                Complete BM&DC interactive clinical cases, OSCE stations, and MCQ quizzes. As you practice, MEDX algorithms will automatically identify and prescribe targeted remedies for error patterns.
+              </p>
               <button
-                onClick={() => onNavigateToView && onNavigateToView('physiology')}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white text-xs font-bold shrink-0 shadow-glow-cyan"
+                onClick={() => onNavigateToView && onNavigateToView('learn')}
+                className="mt-3 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold inline-flex items-center gap-1.5 shadow-glow-cyan"
               >
-                Start Remedial Session
+                <span>Explore Learning Modules</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
-          ))}
+          )}
         </div>
       </div>
 
@@ -161,28 +178,45 @@ export const PersonalizedProgress: React.FC<PersonalizedProgressProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {progress.spacedRepetitionDue.map((item, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
-                  Due in {item.dueInHours}h
-                </span>
-                <span className="text-[10px] text-slate-400 font-mono">
-                  Interval: {item.intervalDays}d
-                </span>
+          {progress.spacedRepetitionDue && progress.spacedRepetitionDue.length > 0 ? (
+            progress.spacedRepetitionDue.map((item, idx) => (
+              <div key={idx} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+                    Due in {item.dueInHours}h
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    Interval: {item.intervalDays}d
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-white leading-tight">
+                  {item.topicTitle}
+                </h4>
+                <button
+                  onClick={() => onNavigateToView && onNavigateToView('learn')}
+                  className="w-full mt-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center justify-center gap-1"
+                >
+                  <span>Review Concept</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
               </div>
-              <h4 className="text-xs font-bold text-white leading-tight">
-                {item.topicTitle}
-              </h4>
+            ))
+          ) : (
+            <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 text-center space-y-2 col-span-full">
+              <ShieldCheck className="w-8 h-8 text-cyan-400 mx-auto" />
+              <h4 className="text-sm font-bold text-white">All Decks Up to Date</h4>
+              <p className="text-xs text-slate-400 max-w-md mx-auto">
+                You have no spaced repetition cards currently due. New retention reviews will automatically appear here based on your SM-2 study intervals.
+              </p>
               <button
-                onClick={() => onNavigateToView && onNavigateToView('learn')}
-                className="w-full mt-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center justify-center gap-1"
+                onClick={() => onNavigateToView && onNavigateToView('revision')}
+                className="mt-3 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold inline-flex items-center gap-1.5"
               >
-                <span>Review Concept</span>
-                <ArrowRight className="w-3 h-3" />
+                <span>Go to Revision Centre</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

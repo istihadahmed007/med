@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { SelfHostedMedicalVideo } from '../../types/videoStudio';
 import { VideoStudioService } from '../../services/videoStudioService';
+import { AuthService } from '../../services/authService';
 
 interface SelfHostedVideoPlayerProps {
   video: SelfHostedMedicalVideo;
@@ -44,10 +45,11 @@ function formatTime(seconds: number): string {
 
 export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
   video,
-  studentId = 'std-bmdc-2026-0891',
+  studentId,
   onTimeUpdate,
   onCompleted
 }) => {
+  const effectiveStudentId = studentId || AuthService.getCurrentUser()?.id;
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -127,12 +129,14 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
     setResumePromptSeconds(null);
 
     // Load stored watch progress
-    VideoStudioService.getProgress(studentId, video.id).then((prog) => {
-      if (prog?.lastPositionSeconds && prog.lastPositionSeconds > 5 && !prog.completed) {
-        setResumePromptSeconds(prog.lastPositionSeconds);
-      }
-    });
-  }, [video.id, video.graphicContent, studentId]);
+    if (effectiveStudentId) {
+      VideoStudioService.getProgress(effectiveStudentId, video.id).then((prog) => {
+        if (prog?.lastPositionSeconds && prog.lastPositionSeconds > 5 && !prog.completed) {
+          setResumePromptSeconds(prog.lastPositionSeconds);
+        }
+      });
+    }
+  }, [video.id, video.graphicContent, effectiveStudentId]);
 
   // Attach media or HLS streaming engine
   useEffect(() => {
@@ -235,13 +239,13 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
 
   // Periodic watch progress persistence
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || !effectiveStudentId) return;
     const interval = window.setInterval(() => {
       if (videoRef.current && currentTime > 0) {
         const isDone = duration > 0 && currentTime >= duration - 5;
         VideoStudioService.saveProgress({
           videoId: video.id,
-          studentId,
+          studentId: effectiveStudentId,
           lastPositionSeconds: Math.floor(currentTime),
           watchedSeconds: 5,
           completed: isDone
@@ -250,7 +254,7 @@ export const SelfHostedVideoPlayer: React.FC<SelfHostedVideoPlayerProps> = ({
       }
     }, 5000);
     return () => clearInterval(interval);
-  }, [isPlaying, currentTime, duration, video.id, studentId, onCompleted]);
+  }, [isPlaying, currentTime, duration, video.id, effectiveStudentId, onCompleted]);
 
   // Play / Pause toggle
   const togglePlay = useCallback(() => {

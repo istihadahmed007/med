@@ -415,11 +415,15 @@ export class TextbookService {
     fileName,
     fileSizeBytes,
     mimeType,
-    ownerId = 'std-bmdc-2026-0891',
+    ownerId,
     ownerRole = 'student',
     isPrivateUpload = false,
     extractedMetadata = null
   }) {
+    if (!ownerId) {
+      throw new Error('Authentication required: ownerId must be provided from a verified session token.');
+    }
+
     // 1. Validate safety
     if (type === 'url_import' && sourceUrl) {
       const urlSafety = this.validateUrlSafety(sourceUrl);
